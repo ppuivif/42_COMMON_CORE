@@ -1,0 +1,36 @@
+What is Heap memory?
+Heaps are memory areas allocated to each program. Memory allocated to heaps can be dynamically allocated, unlike memory allocated to stacks.
+
+As a result, the heap segment can be requested and released whenever the program needs it. This memory is also global, which means that it can be accessed and modified from wherever in the program it is allocated instead of being localized by the function in which it is allocated. Dynamically allocated memory is referenced using ‘pointers’, which in turn leads to slight performance degradation over the use of local variables (on the stack).
+
+Heap memory is also known as “dynamic” memory.
+
+Heap memory is different from local stack memory. It not only differs in the way it allocates and deallocates variables when the function is called but also in the way it deallocates the variable when the function exit. This memory “block” is usually determined automatically according to the size of the object they are creating. 
+
+
+Advantages of heap memory:
+Heap doesn’t have any limit on memory size.
+It allows you to access variables globally.
+Garbage collection runs on the heap memory to free the memory used by the object.
+The heap method is also used in the Priority Queue.
+Disadvantages of heap memory:
+It takes too much time to execute compared to the stack.
+It takes more time to compute.
+It can provide the maximum memory an OS can provide
+Memory management is more complicated in heap memory as it is used globally.
+Problems that can be solved with heap memory:
+The following are some important points about Garbage Collection.
+
+The Java Virtual Machine invokes garbage collection to get rid of unused heap memory objects. It removes every object that is not being used anymore by the running Java program. In this process, unused memory is freed up for other new objects to use.
+Garbage collection calls the finalize() method of an object before removing it from memory and giving it a chance to be cleaned up. If the programmer does not override this method, the default finalize method will be invoked (the method defined in the Object class).
+Garbage collection is invoked based on the size of dynamically allocated memory from the heap. It is slow, and hard to predict. Programs with real-time performance constraints may find this difficult to handle.
+
+Points to Remember:
+1	It is stored in computer RAM memory just like the stack.
+2	It has a slower allocation of variables in comparison to variables on the stack.
+3	It works on the basis of using on-demand to allocate a block of data for use by the program.
+4	It can have fragmentation when there are a lot of allocations and deallocations.
+5	In C++, variables on the heap must be destroyed manually and never fall out of scope. The data is freed with delete, delete[], or free.
+6	In C++ or C, data created on the heap will be pointed to by pointers and allocated with new or malloc respectively.
+7	We can use heap memory if you don’t exactly know the actual size of data needed at run time or if you need to allocate a lot of data.
+8	It is responsible for memory leaks.

@@ -1,0 +1,19 @@
+In Makefile (or makefile)
+
+/*in man GNU*/
+rm - remove files or directories
+rm removes each specified file. By default, it does not remove directories.
+options
+	-r, -R, --recursive remove directories and their contents recursively.
+	-f, --force : ignore nonexistent files and arguments, never prompt.
+
+/*in man GNU*/
+ar - create, modify, and extract from archives
+The GNU ar program creates, modifies, and extracts from archives.  An archive is a single file holding a collection of other files in a structure that makes it possible to retrieve the original individual files (called members of the archive).
+       
+options
+	-rcs is the most likely command you would use when using a Makefile to compile a library. r means that if the library already exists, replace the old files within the library with your new files. c means create the library if it did not exist. s can be seen to mean 'sort' (create a sorted index of) the library, so that it will be indexed and faster to access the functions in the library. Therefore, rcs can be seen to mean replace, create, sort.
+	
+.PHONY : clean
+By default, Makefile targets are "file targets" - they are used to build files from other files. Make assumes its target is a file, and this makes writing Makefiles relatively easy.
+However, sometimes you want your Makefile to run commands that do not represent physical files in the file system. Good examples for this are the common targets "clean" and "all". Chances are this isn't the case, but you may potentially have a file named clean in your main directory. In such a case Make will be confused because by default the clean target would be associated with this file and Make will only run it when the file doesn't appear to be up-to-date with regards to its dependencies.

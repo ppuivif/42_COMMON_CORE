@@ -1,0 +1,37 @@
+PRINTF est une fonction variadique ie qu'elle peut etre appelee avec un nombre variable d'arguments, eux meme de types variables.
+
+
+La bibliotheque permet de declarer un type va_list qui sera utilise par les 3 macros va_start(list, dernier argument connu), va_arg(list, type), va_end(list).
+
+
+La fonction ft_format est castee en static int.
+A la difference des fonctions globales, l'acces a une fonction statique est limitee au fichier dans lequel elle est declaree. 
+Le nom de la fonction peut donc etre reutilise dans un autre fichier, sans conflit.
+
+
+Dans ft_printf ;
+	- traiter le cas if(!str) et renvoyer (-1), 
+
+
+Dans ft_putstr (argument 's'), penser a la protection if(!str) avec renvoi de (NULL)
+
+
+Dans ft_pointer (argument 'p') :
+	- caster l'argument en unsigned long,
+	- penser a la protection if(!nbr) avec renvoi de (nil),
+	- utiliser un tableau pour permettre d'afficher 0123456789abcdef (comme hexa),
+	- penser a afficher "0x" en utilisant la condition if (len==0) dans la recursive,
+
+	
+Dans ft_putnbr_dec (argument 'u') :
+	- caster l'argument en unsigned int,
+	- utiliser un putnbr base 10 sans traiter INT_MIN, ni nbr < 0,
+
+	
+Dans ft_putnbr_hexa_lower et upper (respectivement arguments 'x' et 'X') :
+	- caster l'argument en unsigned int,
+	- utiliser un putnbr base 16 sans traiter INT_MIN, ni nbr < 0,
+	- utiliser un tableau pour permettre d'afficher 0123456789abcdef,
+
+
+Pour les arguments 'i' et 'd' utiliser la meme fonction ft_putnbr

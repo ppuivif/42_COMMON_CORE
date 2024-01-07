@@ -1,0 +1,75 @@
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+
+->the strlcpy() and strlcat() functions copy and concatenate strings respectively. They are designed to be safer, more consistent, and less error prone replacements for
+     strncpy(3) and strncat(3). Unlike those functions, strlcpy() and strlcat() take the full size of the buffer (not just the length) and guarantee to NUL-terminate the result
+     (as long as size is larger than 0 or, in the case of strlcat(), as long as there is at least one byte free in dst). Note that a byte for the NUL should be included in size.
+     Also note that strlcpy() and strlcat() only operate on true “C” strings. This means that for strlcpy() src must be NUL-terminated and for strlcat() both src and dst must be
+     NUL-terminated.
+
+     The strlcpy() function copies up to size - 1 characters from the NUL-terminated string src to dst, NUL-terminating the result.
+
+     The strlcat() function appends the NUL-terminated string src to the end of dst.  It will append at most size - strlen(dst) - 1 bytes, NUL-terminating the result.
+
+->the strlcpy() and strlcat() functions return the total length of the string they tried to create.  For strlcpy() that means the length of src. For strlcat() that means the
+     initial length of dst plus the length of src. While this may seem somewhat confusing, it was done to make truncation detection simple.
+
+     Note, however, that if strlcat() traverses size characters without finding a NUL, the length of the string is considered to be size and the destination string will not be NUL-
+     terminated (since there was no space for the NUL). This keeps strlcat() from running off the end of a string.  In practice this should not happen (as it means that either
+     size is incorrect or that dst is not a proper “C” string). The check exists to prevent potential security problems in incorrect code.
+
+->if (size == 0) also return (n).
+
+#include "libft.h"
+
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	m;
+	size_t	n;
+	char *result;
+
+	i = 0;
+	result = dst;
+	n = ft_strlen(dst);
+	m = ft_strlen(src);
+	if (n >= size)
+		return (m + size);
+	if (size == 0)
+		return (m);
+	while (src[i] && (n + i) < size - 1)
+	{
+		result[n + i] = src[i];
+		i++;
+	}
+	result[n + i] = '\0';
+	return (size + m);
+}
+
+#include <bsd/string.h>
+#include <stdio.h>chr
+#include <stdlib.h>
+
+int	main(int argc, char **argv)
+{
+	if (argc == 4)
+	{
+		printf("real_function :\n");
+		printf("\tsource :\t%s\n", argv[3]);
+		printf("\tdestination :\t%s\n", argv[2]);
+		strlcat(argv[2], argv[3], atoi(argv[1]));
+		printf("\tdestination after function :\t%s\n", argv[2]);
+		printf("\tfunction_return :\t%ld\n",
+			strlcat(argv[2], argv[3], atoi(argv[1])));
+	}
+	if (argc == 5)
+	{
+		printf("ft_function :\n");
+		printf("\tsource :\t%s\n", argv[3]);
+		printf("\tdestination :\t%s\n", argv[2]);
+		ft_strlcat(argv[2], argv[3], atoi(argv[1]));
+		printf("\tdestination after function :\t%s\n", argv[2]);
+		printf("\tfunction_return :\t%ld\n",
+			ft_strlcat(argv[2], argv[3], atoi(argv[1])));
+	}
+	return (0);
+}
