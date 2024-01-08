@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:15:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/01/08 11:54:58 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/01/08 12:53:13 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	find_line_return(char *s)
 {
@@ -88,7 +88,7 @@ static int	current_line(char **line, char **buf, char **tmp)
 char	*get_next_line(int fd)
 {
 	int			nb_read_bytes;
-	static char	*buf;
+	static char	*buf[1024];
 	char		*tmp;
 	char		*line;
 	int			flag;
@@ -105,10 +105,10 @@ char	*get_next_line(int fd)
 			return (NULL);
 		nb_read_bytes = read(fd, tmp, BUFFER_SIZE);
 		if (nb_read_bytes == -1)
-			return (err(&buf, &tmp));
+			return (err(&buf[fd], &tmp));
 		if (nb_read_bytes == 0)
-			return (eof(&buf, &line, &tmp));
-		flag = current_line(&line, &buf, &tmp);
+			return (eof(&buf[fd], &line, &tmp));
+		flag = current_line(&line, &buf[fd], &tmp);
 		if (flag == 0)
 			return (line);
 	}

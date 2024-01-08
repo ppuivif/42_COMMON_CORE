@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:15:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2023/12/14 20:12:47 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/01/08 12:53:06 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,16 @@ char	*get_next_line(int fd)
 	}
 }
 
-/*int	main(void)
+/*
+include <stdio.h>
+
+int	main(void)
 {
 	int fd;
 	char	*tab;
 	int	i = 0;
 
-	fd = open ("document", O_RDWR);
+	fd = open ("document", O_RDWR);//O_RDONLY
 //	if (open = -1) condition a inclure
 	
 	while (i < 8)
