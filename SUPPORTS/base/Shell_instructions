@@ -1,0 +1,13 @@
+cat [OPTION] [FICHIER]
+
+afficher le contenu d'un fichier dans la console
+	cat nomdufichier.txt
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+ls [OPTIONS] [REPERTOIRE]
+
+afficher tout le contenu d'un répertoire

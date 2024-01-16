@@ -15,8 +15,7 @@ int main(void)
     free(str);
     printf("after free : \n%s\n", str);
     printf("%p\n\n", str);
-//   !str;
-    str = NULL;
+    str = NULL;//so !str
     //printf("%s\n", str);
     printf("after NULL initialization : \n%p\n\n", str);
     str2 = malloc(5*sizeof(char));

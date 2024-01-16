@@ -1,0 +1,120 @@
+https://www.geeksforgeeks.org/c-define-preprocessor/
+
+In C programming, #define is a preprocessor directive that is used to define macros. The macros are the identifiers defined by #define which are replaced by their value before compilation. We can define constants and functions like macros using #define.
+The generics in C are also implemented using the #define preprocessor directive along with _Generic.
+
+
+
+Syntax Of C #Define
+
+The syntax of #define preprocessor directive in C is:
+
+
+Syntax for Defining Constants :
+
+#define MACRO_NAME value
+
+In the below example, we have defined a macro ‘PI’ and assigned it a constant value which we can use later in the program to calculate the area of a circle.
+
+// C Program to illustrate how to use #define to declare 
+// constants 
+#include <stdio.h> 
+  
+// Defining macros with constant value 
+#define PI 3.14159265359 
+  
+int main() 
+{ 
+  
+    int radius = 21; 
+    int area; 
+  
+    // Using macros to calculate area of circle 
+    area = PI * radius * radius; 
+  
+    printf("Area of Circle of radius %d: %d", radius, area); 
+  
+    return 0; 
+}
+
+Output :
+
+Area of Circle of radius 21: 1385
+
+
+Syntax for Defining Expressions :
+
+#define MACRO_NAME (expression within brackets)
+
+In the below example, we have defined a macro ‘PI’ and assigned it an expression, and that value of the expression is used in the program using ‘PI’.
+
+// C Program to illustrate the defining of expression using 
+// #define 
+#include <stdio.h> 
+  
+// Defining macros with expression 
+#define PI (22 / 7) 
+  
+int main() 
+{ 
+  
+    int radius = 7; 
+    int area; 
+  
+    // Using macros to calculate area of circle 
+    area = PI * radius * radius; 
+  
+    printf("Area of Circle of radius %d: %d", radius, area); 
+  
+    return 0; 
+}
+
+Output :
+
+Area of Circle of radius 7: 147
+
+
+Syntax for Defining Expression with Parameters :
+
+#define MACRO_NAME(ARG1, ARG2,..) (expression within brackets)
+
+In the below example, we have defined two macros CIRCLE_AREA and SQUARE_AREA with a parameter and that parameter is used in the expression to calculate the area of circle and square respectively.
+
+// C Program to define the function like macros using 
+// #define 
+#include <stdio.h> 
+  
+// Defining parameterized macros with expression 
+#define CIRCLE_AREA(r) (3.14 * r * r) 
+#define SQUARE_AREA(s) (s * s) 
+  
+int main() 
+{ 
+  
+    int radius = 21; 
+    int side = 5; 
+    int area; 
+  
+    // Using macros to calculate areas by 
+    // passing argument 
+    area = CIRCLE_AREA(radius); 
+    printf("Area of Circle of radius %d: %d \n", radius, 
+           area); 
+  
+    area = SQUARE_AREA(side); 
+    printf("Area of square of side %d: %d", side, area); 
+  
+    return 0; 
+}
+
+Output :
+
+Area of Circle of radius 21: 1384 
+Area of square of side 5: 25
+
+
+Important Points
+
+Macros declared using #define are used to store constants and cannot be changed. we cannot assign variables to the macros.
+We cannot use the ‘=’ operator to assign value to the macros (eg. #define PI 3.14).
+We do not use the semicolon ‘;’ at the end of the statement in #define.

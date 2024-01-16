@@ -1,0 +1,322 @@
+Debian vs Rocky linux
+Ce sont deux systèmes d'exploitation open-source.
+Pourquoi Debian
+Debian est une distribution de Linux stable, plus facile a paramétrer que Rocky linux.
+Cette distribution de linux comprend un large ensemble de logiciel/services (librairies, architectures, fichiers système) facile à customiser et à mettre à jour.
+//Debian < ubuntu community (gratuit) vs rocky < Red Hat community (payant à confirmer)
+
+-------------------------------------------------------------------------------------
+
+Qu'est-ce qu'une machine virtuelle (VM)? (s'apparente à un émulateur)
+C'est un outil utilisant un logiciel (software) en lieu et place d'un ordinateur physique (hardware) permettant le fonctionnement de programmes et/ou applications.
+
+Chaque VM a son propre système d'exploitation (Operating System), ses propres fonctions, séparément.
+Il est possible d'installer plusieurs VM sur chaque ordinateur.
+Une VM permet de tester des programmes et/ou applications de façon sûre et dans un environnement séparé.
+Une VM fonctionne grâce à un software permettant de simuler un hardware sur une machine hôte. 
+
+-------------------------------------------------------------------------------------
+
+Quelle est la différence entre aptitude et APT (Advanced Packaging Tool) ?
+aptitude et APT sont des gestionnaires de paquets.
+Aptitude est un gestionnaire de haut niveau, APT est un gestionnaire de bas niveau.
+Aptitude est plus 'intelligent' dans le sens où il supprimera automatiquement les paquets inutilisés ou suggérera l'installation de paquets indépendants.
+APT se contente d'exécuter les commandes qui lui sont données.
+
+-------------------------------------------------------------------------------------
+
+Qu'est-ce que AppArmor
+AppArmor est une application Linux installée par défaut sur les versions Debian récentes.
+C'est un système de sécurité qui fournit une sécurité selon la méthode MAC (Mandatory Access Control).
+
+Pour vérifier qu'AppArmor est bien en cours d'exécution :
+type		$ sudo aa-status⚠️
+display		apparmor module is loaded.
+
+-------------------------------------------------------------------------------------
+
+Règles de mot de passe	(politique de mot de passe fort)
+
+Pour les règles de mot de passe, nous utilisons la bibliothèque de vérification de la qualité des mots de passe (Password Quality Checking Library).
+Il existe deux fichiers :
+	- le fichier de mot de passe commun (common-password) qui définit les règles telles que les caractères majuscules et minuscules, les caractères en double, etc.
+	- le fichier (login.defs) qui stocke les règles d'expiration des mots de passe (30 jours, etc.).
+
+Pour installer la bibliothèque de vérification :
+type					sudo apt-get install libpam-pwquality
+type					sudo nano /etc/pam.d/common-password⚠️
+in the file, find the line		password	requisite	pam_deny.so
+or find the line			password	requisite	pam_pwquality.so retry=3
+add this to the end of that line	
+minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root	
+
+NB : pam = Pluggable Authentification Modules
+
+save and quit
+
+ce qui signifie⚠️
+
+	minlen=10: Cela spécifie que la longueur minimale du mot de passe doit être de 10 caractères.
+
+	ucredit=-1: Cela indique que le mot de passe doit contenir au moins une minuscule.
+
+	lcredit=-1: Cela indique que le mot de passe doit contenir au moins une majuscule.
+
+	dcredit=-1: Cela indique que le mot de passe doit contenir au moins un digit.
+
+	maxrepeat=3: Cela limite le nombre maximal de caractères répétés à 3. Par exemple, "aaa" ne serait pas autorisé.
+
+	reject_username: Cela indique que le nom d'utilisateur ne doit pas être inclus dans le mot de passe.
+
+	difok=7: Cela spécifie le nombre minimal de caractères différents requis par rapport au mot de passe précédent (si un mot de passe précédent existe). Dans ce cas, il faut au moins 7 caractères différents.
+
+	enforce_for_root: Cela signifie que ces règles doivent être appliquées même pour l'utilisateur root.
+
+Pour paramétrer notamment les règles d'expiration des mots de passe :
+type					sudo nano /etc/login.defs
+in the file, find the lines 		PASS_MAX_DAYS 9999
+					PASS_MIN_DAYS 0
+					PASS_WARN_AGE 7
+				
+replace with				PASS_MAX_DAYS 30
+					PASS_MIN_DAYS 2
+keep the same				PASS_WARN_AGE 7
+
+save and quit
+
+changes take effect after reboot	sudo reboot
+
+-------------------------------------------------------------------------------------
+
+Qu'est-ce que LVM (Logical Volume Manager) ?
+
+LVM permet de manipuler aisément les partitions ou le volume logique sur un périphérique de stockage.
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------
+
+
+
+
+kdump est une fonctionnalité du noyau Linux qui crée des vidages sur incident en cas de crash du noyau.
+
+SELinux (Security-Enhanced Linux) et AppArmor : module de securite noyau linux
+
+
+SU : Changer de user :
+	su <id> = change user > id
+	su - + change user > root
+
+
+INSTALATION : APT
+Paquets : fichier compresses servant a installer des logiciels/services
+APT gestionnaire de paquet
+Aptitude gestionnaire graphique de paquets sur le gestionnaire APT
+
+	apt-get update -y
+	apt-get upgrade -y
+
+	apt-get install sudo
+	apt-get install git -y
+	apt-get install vim -y	
+	apt-get install openssh-server
+	apt-get install ufw -y
+	apt-get install libpam-pwquality
+	apt-get install -y net-tools
+
+SUDO
+	instalation de sudo
+	
+	Ajoute utilisateur a sudo
+		usermod -aG sudo your_username 
+	Ouvre fichier reglage de init
+		sudo visudo 
+	
+		# User privilege specification
+		root    ALL=(ALL:ALL) ALL
+		bchene  ALL=(ALL:ALL) ALL
+
+		# Allow members of group sudo to execute any command
+		%sudo   ALL=(ALL:ALL) ALL
+		bchene ALL=(root) NOPASSWD: /usr/local/bin/monitoring.sh
+
+	gestion des sudoers
+		sudo visudo
+	logfile liste des commande utiliser avec sudo (trace)
+		logfile="/var/log/sudo.log"
+		
+	
+SSH :
+SSH (Secure Socket Shell = Connexion Shell sécurisée)
+Protocole réseau permettant aux administrateurs d'accéder à distance à un ordinateur, en toute sécurité.
+
+SSH OpenSSH:
+OpenSSH est un ensemble d'outils utilisant le protocole SSH. SSH permet de faire des connexions sécurisées entre un serveur et client, permettant le contrôle à distance, ou encore le transfert de fichiers.
+	
+	installation de open SSH
+	check status ssh
+		sudo systemctl status ssh
+		
+	Les principaux fichiers de configuration se trouvent dans le répertoire /etc/ssh :
+	> ssh_config : fichier de configuration client
+	> sshd_config : fichier de configuration du serveur
+		
+	edition du fichier config ssh serveur
+		vim /etc/ssh/sshd_config
+			port 4242
+			PermitRootLogin no
+	restart ssh
+		sudo service ssh restart
+
+
+UFW
+	Uncomplicated Firewall (UFW) est un programme informatique pour gérer un 
+	pare-feu.
+	Il est utilisé pour configurer les ports auxquels les connexions seront autorisées et les ports à fermer.
+	Il fonctionne avec le protocole SSH.
+	
+	installation de UFW
+	Activer UFW
+		sudo ufw enable
+	configurer des regles // autoriser ssh
+		sudo ufw allow ssh
+	configurer l'autorisation des ports ssh
+		sudo ufw allow 4242
+	Verifier les autorisation/statuts de UFW
+		sudo ufw status numbered
+
+
+Utilisation SSH :
+	
+	relancer le server ssh
+		sudo service sshd restart
+	relancer le client ssh
+		sudo service ssh status
+	connaitre l ip pour lancer ssh sur terminal
+		sudo ifconfig
+	se connecter a la VM via un terminal a la dresse ip au port 4242
+		ssh <id_user>@<ip> -p 4242
+
+Politique de mot de pass : libpam-pwquality / pam_cracklib
+	
+	installation de libpam-pwquality
+	edition du fichier de config de commom-password
+		sudo vim /etc/pam.d/common-password
+	edition login def pour changer limiter les mots de pass dans le temps (30j)
+		sudo vim /etc/login.defs
+		
+		sudo reboot
+
+Creer un groupe
+
+	creation
+		sudo groupadd <nom_groupe>
+	affichage tous les groupes
+		getent group
+	affiche les group
+		groups
+	
+Creer un utilisateur
+
+	affichage de tous les utilisateurs
+		cut -d: -f1 /etc/passwd
+	creation
+		sudo adduser <user_name>
+	ajout de l utilisateur au groupe
+		sudo usermod -aG <groupe> <user_name>
+	verifier quelles user sont dans le groupe
+		getent group <groupe>
+	affiche les groupes auquel appartient un utilisateur
+		sudo grep <user_name> /etc/group | cut -d: -f1
+	Verifie le mot pass si il est a la regle
+		chage -l <user_name>
+
+Crontab
+Crontab est un outil qui permet de lancer des applications de façon régulière, pratique pour un serveur pour y lancer des scripts de sauvegardes, etc.
+
+	sudo crontab -u root -e
+	*/10 * * * * /usr/local/bin/monitoring.sh
+
+Pour l'evale
+
+Les questions d'évaluation
+Pourquoi ai-je choisi Debian ?
+Plus facile à installer et à configurer, donc meilleur pour les serveurs personnels.
+
+Différence entre Debian et Rocky ?
+- a faire
+
+Qu'est-ce qu'une machine virtuelle ?
+Est une ressource qui utilise un logiciel au lieu d’un ordinateur physique pour exécuter des programmes ou des applications. Chaque VM possède son propre système d'exploitation et fonctionne séparément, vous pouvez donc avoir plus d'une VM par machine. Peut être utilisé pour tester des applications dans un environnement sûr et séparé. Fonctionne en utilisant un logiciel pour simuler du matériel virtuel et s'exécute sur une machine hôte.
+
+Quelle est la différence entre aptitude et APT (Advanced Packaging Tool) ?
+- Aptitude est un gestionnaire de packages de haut niveau tandis qu'APT est un niveau inférieur qui peut être utilisé par d'autres gestionnaires de packages de niveau supérieur.
+- Aptitude est plus intelligent et supprimera automatiquement les packages inutilisés ou suggérera l'installation de packages dépendants
+- Apt ne fera explicitement que ce qui lui est demandé de faire dans la ligne de commande
+
+Qu’est-ce qu’AppArmor ?
+Système de sécurité Linux qui fournit la sécurité du contrôle d'accès obligatoire (MAC). Permet à l'administrateur système de restreindre les actions que les processus peuvent effectuer. Il est inclus par défaut avec Debian. Exécutez aa-status pour vérifier s'il est en cours d'exécution.
+
+Règles de mot de passe
+Pour les règles de mot de passe, nous utilisons la bibliothèque de vérification de la qualité des mots de passe et il existe deux fichiers : le fichier de mot de passe commun qui définit les règles telles que les caractères majuscules et minuscules, les caractères en double, etc. et le fichier login.defs qui stocke les règles d'expiration des mots de passe (30 jours, etc.). Sudo nano /etc/login.defs Sudo nano /etc/pam.d/common-password
+
+Qu'est-ce que LVM
+Logical Volume Manager – nous permet de manipuler facilement les partitions ou le volume logique sur un périphérique de stockage.
+
+UFW (pare-feu simple)
+UFW est une interface pour modifier le pare-feu de l'appareil sans compromettre la sécurité. Vous l'utilisez pour configurer les ports auxquels autoriser les connexions et les ports à fermer. Ceci est utile en conjonction avec SSH, vous pouvez définir un port spécifique avec lequel fonctionner.
+
+Qu’est-ce que SSH ?
+SSH ou Secure Shell est un mécanisme d'authentification entre un client et un hôte. Il utilise des techniques de cryptage afin que toutes les communications entre les clients et les hôtes se fassent sous forme cryptée. Les utilisateurs sous Mac ou Linux peuvent utiliser SSH le terminal pour travailler sur leur serveur via SSH.
+
+Qu’est-ce que Cron ?
+Cron ou cron job est un utilitaire de ligne de commande permettant de planifier des commandes ou des scripts à des intervalles spécifiques ou à une heure précise chaque jour. Utile si vous souhaitez configurer votre serveur pour qu'il redémarre à une heure précise chaque jour.
+
+	cd /usr/local/bin– pour afficher monitoring.sh
+	sudo crontab -u root -e– pour éditer la tâche cron
+	change script to */1 * * * * sleep 30s && script path– pour l’exécuter toutes les 	
+	30 secondes, supprimez la ligne pour arrêter l’exécution du travail.
+
+Commandes d'évaluation pour UFW, Group, Host, lsblk et SSH
+
+- sudo ufw status
+
+- sudo systemctl status ssh
+
+- getent group sudo
+- getent group user42
+
+- sudo adduser new username
+- sudo groupadd groupname
+- sudo usermod -aG groupname username
+- sudo chage -l username- vérifier les règles d'expiration du mot de passe
+
+- hostnamectl
+- hostnamectl set-hostname new_hostname- pour changer le nom d'hôte actuel
+
+- Redémarrez votre machine virtuelle.
+
+- sudo nano /etc/hosts- changer le nom d'hôte actuel en nouveau nom d'hôte
+
+- lsblk pour afficher les partitions
+
+- dpkg -l | grep sudo –pour montrer que sudo est installé
+
+- sudo ufw status numbered
+- sudo ufw allow port-id
+- sudo ufw delete rule number
+
+- ssh your_user_id@127.0.0.1 -p 4242- faites ceci dans le terminal pour montrer que SSH sur le port 4242 fonctionne
+
+

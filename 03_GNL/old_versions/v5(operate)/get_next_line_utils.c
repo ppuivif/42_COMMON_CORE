@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 13:53:47 by ppuivif           #+#    #+#             */
-/*   Updated: 2023/12/11 17:51:30 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/01/09 11:07:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	free(s1);
-	s1 = NULL;
+//	s1 = NULL;
 	return (str);
 }
 

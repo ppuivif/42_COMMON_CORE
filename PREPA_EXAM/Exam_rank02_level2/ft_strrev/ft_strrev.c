@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:32:00 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/01/04 10:23:57 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/01/11 13:28:18 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ char	*ft_strrev(char *str)
 int	main(void)
 {
 //	char	str[] = "abcdefg";//declaration et initialisation sur une meme ligne
-	char	str[8];
+	char	str[100];
 
-	strcpy(str, "abcdefg");
+	strcpy(str, "abcdefghijklmnop");
 	printf("%s", ft_strrev(str));
 	return (0);
 }

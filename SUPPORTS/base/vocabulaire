@@ -1,0 +1,66 @@
+framework (infrastructure logicielle) : ensemble cohérent de composants logiciels structurels qui sert à créer les fondations ainsi que les grandes lignes de tout ou partie  d'un logiciel, ie une architecture
+
+-----------------------------------------------------------------------------------------------------
+
+SSH (Secure Socket Shell) : protocole réseau permettant aux administrateurs d'accéder à distance à un ordinateur, en toute sécurité.
+SSH désigne également l'ensemble des utilitaires qui mettent en oeuvre le protocole.
+Le protocole Secure Shell assure une authentification forte et des communications de données chiffrées sécurisées entre deux ordinateurs connectés sur un réseau peu sûr, tel qu'Internet. SSH est largement utilisé par les administrateurs réseau pour gérer à distance les systèmes et les applications, car il leur permet de se connecter à un autre ordinateur sur un réseau, d'exécuter des commandes et de déplacer des fichiers d'un ordinateur à un autre.
+SSH fonctionne selon le modèle client-serveur, en connectant une application client Secure Shell - là où s'affiche la session - à un serveur SSH - là où s'exécute la session.
+lien https://www.lemagit.fr/definition/SSH-Secure-Shell
+
+-----------------------------------------------------------------------------------------------------
+
+socket : (en traduction littérale : prise)
+Dans un contexte matériel, le socket, ou réceptacle de processeur, désigne le connecteur utilisé pour interfacer un processeur avec sa carte mère.
+
+Dans le contexte des logiciels, on peut le traduire par « connecteur réseau » ou « interface de connexion ».
+
+Apparu dans les systèmes UNIX, un socket est un élément logiciel qui est aujourd’hui répandu dans la plupart des systèmes d’exploitation. Il s’agit d’une interface logicielle avec les services du système d’exploitation, grâce à laquelle un développeur exploitera facilement et de manière uniforme les services d’un protocole réseau.
+
+Il lui sera ainsi par exemple aisé d’établir une session TCP, puis de recevoir et d’expédier des données grâce à elle. Cela simplifie sa tâche car cette couche logicielle, de laquelle il requiert des services en appelant des fonctions, masque le travail nécessaire de gestion du réseau, pris en charge par le système. Le terme socket désigne en pratique chaque variable employée dans un programme afin de gérer l’une des sessions.
+lien : https://fr.wikipedia.org/wiki/Socket
+
+-----------------------------------------------------------------------------------------------------
+
+Shell (interpréteur de commande) :
+interface en ligne de commande, principalement destinée à lancer d'autres programmes et gérer leurs interactions
+
+Le Shell est un interpréteur de commande. Il ne fait pas partie du système d'exploitation UNIX et c'est la raison pour laquelle il porte ce nom « coquille », qui indique son état détaché du « noyau » Unix. Son rôle est d'analyser la commande tapée afin de faire réagir le système pour qu'il réponde aux besoins de l'utilisateur. C'est le premier langage de commandes développé sur Unix par Steve Bourne.
+
+Une comparaison rapide pourrait l'apparenter au DOS (Disc Operating System) développé par Microsoft, mais cette comparaison n'est là que pour illustrer le rôle du Shell par rapport à Unix.
+
+De par sa qualité de « programme externe », il n'est pas unique. En effet, rien n'empêche n'importe quel programmeur de programmer une boucle qui attend une chaîne au clavier, analyse cette chaîne et appelle ensuite le système pour exécuter l'ordre demandé. C'est la raison pour laquelle il existe plusieurs shells. Nous trouvons entre autres (liste non exhaustive) :
+
+le Bourne Shell (« /bin/sh ») ;
+le Korn Shell (« /bin/ksh ») pour lequel deux versions majeurs sont aujourd'hui couramment utilisées (ksh 88 et ksh 93) ;
+le cShell (« /bin/csh ») pour les utilisateurs préférant un langage apparenté au « C » ;
+le Job Shell (« /bin/jsh ») ;
+le Shell réseau (« /bin/rsh ») ;
+le zShell (« /bin/zsh ») ;
+le Bourne Again Shell (« /bin/bash ») qui a repris le Bourne Shell, mais qui l'a agrémenté de nouvelles fonctionnalités (rappel de commandes, complétion automatique…) ;
+...
+
+Un programme shell appelé aussi « script » est un outil facile à utiliser pour construire des applications en regroupant des appels système, outils, utilitaires et programmes compilés. Concrètement, le répertoire entier des commandes Unix, des utilitaires et des outils est disponible à partir d'un script shell. Les scripts shell conviennent parfaitement pour des tâches d'administration du système et pour d'autres routines répétitives ne réclamant pas les particularités d'un langage de programmation structuré.
+
+lien : https://frederic-lang.developpez.com/tutoriels/linux/prog-shell/?page=page_2
+
+-----------------------------------------------------------------------------------------------------
+
+MAC (Mandatory Access Control) :
+C'est une méthode de limitation d'accès aux ressources basée sur la sensibilité des informations que contient la ressource et sur l'autorisation dont l'utilisateur dispose pour accéder à l'information selon son niveau de sensibilité.
+lien : https://www.ibm.com/docs/en/zos/2.2.0?topic=environment-mandatory-access-control-mac
+
+-----------------------------------------------------------------------------------------------------
+
+Kernel :
+Le noyau (ou kernel) Linux® est le principal composant d'un système d'exploitation Linux et constitue l'interface entre le matériel d'un ordinateur et ses processus. Il assure la communication entre les deux parties et gère les ressources aussi efficacement que possible.
+lien : https://www.redhat.com/fr/topics/linux/what-is-the-linux-kernel
+
+-----------------------------------------------------------------------------------------------------
+
+LVM :
+LVM (Logical Volume Manager, ou gestionnaire de volumes logiques en français) permet la création et la gestion de volumes logiques sous Linux. L'utilisation de volumes logiques remplace en quelque sorte le partitionnement des disques. C'est un système beaucoup plus souple, qui permet par exemple de diminuer la taille d'un système de fichier pour pouvoir en agrandir un autre, sans se préoccuper de leur emplacement sur le disque.
+Il permet notamment de redimensionner les partitions de disques sans reformatage. Il permet également de rajouter des disques à la volée.
+
+lien : https://doc.ubuntu-fr.org/lvm
+
