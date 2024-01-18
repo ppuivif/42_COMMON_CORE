@@ -1,0 +1,99 @@
+Debian vs Rocky linux
+Ce sont deux systèmes d'exploitation open-source.
+Pourquoi Debian
+Debian est une distribution de Linux stable, plus facile a paramétrer que Rocky linux.
+Cette distribution de linux comprend un large ensemble de logiciel/services (librairies, architectures, fichiers système) facile à customiser et à mettre à jour.
+//Debian < ubuntu community (gratuit) vs rocky < Red Hat community (payant à confirmer)
+
+-------------------------------------------------------------------------------------
+
+Qu'est-ce qu'une machine virtuelle (VM)? (s'apparente à un émulateur)
+C'est un outil utilisant un logiciel (software) en lieu et place d'un ordinateur physique (hardware) permettant le fonctionnement de programmes et/ou applications.
+
+Chaque VM a son propre système d'exploitation (Operating System), ses propres fonctions, séparément.
+Il est possible d'installer plusieurs VM sur chaque ordinateur.
+Une VM permet de tester des programmes et/ou applications de façon sûre et dans un environnement séparé.
+Une VM fonctionne grâce à un software permettant de simuler un hardware sur une machine hôte. 
+
+-------------------------------------------------------------------------------------
+
+Quelle est la différence entre aptitude et APT (Advanced Packaging Tool) ?
+aptitude et APT sont des gestionnaires de paquets.
+Aptitude est un gestionnaire de haut niveau, APT est un gestionnaire de bas niveau.
+Aptitude est plus 'intelligent' dans le sens où il supprimera automatiquement les paquets inutilisés ou suggérera l'installation de paquets indépendants.
+APT se contente d'exécuter les commandes qui lui sont données.
+
+-------------------------------------------------------------------------------------
+
+Qu'est-ce que AppArmor
+AppArmor est une application Linux installée par défaut sur les versions Debian récentes.
+C'est un système de sécurité qui fournit une sécurité selon la méthode MAC (Mandatory Access Control).
+
+Pour vérifier qu'AppArmor est bien en cours d'exécution :
+type		$ sudo aa-status⚠️
+display		apparmor module is loaded.
+
+-------------------------------------------------------------------------------------
+
+Règles de mot de passe	(politique de mot de passe fort)
+
+Pour les règles de mot de passe, nous utilisons la bibliothèque de vérification de la qualité des mots de passe (Password Quality Checking Library).
+Il existe deux fichiers :
+	- le fichier de mot de passe commun (common-password) qui définit les règles telles que les caractères majuscules et minuscules, les caractères en double, etc.
+	- le fichier (login.defs) qui stocke les règles d'expiration des mots de passe (30 jours, etc.).
+
+Pour installer la bibliothèque de vérification :
+type					sudo apt-get install libpam-pwquality
+type					sudo nano /etc/pam.d/common-password⚠️
+in the file, find the line		password	requisite	pam_deny.so
+or find the line			password	requisite	pam_pwquality.so retry=3
+add this to the end of that line	
+minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root	
+
+NB : pam = Pluggable Authentification Modules
+
+save and quit
+
+ce qui signifie⚠️
+
+	minlen=10: Cela spécifie que la longueur minimale du mot de passe doit être de 10 caractères.
+
+	ucredit=-1: Cela indique que le mot de passe doit contenir au moins une minuscule.
+
+	lcredit=-1: Cela indique que le mot de passe doit contenir au moins une majuscule.
+
+	dcredit=-1: Cela indique que le mot de passe doit contenir au moins un digit.
+
+	maxrepeat=3: Cela limite le nombre maximal de caractères répétés à 3. Par exemple, "aaa" ne serait pas autorisé.
+
+	reject_username: Cela indique que le nom d'utilisateur ne doit pas être inclus dans le mot de passe.
+
+	difok=7: Cela spécifie le nombre minimal de caractères différents requis par rapport au mot de passe précédent (si un mot de passe précédent existe). Dans ce cas, il faut au moins 7 caractères différents.
+
+	enforce_for_root: Cela signifie que ces règles doivent être appliquées même pour l'utilisateur root.
+
+Pour paramétrer notamment les règles d'expiration des mots de passe :
+type					sudo nano /etc/login.defs
+in the file, find the lines 		PASS_MAX_DAYS 9999
+					PASS_MIN_DAYS 0
+					PASS_WARN_AGE 7
+				
+replace with				PASS_MAX_DAYS 30
+					PASS_MIN_DAYS 2
+keep the same				PASS_WARN_AGE 7
+
+save and quit
+
+changes take effect after reboot	sudo reboot
+
+-------------------------------------------------------------------------------------
+
+Qu'est-ce que LVM (Logical Volume Manager) ?
+
+LVM permet de manipuler aisément les partitions ou le volume logique sur un périphérique de stockage.
+
+
+
+
+
+
