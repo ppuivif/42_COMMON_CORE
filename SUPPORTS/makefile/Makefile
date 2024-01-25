@@ -61,7 +61,8 @@ Cette règle dans un Makefile est une règle générique pour générer des fich
 
 %.c : Cela spécifie le fichier source correspondant à la cible. Le joker % ici correspond à la même chaîne de caractères que celui utilisé dans la cible, indiquant que le fichier source a la même base que le fichier objet.
 
-$(HEADER) : Cela indique que la règle dépend également des fichiers d'en-tête définis dans la variable HEADER. Si un en-tête est modifié, la règle sera reconstruite.
+$(HEADER) : Cela indique que la règle dépend également des fichiers d'en-tête définis dans la variable HEADER. Si un en-tête est modifié, la règl		make --directory ./MLX42/build
+e sera reconstruite.
 
 $(CC) $(CFLAGS) -c $< -o $@ : Cette ligne est la commande pour générer le fichier objet à partir du fichier source. Voici ce que signifient les parties de cette commande :
 

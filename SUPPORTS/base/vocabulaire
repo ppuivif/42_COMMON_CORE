@@ -64,3 +64,38 @@ Il permet notamment de redimensionner les partitions de disques sans reformatage
 
 lien : https://doc.ubuntu-fr.org/lvm
 
+-----------------------------------------------------------------------------------------------------
+
+Netfilter :
+
+Netfilter est un cadriciel (framework) implémentant un pare-feu au sein du noyau Linux à partir de la version 2.4 de ce dernier. Il prévoit des accroches (hooks) dans le noyau pour l'interception et la manipulation des paquets réseau lors des appels des routines de réception ou d'émission des paquets des interfaces réseau.
+
+lien : https://fr.wikipedia.org/wiki/Netfilter
+
+-----------------------------------------------------------------------------------------------------
+
+Iptables :
+
+Les modules du noyau nommés ip_tables, ip6_tables, arp_tables (les soulignements font partie du nom) et ebtables sont les systèmes des accroches de Netfilter. Ils fournissent un système basé sur des tableaux pour définir des règles de pare-feu qui filtrent les paquets ou les transforment. Les tableaux peuvent être administrés par les outils utilisateur iptables, ip6tables, arptables et ebtables, respectivement.
+
+lien : https://fr.wikipedia.org/wiki/Netfilter
+
+-----------------------------------------------------------------------------------------------------
+
+MAC (Mandatory Access Control) :
+
+MAC est une stratégie de sécurité qui restreint les possibilités individuelles des propriétaires de ressources.
+Les critères MAC sont définis par l'administrateur système.
+
+lien : https://www.techtarget.com/searchsecurity/definition/mandatory-access-control-MAC
+
+-----------------------------------------------------------------------------------------------------
+
+Paquets (voir def plus exhaustive dans fichier texte paquets) :
+
+Qu'est-ce qu'un paquet ?
+Dans le domaine des réseaux , un paquet est un petit segment d'un message plus important. Les données envoyées sur les réseaux informatiques*, tels que Internet, sont divisées en paquets. Ces paquets sont ensuite recombinés par l'ordinateur ou le dispositif qui les reçoit.
+
+Lien : https://www.cloudflare.com/fr-fr/learning/network-layer/what-is-a-packet/
+
+-----------------------------------------------------------------------------------------------

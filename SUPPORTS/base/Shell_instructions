@@ -11,3 +11,73 @@ afficher le contenu d'un fichier dans la console
 ls [OPTIONS] [REPERTOIRE]
 
 afficher tout le contenu d'un répertoire
+
+
+-----------------------------------------------------------------------------------------------
+
+rm -r directory
+
+supprimer le répertoire directory
+
+-----------------------------------------------------------------------------------------------
+
+rm file
+
+supprimer le fichier file
+
+-----------------------------------------------------------------------------------------------
+
+mkdir directory
+
+créer le répertoire directory
+
+-----------------------------------------------------------------------------------------------
+
+cd ~/../
+
+accéder au répertoire home
+
+le tilde (~) est un raccourci représentant le répertoire home du user
+../ permet de "remonter" d'un niveau dans la structure
+
+-----------------------------------------------------------------------------------------------
+
+grep motif file
+
+ou
+
+cat file | grep motif
+
+capturer un motif (un mot, une lettre, ...) dans un texte et afficher les occurences sur la sortie standard 
+
+-----------------------------------------------------------------------------------------------
+
+find -name file
+
+rechercher un fichier file depuis le répertoire courant en dans l'ensemble des sous-répertoires (recherche récursive)
+
+find / -name file
+
+rechercher un fichier file dans l'ensemble du système
+
+-----------------------------------------------------------------------------------------------
+
+sort [file]
+
+trie le lignes dans le(s) fichiers spécifié(s) et les affiche sur la sortie standard
+
+-----------------------------------------------------------------------------------------------
+
+uniq [file]
+
+supprime les lignes répétées d'un fichier txt ou de l'entrée standard
+affiche les lignes sur la sortie standard ou dans une fichier spécifié
+NB : avant d'exécuter la commande uniq, utiliser la commande sort pour que les lignes en double soient adjacentes 
+
+-----------------------------------------------------------------------------------------------
+
+free -m
+
+afficher les quantités de mémoire en mégaoctets (total, used, free, shared, cache, available, swap) 
+
+-----------------------------------------------------------------------------------------------
