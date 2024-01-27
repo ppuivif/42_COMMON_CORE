@@ -1,15 +1,16 @@
 CC= clang
-CFLAGS=-Wall -Werror -Wextra -I./MacroLibX/includes -g
+CFLAGS=-Wall -Werror -Wextra -g
 MACROLIBXFLAGS= -lSDL2
 NAME=so_long
-SOURCES=so_long.c utils.c
+SOURCES=so_long.c import_map.c GNL/get_next_line.c GNL/get_next_line_utils.c main.c
 OBJECTS=$(SOURCES:.c=.o)
 
 all: $(NAME)
 
 $(NAME) : $(OBJECTS)
+		cd LIBFT && make && cd ..
 		cd MacroLibX && make && cd ..
-		$(CC) $(CFLAGS) $(OBJECTS) $(MACROLIBXFLAGS) MacroLibX/libmlx.so -o $@
+		$(CC) $(CFLAGS) $(OBJECTS) LIBFT/libft.a $(MACROLIBXFLAGS) MacroLibX/libmlx.so -o $@
 		@if [ $$? -eq 0 ]; then \
 			echo "\033[32;1mCompilation successful!\033[0m"; \
 		fi

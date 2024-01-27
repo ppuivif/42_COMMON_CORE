@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:15:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/01/15 16:05:27 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/01/26 16:13:07 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*eof(char **buf, char **line, char **tmp)
 			*tmp = NULL;
 			return (*line);
 		}
-		*line = ft_strjoin(*line, *buf);
+		*line = ft_get_strjoin(*line, *buf);
 		free(*buf);
 		*buf = NULL;
 		free(*tmp);
@@ -73,7 +73,7 @@ static char	*er_or_last_read(int n_bytes, char **tmp, char **buf, char **line)
 
 static int	current_line(char **line, char **buf, char **tmp)
 {
-	*buf = ft_strjoin(*buf, *tmp);
+	*buf = ft_get_strjoin(*buf, *tmp);
 	free(*tmp);
 	*tmp = NULL;
 	if (*buf == NULL)
@@ -103,7 +103,7 @@ char	*get_next_line(int fd)
 	line = NULL;
 	while (1)
 	{
-		tmp = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+		tmp = ft_get_calloc((BUFFER_SIZE + 1), sizeof(char));
 		if (!tmp)
 			return (NULL);
 		nb_read_bytes = read(fd, tmp, BUFFER_SIZE);

@@ -81,3 +81,16 @@ free -m
 afficher les quantités de mémoire en mégaoctets (total, used, free, shared, cache, available, swap) 
 
 -----------------------------------------------------------------------------------------------
+
+du -sh [file]
+
+affiche le nombre de blocs utilisés pour les fichiers
+le paramètre file peut être un répertoire
+-s indique le nombre total de blocs pour tous les fichiers spécifiés ou tous les fichiers d'un
+répertoire
+
+-----------------------------------------------------------------------------------------------
+
+
+
+

@@ -6,13 +6,13 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 13:53:47 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/01/09 18:01:20 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/01/26 16:12:19 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+void	*ft_get_calloc(size_t nmemb, size_t size)
 {
 	char	*str;
 	size_t	j;
@@ -35,7 +35,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return ((void *) str);
 }
 
-int	ft_strlen(char *s)
+int	ft_get_strlen(char *s)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_get_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
@@ -53,7 +53,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	str = ft_calloc((ft_strlen(s1) + ft_strlen(s2) + 1), sizeof (char));
+	str = ft_get_calloc((ft_get_strlen(s1) + ft_get_strlen(s2) + 1), sizeof (char));
 	if (!str)
 		return (NULL);
 	while (s1 && s1[i])
@@ -77,13 +77,13 @@ char	*begin_new_line(char *s1)
 	int		i;
 	int		j;
 
-	len = ft_strlen(s1) - find_line_return(s1);
+	len = ft_get_strlen(s1) - find_line_return(s1);
 	if (len == 0)
 	{
 		free(s1);
 		return (NULL);
 	}
-	s2 = ft_calloc(len + 1, sizeof(char));
+	s2 = ft_get_calloc(len + 1, sizeof(char));
 	if (!s2)
 		return (NULL);
 	i = 0;
@@ -106,7 +106,7 @@ char	*close_current_line(char *s1)
 	int		i;
 
 	len = find_line_return(s1);
-	s2 = ft_calloc((len + 1), sizeof(char));
+	s2 = ft_get_calloc((len + 1), sizeof(char));
 	if (!s2)
 		return (NULL);
 	i = 0;
