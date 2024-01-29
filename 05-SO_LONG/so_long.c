@@ -1,24 +1,22 @@
 #include "so_long.h"
-#include <stdio.h>
 
-void	complete_display(t_window *w_vars)
+void	complete_display(t_window *w_vars, t_list_image *li_vars)
 {
 	void *mlx;
 	void *win;
+	char *title;
+	//char **tab_box;
 	
+	title = "Have a good game";
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, (SIZE * w_vars->nb_columns), (SIZE * w_vars->nb_lines), "Have a good game !");
-	display_images(w_vars, mlx, win);
+	w_vars->mlx = mlx;
+	win = mlx_new_window(mlx, (SIZE * w_vars->nb_columns), (SIZE * w_vars->nb_lines), title);
+	w_vars->win = win;
+	display_images(w_vars, li_vars);
+	mlx_loop_hook(mlx, update, w_vars);
 	mlx_loop(mlx);
-	//mlx_destroy_image(mlx, img);
-	//mlx_destroy_image(mlx, img1);
-	//mlx_destroy_image(mlx, img2);
-	//mlx_destroy_image(mlx, imgE);
-	//mlx_destroy_image(mlx, imgC);
-	//mlx_destroy_image(mlx, imgP);
-	mlx_destroy_window(mlx, win);
-	mlx_destroy_display(mlx);
-	free(w_vars->tab);
+	destroy_all(li_vars);
+
 }
 
 
