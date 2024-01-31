@@ -2,43 +2,31 @@
 
 int	main()
 {
-	t_window *w_vars;
-	t_list_image *li_vars;
+	t_window *t_win1;
 
-	w_vars = malloc(sizeof(t_window));
-	if (!w_vars)
-		exit (1);
-	li_vars = malloc(sizeof(t_list_image));
-	if (!li_vars)
-		exit (1);
-
-	//li_vars->w_vars->mlx = w_vars->mlx;
-	li_vars->img0 = NULL;
-
-
+	init_t_window(&t_win1);
+	
 	//count lines and columns to build table
-	w_vars->fd = open("Maps/map.ber", O_RDONLY);
-	size_of_map(w_vars->fd, &w_vars->nb_columns, &w_vars->nb_lines);
-	close(w_vars->fd);
+	t_win1->fd = open("Maps/map.ber", O_RDONLY);
+	size_of_map(t_win1->fd, &t_win1->nb_columns, &t_win1->nb_lines);
+	close(t_win1->fd);
 
 /*	//read map and build table to verify its validity
-	w_vars->fd = open("Maps/map.ber", O_RDONLY);
-	w_vars->tab = read_map(w_vars->fd, w_vars->nb_columns, w_vars->nb_lines);
-	close(w_vars->fd);*/
+	t_win1->fd = open("Maps/map.ber", O_RDONLY);
+	t_win1->tab = read_map(t_win1->fd, t_win1->nb_columns, t_win1->nb_lines);
+	close(t_win1->fd);*/
 
 	//display window, fill with images and update
-	w_vars->fd = open("Maps/map.ber", O_RDONLY);
-	create_images(li_vars, w_vars);
-	complete_display(w_vars, li_vars);
-	close(w_vars->fd);
-	free_tab(w_vars->tab);
-	/*while (w_vars->nb_lines >= 0)
+	t_win1->fd = open("Maps/map.ber", O_RDONLY);
+	complete_display(t_win1);
+	close(t_win1->fd);
+	free_tab(t_win1->tab);
+	/*while (t_win1->nb_lines >= 0)
 	{
-		free(w_vars->tab[w_vars->nb_lines]);
-		w_vars->nb_lines -= 1;
+		free(t_win1->tab[t_win1->nb_lines]);
+		t_win1->nb_lines -= 1;
 	}
-	free(w_vars->tab);*/
-	free(w_vars);
-	free(li_vars);
+	free(t_win1->tab);*/
+	free(t_win1);
 	return (0);
 }

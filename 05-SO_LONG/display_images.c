@@ -1,79 +1,59 @@
 #include "so_long.h"
 
-void create_images(t_list_image *li_vars, t_window *w_vars)//to create images
+void create_images(t_list_image *t_list)//to create images
 {
-	if (!li_vars)
-	{
-		printf("Erreur : La structure est vide.\n");
-		exit(EXIT_FAILURE);
-	}
-	
 	int width;
 	int height;
 	
- 	/*if (!li_vars->w_vars || !li_vars->w_vars->mlx)
-	{
-		printf("Erreur : Les structures ne sont pas correctement initialisées.\n");
-		exit(EXIT_FAILURE);
-	}*/
 	width = SIZE;
 	height = SIZE;
-	li_vars->img0 = mlx_png_file_to_image(w_vars->mlx, "Images/img0.png", &width, &height);
-	li_vars->img1 = mlx_png_file_to_image(w_vars->mlx, "Images/img1.png", &width, &height);
-	//li_vars->img2 = mlx_png_file_to_image(li_vars->w_vars->mlx, "Images/img0.png", &width, &height);
-	//li_vars->imgE = mlx_png_file_to_image(li_vars->w_vars->mlx, "Images/img0.png", &width, &height);
-	//li_vars->imgC = mlx_png_file_to_image(li_vars->w_vars->mlx, "Images/img0.png", &width, &height);
-	li_vars->imgP = mlx_png_file_to_image(w_vars->mlx, "Images/imgP.png", &width, &height);
-	if (!li_vars->img0 || !li_vars->img1 || !li_vars->imgP)
-	{
-		printf("Erreur : Les images n'ont pas été correctement chargées.\n");
-		exit(EXIT_FAILURE);
-	}
+	t_list->img_0 = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/img0.png", &width, &height);
+	t_list->img_1 = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/img1.png", &width, &height);
+	t_list->img_2 = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/img2.png", &width, &height);
+	t_list->img_e = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgE.png", &width, &height);
+	t_list->img_c = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgC.png", &width, &height);
+	t_list->img_p = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgP.png", &width, &height);
 }
 
-
-void which_image(char **tab, t_image *i_vars, t_list_image *li_vars)//to affect images
+void which_image(char **tab, t_image *t_img, t_list_image *t_list)//to affect images
 {
-	if (tab[i_vars->y][i_vars->x] == '0')
-		i_vars->img = li_vars->img0;
-	if (tab[i_vars->y][i_vars->x] == '1')
-		i_vars->img = li_vars->img1;
-	/*if (tab[i_vars->y][i_vars->x] == '2')
-		i_vars->img = li_vars->img2;
-	if (tab[i_vars->y][i_vars->x] == 'E')
-		i_vars->img = li_vars->imgE;
-	if (tab[i_vars->y][i_vars->x] == 'C')
-		i_vars->img = li_vars->imgC;*/
-	if (tab[i_vars->y][i_vars->x] == 'P')
-		i_vars->img = li_vars->imgP;
-	i_vars->img0 = li_vars->img0;
+	if (tab[t_img->y_tab][t_img->x_tab] == '0')
+		t_img->image = t_list->img_0;
+	if (tab[t_img->y_tab][t_img->x_tab] == '1')
+		t_img->image = t_list->img_1;
+	if (tab[t_img->y_tab][t_img->x_tab] == '2')
+		t_img->image = t_list->img_2;
+	if (tab[t_img->y_tab][t_img->x_tab] == 'E')
+		t_img->image = t_list->img_e;
+	if (tab[t_img->y_tab][t_img->x_tab] == 'C')
+		t_img->image = t_list->img_c;
+	if (tab[t_img->y_tab][t_img->x_tab] == 'P')
+		t_img->image = t_list->img_p;
+	t_img->image_0 = t_list->img_0;
 }
 
-void display_images(t_window *w_vars, t_list_image *li_vars)// to display images in the window
+void display_images(t_list_image *t_list)// to display images in the window
 {
-	t_image *i_vars;
-//	char **tab_box;
+	t_image *t_img1;
 	
-	i_vars = malloc(sizeof(t_image));
-	if (!i_vars)
-		exit (1);
-	i_vars->x = 0;
-	i_vars->y = 0;
-	w_vars->tab = read_map(w_vars->fd, w_vars->nb_columns, w_vars->nb_lines);
-	while (i_vars->y < w_vars->nb_lines)
+	init_t_image(&t_img1);
+
+	t_list->t_win1->tab = read_map(t_list->t_win1->fd, t_list->t_win1->nb_columns, t_list->t_win1->nb_lines);
+	while (t_img1->y_tab < t_list->t_win1->nb_lines)
 	{
-		while (i_vars->x < w_vars->nb_columns)
+		while (t_img1->x_tab < t_list->t_win1->nb_columns)
 		{
-			which_image(w_vars->tab, i_vars, li_vars);
-			mlx_put_image_to_window(w_vars->mlx, w_vars->win, i_vars->img0, i_vars->x * SIZE, i_vars->y * SIZE);
-			mlx_put_image_to_window(w_vars->mlx, w_vars->win, i_vars->img, i_vars->x * SIZE, i_vars->y * SIZE);
-			i_vars->x++;
+			which_image(t_list->t_win1->tab, t_img1, t_list);
+			t_img1->x_map = t_img1->x_tab * SIZE;
+			t_img1->y_map = t_img1->y_tab * SIZE;
+			mlx_put_image_to_window(t_list->t_win1->mlx, t_list->t_win1->win, t_img1->image_0, t_img1->x_map, t_img1->y_map);
+			mlx_put_image_to_window(t_list->t_win1->mlx, t_list->t_win1->win, t_img1->image, t_img1->x_map, t_img1->y_map);
+			t_img1->x_tab++;
 		}
-		i_vars->y++;
-		i_vars->x = 0;
+		t_img1->y_tab++;
+		t_img1->x_tab = 0;
 	}
-	free(i_vars);
-//	return (tab_box);
+	free(t_img1);
 }
 
 /*char **stock_image(t_window *w_vars, char *img)//to build a table containing lists of images

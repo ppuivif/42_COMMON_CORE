@@ -13,16 +13,16 @@
 	//free(d_vars);
 }*/
 
-void	destroy_all(t_list_image *li_vars)
+void	destroy_all(t_list_image *t_list, t_window *t_win)
 {
-	mlx_destroy_image(li_vars->w_vars->mlx, li_vars->img0);
-	mlx_destroy_image(li_vars->w_vars->mlx, li_vars->img1);
-	//mlx_destroy_image(li_vars->w_vars->mlx, li_vars->img2);
-	//mlx_destroy_image(li_vars->w_vars->mlx, li_vars->imgE);
-	//mlx_destroy_image(li_vars->w_vars->mlx, li_vars->imgC);
-	mlx_destroy_image(li_vars->w_vars->mlx, li_vars->imgP);
-	mlx_destroy_window(li_vars->w_vars->mlx, li_vars->w_vars->win);
-	mlx_destroy_display(li_vars->w_vars->mlx);
+	mlx_destroy_image(t_win->mlx, t_list->img_0);
+	mlx_destroy_image(t_win->mlx, t_list->img_1);
+	mlx_destroy_image(t_win->mlx, t_list->img_2);
+	mlx_destroy_image(t_win->mlx, t_list->img_e);
+	mlx_destroy_image(t_win->mlx, t_list->img_c);
+	mlx_destroy_image(t_win->mlx, t_list->img_p);
+	mlx_destroy_window(t_win->mlx, t_win->win);
+	mlx_destroy_display(t_win->mlx);
 }
 
 void free_tab(char **tab)
