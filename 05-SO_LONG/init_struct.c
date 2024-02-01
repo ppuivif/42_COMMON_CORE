@@ -51,7 +51,7 @@ void	init_t_list_image(t_list_image **t_list, t_window *t_win)
 	(*t_list)->t_win1 = t_win;
 }
 
-void	init_t_position_image(t_position_image **t_pos)
+void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_window *t_win)
 {
 	*t_pos = ft_calloc(1, sizeof(t_position_image));
 	if (!*t_pos)
@@ -59,9 +59,14 @@ void	init_t_position_image(t_position_image **t_pos)
 		printf("Erreur : La structure t_position_image *t_pos n'a pas ete initialisee.\n");
 		exit(EXIT_FAILURE);
 	}
+	(*t_pos)->t_win1 = t_win;
+	(*t_pos)->t_list1 = t_list1;
 	(*t_pos)->image = NULL;
 	(*t_pos)->x_tab = 0;
 	(*t_pos)->y_tab = 0;
 	(*t_pos)->x_map = 0;//(*t_pos)->x_tab * SIZE;
 	(*t_pos)->y_map = 0;//(*t_pos)->y_tab * SIZE;
+	(*t_pos)->x_image_p = 0;
+	(*t_pos)->y_image_p = 0;
+	(*t_pos)->move = 0;
 }

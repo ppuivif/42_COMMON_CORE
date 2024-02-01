@@ -25,6 +25,13 @@ void	destroy_all(t_list_image *t_list, t_window *t_win)
 	mlx_destroy_display(t_win->mlx);
 }
 
+void	free_all_struct(void *structure)
+{
+	if (structure)
+		free(structure);
+	//structure = NULL;
+}
+
 void free_tab(char **tab)
 {
 	unsigned int	i;

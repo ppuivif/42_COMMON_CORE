@@ -6,8 +6,7 @@ void	complete_display(t_window *t_win)
 	void *win;
 	char *title;
 	t_list_image *t_list1;
-
-
+	t_position_image *t_pos1;
 	
 	title = "Have a good game";
 	
@@ -20,9 +19,11 @@ void	complete_display(t_window *t_win)
 	init_t_list_image(&t_list1, t_win);
 
 	create_images(t_list1);
-	display_images(t_list1);//t_win);
+	display_images(t_list1);
 
-	mlx_loop_hook(mlx, update, t_win);
+	init_t_position_image(&t_pos1, t_list1, t_win);
+
+	mlx_loop_hook(mlx, update, t_pos1);
 	mlx_loop(mlx);
 	//mlx_clear_window(mlx, t_win);
 	destroy_all(t_list1, t_win);
