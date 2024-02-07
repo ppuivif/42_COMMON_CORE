@@ -9,7 +9,12 @@ int key_hook(int key, void *param)
 	t_pos3->image = "P";
 	
 	if(key == 41) // 41 is the key code for escape
+	{
+//		free_tab(t_pos3->t_win1->tab);
+//		free(t_pos3);
 		mlx_loop_end(t_pos3->t_win1->mlx);
+	//	destroy_all(t_pos3->t_list1);
+	}
 	//printf("%d", key);
 	if(key == 26 || key == 82) //  is the key code for W (up) and top arrow
 	{
@@ -50,7 +55,13 @@ int window_hook(int event, void *param)
 
 	t_pos4 = (t_position_image *)param;
 	if(event == 0) // 0 is when we trigger the close of the window (by clicking the cross for example)
-	 	mlx_loop_end(t_pos4->t_win1->mlx);
+	{
+//		free_tab(t_pos4->t_win1->tab);
+//		free(t_pos4);
+		mlx_loop_end(t_pos4->t_win1->mlx);
+	//	destroy_all(t_pos4->t_list1);
+
+	}
 	return (0);
 }
 
@@ -76,13 +87,24 @@ int find_image_p(t_position_image *t_pos)
 
 void	move_image_up(t_position_image *t_pos)
 {
+	int i;
+
+	i = 0;
 	if ((t_pos->t_win1->tab[t_pos->y_image_p - 1][t_pos->x_image_p]) != 49)
 	{
+/*		if ((t_pos->t_win1->tab[t_pos->y_image_p - 1][t_pos->x_image_p]) == 67)
+		{
+			t_pos->nb_collect++;
+			mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_0, t_pos->x_image_p * SIZE, ((t_pos->y_image_p) * SIZE));
+			mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_p2, t_pos->x_image_p * SIZE, ((t_pos->y_image_p) * SIZE));
+			delay(10000);
+		}*/
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_0, t_pos->x_image_p * SIZE, t_pos->y_image_p * SIZE);
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_0, t_pos->x_image_p * SIZE, ((t_pos->y_image_p - 1) * SIZE));
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_p, t_pos->x_image_p * SIZE, ((t_pos->y_image_p - 1) * SIZE));
 		t_pos->y_image_p -= 1;
 		t_pos->move++;
+		printf("%d\n", t_pos->move);
 	}
 }
 
@@ -95,6 +117,7 @@ void	move_image_down(t_position_image *t_pos)
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_p, t_pos->x_image_p * SIZE, (t_pos->y_image_p + 1) * SIZE);
 		t_pos->y_image_p += 1;
 		t_pos->move++;
+		printf("%d\n", t_pos->move);
 	}
 }
 
@@ -107,6 +130,7 @@ void	move_image_left(t_position_image *t_pos)
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_p, (t_pos->x_image_p - 1) * SIZE, t_pos->y_image_p * SIZE);
 		t_pos->x_image_p -= 1;
 		t_pos->move++;
+		printf("%d\n", t_pos->move);
 	}
 }
 
@@ -119,6 +143,7 @@ void	move_image_right(t_position_image *t_pos)
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_p, (t_pos->x_image_p + 1) * SIZE, t_pos->y_image_p * SIZE);
 		t_pos->x_image_p += 1;
 		t_pos->move++;
+		printf("%d\n", t_pos->move);
 	}
 }
 

@@ -13,16 +13,17 @@
 	//free(d_vars);
 }*/
 
-void	destroy_all(t_list_image *t_list, t_window *t_win)
+void	destroy_all(t_list_image *t_list)
 {
-	mlx_destroy_image(t_win->mlx, t_list->img_0);
-	mlx_destroy_image(t_win->mlx, t_list->img_1);
-	mlx_destroy_image(t_win->mlx, t_list->img_2);
-	mlx_destroy_image(t_win->mlx, t_list->img_e);
-	mlx_destroy_image(t_win->mlx, t_list->img_c);
-	mlx_destroy_image(t_win->mlx, t_list->img_p);
-	mlx_destroy_window(t_win->mlx, t_win->win);
-	mlx_destroy_display(t_win->mlx);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_0);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_1);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_2);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_e);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_c);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p2);
+	mlx_destroy_window(t_list->t_win1->mlx, t_list->t_win1->win);
+	mlx_destroy_display(t_list->t_win1->mlx);
 }
 
 void	free_all_struct(void *structure)

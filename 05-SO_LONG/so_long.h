@@ -46,6 +46,7 @@ typedef struct s_list_image{
 	void		*img_e;
 	void		*img_c;
 	void		*img_p;
+	void		*img_p2;
 }	t_list_image;
 
 //t_list1 initialise dans complete_display (so_long.c)
@@ -61,10 +62,10 @@ typedef struct s_position_image{
 	unsigned int	x_image_p;
 	unsigned int	y_image_p;
 	unsigned int	move;
+	unsigned int	nb_collect;
 }	t_position_image;
 
 //t_pos1 initialise dans complete_display (so_long.c)
-//t_pos2 utilise dans update (refresh_display.c) 
 //t_pos3 utilise dans key_hook (events.c) 
 //t_pos4 utilise dans window_hook (events.c) 
 
@@ -87,10 +88,10 @@ void	init_t_image(t_image **t_img);
 void	init_t_list_image(t_list_image **t_list, t_window *t_win);
 void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_window *t_win);
 
-void	destroy_all(t_list_image *t_list, t_window *t_win);
+void	destroy_all(t_list_image *t_list);
 void	free_tab(char **tab);
 
-int		update(void *param);
+int		update(t_position_image *t_pos);
 int		find_image_p(t_position_image *t_pos);
 void	move_image_up(t_position_image *t_pos);
 void	move_image_down(t_position_image *t_pos);
