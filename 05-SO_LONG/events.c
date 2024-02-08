@@ -92,13 +92,15 @@ void	move_image_up(t_position_image *t_pos)
 	i = 0;
 	if ((t_pos->t_win1->tab[t_pos->y_image_p - 1][t_pos->x_image_p]) != 49)
 	{
-/*		if ((t_pos->t_win1->tab[t_pos->y_image_p - 1][t_pos->x_image_p]) == 67)
+		if ((t_pos->t_win1->tab[t_pos->y_image_p - 1][t_pos->x_image_p]) == 67)
 		{
-			t_pos->nb_collect++;
+			
 			mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_0, t_pos->x_image_p * SIZE, ((t_pos->y_image_p) * SIZE));
 			mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_p2, t_pos->x_image_p * SIZE, ((t_pos->y_image_p) * SIZE));
-			delay(10000);
-		}*/
+			int mlx_loop(void* mlx);
+			t_pos->nb_collect++;
+			t_pos->t_win1->tab[t_pos->y_image_p - 1][t_pos->x_image_p] = 0;
+		}
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_0, t_pos->x_image_p * SIZE, t_pos->y_image_p * SIZE);
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_0, t_pos->x_image_p * SIZE, ((t_pos->y_image_p - 1) * SIZE));
 		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win, t_pos->t_list1->img_p, t_pos->x_image_p * SIZE, ((t_pos->y_image_p - 1) * SIZE));
