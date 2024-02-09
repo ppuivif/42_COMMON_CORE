@@ -21,31 +21,50 @@ void size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines)
 	tmp = NULL;
 }
 
-
 char **read_map(int fd, unsigned int nb_columns, unsigned int nb_lines)
 {
-	unsigned int	i;
-	unsigned int j;
-	char *tmp;
+	unsigned int	j;
+//	char *tmp;
 	char **tab;
 
-	i = 0;
 	j = 0;
-	tmp = NULL;
+//	tmp = NULL;
 	tab = ft_calloc((nb_lines + 1), sizeof (char*));
 	if (!tab)
 		return (NULL);
-	while (i < nb_lines)
+	while (j < nb_lines)
 	{
-		tab[i] = ft_calloc((nb_columns + 1), sizeof (char));
-		if(!tab[i])
+		tab[j] = ft_calloc((nb_columns + 1), sizeof (char));
+		if(!tab[j])
 			return (NULL);
-		tmp = get_next_line(fd);
-		ft_strcpy(tab[i], tmp);
-		free(tmp);
-		tmp = NULL;
-		i++;
+		tab[j] = get_next_line(fd);
+	//	ft_strcpy(tab[j], tmp);
+	//	free(tmp);
+	//	tmp = NULL;
+		j++;
 	}
 	close (fd);
 	return (tab);
+}
+
+char **build_tab(int fd, unsigned int nb_columns, unsigned int nb_lines)
+{
+	char	**tab;
+	unsigned int		i;
+	unsigned int		j;
+	
+	tab = read_map(fd, nb_columns, nb_lines);
+	j = 1;
+	while (j < nb_lines)
+	{
+		i = 1;
+		while (i < nb_columns)
+		{
+			if (j != (nb_lines - 1) && i != (nb_columns - 1) && tab[j][i] == '1')
+				tab[j][i] = '2';
+			i++;
+		}
+		j++;
+	}
+	return(tab);
 }

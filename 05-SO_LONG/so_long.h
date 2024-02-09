@@ -21,6 +21,7 @@ typedef struct s_window{
 	char			**tab;
 	unsigned int	nb_lines;
 	unsigned int	nb_columns;
+	unsigned int	nb_collect_tot;
 	void 			*mlx;
 	void 			*win;
 }	t_window;
@@ -47,12 +48,13 @@ typedef struct s_list_image{
 	void		*img_c;
 	void		*img_p;
 	void		*img_p2;
+	void		*img_p3;
 }	t_list_image;
 
 //t_list1 initialise dans complete_display (so_long.c)
 
 typedef struct s_position_image{
-	t_window	*t_win1;
+	t_window		*t_win1;
 	t_list_image	*t_list1;
 	char			*image;
 	unsigned int	x_tab;
@@ -63,17 +65,20 @@ typedef struct s_position_image{
 	unsigned int	y_image_p;
 	unsigned int	move;
 	unsigned int	nb_collect;
+	unsigned int	anim_time;
 }	t_position_image;
 
 //t_pos1 initialise dans complete_display (so_long.c)
-//t_pos3 utilise dans key_hook (events.c) 
-//t_pos4 utilise dans window_hook (events.c) 
+//t_pos2 utilise dans key_hook (events.c) 
+//t_pos3 utilise dans window_hook (events.c) 
+//t_pos4 utilise dans anim_char (events.c) 
 
 
 void	complete_display(t_window *t_win);
 
 void	size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines);
 char	**read_map(int fd, unsigned int nb_columns, unsigned int nb_lines);
+char	**build_tab(int fd, unsigned int nb_columns, unsigned int nb_lines);
 
 void	create_images(t_list_image *t_list);
 void	which_image(char **tab, t_image *t_img, t_list_image *t_list);
@@ -93,9 +98,12 @@ void	free_tab(char **tab);
 
 int		update(t_position_image *t_pos);
 int		find_image_p(t_position_image *t_pos);
+void	move_image(t_position_image *t_pos, int x, int y, int w, int z);
 void	move_image_up(t_position_image *t_pos);
 void	move_image_down(t_position_image *t_pos);
 void	move_image_left(t_position_image *t_pos);
 void	move_image_right(t_position_image *t_pos);
+void	collectible(t_position_image *t_pos, int x, int y);
+int		anim_char(void *param);
 
 #endif
