@@ -13,8 +13,10 @@ void create_images(t_list_image *t_list)//to create images
 	t_list->img_e = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgE.png", &width, &height);
 	t_list->img_c = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgC.png", &width, &height);
 	t_list->img_p = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgP.png", &width, &height);
+	t_list->img_p1 = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgP1.png", &width, &height);
 	t_list->img_p2 = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgP2.png", &width, &height);
 	t_list->img_p3 = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgP3.png", &width, &height);
+	t_list->img_p4 = mlx_png_file_to_image(t_list->t_win1->mlx, "Images/imgP4.png", &width, &height);
 }
 
 void which_image(char **tab, t_image *t_img, t_list_image *t_list)//to affect images

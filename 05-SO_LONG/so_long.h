@@ -47,8 +47,10 @@ typedef struct s_list_image{
 	void		*img_e;
 	void		*img_c;
 	void		*img_p;
+	void		*img_p1;
 	void		*img_p2;
 	void		*img_p3;
+	void		*img_p4;
 }	t_list_image;
 
 //t_list1 initialise dans complete_display (so_long.c)
@@ -61,11 +63,14 @@ typedef struct s_position_image{
 	unsigned int	y_tab;
 	unsigned int	x_map;
 	unsigned int	y_map;
-	unsigned int	x_image_p;
-	unsigned int	y_image_p;
+	unsigned int	x0_image_p;//current position of the character
+	unsigned int	y0_image_p;//current position of the character
+	unsigned int	x1_image_p;//next position of the character
+	unsigned int	y1_image_p;//next position of the character
 	unsigned int	move;
 	unsigned int	nb_collect;
 	unsigned int	anim_time;
+	unsigned int	move_possible;
 }	t_position_image;
 
 //t_pos1 initialise dans complete_display (so_long.c)
@@ -76,7 +81,7 @@ typedef struct s_position_image{
 
 void	complete_display(t_window *t_win);
 
-void	size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines);
+void	*size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines);
 char	**read_map(int fd, unsigned int nb_columns, unsigned int nb_lines);
 char	**build_tab(int fd, unsigned int nb_columns, unsigned int nb_lines);
 
@@ -98,12 +103,17 @@ void	free_tab(char **tab);
 
 int		update(t_position_image *t_pos);
 int		find_image_p(t_position_image *t_pos);
-void	move_image(t_position_image *t_pos, int x, int y, int w, int z);
+void	move_image_1(t_position_image *t_pos);
+void	move_image_2(t_position_image *t_pos);
 void	move_image_up(t_position_image *t_pos);
 void	move_image_down(t_position_image *t_pos);
 void	move_image_left(t_position_image *t_pos);
 void	move_image_right(t_position_image *t_pos);
-void	collectible(t_position_image *t_pos, int x, int y);
 int		anim_char(void *param);
+void	first_anim_char(t_position_image *t_pos);
+void	second_anim_char(t_position_image *t_pos);
+void	third_anim_char(t_position_image *t_pos);
+void	collectible(t_position_image *t_pos);
+void	to_exit(t_position_image *t_pos);
 
 #endif

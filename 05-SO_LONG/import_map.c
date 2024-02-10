@@ -1,10 +1,12 @@
 #include "so_long.h"
 
-void size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines)
+void	*size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines)
 {
 	char *tmp;
 	
 	tmp = get_next_line(fd);
+	if(!tmp)
+		return (NULL);
 	*nb_columns = ft_strlen(tmp) - 1;
 	free(tmp);
 	tmp = NULL;
@@ -24,11 +26,9 @@ void size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines)
 char **read_map(int fd, unsigned int nb_columns, unsigned int nb_lines)
 {
 	unsigned int	j;
-//	char *tmp;
 	char **tab;
 
 	j = 0;
-//	tmp = NULL;
 	tab = ft_calloc((nb_lines + 1), sizeof (char*));
 	if (!tab)
 		return (NULL);
@@ -38,9 +38,6 @@ char **read_map(int fd, unsigned int nb_columns, unsigned int nb_lines)
 		if(!tab[j])
 			return (NULL);
 		tab[j] = get_next_line(fd);
-	//	ft_strcpy(tab[j], tmp);
-	//	free(tmp);
-	//	tmp = NULL;
 		j++;
 	}
 	close (fd);

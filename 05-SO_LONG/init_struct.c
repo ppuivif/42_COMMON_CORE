@@ -66,7 +66,12 @@ void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_wi
 	(*t_pos)->y_tab = 0;
 	(*t_pos)->x_map = 0;//(*t_pos)->x_tab * SIZE;
 	(*t_pos)->y_map = 0;//(*t_pos)->y_tab * SIZE;
-	(*t_pos)->x_image_p = 0;
-	(*t_pos)->y_image_p = 0;
+	(*t_pos)->x0_image_p = 0;
+	(*t_pos)->y0_image_p = 0;
+	(*t_pos)->x1_image_p = 0;
+	(*t_pos)->y1_image_p = 0;
 	(*t_pos)->move = 0;
+	(*t_pos)->nb_collect = 0;
+	(*t_pos)->move_possible = 1;
+	
 }

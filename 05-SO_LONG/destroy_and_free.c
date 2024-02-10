@@ -8,8 +8,10 @@ void	destroy_all(t_list_image *t_list)
 	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_e);
 	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_c);
 	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p1);
 	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p2);
 	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p3);
+	mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p4);
 	mlx_destroy_window(t_list->t_win1->mlx, t_list->t_win1->win);
 	mlx_destroy_display(t_list->t_win1->mlx);
 }

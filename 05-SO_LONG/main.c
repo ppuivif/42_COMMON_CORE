@@ -2,16 +2,17 @@
 
 int	main()
 {
-	t_window *t_win1;
+	t_window	*t_win1;
+	
 
 	init_t_window(&t_win1);
 	
-	//count lines and columns to build table
-	t_win1->fd = open("Maps/map.ber", O_RDONLY);
-	size_of_map(t_win1->fd, &t_win1->nb_columns, &t_win1->nb_lines);
-	t_win1->nb_collect_tot = 3;
-	close(t_win1->fd);
+	//check_file_ber
+	check_map_validity(t_win1);
 
+
+	//count lines and columns to build table
+	
 /*	//read map and build table to verify its validity
 	t_win1->fd = open("Maps/map.ber", O_RDONLY);
 	t_win1->tab = read_map(t_win1->fd, t_win1->nb_columns, t_win1->nb_lines);
