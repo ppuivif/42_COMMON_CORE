@@ -10,10 +10,11 @@
 # include "MacroLibX/includes/mlx_profile.h"
 # include "GNL/get_next_line.h"
 # include "LIBFT/libft.h"
+//# include "FT_PRINTF/libftprintf.h"
 # include <fcntl.h>
 # include <stdint.h>
 # include <stdlib.h>
-# include <stdbool.h>
+//# include <stdbool.h>
 # include <stdio.h>//attention
 
 typedef struct s_window{
@@ -24,6 +25,10 @@ typedef struct s_window{
 	unsigned int	nb_collect_tot;
 	void 			*mlx;
 	void 			*win;
+	unsigned int	x0_image_p;
+	unsigned int	y0_image_p;
+	unsigned int	x0_image_e;
+	unsigned int	y0_image_e;
 }	t_window;
 
 //t_win1 initilise dans main (main.c)
@@ -51,6 +56,7 @@ typedef struct s_list_image{
 	void		*img_p2;
 	void		*img_p3;
 	void		*img_p4;
+	void		*img_p5;
 }	t_list_image;
 
 //t_list1 initialise dans complete_display (so_long.c)
@@ -81,14 +87,14 @@ typedef struct s_position_image{
 
 void	complete_display(t_window *t_win);
 
-void	*size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines);
+int		size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines);
 char	**read_map(int fd, unsigned int nb_columns, unsigned int nb_lines);
 char	**build_tab(int fd, unsigned int nb_columns, unsigned int nb_lines);
 
-void	create_images(t_list_image *t_list);
+void	create_tiles(t_list_image *t_list);
+void	create_sprites(t_list_image *t_list);
 void	which_image(char **tab, t_image *t_img, t_list_image *t_list);
 void	display_images(t_list_image *t_list);//t_window *t_win);
-//char	**stock_image(t_window *t_win, char *image);
 
 int		key_hook(int key, void *param);
 int		window_hook(int event, void *param);
@@ -96,13 +102,13 @@ int		window_hook(int event, void *param);
 void	init_t_window(t_window **t_win);
 void	init_t_image(t_image **t_img);
 void	init_t_list_image(t_list_image **t_list, t_window *t_win);
-void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_window *t_win);
+void	init_t_position_image(t_position_image **t_pos,
+			t_list_image *t_list1, t_window *t_win);
 
 void	destroy_all(t_list_image *t_list);
 void	free_tab(char **tab);
 
 int		update(t_position_image *t_pos);
-int		find_image_p(t_position_image *t_pos);
 void	move_image_1(t_position_image *t_pos);
 void	move_image_2(t_position_image *t_pos);
 void	move_image_up(t_position_image *t_pos);
@@ -113,7 +119,20 @@ int		anim_char(void *param);
 void	first_anim_char(t_position_image *t_pos);
 void	second_anim_char(t_position_image *t_pos);
 void	third_anim_char(t_position_image *t_pos);
-void	collectible(t_position_image *t_pos);
+void	to_collectible(t_position_image *t_pos);
 void	to_exit(t_position_image *t_pos);
+
+void	check_map_validity(t_window *t_win, char *argv);
+void	columns_and_lines(t_window *t_win);
+void	extern_wall(t_window *t_win);
+void	count_collectibles(t_window *t_win);
+void	count_exit(t_window *t_win);
+void	count_character(t_window *t_win);
+void	find_image_p(t_window *t_win);
+void	find_image_e(t_window *t_win);
+void	flood_fill(t_window *t_win);
+
+
+
 
 #endif

@@ -12,9 +12,9 @@ int key_hook(int key, void *param)
 	t_position_image *t_pos2;
 	
 	t_pos2 = (t_position_image*)param;
-	t_pos2->image = "P";
-	if (t_pos2->x0_image_p == 0 && t_pos2->y0_image_p == 0)
-		find_image_p(t_pos2);
+//	t_pos2->image = "P";
+//	if (t_pos2->x0_image_p == 0 && t_pos2->y0_image_p == 0)
+//		find_image_p(t_pos2);
 	if(key == 41) // 41 is the key code for escape
 		mlx_loop_end(t_pos2->t_win1->mlx);
 	if((key == 26 || key == 82) && t_pos2->move_possible == 1) //  is the key code for W (up) and top arrow
@@ -35,26 +35,6 @@ int window_hook(int event, void *param)
 	t_pos3 = (t_position_image *)param;
 	if(event == 0) // 0 is when we trigger the close of the window (by clicking the cross for example)
 		mlx_loop_end(t_pos3->t_win1->mlx);
-	return (0);
-}
-
-int find_image_p(t_position_image *t_pos)
-{
-	while ((t_pos->y_tab < t_pos->t_win1->nb_lines)) // && (t_pos->t_win1->tab[t_pos->y_tab][t_pos->x_tab]))
-	{
-		while ((t_pos->x_tab < t_pos->t_win1->nb_columns))// && (t_pos->t_win1->tab[t_pos->y_tab][t_pos->x_tab]))
-		{
-			if (t_pos->t_win1->tab[t_pos->y_tab][t_pos->x_tab] == *t_pos->image)
-			{
-				t_pos->x0_image_p = t_pos->x_tab;
-				t_pos->y0_image_p = t_pos->y_tab;
-				return (1);
-			}
-			t_pos->x_tab++;
-		}
-		t_pos->x_tab = 0;
-		t_pos->y_tab++;
-	}
 	return (0);
 }
 
@@ -100,9 +80,7 @@ void	move_image_1(t_position_image *t_pos)
 	if (t_pos->t_win1->tab[y1][x1] != '1' && t_pos->t_win1->tab[y1][x1] != '2')
 	{
 		if (t_pos->t_win1->tab[y1][x1] == 'C')
-		{
-			collectible(t_pos);
-		}
+			to_collectible(t_pos);
 		else if (t_pos->t_win1->tab[y1][x1] == 'E')
 		{
 			if (t_pos->nb_collect == t_pos->t_win1->nb_collect_tot)
@@ -148,7 +126,7 @@ void	move_image_2(t_position_image *t_pos)
 	mlx_put_image_to_window(mlx, win, img_p, x1 * SIZE, y1 * SIZE);
 }
 
-void	collectible(t_position_image *t_pos)
+void	to_collectible(t_position_image *t_pos)
 {
 	t_pos->anim_time = 0;
 	t_pos->move_possible = 0;

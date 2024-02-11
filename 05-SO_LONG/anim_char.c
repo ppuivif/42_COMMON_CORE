@@ -7,11 +7,11 @@ int	anim_char(void *param)
 	t_pos4 = (t_position_image *)param;
 	if (t_pos4->anim_time == 10 * 5)
 		first_anim_char(t_pos4);
-	if (t_pos4->anim_time == 10 * 150)
+	if (t_pos4->anim_time == 10 * 100)
 		second_anim_char(t_pos4);
-	if(t_pos4->anim_time == 10 * 200)
+	if(t_pos4->anim_time == 10 * 350)
 		third_anim_char(t_pos4);
-	if(t_pos4->anim_time == 10 * 300)
+	if(t_pos4->anim_time == 10 * 400)
 	{
 		t_pos4->x0_image_p = t_pos4->x1_image_p;
 		t_pos4->y0_image_p = t_pos4->y1_image_p;
@@ -29,8 +29,8 @@ void	first_anim_char(t_position_image *t_pos)
 	void	*img_p3;
 	int		x0;
 	int		y0;
-	int		x1;
-	int		y1;
+//	int		x1;
+//	int		y1;
 	
 	mlx = t_pos->t_win1->mlx;
 	win = t_pos->t_win1->win;
@@ -38,8 +38,8 @@ void	first_anim_char(t_position_image *t_pos)
 	img_p3 = t_pos->t_list1->img_p3;
 	x0 = t_pos->x0_image_p;
 	y0 = t_pos->y0_image_p;
-	x1 = t_pos->x1_image_p;
-	y1 = t_pos->y1_image_p;
+//	x1 = t_pos->x1_image_p;
+//	y1 = t_pos->y1_image_p;
 	mlx_put_image_to_window(mlx, win, img_0, x0 * SIZE, y0 * SIZE);
 	mlx_put_image_to_window(mlx, win, img_p3, x0 * SIZE, y0 * SIZE);
 }
@@ -74,8 +74,8 @@ void	third_anim_char(t_position_image *t_pos)
 	void	*win;
 	void	*img_0;
 	void	*img_p;
-	int		x0;
-	int		y0;
+//	int		x0;
+//	int		y0;
 	int		x1;
 	int		y1;
 	
@@ -83,8 +83,8 @@ void	third_anim_char(t_position_image *t_pos)
 	win = t_pos->t_win1->win;
 	img_0 = t_pos->t_list1->img_0;
 	img_p = t_pos->t_list1->img_p;
-	x0 = t_pos->x0_image_p;
-	y0 = t_pos->y0_image_p;
+//	x0 = t_pos->x0_image_p;
+//	y0 = t_pos->y0_image_p;
 	x1 = t_pos->x1_image_p;
 	y1 = t_pos->y1_image_p;
 	mlx_put_image_to_window(mlx, win, img_0, x1 * SIZE, y1 * SIZE);

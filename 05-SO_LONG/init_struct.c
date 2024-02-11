@@ -26,19 +26,6 @@ void	init_t_image(t_image **t_img)
 	(*t_img)->image_0 = NULL;
 }
 
-/*t_list_image	*init_t_list_image(t_list_image *lt_img, t_window *t_win)
-{
-	lt_img = ft_calloc(1, sizeof(t_list_image));
-	if (!lt_img)
-	{
-		printf("Erreur : La structure t_list_image *lt_img n'a pas ete initialisee.\n");
-		exit(EXIT_FAILURE);
-	}
-	lt_img->t_win->mlx = t_win->mlx;
-	lt_img->t_win->win = t_win->win;
-	return (lt_img);
-}*/
-
 void	init_t_list_image(t_list_image **t_list, t_window *t_win)
 {
 	*t_list = ft_calloc(1, sizeof(t_list_image));
@@ -66,8 +53,8 @@ void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_wi
 	(*t_pos)->y_tab = 0;
 	(*t_pos)->x_map = 0;//(*t_pos)->x_tab * SIZE;
 	(*t_pos)->y_map = 0;//(*t_pos)->y_tab * SIZE;
-	(*t_pos)->x0_image_p = 0;
-	(*t_pos)->y0_image_p = 0;
+	(*t_pos)->x0_image_p = t_win->x0_image_p;
+	(*t_pos)->y0_image_p = t_win->y0_image_p;
 	(*t_pos)->x1_image_p = 0;
 	(*t_pos)->y1_image_p = 0;
 	(*t_pos)->move = 0;

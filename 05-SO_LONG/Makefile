@@ -2,7 +2,7 @@ CC= clang
 CFLAGS=-Wall -Werror -Wextra -g
 MACROLIBXFLAGS= -lSDL2
 NAME=so_long
-SOURCES=so_long.c import_map.c display_images.c \
+SOURCES=so_long.c check_validity.c import_map.c display_images.c \
 			events.c anim_char.c \
 			init_struct.c destroy_and_free.c \
 			main.c
