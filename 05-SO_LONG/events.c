@@ -12,9 +12,6 @@ int key_hook(int key, void *param)
 	t_position_image *t_pos2;
 	
 	t_pos2 = (t_position_image*)param;
-//	t_pos2->image = "P";
-//	if (t_pos2->x0_image_p == 0 && t_pos2->y0_image_p == 0)
-//		find_image_p(t_pos2);
 	if(key == 41) // 41 is the key code for escape
 		mlx_loop_end(t_pos2->t_win1->mlx);
 	if((key == 26 || key == 82) && t_pos2->move_possible == 1) //  is the key code for W (up) and top arrow

@@ -2,34 +2,23 @@
 
 void	check_map_validity(t_window *t_win, char *argv)
 {
-	int	size;
-	
+	int size;
 	t_win->fd = open(argv, O_RDONLY);
 	size = size_of_map(t_win->fd, &t_win->nb_columns, &t_win->nb_lines);
 	close(t_win->fd);
-
 	t_win->fd = open(argv, O_RDONLY);
 	t_win->tab = build_tab(t_win->fd, t_win->nb_columns, t_win->nb_lines);
 	close(t_win->fd);
-	if (size == 1)
-	{
-		printf("Error\nFile .ber is empty\n");
-		exit(1);
-	}
-	
-	columns_and_lines(t_win);
-	extern_wall(t_win);
-	count_collectibles(t_win);
-	count_exit(t_win);
-	count_character(t_win);
-//	flood_fill(t_win);
-	
-	
-	
-	
-	
-
-
+	if (size == 0)
+		free_t_win(t_win, "Error\nFile .ber is empty\n");
+	verify_columns_and_lines(t_win);
+	verify_extern_wall(t_win);
+	verify_nb_collectibles(t_win);
+	verify_nb_exit(t_win);
+	verify_nb_character(t_win);
+	find_image_p(t_win);
+	t_win->tab_cpy = ft_tab_cpy(t_win->tab, t_win->nb_lines, t_win->nb_columns);	
+	verify_way_validity(t_win);
 }
 
 size_t	ft_strlen_nl(char *str)
@@ -42,7 +31,7 @@ size_t	ft_strlen_nl(char *str)
 	return (len);
 }
 
-void	columns_and_lines(t_window *t_win)
+void	verify_columns_and_lines(t_window *t_win)
 {
 	char	**tab;
 	int		j;
@@ -56,12 +45,14 @@ void	columns_and_lines(t_window *t_win)
 		else
 		{
 			printf("Error\nMap is not rectangular\n");
+			free_tab(t_win->tab);
+			free(t_win);
 			exit(1);
 		}
 	}
 }
 
-void	extern_wall(t_window *t_win)
+void	verify_extern_wall(t_window *t_win)
 {
 	int		i;
 	int		j;
@@ -74,6 +65,8 @@ void	extern_wall(t_window *t_win)
 			i++;
 		else
 		{
+			free_tab(t_win->tab);
+			free(t_win);
 			printf("Error\nExtern wall isn't complete\n");
 			exit(1);
 		}
@@ -86,6 +79,8 @@ void	extern_wall(t_window *t_win)
 			i++;
 		else
 		{
+			free_tab(t_win->tab);
+			free(t_win);
 			printf("Error\nExtern wall isn't complete\n");
 			exit(1);
 		}
@@ -98,6 +93,8 @@ void	extern_wall(t_window *t_win)
 			j++;
 		else
 		{
+			free_tab(t_win->tab);
+			free(t_win);
 			printf("Error\nExtern wall isn't complete\n");
 			exit(1);
 		}
@@ -110,13 +107,15 @@ void	extern_wall(t_window *t_win)
 			j++;
 		else
 		{
+			free_tab(t_win->tab);
+			free(t_win);
 			printf("Error\nExtern wall isn't complete\n");
 			exit(1);
 		}
 	}
 }
 
-void	count_collectibles(t_window *t_win)
+void	verify_nb_collectibles(t_window *t_win)
 {
 	int		i;
 	int		j;
@@ -138,12 +137,14 @@ void	count_collectibles(t_window *t_win)
 	}
 	if (t_win->nb_collect_tot == 0)
 	{
+		free_tab(t_win->tab);
+		free(t_win);
 		printf("Error\nCollectibles are missing\n");
 		exit(1);
 	}	
 }
 
-void	count_exit(t_window *t_win)
+void	verify_nb_exit(t_window *t_win)
 {
 	int		i;
 	int		j;
@@ -165,14 +166,22 @@ void	count_exit(t_window *t_win)
 	if (nb_exit != 1)
 	{
 		if (nb_exit == 0)
+		{
+			free_tab(t_win->tab);
+			free(t_win);
 			printf("Error\nExit is missing\n");
+		}
 		if (nb_exit > 1)
+		{
+			free_tab(t_win->tab);
+			free(t_win);
 			printf("Error\nThere are too many exits\n");
+		}
 		exit(1);
 	}
 }
 
-void	count_character(t_window *t_win)
+void	verify_nb_character(t_window *t_win)
 {
 	int		i;
 	int		j;
@@ -197,6 +206,8 @@ void	count_character(t_window *t_win)
 			printf("Error\nCharacter is missing\n");
 		if (nb_char > 1)
 			printf("Error\nThere are too many characters\n");
+		free_tab(t_win->tab);
+		free(t_win);
 		exit(1);
 	}
 }
@@ -216,9 +227,7 @@ void find_image_p(t_window *t_win)
 			{
 				t_win->x0_image_p = i;
 				t_win->y0_image_p = j;
-				printf("%d\n", t_win->x0_image_p);
-				printf("%d\n", t_win->y0_image_p);
-				return ;
+				return;
 			}
 			i++;
 		}
@@ -226,92 +235,73 @@ void find_image_p(t_window *t_win)
 	}
 }
 
-void find_image_e(t_window *t_win)
+int find_image(t_window *t_win, char c)
 {
 	int		i;
 	int		j;
 
 	j = 0;
-	while (t_win->tab[j])
+	while (t_win->tab_cpy[j])
 	{
 		i = 0;
-		while (t_win->tab[j][i])
+		while (t_win->tab_cpy[j][i])
 		{
-			if(t_win->tab[j][i] == 'E')
-			{
-				t_win->x0_image_e = i;
-				t_win->y0_image_e = j;
-				return ;
-			}
+			if(t_win->tab_cpy[j][i] == c)
+				return (1);
 			i++;
 		}
 		j++;
 	}
+	return (0);
 }
-
-/*	while ((t_pos->y_tab < t_pos->t_win1->nb_lines)) // && (t_pos->t_win1->tab[t_pos->y_tab][t_pos->x_tab]))
-	{
-		while ((t_pos->x_tab < t_pos->t_win1->nb_columns))// && (t_pos->t_win1->tab[t_pos->y_tab][t_pos->x_tab]))
-		{
-			if (t_pos->t_win1->tab[t_pos->y_tab][t_pos->x_tab] == *t_pos->image)
-			{
-				t_pos->x0_image_p = t_pos->x_tab;
-				t_pos->y0_image_p = t_pos-		cd LIBFT && make && cd ..
->y_tab;
-				return (1);
-			}
-			t_pos->x_tab++;
-		}
-		t_pos->x_tab = 0;
-		t_pos->y_tab++;
-	}
-	return (0);*/
-
 
 void	flood_fill(t_window *t_win)
 {
-	char			**tab;
 	int	x;	
-	int	y;	
+	int	y;
 
- 	tab = t_win->tab;
-	find_image_p(t_win);
-	find_image_e(t_win);
 	x = t_win->x0_image_p;
 	y = t_win->y0_image_p;
-	if (y < 0 || y >= (int)t_win->nb_lines || x < 0 || x >= (int)t_win->nb_columns)
-		exit (1);
-	tab[y][x] = '1';
-	if (y > 0)
+	if (t_win->tab_cpy[y - 1][x] != '1' && t_win->tab_cpy[y - 1][x] != '2')
 	{
-		if (tab[y - 1][x] == '0' || tab[y - 1][x] == 'C' || tab[y - 1][x] == 'E')
-		{
-			t_win->y0_image_p -= 1;
-			flood_fill(t_win);
-		}
+		t_win->tab_cpy[y - 1][x] = '1';
+		t_win->y0_image_p -= 1;
+		flood_fill(t_win);
+		t_win->y0_image_p += 1;
 	}
-	if (y < (int)t_win->nb_lines - 1)
-	{	
-		if (tab[y + 1][x] == '0' || tab[y + 1][x] == 'C' || tab[y + 1][x] == 'E')
-		{
-			t_win->y0_image_p += 1;
-			flood_fill(t_win);
-		}
-	}
-	if (x > 0)
+	if (t_win->tab_cpy[y][x - 1] != '1' && t_win->tab_cpy[y][x - 1] != '2')
 	{
-		if(tab[y][x - 1] == '0' || tab[y][x - 1] == 'C' || tab[y][x - 1] == 'E')
-		{
-			t_win->x0_image_p -= 1;
-			flood_fill(t_win);
-		}
+		t_win->tab_cpy[y][x - 1] = '1';
+		t_win->x0_image_p -= 1;
+		flood_fill(t_win);
+		t_win->x0_image_p += 1;
 	}
-	if (x < (int)t_win->nb_columns - 1)
+	if (t_win->tab_cpy[y + 1][x] != '1' && t_win->tab_cpy[y + 1][x] != '2')
 	{
-		if(tab[y][x + 1] == '0' || tab[y][x + 1] == 'C' || tab[y][x + 1] == 'E')
-		{
-			t_win->x0_image_p += 1;
-			flood_fill(t_win);
-		}
+		t_win->tab_cpy[y + 1][x] = '1';
+		t_win->y0_image_p += 1;
+		flood_fill(t_win);
+		t_win->y0_image_p -= 1;
 	}
+	if (t_win->tab_cpy[y][x + 1] != '1' && t_win->tab_cpy[y][x + 1] != '2')
+	{
+		t_win->tab_cpy[y][x + 1] = '1';
+		t_win->x0_image_p += 1;
+		flood_fill(t_win);
+		t_win->x0_image_p -= 1;
+	}
+}
+
+void	verify_way_validity(t_window *t_win)
+{
+	flood_fill(t_win);
+	if (find_image(t_win, 'E') == 1 || find_image(t_win, 'C') == 1 )
+	{
+		printf("Error\nExit not reachable\n");
+		free_tab(t_win->tab);
+		free_tab(t_win->tab_cpy);
+		free(t_win);
+		exit(1);
+	}
+
 }

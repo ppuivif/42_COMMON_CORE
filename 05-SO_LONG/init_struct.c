@@ -8,6 +8,16 @@ void	init_t_window(t_window **t_win)
 		printf("Erreur : La structure t_windows *t_win n'a pas ete initialisee.\n");
 		exit(EXIT_FAILURE);
 	}
+	(*t_win)->fd = 0;
+	(*t_win)->tab = NULL;
+	(*t_win)->tab_cpy = NULL;
+	(*t_win)->nb_lines = 0;
+	(*t_win)->nb_columns = 0;
+	(*t_win)->nb_collect_tot = 0;
+	(*t_win)->mlx = NULL;
+	(*t_win)->win = NULL;
+	(*t_win)->x0_image_p = 0;
+	(*t_win)->y0_image_p = 0;
 }
 
 void	init_t_image(t_image **t_img)

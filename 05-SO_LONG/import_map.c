@@ -6,7 +6,7 @@ int	size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines)
 	
 	tmp = get_next_line(fd);
 	if(!tmp)
-		return (1);
+		return (0);
 	*nb_columns = ft_strlen(tmp) - 1;
 	free(tmp);
 	tmp = NULL;
@@ -21,7 +21,7 @@ int	size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines)
 	}
 	free(tmp);
 	tmp = NULL;
-	return (0);
+	return (1);
 }
 
 char **read_map(int fd, unsigned int nb_columns, unsigned int nb_lines)

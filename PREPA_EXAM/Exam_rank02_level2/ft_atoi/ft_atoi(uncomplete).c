@@ -4,9 +4,9 @@ int	ft_atoi(const char *str)
 	int sign = 1;
 	int nbr = 0;
 
-	if (!str)
+	if (!str)//do not forget
 		return (0);
-	if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+	if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))//str[i] != '\0' condition missing
 		i++;
 	while (str[i] && (str[i] == 45 || str[i] == 43))
 	{
