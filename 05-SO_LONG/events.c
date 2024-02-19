@@ -37,7 +37,7 @@ int window_hook(int event, void *param)
 
 void	move_image_up(t_position_image *t_pos)
 {
-	t_pos->image = "P";
+	t_pos->image = 0;
 	t_pos->x1_image_p = t_pos->x0_image_p;
 	t_pos->y1_image_p = t_pos->y0_image_p - 1;
 	move_image_1(t_pos);
@@ -45,7 +45,7 @@ void	move_image_up(t_position_image *t_pos)
 
 void	move_image_down(t_position_image *t_pos)
 {
-	t_pos->image = "P";
+	t_pos->image = 0;
 	t_pos->x1_image_p = t_pos->x0_image_p;
 	t_pos->y1_image_p = t_pos->y0_image_p + 1;
 	move_image_1(t_pos);
@@ -53,7 +53,8 @@ void	move_image_down(t_position_image *t_pos)
 
 void	move_image_left(t_position_image *t_pos)
 {
-	t_pos->image = "P1";
+	t_pos->image = 1;
+	create_sprites(t_pos);
 	t_pos->x1_image_p = t_pos->x0_image_p - 1;
 	t_pos->y1_image_p = t_pos->y0_image_p;
 	move_image_1(t_pos);
@@ -61,7 +62,8 @@ void	move_image_left(t_position_image *t_pos)
 
 void	move_image_right(t_position_image *t_pos)
 {
-	t_pos->image = "P2";
+	t_pos->image = 2;
+	create_sprites(t_pos);
 	t_pos->x1_image_p = t_pos->x0_image_p + 1;
 	t_pos->y1_image_p = t_pos->y0_image_p;	
 	move_image_1(t_pos);
@@ -74,11 +76,11 @@ void	move_image_1(t_position_image *t_pos)
 
 	x1 = t_pos->x1_image_p;
 	y1 = t_pos->y1_image_p;
-	if (t_pos->t_win1->tab[y1][x1] != '1' && t_pos->t_win1->tab[y1][x1] != '2')
+	if (t_pos->t_win1->tab_modified[y1][x1] != '1' && t_pos->t_win1->tab_modified[y1][x1] != '2')
 	{
-		if (t_pos->t_win1->tab[y1][x1] == 'C')
+		if (t_pos->t_win1->tab_modified[y1][x1] == 'C')
 			to_collectible(t_pos);
-		else if (t_pos->t_win1->tab[y1][x1] == 'E')
+		else if (t_pos->t_win1->tab_modified[y1][x1] == 'E')
 		{
 			if (t_pos->nb_collect == t_pos->t_win1->nb_collect_tot)
 				to_exit(t_pos);
@@ -108,11 +110,11 @@ void	move_image_2(t_position_image *t_pos)
 	mlx = t_pos->t_win1->mlx;
 	win = t_pos->t_win1->win;
 	img_0 = t_pos->t_list1->img_0;
-	if (ft_strcmp(t_pos->image, "P") == 0)
+	if (t_pos->image == 0)
 		img_p = t_pos->t_list1->img_p;
-	if (ft_strcmp(t_pos->image, "P1") == 0)
+	if (t_pos->image == 1)
 		img_p = t_pos->t_list1->img_p1;
-	if (ft_strcmp(t_pos->image, "P2") == 0)
+	if (t_pos->image == 2)
 		img_p = t_pos->t_list1->img_p2;
 	x0 = t_pos->x0_image_p;
 	y0 = t_pos->y0_image_p;
@@ -129,7 +131,7 @@ void	to_collectible(t_position_image *t_pos)
 	t_pos->move_possible = 0;
 	mlx_loop_hook(t_pos->t_win1->mlx, anim_char, t_pos);
 	t_pos->move++;
-	t_pos->t_win1->tab[t_pos->y1_image_p][t_pos->x1_image_p] = 0;
+	t_pos->t_win1->tab_modified[t_pos->y1_image_p][t_pos->x1_image_p] = 0;
 	t_pos->nb_collect++;
 	printf("move counter = %d\n", t_pos->move);
 	printf("well done, you caught %d collectible(s)\n", t_pos->nb_collect);

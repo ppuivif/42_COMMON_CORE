@@ -1,68 +1,108 @@
 #include "so_long.h"
 
-int	size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines)
+void	size_of_map(t_window *t_win)
 {
 	char *tmp;
 	
-	tmp = get_next_line(fd);
+	tmp = get_next_line(t_win->fd);
 	if(!tmp)
-		return (0);
-	*nb_columns = ft_strlen(tmp) - 1;
+	{
+		printf("%s", "Error\nMap couldn't be read\n");
+		exit (EXIT_FAILURE);
+	}
+	t_win->nb_columns = ft_strlen(tmp) - 1;
 	free(tmp);
 	tmp = NULL;
-	*nb_lines = 1;
-	tmp = get_next_line(fd);
+	t_win->nb_lines = 1;
+	tmp = get_next_line(t_win->fd);
 	while (tmp)
 	{
 		free(tmp);
 		tmp = NULL;
-		tmp = get_next_line(fd);
-		*nb_lines += 1;
+		tmp = get_next_line(t_win->fd);
+		t_win->nb_lines += 1;
 	}
 	free(tmp);
 	tmp = NULL;
-	return (1);
 }
 
-char **read_map(int fd, unsigned int nb_columns, unsigned int nb_lines)
+void	read_map(t_window *t_win)
 {
 	unsigned int	j;
-	char **tab;
 
 	j = 0;
-	tab = ft_calloc((nb_lines + 1), sizeof (char*));
-	if (!tab)
-		return (NULL);
-	while (j < nb_lines)
+	t_win->tab = ft_calloc((t_win->nb_lines + 1), sizeof (char*));
+	if (!t_win->tab)
 	{
-		tab[j] = ft_calloc((nb_columns + 1), sizeof (char));
-		if(!tab[j])
-			return (NULL);
-		tab[j] = get_next_line(fd);
+		printf("%s", "Error\nArray couldn't be created\n");
+		exit (EXIT_FAILURE);
+	}
+	while (j < t_win->nb_lines)
+	{
+		/*if (j == t_win->nb_lines)
+			t_win->tab[j] = ft_calloc((t_win->nb_columns + 1), sizeof (char));
+		else
+			t_win->tab[j] = ft_calloc((t_win->nb_columns + 2), sizeof (char));
+		if(!t_win->tab[j])
+		{
+			printf("%s", "Error\nArray couldn't be created\n");
+			exit (EXIT_FAILURE);
+		}*/
+		t_win->tab[j] = get_next_line(t_win->fd);
 		j++;
 	}
-	close (fd);
-	return (tab);
+	close (t_win->fd);
 }
 
-char **build_tab(int fd, unsigned int nb_columns, unsigned int nb_lines)
+void	build_tab(t_window *t_win)
 {
-	char	**tab;
 	unsigned int		i;
 	unsigned int		j;
 	
-	tab = read_map(fd, nb_columns, nb_lines);
+	t_win->tab_modified = ft_tab_cpy(t_win);
 	j = 1;
-	while (j < nb_lines)
+	while (t_win->tab_modified[j])
 	{
 		i = 1;
-		while (i < nb_columns)
+		while (t_win->tab_modified[j][i])
 		{
-			if (j != (nb_lines - 1) && i != (nb_columns - 1) && tab[j][i] == '1')
-				tab[j][i] = '2';
+			if (j != (t_win->nb_lines - 1) && i != (t_win->nb_columns - 1) && t_win->tab_modified[j][i] == '1')
+				t_win->tab_modified[j][i] = '2';
 			i++;
 		}
 		j++;
 	}
-	return(tab);
 }
+
+char	**ft_tab_cpy(t_window *t_win)
+{
+	unsigned int	i;
+	unsigned int	j;
+	char			**new_tab;
+
+	j = 0;
+	new_tab = ft_calloc(t_win->nb_lines + 1, sizeof(char *));
+	if (!new_tab)
+	{
+			printf("%s", "Error\nArray couldn't be created\n");
+			exit (EXIT_FAILURE);
+	}
+	while (j < t_win->nb_lines && t_win->tab[j])
+	{
+		i = 0;
+		new_tab[j] = ft_calloc(t_win->nb_columns + 1, sizeof(char));
+		if (!new_tab[j])
+		{
+			printf("%s", "Error\nArray couldn't be created\n");
+			exit (EXIT_FAILURE);
+		}
+		while (i < t_win->nb_columns && t_win->tab[j][i] && t_win->tab[j][i] != '\n')
+		{
+			new_tab[j][i] = t_win->tab[j][i];
+			i++;
+		}
+		j++;
+	}
+	return (new_tab);
+}
+

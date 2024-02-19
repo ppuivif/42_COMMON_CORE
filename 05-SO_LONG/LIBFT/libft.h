@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:20:42 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/12 18:05:28 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/14 15:51:54 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,5 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);	
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-char	**ft_tab_cpy(char **tab, unsigned int nb_lines, unsigned int nb_columns);
 
 #endif

@@ -10,6 +10,7 @@ void	init_t_window(t_window **t_win)
 	}
 	(*t_win)->fd = 0;
 	(*t_win)->tab = NULL;
+	(*t_win)->tab_modified = NULL;
 	(*t_win)->tab_cpy = NULL;
 	(*t_win)->nb_lines = 0;
 	(*t_win)->nb_columns = 0;
@@ -45,7 +46,6 @@ void	init_t_list_image(t_list_image **t_list, t_window *t_win)
 		exit(EXIT_FAILURE);
 	}
 	(*t_list)->t_win1 = t_win;
-	(*t_list)->t_win1 = t_win;
 }
 
 void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_window *t_win)
@@ -58,7 +58,7 @@ void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_wi
 	}
 	(*t_pos)->t_win1 = t_win;
 	(*t_pos)->t_list1 = t_list1;
-	(*t_pos)->image = NULL;
+	(*t_pos)->image = 0;
 	(*t_pos)->x_tab = 0;
 	(*t_pos)->y_tab = 0;
 	(*t_pos)->x_map = 0;//(*t_pos)->x_tab * SIZE;
@@ -69,6 +69,7 @@ void	init_t_position_image(t_position_image **t_pos, t_list_image *t_list1, t_wi
 	(*t_pos)->y1_image_p = 0;
 	(*t_pos)->move = 0;
 	(*t_pos)->nb_collect = 0;
+	(*t_pos)->anim_time = 0;
 	(*t_pos)->move_possible = 1;
 	
 }

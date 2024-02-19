@@ -35,6 +35,8 @@ void	first_anim_char(t_position_image *t_pos)
 	mlx = t_pos->t_win1->mlx;
 	win = t_pos->t_win1->win;
 	img_0 = t_pos->t_list1->img_0;
+	t_pos->image = 3; 
+	create_sprites(t_pos);
 	img_p3 = t_pos->t_list1->img_p3;
 	x0 = t_pos->x0_image_p;
 	y0 = t_pos->y0_image_p;
@@ -58,6 +60,8 @@ void	second_anim_char(t_position_image *t_pos)
 	mlx = t_pos->t_win1->mlx;
 	win = t_pos->t_win1->win;
 	img_0 = t_pos->t_list1->img_0;
+	t_pos->image = 4; 
+	create_sprites(t_pos);
 	img_p4 = t_pos->t_list1->img_p4;
 	x0 = t_pos->x0_image_p;
 	y0 = t_pos->y0_image_p;

@@ -18,6 +18,7 @@
 typedef struct s_window{
 	int				fd;
 	char			**tab;
+	char			**tab_modified;
 	char			**tab_cpy;
 	unsigned int	nb_lines;
 	unsigned int	nb_columns;
@@ -29,7 +30,7 @@ typedef struct s_window{
 }	t_window;
 
 //t_win1 initialized in main (main.c)
-//and free in main 
+//and free in main_display (main_display.c) via free_t_list1(t_list1) 
 
 typedef struct s_image{
 	unsigned int	x_tab;
@@ -56,6 +57,7 @@ typedef struct s_list_image{
 	void		*img_p3;
 	void		*img_p4;
 	void		*img_p5;
+	void		*image;
 }	t_list_image;
 
 //t_list1 initialized in main_display (main_display_images.c)
@@ -64,7 +66,7 @@ typedef struct s_list_image{
 typedef struct s_position_image{
 	t_window		*t_win1;
 	t_list_image	*t_list1;
-	char			*image;
+	int				image;
 	unsigned int	x_tab;
 	unsigned int	y_tab;
 	unsigned int	x_map;
@@ -87,12 +89,13 @@ typedef struct s_position_image{
 
 void	main_display(t_window *t_win);
 
-int		size_of_map(int fd, unsigned int *nb_columns, unsigned int *nb_lines);
-char	**read_map(int fd, unsigned int nb_columns, unsigned int nb_lines);
-char	**build_tab(int fd, unsigned int nb_columns, unsigned int nb_lines);
+void	size_of_map(t_window *t_win);
+void	read_map(t_window *t_win);
+void	build_tab(t_window *t_win);
+char	**ft_tab_cpy(t_window *t_win);
 
 void	create_tiles(t_list_image *t_list);
-void	create_sprites(t_list_image *t_list);
+void	create_sprites(t_position_image *t_pos);
 void	which_image(char **tab, t_image *t_img, t_list_image *t_list);
 void	display_images(t_list_image *t_list);
 
@@ -106,11 +109,11 @@ void	init_t_list_image(t_list_image **t_list, t_window *t_win);
 void	init_t_position_image(t_position_image **t_pos,
 			t_list_image *t_list1, t_window *t_win);
 
-void	destroy_all(t_list_image *t_list);
+void	destroy_all(t_list_image **t_list);
 void	destroy_image(t_list_image *t_list);
 void	free_t_list(t_list_image *t_list, char *error_message);
 void	free_t_win(t_window *t_win, char *error_message);
-void	free_tab(char **tab);
+void	free_tab(char ***tab);
 
 int		update(t_position_image *t_pos);
 void	move_image_1(t_position_image *t_pos);
@@ -128,6 +131,7 @@ void	to_exit(t_position_image *t_pos);
 
 void	check_map_validity(t_window *t_win, char *argv);
 void	verify_columns_and_lines(t_window *t_win);
+void	verify_invalid_Z(t_window *t_win);
 void	verify_extern_wall(t_window *t_win);
 void	verify_nb_collectibles(t_window *t_win);
 void	verify_nb_exit(t_window *t_win);

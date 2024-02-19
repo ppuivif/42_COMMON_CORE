@@ -2,22 +2,40 @@
 
 void	check_map_validity(t_window *t_win, char *argv)
 {
-	int size;
 	t_win->fd = open(argv, O_RDONLY);
-	size = size_of_map(t_win->fd, &t_win->nb_columns, &t_win->nb_lines);
+	size_of_map(t_win);
 	close(t_win->fd);
 	t_win->fd = open(argv, O_RDONLY);
-	t_win->tab = build_tab(t_win->fd, t_win->nb_columns, t_win->nb_lines);
+	read_map(t_win);
 	close(t_win->fd);
-	if (size == 0)
-		free_t_win(t_win, "Error\nFile .ber is empty\n");
+	t_win->tab_cpy = ft_tab_cpy(t_win);
+
+	build_tab(t_win);
+
+//	printf("%p\n", t_win->tab);
+
+	int i = 0;
+	while (t_win->tab[i])
+	{
+		free(t_win->tab[i]);
+		i++;
+	}
+	if (t_win->tab)
+		free(t_win->tab);
+	t_win->tab = NULL;
+//	free_tab(&t_win->tab);//free a valider
+
+//	printf("%p\n", t_win->tab);
+	
+/*	if (size == 0)
+		free_t_win(t_win, "Error\nFile .ber is empty\n");*/
 	verify_columns_and_lines(t_win);
+	verify_invalid_Z(t_win);
 	verify_extern_wall(t_win);
 	verify_nb_collectibles(t_win);
 	verify_nb_exit(t_win);
 	verify_nb_character(t_win);
 	find_image_p(t_win);
-	t_win->tab_cpy = ft_tab_cpy(t_win->tab, t_win->nb_lines, t_win->nb_columns);	
 	verify_way_validity(t_win);
 }
 
@@ -33,22 +51,37 @@ size_t	ft_strlen_nl(char *str)
 
 void	verify_columns_and_lines(t_window *t_win)
 {
-	char	**tab;
 	int		j;
 
-	tab = t_win->tab;
 	j = 0;
-	while (tab[j])
+	while (t_win->tab_cpy[j])
 	{
-		if(ft_strlen_nl(tab[j]) == t_win->nb_columns)
+		if(ft_strlen_nl(t_win->tab_cpy[j]) == t_win->nb_columns)
 			j++;
 		else
+			free_t_win(t_win, "Error\nMap is not rectangular\n");
+	}
+}
+
+void	verify_invalid_Z(t_window *t_win)
+{
+	int		i;
+	int		j;
+
+	j = 0;
+	while (t_win->tab_cpy[j])
+	{
+		i = 0;
+		while (t_win->tab_cpy[j][i])
 		{
-			printf("Error\nMap is not rectangular\n");
-			free_tab(t_win->tab);
-			free(t_win);
-			exit(1);
+			if(t_win->tab_cpy[j][i] != '0' && t_win->tab_cpy[j][i] != '1'
+				&& t_win->tab_cpy[j][i] != '2' && t_win->tab_cpy[j][i] != 'C'
+				&& t_win->tab_cpy[j][i] != 'E' && t_win->tab_cpy[j][i] != 'P'
+				&& t_win->tab_cpy[j][i] != '\n')
+				free_t_win(t_win, "Error\nThere is an invalid character in the map\n");
+			i++;
 		}
+		j++;
 	}
 }
 
@@ -59,59 +92,39 @@ void	verify_extern_wall(t_window *t_win)
 
 	i = 0;
 	j = 0;
-	while (t_win->tab[j][i] && t_win->tab[j][i] != '\n')
+	while (t_win->tab_cpy[j][i] && t_win->tab_cpy[j][i] != '\n')
 	{
-		if(t_win->tab[j][i] == '1')
+		if(t_win->tab_cpy[j][i] == '1')
 			i++;
 		else
-		{
-			free_tab(t_win->tab);
-			free(t_win);
-			printf("Error\nExtern wall isn't complete\n");
-			exit(1);
-		}
+			free_t_win(t_win, "Error\nExtern wall isn't complete\n");
 	}
 	i = 0;
 	j = t_win->nb_lines - 1;
-	while (t_win->tab[j][i] && t_win->tab[j][i] != '\n')
+	while (t_win->tab_cpy[j][i] && t_win->tab_cpy[j][i] != '\n')
 	{
-		if(t_win->tab[j][i] == '1')
+		if(t_win->tab_cpy[j][i] == '1')
 			i++;
 		else
-		{
-			free_tab(t_win->tab);
-			free(t_win);
-			printf("Error\nExtern wall isn't complete\n");
-			exit(1);
-		}
+			free_t_win(t_win, "Error\nExtern wall isn't complete\n");
 	}
 	i = 0;
 	j = 0;
-	while (t_win->tab[j])
+	while (t_win->tab_cpy[j])
 	{
-		if(t_win->tab[j][i] == '1')
+		if(t_win->tab_cpy[j][i] == '1')
 			j++;
 		else
-		{
-			free_tab(t_win->tab);
-			free(t_win);
-			printf("Error\nExtern wall isn't complete\n");
-			exit(1);
-		}
+			free_t_win(t_win, "Error\nExtern wall isn't complete\n");
 	}
 	i = t_win->nb_columns - 1;
 	j = 0;
-	while (t_win->tab[j])
+	while (t_win->tab_cpy[j])
 	{
-		if(t_win->tab[j][i] == '1')
+		if(t_win->tab_cpy[j][i] == '1')
 			j++;
 		else
-		{
-			free_tab(t_win->tab);
-			free(t_win);
-			printf("Error\nExtern wall isn't complete\n");
-			exit(1);
-		}
+			free_t_win(t_win, "Error\nExtern wall isn't complete\n");
 	}
 }
 
@@ -119,16 +132,14 @@ void	verify_nb_collectibles(t_window *t_win)
 {
 	int		i;
 	int		j;
-	char	**tab;
 
-	tab = t_win->tab;
 	j = 0;
-	while (tab[j])
+	while (t_win->tab_cpy[j])
 	{
 		i = 0;
-		while (tab[j][i])
+		while (t_win->tab_cpy[j][i])
 		{
-			if(tab[j][i] == 'C')
+			if(t_win->tab_cpy[j][i] == 'C')
 				t_win->nb_collect_tot += 1;
 			i++;
 			
@@ -136,12 +147,7 @@ void	verify_nb_collectibles(t_window *t_win)
 		j++;
 	}
 	if (t_win->nb_collect_tot == 0)
-	{
-		free_tab(t_win->tab);
-		free(t_win);
-		printf("Error\nCollectibles are missing\n");
-		exit(1);
-	}	
+		free_t_win(t_win, "Error\nCollectibles are missing\n");
 }
 
 void	verify_nb_exit(t_window *t_win)
@@ -152,12 +158,12 @@ void	verify_nb_exit(t_window *t_win)
 
 	j = 0;
 	nb_exit = 0;
-	while (t_win->tab[j])
+	while (t_win->tab_cpy[j])
 	{
 		i = 0;
-		while (t_win->tab[j][i])
+		while (t_win->tab_cpy[j][i])
 		{
-			if(t_win->tab[j][i] == 'E')
+			if(t_win->tab_cpy[j][i] == 'E')
 				nb_exit++;
 			i++;
 		}
@@ -166,18 +172,9 @@ void	verify_nb_exit(t_window *t_win)
 	if (nb_exit != 1)
 	{
 		if (nb_exit == 0)
-		{
-			free_tab(t_win->tab);
-			free(t_win);
-			printf("Error\nExit is missing\n");
-		}
+		free_t_win(t_win, "Error\nExit is missing\n");
 		if (nb_exit > 1)
-		{
-			free_tab(t_win->tab);
-			free(t_win);
-			printf("Error\nThere are too many exits\n");
-		}
-		exit(1);
+		free_t_win(t_win, "Error\nThere are too many exits\n");
 	}
 }
 
@@ -189,12 +186,12 @@ void	verify_nb_character(t_window *t_win)
 
 	j = 0;
 	nb_char = 0;
-	while (t_win->tab[j])
+	while (t_win->tab_cpy[j])
 	{
 		i = 0;
-		while (t_win->tab[j][i])
+		while (t_win->tab_cpy[j][i])
 		{
-			if(t_win->tab[j][i] == 'P')
+			if(t_win->tab_cpy[j][i] == 'P')
 				nb_char++;
 			i++;
 		}
@@ -203,12 +200,9 @@ void	verify_nb_character(t_window *t_win)
 	if (nb_char != 1)
 	{
 		if (nb_char == 0)
-			printf("Error\nCharacter is missing\n");
-		if (nb_char > 1)
-			printf("Error\nThere are too many characters\n");
-		free_tab(t_win->tab);
-		free(t_win);
-		exit(1);
+			free_t_win(t_win, "Error\nCharacter is missing\n");
+		else if (nb_char > 1)
+			free_t_win(t_win, "Error\nThere are too many characters\n");
 	}
 }
 
@@ -218,12 +212,12 @@ void find_image_p(t_window *t_win)
 	int		j;
 
 	j = 0;
-	while (t_win->tab[j])
+	while (t_win->tab_cpy[j])
 	{
 		i = 0;
-		while (t_win->tab[j][i])
+		while (t_win->tab_cpy[j][i])
 		{
-			if(t_win->tab[j][i] == 'P')
+			if(t_win->tab_cpy[j][i] == 'P')
 			{
 				t_win->x0_image_p = i;
 				t_win->y0_image_p = j;
@@ -296,12 +290,5 @@ void	verify_way_validity(t_window *t_win)
 {
 	flood_fill(t_win);
 	if (find_image(t_win, 'E') == 1 || find_image(t_win, 'C') == 1 )
-	{
-		printf("Error\nExit not reachable\n");
-		free_tab(t_win->tab);
-		free_tab(t_win->tab_cpy);
-		free(t_win);
-		exit(1);
-	}
-
+		free_t_win(t_win, "Error\nExit not reachable\n");
 }

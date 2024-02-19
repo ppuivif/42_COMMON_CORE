@@ -1,12 +1,15 @@
 #include "so_long.h"
 
-void	destroy_all(t_list_image *t_list)
+void	destroy_all(t_list_image **t_list)
 {
-	destroy_image(t_list);
-	if (t_list->t_win1->win)
-		mlx_destroy_window(t_list->t_win1->mlx, t_list->t_win1->win);
-	if (t_list->t_win1->mlx)
-		mlx_destroy_display(t_list->t_win1->mlx);
+	destroy_image(*t_list);
+	if ((*t_list)->t_win1->win)
+		mlx_destroy_window((*t_list)->t_win1->mlx, (*t_list)->t_win1->win);
+	if ((*t_list)->t_win1->mlx)
+	{
+		mlx_destroy_display((*t_list)->t_win1->mlx);
+		free((*t_list)->t_win1->mlx);
+	}
 }
 
 void	destroy_image(t_list_image *t_list)
@@ -37,38 +40,52 @@ void	destroy_image(t_list_image *t_list)
 
 void	free_t_list(t_list_image *t_list, char *error_message) 
 {
-	perror(error_message);
-	free_tab(t_list->t_win1->tab);
-	destroy_all(t_list);
+	//perror(error_message);
+//	if (t_list->t_win1->tab)
+//		free_tab(t_list->t_win1->tab);
+	if (t_list->t_win1->tab_cpy)
+		free_tab(&t_list->t_win1->tab_cpy);
+	if (t_list->t_win1->tab_modified)
+		free_tab(&t_list->t_win1->tab_modified);
+	destroy_all(&t_list);
 	if (t_list->t_win1)
 		free(t_list->t_win1);
 	if (t_list)
 		free(t_list);
+	printf("%s", error_message);
 	exit (EXIT_FAILURE);
 }
 
 void	free_t_win(t_window *t_win, char *error_message)
 {
-	perror(error_message);
-	free_tab(t_win->tab);
+	//perror(error_message);
+//	if (t_win->tab)
+//		free_tab(t_win->tab);
+	if (t_win->tab_cpy)
+		free_tab(&t_win->tab_cpy);
+	if (t_win->tab_modified)
+		free_tab(&t_win->tab_modified);
+	if (t_win->win)
+		mlx_destroy_window(t_win->mlx, t_win->win);
+	if (t_win->mlx)
+		mlx_destroy_display(t_win->mlx);
 	if (t_win)
 		free(t_win);
-	if (t_win)
-		free(t_win);
+	printf("%s", error_message);
 	exit (EXIT_FAILURE);
 }
 
-void free_tab(char **tab)
+void free_tab(char ***tab)
 {
 	unsigned int	i;
 
 	i = 0;
-	while (tab[i])
+	while ((*tab)[i])
 	{
-		free(tab[i]);
+		free((*tab)[i]);
 		i++;
 	}
-	if (tab)
-		free(tab);
-	tab = NULL;
+	if (*tab)
+		free(*tab);
+	*tab = NULL;
 }
