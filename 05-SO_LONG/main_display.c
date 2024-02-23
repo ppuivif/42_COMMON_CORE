@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_display.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/23 17:23:06 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/02/23 17:57:06 by ppuivif          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	main_display(t_window *t_win)
@@ -22,97 +34,36 @@ void	main_display(t_window *t_win)
 	mlx_loop(t_win->mlx);
 	free(t_pos1);
 	free_t_list(t_list1, "Succeed in destroy and free\n");
-mlx_destroy_display(t_win->mlx);
-free(t_win->mlx);
 }
 
 void	create_tiles(t_list_image *t_list)
 {
-	int	width;
-	int	height;
-
-	width = SIZE;
-	height = SIZE;
-	t_list->img_0 = mlx_png_file_to_image(t_list->t_win1->mlx,
-			"Images/img0.png", &width, &height);
-	t_list->img_1 = mlx_png_file_to_image(t_list->t_win1->mlx,
-			"Images/img1.png", &width, &height);
-	t_list->img_2= mlx_png_file_to_image(t_list->t_win1->mlx,
-			"Images/img2.png", &width, &height);
-	t_list->img_e = mlx_png_file_to_image(t_list->t_win1->mlx,
-			"Images/imgE.png", &width, &height);
-	t_list->img_c = mlx_png_file_to_image(t_list->t_win1->mlx,
-			"Images/imgC.png", &width, &height);
-	t_list->img_p = mlx_png_file_to_image(t_list->t_win1->mlx,
-			"Images/imgP.png", &width, &height);
-	if (t_list->img_0 == NULL || t_list->img_1 == NULL
-		|| t_list->img_p == NULL || t_list->img_e == NULL
-		|| t_list->img_c == NULL || t_list->img_p == NULL)
-		free_t_list(t_list, "Error\nAn image didn't could be created\n");
+	create_img_0(t_list);
+	create_img_1(t_list);
+	create_img_c(t_list);
+	create_img_e(t_list);
+	create_img_p(t_list);
 }
 
-void	create_sprites(t_position_image *t_pos)
+void	which_image_1(t_image *t_img, t_list_image *t_list)
 {
-	int	width;//verify exit after del png
-	int	height;
-
-	width = SIZE;
-	height = SIZE;
-/*	if (t_img->image == t_list->img_0 && !t_list->img_2)
-		t_list->img_2 = mlx_png_file_to_image(t_list->t_win1->mlx,
-			"Images/img2.png", &width, &height);*/
-	if (t_pos->image == 1 && !t_pos->t_list1->img_p1)
-	{
-		t_pos->t_list1->img_p1 = mlx_png_file_to_image(t_pos->t_win1->mlx,
-			"Images/imgP1.png", &width, &height);
-		if (t_pos->t_list1->img_p1 == NULL)
-			free_t_list(t_pos->t_list1, "Error\nAn image couldn't be created\n");
-	}
-	if (t_pos->image == 2 && !t_pos->t_list1->img_p2)
-	{
-		t_pos->t_list1->img_p2 = mlx_png_file_to_image(t_pos->t_win1->mlx,
-			"Images/imgP2.png", &width, &height);
-		if (t_pos->t_list1->img_p2 == NULL)
-			free_t_list(t_pos->t_list1, "Error\nAn image couldn't be created\n");
-	}
-	if (t_pos->image == 3 && !t_pos->t_list1->img_p3)
-	{
-		t_pos->t_list1->img_p3 = mlx_png_file_to_image(t_pos->t_win1->mlx,
-			"Images/imgP3.png", &width, &height);
-		if (t_pos->t_list1->img_p3 == NULL)
-			free_t_list(t_pos->t_list1, "Error\nAn image couldn't be created\n");
-	}
-	if (t_pos->image == 4 && !t_pos->t_list1->img_p4)
-	{
-		t_pos->t_list1->img_p4 = mlx_png_file_to_image(t_pos->t_win1->mlx,
-			"Images/imgP4.png", &width, &height);
-		if (t_pos->t_list1->img_p4 == NULL)
-			free_t_list(t_pos->t_list1, "Error\nAn image couldn't be created\n");
-	}
-	if (t_pos->image == 5 && !t_pos->t_list1->img_p5)
-	{
-		t_pos->t_list1->img_p5 = mlx_png_file_to_image(t_pos->t_win1->mlx,
-			"Images/imgP5.png", &width, &height);
-		if (t_pos->t_list1->img_p5 == NULL)
-			free_t_list(t_pos->t_list1, "Error\nAn image couldn't be created\n");
-	}			
-}
-
-void	which_image(char **tab, t_image *t_img, t_list_image *t_list)
-{
-	if (tab[t_img->y_tab][t_img->x_tab] == '0')
-		t_img->image = t_list->img_0;
-	if (tab[t_img->y_tab][t_img->x_tab] == '1')
-		t_img->image = t_list->img_1;
-	if (tab[t_img->y_tab][t_img->x_tab] == '2')
-		t_img->image = t_list->img_2;
-	if (tab[t_img->y_tab][t_img->x_tab] == 'E')
-		t_img->image = t_list->img_e;
-	if (tab[t_img->y_tab][t_img->x_tab] == 'C')
-		t_img->image = t_list->img_c;
-	if (tab[t_img->y_tab][t_img->x_tab] == 'P')
-		t_img->image = t_list->img_p;
 	t_img->image_0 = t_list->img_0;
+	if (t_list->t_win1->tab_modified[t_img->y_tab][t_img->x_tab] == '0')
+		t_img->image = t_list->img_0;
+	if (t_list->t_win1->tab_modified[t_img->y_tab][t_img->x_tab] == '1')
+		t_img->image = t_list->img_1;
+	if (t_list->t_win1->tab_modified[t_img->y_tab][t_img->x_tab] == '2')
+	{
+		if (!t_list->img_2)
+			create_img_2(t_list);
+		t_img->image = t_list->img_2;
+	}
+	if (t_list->t_win1->tab_modified[t_img->y_tab][t_img->x_tab] == 'C')
+		t_img->image = t_list->img_c;
+	if (t_list->t_win1->tab_modified[t_img->y_tab][t_img->x_tab] == 'E')
+		t_img->image = t_list->img_e;
+	if (t_list->t_win1->tab_modified[t_img->y_tab][t_img->x_tab] == 'P')
+		t_img->image = t_list->img_p;
 }
 
 void	display_images(t_list_image *t_list)
@@ -124,7 +75,7 @@ void	display_images(t_list_image *t_list)
 	{
 		while (t_img1->x_tab < t_list->t_win1->nb_columns)
 		{
-			which_image(t_list->t_win1->tab_modified, t_img1, t_list);
+			which_image_1(t_img1, t_list);
 			t_img1->x_map = t_img1->x_tab * SIZE;
 			t_img1->y_map = t_img1->y_tab * SIZE;
 			mlx_put_image_to_window(t_list->t_win1->mlx, t_list->t_win1->win,

@@ -9,5 +9,6 @@ typedef struct s_point
 
 void	print_tab(char **tab, t_point size);
 char **create_new_tab(char **tab, t_point size);
+void	flood_fill(char **tab, t_point size, t_point begin);
 
 #endif

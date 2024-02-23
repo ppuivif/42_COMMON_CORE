@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 15:55:33 by ppuivif           #+#    #+#             */
-/*   Updated: 2023/11/20 12:14:56 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/23 17:32:51 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ char	*ft_strchr(const char *s, int c)
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
-			return ((char *)&(s[i]));//or ((char *)&(s + i))
+			return ((char *)&(s[i]));
 		i++;
 	}
-	if (s[i] == (char)c)//case where c = '\0'
-		return ((char *)&(s[i]));// or ((char *)&(s + i))
+	if (s[i] == (char)c)
+		return ((char *)&(s[i]));
 	return (0);
 }

@@ -69,7 +69,6 @@ void	print_tab(char **tab, t_point size)
 
 	while(j < size.y)
 	{
-101110
 		while(i < size.x)
 		{
 			printf("%c", tab[j][i]);
@@ -96,8 +95,8 @@ int	main()
 	size.y = 4;
 
 	t_point begin;
-	begin.x = 1;
-	begin.y = 5;
+	begin.x = 2;
+	begin.y = 1;
 
 	print_tab(tab, size);
 	printf("\n");

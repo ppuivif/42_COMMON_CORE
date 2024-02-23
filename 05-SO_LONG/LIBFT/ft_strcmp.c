@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 11:00:49 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/10 17:31:06 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/23 17:34:07 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	int i;
+	int				i;
 	unsigned char	*str1;
 	unsigned char	*str2;
 
