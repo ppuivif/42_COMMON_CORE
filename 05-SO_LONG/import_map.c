@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:22:26 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/23 17:56:24 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/24 16:28:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	size_of_map(t_window *t_win)
 	tmp = get_next_line(t_win->fd);
 	if (!tmp)
 	{
-		ft_putstr_fd("Error\nMap couldn't be read\n", 1);
+		free_t_win(t_win, "Error\nMap couldn't be read\n");
 		exit (EXIT_FAILURE);
 	}
 	t_win->nb_columns = ft_strlen(tmp) - 1;
@@ -46,7 +46,7 @@ void	read_map(t_window *t_win)
 	t_win->tab = ft_calloc((t_win->nb_lines + 1), sizeof (char *));
 	if (!t_win->tab)
 	{
-		ft_putstr_fd("Error\nArray couldn't be created\n", 1);
+		free_t_win(t_win, "Error\nArray tab couldn't be created\n");
 		exit (EXIT_FAILURE);
 	}
 	while (j < t_win->nb_lines)
@@ -87,7 +87,7 @@ char	**ft_tab_cpy(t_window *t_win)
 	new_tab = ft_calloc(t_win->nb_lines + 1, sizeof(char *));
 	if (!new_tab)
 	{
-		ft_putstr_fd("Error\nArray couldn't be created\n", 1);
+		free_t_win(t_win, "Error\nArray new_tab couldn't be created\n");
 		exit (EXIT_FAILURE);
 	}
 	while (j < t_win->nb_lines && t_win->tab[j])

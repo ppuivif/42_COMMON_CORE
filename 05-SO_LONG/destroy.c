@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:21:46 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/23 17:21:50 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/24 18:06:07 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	destroy_image_2(t_list_image *t_list)
 		mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p2);
 	if (t_list->img_p3)
 		mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p3);
+	if (t_list->img_p4)
+		mlx_destroy_image(t_list->t_win1->mlx, t_list->img_p4);
 	if (t_list->img_pup)
 		mlx_destroy_image(t_list->t_win1->mlx, t_list->img_pup);
 	if (t_list->img_pdown)

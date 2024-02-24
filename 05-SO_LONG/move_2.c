@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:23:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/23 20:14:51 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/24 17:02:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,25 @@ void	which_image_2(t_position_image *t_pos)
 	if (ft_strcmp(t_pos->image, "Pup") == 0)
 	{
 		if (!t_pos->t_list1->img_pup)
-			create_img_pup(t_pos->t_list1);
+			create_img_pup(t_pos);
 		t_pos->t_list1->img = t_pos->t_list1->img_pup;
 	}
 	if (ft_strcmp(t_pos->image, "Pdown") == 0)
 	{
 		if (!t_pos->t_list1->img_pdown)
-			create_img_pdown(t_pos->t_list1);
+			create_img_pdown(t_pos);
 		t_pos->t_list1->img = t_pos->t_list1->img_pdown;
 	}
 	if (ft_strcmp(t_pos->image, "Pright") == 0)
 	{
 		if (!t_pos->t_list1->img_pright)
-			create_img_pright(t_pos->t_list1);
+			create_img_pright(t_pos);
 		t_pos->t_list1->img = t_pos->t_list1->img_pright;
 	}
 	if (ft_strcmp(t_pos->image, "Pleft") == 0)
 	{
 		if (!t_pos->t_list1->img_pleft)
-			create_img_pleft(t_pos->t_list1);
+			create_img_pleft(t_pos);
 		t_pos->t_list1->img = t_pos->t_list1->img_pleft;
 	}
 }
@@ -94,11 +94,8 @@ void	move_image_2(t_position_image *t_pos)
 
 void	to_collectible(t_position_image *t_pos)
 {
-	t_pos->anim_time = 0;
 	t_pos->move_possible = 0;
-	
 	t_pos->begin = time(NULL);
-	printf("begin %ld\n", t_pos->begin);
 	mlx_loop_hook(t_pos->t_win1->mlx, anim_char, t_pos);
 	t_pos->move++;
 	t_pos->t_win1->tab_modified[t_pos->y1_image_p][t_pos->x1_image_p] = 0;

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:22:37 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/23 20:07:36 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/24 13:45:06 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	init_t_window(t_window **t_win)
 	(*t_win)->win = NULL;
 	(*t_win)->x0_image_p = 0;
 	(*t_win)->y0_image_p = 0;
+	(*t_win)->x0_begin = 0;
+	(*t_win)->y0_begin = 0;
 }
 
 void	init_t_image(t_image **t_img)
@@ -86,7 +88,6 @@ void	init_t_position_image(t_position_image **t_pos,
 	(*t_pos)->y1_image_p = 0;
 	(*t_pos)->move = 0;
 	(*t_pos)->nb_collect = 0;
-	(*t_pos)->anim_time = 0;
 	(*t_pos)->move_possible = 1;
 	(*t_pos)->begin = 0;
 }
