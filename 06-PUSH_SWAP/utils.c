@@ -49,7 +49,7 @@ int	ft_atoi_long(char *str)
 	nb = 0;
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	while (str[i] == 43 || str[i] == 45)
+	if (str[i] == 43 || str[i] == 45)
 	{
 		if (str[i] == 45)
 			sign = -1;
@@ -80,6 +80,7 @@ void	print_tab_str(char **tab_str)
 		ft_putstr_fd("\n", 1);
 		i++;
 	}
+	ft_putstr_fd("\n", 1);
 }
 
 void	print_tab_int(int *tab_int, int count)
@@ -93,6 +94,7 @@ void	print_tab_int(int *tab_int, int count)
 		ft_putstr_fd("\n", 1);
 		i++;
 	}
+	ft_putstr_fd("\n", 1);
 }
 
 char	*ft_strjoin_freed(char *s1, char *s2)
@@ -119,3 +121,28 @@ char	*ft_strjoin_freed(char *s1, char *s2)
 	free(s1);
 	return (str);
 }
+void	check_no_duplicate(int *tab_int, int count)
+{
+	int	i;
+	int j;
+
+	i = 0;
+	while (i < count)
+	{
+		j = 1;
+		while (j < count)
+		{
+			if (tab_int[i] == tab_int[i + j])
+			{
+//				free_tab(tab_str);
+				free(tab_int);
+				ft_putstr_fd("Error\nThere is at least one duplicate\n", 2);
+				exit (EXIT_FAILURE);
+			}
+			else
+			j++;
+		}
+		i++;
+	}
+}
+

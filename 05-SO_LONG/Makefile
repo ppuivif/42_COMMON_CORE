@@ -5,8 +5,8 @@ NAME=so_long
 SOURCES=main_display.c check_validity_1.c check_validity_2.c \
 			check_validity_3.c import_map.c \
 			create_image_1.c create_image_2.c create_image_3.c \
-			events.c move_1.c move_2.c anim_char.c \
-			init_struct.c destroy.c free.c \
+			events.c move_1.c move_2.c anim_char_1.c \
+			anim_char_2.c init_struct.c destroy.c free.c \
 			main.c
 
 SOURCES+=GNL/get_next_line.c GNL/get_next_line_utils.c

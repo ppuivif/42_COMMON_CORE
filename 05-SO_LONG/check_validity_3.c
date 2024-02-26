@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:20:51 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 13:17:27 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 20:35:49 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ void	verify_way_validity(t_window *t_win)
 {
 	flood_fill(t_win->tab, t_win->x0_image_p, t_win->y0_image_p);
 	if (find_image(t_win, 'E') == 1 || find_image(t_win, 'C') == 1)
-		free_t_win(t_win, "Error\nExit not reachable\n");
+		free_t_win(t_win, "Error\nExit is not reachable\n");
 }

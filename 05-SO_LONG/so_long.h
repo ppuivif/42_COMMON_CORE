@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:24:57 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 16:01:13 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 18:07:38 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@
 # include <stdlib.h>
 # include <time.h>
 
-
-#include <stdio.h> //ATTENTION
-
 typedef struct s_window{
 	int				fd;
 	char			**tab;
@@ -45,18 +42,6 @@ typedef struct s_window{
 
 //t_win1 initialized in main (main.c)
 //and free in main_display (main_display.c) via free_t_list1(t_list1) 
-
-typedef struct s_image{
-	unsigned int	x_tab;
-	unsigned int	y_tab;
-	unsigned int	x_map;
-	unsigned int	y_map;
-	void			*image;
-	void			*image_0;
-}	t_image;
-
-//t_img1 initialized in main_display (display_images.c)
-//and free in main_display
 
 typedef struct s_list_image{
 	t_window	*t_win1;
@@ -83,7 +68,8 @@ typedef struct s_list_image{
 typedef struct s_position_image{
 	t_window		*t_win1;
 	t_list_image	*t_list1;
-	char			*image;
+	void			*image;
+	void			*image_0;
 	unsigned int	x_tab;
 	unsigned int	y_tab;
 	unsigned int	x_map;
@@ -127,10 +113,9 @@ void	verify_way_validity(t_window *t_win);
 
 void	init_t_window(t_window **t_win);
 void	init_t_window_cpy(t_window *t_win);
-void	init_t_image(t_image **t_img);
 void	init_t_list_image(t_list_image **t_list, t_window *t_win);
 void	init_t_position_image(t_position_image **t_pos,
-			t_list_image *t_list1, t_window *t_win);
+			t_list_image *t_list, t_window *t_win);
 
 void	destroy_all(t_list_image *t_list);
 void	destroy_image_1(t_list_image *t_list);
@@ -156,14 +141,14 @@ void	create_img_pup(t_position_image *t_pos);
 void	create_img_pdown(t_position_image *t_pos);
 void	create_img_pright(t_position_image *t_pos);
 void	create_img_pleft(t_position_image *t_pos);
-void	which_image_1(t_image *t_img, t_position_image *t_pos);
+void	which_image_1(t_position_image *t_pos);
 void	which_image_2(t_position_image *t_pos);
 void	display_images(t_position_image *t_pos);
 
 int		key_hook(int key, void *param);
 int		window_hook(int event, void *param);
 
-int		update(t_position_image *t_pos);
+void	update(t_position_image *t_pos);
 void	move_image_1(t_position_image *t_pos);
 void	move_image_2(t_position_image *t_pos);
 void	move_image_up(t_position_image *t_pos);
@@ -175,6 +160,7 @@ void	first_anim_char(t_position_image *t_pos);
 void	second_anim_char(t_position_image *t_pos);
 void	third_anim_char(t_position_image *t_pos);
 void	fourth_anim_char(t_position_image *t_pos);
+void	fifth_anim_char(t_position_image *t_pos);
 void	to_collectible(t_position_image *t_pos);
 void	to_exit(t_position_image *t_pos);
 

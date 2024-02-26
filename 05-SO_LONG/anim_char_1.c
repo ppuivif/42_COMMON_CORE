@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   anim_char.c                                        :+:      :+:    :+:   */
+/*   anim_char_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:19:16 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 10:37:21 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 17:58:59 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,8 @@ int	anim_char(void *param)
 	if (difftime(end, t_pos4->begin) == (2200 / 1000))
 		fourth_anim_char(t_pos4);
 	if (difftime(end, t_pos4->begin) == (2800 / 1000))
-	{
-		t_pos4->x0_image_p = t_pos4->x1_image_p;
-		t_pos4->y0_image_p = t_pos4->y1_image_p;
-	}
-	if (difftime(end, t_pos4->begin) == (3800 / 1000))
+		fifth_anim_char(t_pos4);
+	if (difftime(end, t_pos4->begin) == (3500 / 1000))
 		t_pos4->move_possible = 1;
 	return (t_pos4->move_possible);
 }
@@ -51,6 +48,9 @@ void	first_anim_char(t_position_image *t_pos)
 	y0 = t_pos->y0_image_p;
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		t_pos->t_list1->img_0, x0 * SIZE, y0 * SIZE);
+	if (t_pos->t_win1->tab_modified[y0][x0] == 'E')
+		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
+			t_pos->t_list1->img_e, x0 * SIZE, y0 * SIZE);
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		t_pos->t_list1->img_p1, x0 * SIZE, y0 * SIZE);
 }
@@ -70,6 +70,9 @@ void	second_anim_char(t_position_image *t_pos)
 	y1 = t_pos->y1_image_p;
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		t_pos->t_list1->img_0, x0 * SIZE, y0 * SIZE);
+	if (t_pos->t_win1->tab_modified[y0][x0] == 'E')
+		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
+			t_pos->t_list1->img_e, x0 * SIZE, y0 * SIZE);
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		t_pos->t_list1->img_0, x1 * SIZE, y1 * SIZE);
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
@@ -91,6 +94,9 @@ void	third_anim_char(t_position_image *t_pos)
 	y1 = t_pos->y1_image_p;
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		t_pos->t_list1->img_0, x0 * SIZE, y0 * SIZE);
+	if (t_pos->t_win1->tab_modified[y0][x0] == 'E')
+		mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
+			t_pos->t_list1->img_e, x0 * SIZE, y0 * SIZE);
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		t_pos->t_list1->img_0, x1 * SIZE, y1 * SIZE);
 	mlx_put_image_to_window(t_pos->t_win1->mlx, t_pos->t_win1->win,

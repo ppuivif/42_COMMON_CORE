@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:22:15 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 14:30:43 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 19:58:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_t_list(t_list_image *t_list, char *error_message)
 		free(t_list->t_win1);
 	if (t_list)
 		free(t_list);
-	ft_putstr_fd(error_message, 1);
+	ft_putstr_fd(error_message, 2);
 	exit (EXIT_FAILURE);
 }
 
@@ -39,7 +39,7 @@ void	free_t_win(t_window *t_win, char *error_message)
 		mlx_destroy_display(t_win->mlx);
 	if (t_win)
 		free(t_win);
-	ft_putstr_fd(error_message, 1);
+	ft_putstr_fd(error_message, 2);
 	exit (EXIT_FAILURE);
 }
 
@@ -56,7 +56,7 @@ void	free_t_pos(t_position_image *t_pos, char *error_message)
 		free(t_pos->t_list1);
 	if (t_pos)
 		free(t_pos);
-	ft_putstr_fd(error_message, 1);
+	ft_putstr_fd(error_message, 2);
 	exit (EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:23:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 13:53:35 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 16:34:53 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,6 @@ void	to_exit(t_position_image *t_pos)
 	ft_putstr_fd("move counter = ", 1);
 	ft_putnbr_fd(t_pos->move, 1);
 	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("				!GAME OVER!\n", 1);
+	ft_putstr_fd("				!GOOD GAME!\n", 1);
 	mlx_loop_end(t_pos->t_win1->mlx);
 }

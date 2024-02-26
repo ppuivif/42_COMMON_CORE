@@ -13,14 +13,14 @@ void	check_parameters_are_integers(char **tab_str)
 		{	
 			free_tab(tab_str);
 			ft_putstr_fd("Error\nAt least one parameter " \
-				"is out of range of integers\n", 1);
+				"is out of range of integers\n", 2);
 			exit (EXIT_FAILURE);
 		}		
 		else if (ft_atoi_long(tab_str[i]) == -1)
 		{
 			free_tab(tab_str);
 			ft_putstr_fd("Error\nAt leat one parameter " \
-				"isn't an integer\n", 1);
+				"isn't an integer\n", 2);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -55,6 +55,7 @@ int	main(int argc, char **argv)
 	char	**tab_str;
 	int 	count;
 	int 	*tab_int;
+	int		*sort_tab;
 	int		i;
 
 	count = 0;
@@ -62,23 +63,27 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 	{
 		ft_putstr_fd("Error\nArguments are missing " \
-			"in the command line\n", 1);
+			"in the command line\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	str = ft_strjoin(argv[1], " ");
 	while (argv[i])
 	{
 		str = ft_strjoin_freed(str, argv[i]);
+		str = ft_strjoin_freed(str, " ");
 		i++;
 	}
 	tab_str = ft_split(str, ' ');
 	free(str);
 	count = count_parameters(tab_str);
 	printf("count : %d\n", count);
+	ft_putstr_fd("\n", 1);
 	check_parameters_are_integers(tab_str);
-//	check_no_doublons();
 	print_tab_str(tab_str);
 	tab_int = build_tab(tab_str, count);
+	check_no_duplicate(tab_int, count);
+	print_tab_int(tab_int, count);
+	sort_tab = ft_sort(tab_int, count);
 	print_tab_int(tab_int, count);
 	free_tab(tab_str);
 	free(tab_int);

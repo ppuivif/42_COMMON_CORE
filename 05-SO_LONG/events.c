@@ -6,19 +6,18 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:22:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 14:35:46 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 16:51:15 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	update(t_position_image *t_pos)
+void	update(t_position_image *t_pos)
 {
 	mlx_on_event(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		MLX_KEYDOWN, key_hook, t_pos);
 	mlx_on_event(t_pos->t_win1->mlx, t_pos->t_win1->win,
 		MLX_WINDOW_EVENT, window_hook, t_pos);
-	return (0);
 }
 
 int	key_hook(int key, void *param)

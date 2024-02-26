@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:19:43 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 14:47:06 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 20:34:36 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	check_map_file(char *str)
 
 	fd = 0;
 	st = ft_strrchr(str, '.');
-	if (ft_strcmp(st, ".ber") != 0)
+	if (!st || ft_strcmp(st, ".ber") != 0)
 	{
-		ft_putstr_fd("Error\nType of map file is not correct\n", 1);
+		ft_putstr_fd("Error\nType of map file is not correct\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_putstr_fd("Error\nMap file couldn't be opened\n", 1);
+		ft_putstr_fd("Error\nMap file couldn't be opened\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
@@ -41,8 +41,8 @@ void	check_map_validity(t_window *t_win, char *argv)
 	t_win->fd = open(argv, O_RDONLY);
 	read_map(t_win);
 	close(t_win->fd);
-	build_tab(t_win);
 	verify_columns_and_lines(t_win);
+	build_tab(t_win);
 	verify_invalid_z(t_win);
 	verify_extern_wall_1(t_win);
 	verify_extern_wall_2(t_win);
@@ -81,8 +81,8 @@ void	verify_invalid_z(t_window *t_win)
 			if (t_win->tab[j][i] != '0' && t_win->tab[j][i] != '1'
 				&& t_win->tab[j][i] != '2' && t_win->tab[j][i] != 'C'
 				&& t_win->tab[j][i] != 'E' && t_win->tab[j][i] != 'P')
-				free_t_win(t_win, "Error\nThere is an invalid character \
-					in the map\n");
+				free_t_win(t_win, "Error\nThere is an invalid character " \
+					"in the map\n");
 			i++;
 		}
 		j++;
