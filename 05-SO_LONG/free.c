@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:22:15 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/24 10:10:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 14:30:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	free_t_list(t_list_image *t_list, char *error_message)
 {
-	if (t_list->t_win1->tab_cpy)
-		free_tab(t_list->t_win1->tab_cpy);
+	if (t_list->t_win1->tab)
+		free_tab(t_list->t_win1->tab);
 	if (t_list->t_win1->tab_modified)
 		free_tab(t_list->t_win1->tab_modified);
 	destroy_all(t_list);
@@ -29,8 +29,8 @@ void	free_t_list(t_list_image *t_list, char *error_message)
 
 void	free_t_win(t_window *t_win, char *error_message)
 {
-	if (t_win->tab_cpy)
-		free_tab(t_win->tab_cpy);
+	if (t_win->tab)
+		free_tab(t_win->tab);
 	if (t_win->tab_modified)
 		free_tab(t_win->tab_modified);
 	if (t_win->win)
@@ -45,8 +45,8 @@ void	free_t_win(t_window *t_win, char *error_message)
 
 void	free_t_pos(t_position_image *t_pos, char *error_message)
 {
-	if (t_pos->t_win1->tab_cpy)
-		free_tab(t_pos->t_win1->tab_cpy);
+	if (t_pos->t_win1->tab)
+		free_tab(t_pos->t_win1->tab);
 	if (t_pos->t_win1->tab_modified)
 		free_tab(t_pos->t_win1->tab_modified);
 	destroy_all(t_pos->t_list1);

@@ -1,40 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_sort_params.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/23 17:25:36 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 14:04:32 by ppuivif          ###   ########.fr       */
+/*   Created: 2023/09/03 21:57:29 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/02/25 20:27:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+void	ft_swap_int(int *a, int *b)
 {
-	unsigned int	i;
-	char			*str;
+	int	tmp;
 
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start > (unsigned int)ft_strlen(s))
-		len = 0;
-	else if (len > ft_strlen(&s[start]))
-		len = ft_strlen(&s[start]);
-	str = malloc((len + 1) * sizeof(char));
-	if (str)
-	{
-		while (i < (unsigned int)len)
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+int	*ft_sort(int *tab, int count)
+{
+	int *new_tab;
+	int i;
+	int hits;
+
+	new_tab = malloc(count * sizeof(int));
+	if (!new_tab)
+		exit (EXIT_FAILURE);
+	while (hits > count)
+	{	
+		i = 0;
+		while (i < count - 1)
 		{
-			str[i] = s[start + i];
+			if (tab[i] > tab[i + 1])
+				ft_swap(tab[i], tab[i + 1]);
+			if (tab[i] < tab[i + 1])
+			{
+				new_tab[i] = tab[i + 1];
+				hits++;
+			}
 			i++;
 		}
-		str[i] = 0;
-		free((char *)s);
-		return (str);
 	}
-	return (NULL);
 }

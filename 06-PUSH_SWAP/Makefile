@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-Wall -Werror -Wextra -g
 NAME=push_swap
-SOURCES=push_swap.c
+SOURCES=push_swap.c free.c
 OBJECTS=$(SOURCES:.c=.o)
 
 all: $(NAME)

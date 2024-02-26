@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:22:26 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/24 16:28:04 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 14:32:50 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	read_map(t_window *t_win)
 	}
 	while (j < t_win->nb_lines)
 	{
-		t_win->tab[j] = get_next_line(t_win->fd);
+		t_win->tab[j] = ft_strtrim(get_next_line(t_win->fd), "\n");
 		j++;
 	}
 	close (t_win->fd);

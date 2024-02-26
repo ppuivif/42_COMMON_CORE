@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:24:57 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/24 18:58:26 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 16:01:13 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@
 # include <stdlib.h>
 # include <time.h>
 
+
+#include <stdio.h> //ATTENTION
+
 typedef struct s_window{
 	int				fd;
 	char			**tab;
 	char			**tab_modified;
-	char			**tab_cpy;
 	unsigned int	nb_lines;
 	unsigned int	nb_columns;
 	unsigned int	nb_collect_tot;
@@ -39,8 +41,6 @@ typedef struct s_window{
 	void			*win;
 	unsigned int	x0_image_p;
 	unsigned int	y0_image_p;
-	unsigned int	x0_begin;
-	unsigned int	y0_begin;
 }	t_window;
 
 //t_win1 initialized in main (main.c)

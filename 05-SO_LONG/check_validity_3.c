@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:20:51 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/24 16:37:50 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 13:17:27 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	verify_nb_character(t_window *t_win)
 
 	j = 0;
 	nb_char = 0;
-	while (t_win->tab_cpy[j])
+	while (t_win->tab[j])
 	{
 		i = 0;
-		while (t_win->tab_cpy[j][i])
+		while (t_win->tab[j][i])
 		{
-			if (t_win->tab_cpy[j][i] == 'P')
+			if (t_win->tab[j][i] == 'P')
 				nb_char++;
 			i++;
 		}
@@ -46,12 +46,12 @@ void	find_image_p(t_window *t_win)
 	int		j;
 
 	j = 0;
-	while (t_win->tab_cpy[j])
+	while (t_win->tab[j])
 	{
 		i = 0;
-		while (t_win->tab_cpy[j][i])
+		while (t_win->tab[j][i])
 		{
-			if (t_win->tab_cpy[j][i] == 'P')
+			if (t_win->tab[j][i] == 'P')
 			{
 				t_win->x0_image_p = i;
 				t_win->y0_image_p = j;
@@ -69,12 +69,12 @@ int	find_image(t_window *t_win, char c)
 	int		j;
 
 	j = 0;
-	while (t_win->tab_cpy[j])
+	while (t_win->tab[j])
 	{
 		i = 0;
-		while (t_win->tab_cpy[j][i])
+		while (t_win->tab[j][i])
 		{
-			if (t_win->tab_cpy[j][i] == c)
+			if (t_win->tab[j][i] == c)
 				return (1);
 			i++;
 		}
@@ -98,7 +98,7 @@ void	flood_fill(char **tab, unsigned int x, unsigned int y)
 
 void	verify_way_validity(t_window *t_win)
 {
-	flood_fill(t_win->tab_cpy, t_win->x0_begin, t_win->y0_begin);
+	flood_fill(t_win->tab, t_win->x0_image_p, t_win->y0_image_p);
 	if (find_image(t_win, 'E') == 1 || find_image(t_win, 'C') == 1)
 		free_t_win(t_win, "Error\nExit not reachable\n");
 }

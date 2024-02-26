@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:19:43 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/24 18:59:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/26 14:47:06 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ void	check_map_validity(t_window *t_win, char *argv)
 	t_win->fd = open(argv, O_RDONLY);
 	read_map(t_win);
 	close(t_win->fd);
-	t_win->tab_cpy = ft_tab_cpy(t_win);
 	build_tab(t_win);
-	free_tab(t_win->tab);
 	verify_columns_and_lines(t_win);
 	verify_invalid_z(t_win);
 	verify_extern_wall_1(t_win);
@@ -52,19 +50,7 @@ void	check_map_validity(t_window *t_win, char *argv)
 	verify_nb_exit(t_win);
 	verify_nb_character(t_win);
 	find_image_p(t_win);
-	t_win->y0_begin = t_win->y0_image_p;
-	t_win->x0_begin = t_win->x0_image_p;
 	verify_way_validity(t_win);
-}
-
-size_t	ft_strlen_nl(char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (str && str[len] && str[len] != '\n')
-		len++;
-	return (len);
 }
 
 void	verify_columns_and_lines(t_window *t_win)
@@ -72,11 +58,58 @@ void	verify_columns_and_lines(t_window *t_win)
 	int		j;
 
 	j = 0;
-	while (t_win->tab_cpy[j])
+	while (t_win->tab[j])
 	{
-		if (ft_strlen_nl(t_win->tab_cpy[j]) == t_win->nb_columns)
+		if (ft_strlen(t_win->tab[j]) == t_win->nb_columns)
 			j++;
 		else
 			free_t_win(t_win, "Error\nMap is not rectangular\n");
+	}
+}
+
+void	verify_invalid_z(t_window *t_win)
+{
+	int		i;
+	int		j;
+
+	j = 0;
+	while (t_win->tab[j])
+	{
+		i = 0;
+		while (t_win->tab[j][i])
+		{
+			if (t_win->tab[j][i] != '0' && t_win->tab[j][i] != '1'
+				&& t_win->tab[j][i] != '2' && t_win->tab[j][i] != 'C'
+				&& t_win->tab[j][i] != 'E' && t_win->tab[j][i] != 'P')
+				free_t_win(t_win, "Error\nThere is an invalid character \
+					in the map\n");
+			i++;
+		}
+		j++;
+	}
+}
+
+void	verify_extern_wall_1(t_window *t_win)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (t_win->tab[j][i] && t_win->tab[j][i] != '\n')
+	{
+		if (t_win->tab[j][i] == '1')
+			i++;
+		else
+			free_t_win(t_win, "Error\nExtern wall isn't complete\n");
+	}
+	i = 0;
+	j = t_win->nb_lines - 1;
+	while (t_win->tab[j][i] && t_win->tab[j][i] != '\n')
+	{
+		if (t_win->tab[j][i] == '1')
+			i++;
+		else
+			free_t_win(t_win, "Error\nExtern wall isn't complete\n");
 	}
 }
