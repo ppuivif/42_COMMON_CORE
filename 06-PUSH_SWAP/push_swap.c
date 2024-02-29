@@ -1,61 +1,12 @@
 #include "push_swap.h"
 
-void	check_parameters_are_integers(char **tab_str)
-{
-	int i;
-
-	i = 0;
-	while(tab_str[i])
-	{
-		if (ft_atoi_long(tab_str[i]) == 1)
-			i++;
-		else if (ft_atoi_long(tab_str[i]) == 0)
-		{	
-			free_tab(tab_str);
-			ft_putstr_fd("Error\nAt least one parameter " \
-				"is out of range of integers\n", 2);
-			exit (EXIT_FAILURE);
-		}		
-		else if (ft_atoi_long(tab_str[i]) == -1)
-		{
-			free_tab(tab_str);
-			ft_putstr_fd("Error\nAt leat one parameter " \
-				"isn't an integer\n", 2);
-			exit(EXIT_FAILURE);
-		}
-	}
-}
-	
-int	*build_tab(char **tab_str, int count)
-{
-	int *tab_int;
-	int nb;
-	int i;
-	
-	tab_int = malloc(count * sizeof(int));
-	if (!tab_int)
-	{
-		free_tab(tab_str);
-		return (NULL);// correct ?
-	}
-	nb = 0;
-	i = 0;
-	while(tab_str[i])
-	{
-		nb = ft_atoi(tab_str[i]);
-		tab_int[i] = nb;
-		i++;
-	}
-	return (tab_int);
-}
-
 int	main(int argc, char **argv)
 {
 	char	*str;
-	char	**tab_str;
-	int 	count;
-	int 	*tab_int;
-	int		*sort_tab;
+	char	**str_arr;
+	int		count;
+	int		*int_arr;
+	void	*sort_arr;
 	int		i;
 
 	count = 0;
@@ -73,18 +24,20 @@ int	main(int argc, char **argv)
 		str = ft_strjoin_freed(str, " ");
 		i++;
 	}
-	tab_str = ft_split(str, ' ');
+	str_arr = ft_split(str, ' ');
 	free(str);
-	count = count_parameters(tab_str);
+	count = count_parameters(str_arr);
 	printf("count : %d\n", count);
 	ft_putstr_fd("\n", 1);
-	check_parameters_are_integers(tab_str);
-	print_tab_str(tab_str);
-	tab_int = build_tab(tab_str, count);
-	check_no_duplicate(tab_int, count);
-	print_tab_int(tab_int, count);
-	sort_tab = ft_sort(tab_int, count);
-	print_tab_int(tab_int, count);
-	free_tab(tab_str);
-	free(tab_int);
+	check_parameters_are_integers(str_arr);
+	print_tab_str(str_arr);
+	int_arr = build_tab(str_arr, count);
+	check_no_duplicate(int_arr, count);
+	print_tab_int(int_arr, count);
+	sort_arr = ft_sort(int_arr, count);
+	print_tab_int(int_arr, count);
+
+//	build_linked_list(int_arr, count);
+	free_tab(str_arr);
+	free(int_arr);
 }

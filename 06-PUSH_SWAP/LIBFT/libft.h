@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:20:42 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/14 15:51:54 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/02/29 20:20:37 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct s_list
+{
+	void			*content;
+	void			*position;
+	struct s_list	*next;
+	struct s_list	*previous;
+}	t_list;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -53,5 +61,12 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);	
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+
+t_list	*ft_lst_dc_new(void *content, void *position);
+void	ft_lst_dc_add_back(t_list **list, t_list *new_element);
+void	ft_lst_dc_add_front(t_list **list, t_list *new_element);
+t_list	*ft_lst_dc_last(t_list *list);
+size_t	ft_lst_dc_size(t_list *list);
+void	ft_lst_dc_print(t_list *list);
 
 #endif

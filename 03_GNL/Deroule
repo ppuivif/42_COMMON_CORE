@@ -1,0 +1,9 @@
+Définir 3 variables de type char * :
+	- tmp qui va recevoir la lecture,
+	- buf (en static) qui va être réutilisée d'une lecture à une autre,
+	- line qui sera retournée,
+
+Définir une variable de type int
+	-nb_read_bytes qui va recevoir le retour de la fonction read, ie le nombre de bytes lus,
+
+Définir une "macro" BUFFER_SIZE pour accueillir la taille du buffer (tmp)

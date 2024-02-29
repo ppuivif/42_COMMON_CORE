@@ -1,119 +1,66 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/14 14:15:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/01/09 18:00:21 by ppuivif          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
-
-int	find_line_return(char *s)
-{
-	int		i;
-
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\n')
-			return (i + 1);
-		i++;
-	}
-	return (0);
-}
-
-static char	*eof(char **buf, char **line, char **tmp)
-{
-	if (*buf)
-	{
-		if (find_line_return(*buf) > 0)
-		{
-			*line = close_current_line(*buf);
-			*buf = begin_new_line(*buf);
-			free(*tmp);
-			*tmp = NULL;
-			return (*line);
-		}
-		*line = ft_strjoin(*line, *buf);
-		free_all(&(*buf), &(*tmp));
-		/*free(*buf);
-		*buf = NULL;
-		free(*tmp);
-		*tmp = NULL;*/
-		return (*line);
-	}
-	else
-	{
-		free(*buf);
-		*buf = NULL;
-		free(*tmp);
-		*tmp = NULL;
-		return (NULL);
-	}
-}
-
-char	*er_or_last_read(int nb_read_bytes, char **tmp, char **buf, char **line)
-{
-	if (nb_read_bytes == -1)
-	{
-		free(*tmp);
-		*tmp = NULL;
-		free(*buf);
-		*buf = NULL;
-		return (NULL);
-	}
-	*line = eof(&(*buf), &(*line), &(*tmp));
-	return (*line);
-}
-
-static int	current_line(char **line, char **buf, char **tmp)
-{
-	*buf = ft_strjoin(*buf, *tmp);
-	free(*tmp);
-	*tmp = NULL;
-	if (*buf == NULL)
-	{
-		*line = NULL;
-		return (0);
-	}
-	if (find_line_return(*buf) > 0)
-	{
-		*line = close_current_line(*buf);
-		*buf = begin_new_line(*buf);
-		return (0);
-	}
-	return (1);
-}
 
 char	*get_next_line(int fd)
 {
+	char 		*tmp1;
+	char 		*tmp2;
+	static char *buf;
+	char 		*line;
 	int			nb_read_bytes;
-	static char	*buf;
-	char		*tmp;
-	char		*line;
 
-	nb_read_bytes = 0;
-	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
+	nb_read_bytes = 0;
 	while (1)
 	{
-		tmp = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-		if (!tmp)
+		tmp1 = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!tmp1)
 			return (NULL);
-		nb_read_bytes = read(fd, tmp, BUFFER_SIZE);
-		if (nb_read_bytes == -1 || nb_read_bytes == 0)
+		tmp1[BUFFER_SIZE] = 0;
+		nb_read_bytes = read(fd, tmp1, BUFFER_SIZE);
+		if (nb_read_bytes == -1)
 		{
-			line = er_or_last_read(nb_read_bytes, &tmp, &buf, &line);
+			free (tmp1);
+			tmp1 = NULL;
+			return (NULL);
+		}
+		if (nb_read_bytes == 0)
+		{
+			if (!buf)
+			{
+				free_all(buf, tmp1);
+				return (NULL);
+			}
+			else
+			{
+				if (ft_strchr(buf, '\n') == NULL)
+				{
+					line = ft_strjoin(line, buf);
+					free_all(buf, tmp1);
+					return (line);
+				}
+				else
+				{
+					tmp2 = ft_strtrim(buf, '\n');
+					line = ft_strjoin(line, tmp2);
+					free_all(tmp2, tmp1);
+					buf = ft_strchr(buf, '\n');
+					return (line);
+				}
+			}	 
+		}
+		buf = ft_strjoin(buf, tmp1);
+		free(tmp1);
+		tmp1 = NULL;
+		if (ft_strchr(buf, '\n') != NULL)
+		{
+			tmp2 = ft_strtrim(buf, '\n');
+			line = ft_strjoin(line, tmp2);
+			free(tmp2);
+			tmp2 = NULL;
+			buf = ft_strchr(buf, '\n');
 			return (line);
 		}
-		if (current_line(&line, &buf, &tmp) == 0)
-			return (line);
 	}
 }
