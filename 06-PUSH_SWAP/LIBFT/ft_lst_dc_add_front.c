@@ -1,19 +1,19 @@
 #include "libft.h"
 
-void	ft_lst_dc_add_front(t_list **list, t_list *new_element)
+void	ft_lst_dc_add_front(t_element **head, t_element *new_element)
 {
-	t_list *last_element;
+	t_element *last_element;
 
-	if (!new_element)
+	if (!new_element || !head)
 		return;
-	if (!*list)
-		(*list) = new_element;
+	if (!*head)
+		*head = new_element;
 	else
 	{
-		last_element = ft_lst_dc_last(*list);
-		new_element->next = *list;
+		last_element = ft_lst_dc_last(*head);
+		new_element->next = *head;
 		new_element->previous = last_element;
 		last_element->next = new_element;
-		*list = new_element;
+		*head = new_element;
 	}
 }

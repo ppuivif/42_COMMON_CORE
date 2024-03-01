@@ -1,20 +1,20 @@
 #include "libft.h"
 
-size_t	ft_lst_dc_size(t_list *list)
+size_t	ft_lst_dc_size(t_element *head)
 {
 	size_t	len;
-	t_list	*last_element;
+	t_element	*last_element;
 
-	len = 0;
-	if (!list)
+	len = 1;
+	if (!head)
 		return (0);
-	last_element = ft_lst_dc_last(list);
-	if (last_element == list)
+	last_element = ft_lst_dc_last(head);
+	if (last_element == head)
 		return (1);
-	while (list->next != last_element)
+	while (head != last_element)
 	{
-		list = list->next;
+		head = head->next;
 		len++;
 	}
-	return(len + 2);
+	return(len);
 }

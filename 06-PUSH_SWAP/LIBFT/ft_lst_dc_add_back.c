@@ -1,22 +1,22 @@
 #include "libft.h"
 
-void	ft_lst_dc_add_back(t_list **list, t_list *new_element)
+void	ft_lst_dc_add_back(t_element **head, t_element *new_element)
 {
-	t_list *last_element;
+	t_element *last_element;
 
-	if(!new_element)
+	if(!new_element || !head)
 		return;
-	if (!*list)
+	if (!*head)
 	{
-		*list = new_element;
+		*head = new_element;
 		return ;
 	}
 	else
 	{
-		last_element = ft_lst_dc_last(*list);
-		last_element->next = new_element;
+		last_element = ft_lst_dc_last(*head);
+		new_element->next = *head;
 		new_element->previous = last_element;
-		new_element->next = *list;
-		(*list)->previous = new_element;
+		last_element->next = new_element;
+		(*head)->previous = new_element;
 	}
 }

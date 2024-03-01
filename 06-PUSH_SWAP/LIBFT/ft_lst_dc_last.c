@@ -1,14 +1,14 @@
 #include "libft.h"
 
-t_list	*ft_lst_dc_last(t_list *list)
+t_element	*ft_lst_dc_last(t_element *head)
 {
-	t_list	*last_element;
+	t_element	*last_element;
 
-	if (!list)
+	if (!head)
 		return (NULL);
-	if (list->previous)
-		last_element = list->previous;
+	if (!head->previous)
+		last_element = head;
 	else
-		last_element = list;
+		last_element = head->previous;
 	return (last_element);
 }
