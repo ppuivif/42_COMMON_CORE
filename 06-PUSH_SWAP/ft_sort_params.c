@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sort_params.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 21:57:29 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/28 08:19:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/11 20:20:38 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_sort(int *arr, int count)
 	int	i;
 	int	hits;
 
-	new_arr = malloc(count * sizeof(t_element));
+	new_arr = malloc(count * sizeof(int));
 	if (!new_arr)
 	{
 		ft_putstr_fd("Error\nArray new_arr couldn't be created\n", 2);
@@ -38,7 +38,7 @@ void	*ft_sort(int *arr, int count)
 	{
 		i = 0;
 		hits = 0;
-		while (i < count - 1)
+		while (i < count)
 		{
 			if (arr[i] > arr[i + 1])
 			{

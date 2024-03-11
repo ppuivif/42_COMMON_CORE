@@ -1,23 +1,16 @@
 #include "push_swap.h"
 
-void	build_linked_list(char *int_arr, int count)
+void	build_linked_list(int *int_arr, int count, t_element **head)
 {
-	t_list	*list;
-	t_list	*new_element;
-	void	*content;
-	int		i;
+	int			i;
+	t_element	*new_element;
 
 	i = 0;
-
 	while (i < count)
 	{
-		content = int_arr[i];
-		new_element = ft_lst_dc_new(content, i);
-		lst_dc_add_back(new_element);
+		new_element = ft_lst_dc_new(int_arr[i]);
+		ft_lst_dc_add_back(head, new_element);
+		i++;
 	}
-
-
-
-
 }
 

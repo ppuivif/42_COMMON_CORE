@@ -1,5 +1,5 @@
 #include "libft.h"
-t_element	*ft_lst_dc_new(void *content, void *position)
+t_element	*ft_lst_dc_new(int content)
 {
 	t_element *new_element;
 
@@ -9,7 +9,6 @@ t_element	*ft_lst_dc_new(void *content, void *position)
 	else
 	{
 		new_element->number = content;
-		new_element->position = position;
 		new_element->next = NULL;
 		new_element->previous = NULL;
 	}

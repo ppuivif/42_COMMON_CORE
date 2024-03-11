@@ -71,7 +71,7 @@ char	*ft_strjoin_freed(char *s1, char *s2)
 	return (str);
 }
 
-int	*build_tab(char **str_arr, int count)
+int	*build_arr(char **str_arr, int count)
 {
 	int	*int_arr;
 	int	nb;

@@ -2,11 +2,12 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra -g
 NAME=ft_lst
 SOURCES=main.c ft_lstnew.c \
-		ft_lstlast.c \
-		ft_lstadd_front.c \
-		ft_lstadd_back.c \
-		ft_lstsize.c \
-		ft_lstdelone.c
+		ft_lst_dc_last.c \
+		ft_lst_dc_add_front.c \
+		ft_lst_dc_add_back.c \
+		ft_lst_dc_size.c \
+		ft_lst_dc_print.c \
+		ft_lst_dc_delone.c
 OBJECTS=$(SOURCES:.c=.o)
 
 all: $(NAME)

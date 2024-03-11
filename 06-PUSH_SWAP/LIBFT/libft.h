@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:20:42 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/01 11:27:40 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/11 18:48:30 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 
 typedef struct s_element
 {
-	int					*number;
-	int					*position;
+	int					number;
 	struct s_element	*next;
 	struct s_element	*previous;
 }	t_element;
@@ -68,11 +67,12 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
-t_element	*ft_lst_dc_new(void *content, void *position);
+t_element	*ft_lst_dc_new(int content);
 void		ft_lst_dc_add_back(t_element **head, t_element *new_element);
 void		ft_lst_dc_add_front(t_element **head, t_element *new_element);
 t_element	*ft_lst_dc_last(t_element *head);
 size_t		ft_lst_dc_size(t_element *head);
 void		ft_lst_dc_print(t_element *head);
+void		ft_lst_dc_delone (t_element **head, t_element *element_to_del);
 
 #endif
