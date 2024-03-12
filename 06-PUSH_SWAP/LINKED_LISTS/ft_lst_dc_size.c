@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ft_lst.h"
 
 size_t	ft_lst_dc_size(t_element *head)
 {

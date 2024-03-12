@@ -6,11 +6,11 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 12:02:20 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/11 18:09:16 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/12 13:45:21 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_lst.h"
 
 #include "stdio.h"
 
@@ -86,8 +86,9 @@ int main()
 	printf("number of elements : %ld\n",ft_lst_dc_size(list->head));
 	ft_lst_dc_print(list->head);
 	
-	ft_lst_dc_delone(&list->head, list->head->next->next->next->next->next);
+	ft_lst_dc_delone(&list->head, list->head);
 	printf("head -> number : %d\n",*(int *)(list->head->number));
+	printf("head -> previous -> number : %d\n",*(int *)(list->head->previous->number));
 	printf("number of elements : %ld\n",ft_lst_dc_size(list->head));
 	ft_lst_dc_print(list->head);
 	printf("first element %d\n", *(int*)list->head->next->next->next->next->number);

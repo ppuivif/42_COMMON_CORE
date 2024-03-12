@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ft_lst.h"
 
 void	ft_lst_dc_delone (t_element **head, t_element *element_to_del)
 {

@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ft_lst.h"
 
 void	ft_lst_dc_print(t_element *head)
 {

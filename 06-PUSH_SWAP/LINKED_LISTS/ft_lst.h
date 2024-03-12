@@ -13,7 +13,10 @@
 #ifndef FT_LST_H
 # define FT_LST_H
 
-# include "../LIBFT/libft.h"
+//# include "../LIBFT/libft.h"
+# include <stddef.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 typedef struct s_element
 {
@@ -28,6 +31,9 @@ typedef struct s_list
 	int			size;
 	t_element	*head;
 }	t_list;
+
+void		ft_putnbr_fd(int n, int fd);
+void		ft_putstr_fd(char *s, int fd);
 
 t_element	*ft_lst_dc_new(void *content, void *position);
 void		ft_lst_dc_add_back(t_element **head, t_element *new_element);

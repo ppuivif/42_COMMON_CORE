@@ -1,4 +1,5 @@
-#include "libft.h"
+#include "ft_lst.h"
+
 t_element	*ft_lst_dc_new(void *content, void *position)
 {
 	t_element *new_element;
