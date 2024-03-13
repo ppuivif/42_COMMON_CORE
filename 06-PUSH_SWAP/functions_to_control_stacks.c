@@ -70,23 +70,3 @@ void	reverse_rotate(t_element **head, char c)
 	if (c == 'b')
 		ft_printf("rrb\n");
 }
-
-void	index_stack(t_element **head)
-{
-	t_element	*element_to_examinate;
-	t_element	*increased_element;
-
-	element_to_examinate = (*head)->next;
-	while (element_to_examinate != (*head))
-	{
-		increased_element = element_to_examinate->next;
-		while (increased_element != (*head))
-		{
-			if (element_to_examinate->number < increased_element->number)
-				increased_element = increased_element->next;
-			else
-				element_to_examinate->index += 1;
-		}
-		element_to_examinate = element_to_examinate->next;
-	}
-}
