@@ -4,7 +4,8 @@ NAME=push_swap
 SOURCES=push_swap.c ft_sort_params.c \
 		build_and_free_linked_list.c \
 		utils_1.c utils_2.c utils_3.c \
-		functions_to_control_stacks.c
+		functions_to_control_stacks.c \
+		sort_stack.c
 OBJECTS=$(SOURCES:.c=.o)
 
 all: $(NAME)

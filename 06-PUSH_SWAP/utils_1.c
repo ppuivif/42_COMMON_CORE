@@ -50,7 +50,7 @@ void	check_parameters_are_integers(char **str_arr)
 	}
 }
 
-void	check_no_duplicate(int *int_arr, int count)
+void	check_no_duplicate(int *int_arr, int count, char **str_arr)
 {
 	int	i;
 	int	j;
@@ -63,7 +63,7 @@ void	check_no_duplicate(int *int_arr, int count)
 		{
 			if (int_arr[i] == int_arr[i + j])
 			{
-//				free_tab(tab_str);
+				free_tab(str_arr);
 				free(int_arr);
 				ft_putstr_fd("Error\nThere is at least one duplicate\n", 2);
 				exit (EXIT_FAILURE);
@@ -72,4 +72,22 @@ void	check_no_duplicate(int *int_arr, int count)
 		}
 		i++;
 	}
+}
+
+void	check_if_sorted(int *int_arr, int count, char **str_arr)
+{
+	int	i;
+
+	i = 0;
+	while (i < count - 1)
+	{
+		if (int_arr[i] < int_arr[i + 1])
+			i++;
+		else
+			return;
+	}
+	free_tab(str_arr);
+	free(int_arr);
+	ft_putstr_fd("Numbers are already sorted\n", 1);
+	exit (EXIT_SUCCESS);
 }

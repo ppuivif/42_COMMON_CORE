@@ -3,36 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   anim_char_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:19:16 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 17:58:59 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/13 15:04:06 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+#include <stdio.h>
+
 int	anim_char(void *param)
 {
 	t_position_image	*t_pos4;
 	time_t				end;
+//	struct timeb		*time;
 
 	t_pos4 = (t_position_image *)param;
+//	ftime(time);
+//	end = time->millitm;
 	end = time(NULL);
 	if (difftime(end, t_pos4->begin) == 0)
 		first_anim_char(t_pos4);
-	if (difftime(end, t_pos4->begin) == (1200 / 1000))
+	if (difftime(end, t_pos4->begin) == (1000/1000))
 	{
 		if (t_pos4->x0_image_p > t_pos4->x1_image_p)
 			second_anim_char(t_pos4);
 		else
 			third_anim_char(t_pos4);
 	}
-	if (difftime(end, t_pos4->begin) == (2200 / 1000))
+	if ((float)difftime(end, t_pos4->begin) == (float)(2000/1000))
 		fourth_anim_char(t_pos4);
-	if (difftime(end, t_pos4->begin) == (2800 / 1000))
+	if (difftime(end, t_pos4->begin) == (3000/1000))
 		fifth_anim_char(t_pos4);
-	if (difftime(end, t_pos4->begin) == (3500 / 1000))
+	if (difftime(end, t_pos4->begin) == (4000/1000))
 		t_pos4->move_possible = 1;
 	return (t_pos4->move_possible);
 }

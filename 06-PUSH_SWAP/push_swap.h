@@ -11,7 +11,8 @@
 
 int		count_parameters(char **arr);
 void	check_parameters_are_integers(char **str_arr);
-void	check_no_duplicate(int *int_arr, int count);
+void	check_no_duplicate(int *int_arr, int count, char **str_arr);
+void	check_if_sorted(int *int_arr, int count, char **str_arr);
 int		*build_arr(char **str_arr, int count);
 void	free_tab(char **arr);
 int		ft_atoi_long(char *str);
@@ -24,13 +25,19 @@ void	ft_sort(int *arr, int count);
 void	print_tab_str(char **str_arr);
 void	print_tab_int(int *int_arr, int count);
 
-void	build_linked_list(int *int_arr, int count, t_element **head);
+void	build_linked_list(int *int_arr, t_list **list);
+void	index_stack(t_element **head);
 
 void	swap(t_element	**head, char c);
 void	push(t_element	**head_src, t_element **head_dest, char c);
 void	rotate(t_element **head, char c);
 void	reverse_rotate(t_element **head, char c);
 
+void	ft_sort_2(t_list **src);
+void	ft_sort_3(t_list **src, t_list **dest);
+void	ft_sort_5(t_list **src, t_list **dest);
+
 void	free_linked_list(t_list **list);
+
 
 #endif

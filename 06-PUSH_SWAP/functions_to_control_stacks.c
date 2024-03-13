@@ -6,20 +6,25 @@ void	swap(t_element **head, char c)
 	t_element	*second;
 	t_element	*third;
 	t_element	*last_element;
+	int			size;
 
-	if (!*head || !(*head)->next)
+	size = ft_lst_dc_size(*head);
+	if (!(*head) || !(*head)->next)
 		return;
 	first = *head;
 	second = (*head)->next;
-	third = second->next;
-	last_element = ft_lst_dc_last(*head);
-	last_element->next = second;
-	second->previous = last_element;
-	first->next = third;
-	third->previous = first;
+	if (size > 2)
+	{
+		third = second->next;
+		last_element = ft_lst_dc_last(*head);
+		last_element->next = second;
+		second->previous = last_element;
+		first->next = third;
+		third->previous = first;
+	}
 	second->next = first;
 	first->previous = second;
-	(*head) = second;
+	*head = second;
 	if (c == 'a')
 		ft_printf("sa\n");
 	if (c == 'b')
@@ -29,7 +34,9 @@ void	swap(t_element **head, char c)
 void	push(t_element **head_src, t_element **head_dest, char c)
 {
 	t_element	*new_element;
-
+	int			size_src;
+	
+	size_src = ft_lst_dc_size(*head_src);
 	if (!*head_src)
 		return;
 	new_element = ft_lst_dc_new((*head_src)->number);
@@ -44,7 +51,7 @@ void	push(t_element **head_src, t_element **head_dest, char c)
 
 void	rotate(t_element **head, char c)
 {
-	if (!*head)
+	if (!*head || !(*head)->next)
 		return;
 	*head = (*head)->next;
 	if (c == 'a')
@@ -55,11 +62,31 @@ void	rotate(t_element **head, char c)
 
 void	reverse_rotate(t_element **head, char c)
 {
-	if (!*head)
+	if (!*head || !(*head)->next)
 		return;
 	*head = (*head)->previous;
 	if (c == 'a')
 		ft_printf("rra\n");
 	if (c == 'b')
 		ft_printf("rrb\n");
+}
+
+void	index_stack(t_element **head)
+{
+	t_element	*element_to_examinate;
+	t_element	*increased_element;
+
+	element_to_examinate = (*head)->next;
+	while (element_to_examinate != (*head))
+	{
+		increased_element = element_to_examinate->next;
+		while (increased_element != (*head))
+		{
+			if (element_to_examinate->number < increased_element->number)
+				increased_element = increased_element->next;
+			else
+				element_to_examinate->index += 1;
+		}
+		element_to_examinate = element_to_examinate->next;
+	}
 }

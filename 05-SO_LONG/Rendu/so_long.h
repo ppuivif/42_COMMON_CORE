@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:24:57 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 18:07:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/13 14:59:55 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <time.h>
+//# include <sys/timeb.h>
+
+/*struct timeb {
+               time_t         time;
+               unsigned short millitm;
+               short          timezone;
+               short          dstflag;
+           };*/
 
 typedef struct s_window{
 	int				fd;

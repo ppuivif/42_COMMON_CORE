@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:23:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/02/26 16:34:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/13 14:58:47 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,11 @@ void	move_image_2(t_position_image *t_pos)
 
 void	to_collectible(t_position_image *t_pos)
 {
+//	struct timeb	*time;
+	
 	t_pos->move_possible = 0;
+//	ftime(time);
+//	t_pos->begin = time->millitm;
 	t_pos->begin = time(NULL);
 	mlx_loop_hook(t_pos->t_win1->mlx, anim_char, t_pos);
 	t_pos->move++;
