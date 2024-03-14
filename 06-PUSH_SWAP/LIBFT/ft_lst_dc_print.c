@@ -7,12 +7,14 @@ void	ft_lst_dc_print(t_element *head)
 
 	i = 0;
 	len = ft_lst_dc_size(head);	
-	ft_putstr_fd("number\tposition\tindex\n", 1);
+	ft_putstr_fd("number\tinit_position\tnew_position\tindex\n", 1);
 	while (i < len)
 	{
 		ft_putnbr_fd(head->number, 1);
 		ft_putstr_fd("\t", 1);
-		ft_putnbr_fd(head->position, 1);
+		ft_putnbr_fd(head->initial_position, 1);
+		ft_putstr_fd("\t\t", 1);
+		ft_putnbr_fd(head->new_position, 1);
 		ft_putstr_fd("\t\t", 1);
 		ft_putnbr_fd(head->index, 1);
 		ft_putstr_fd("\n", 1);

@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	int_arr = build_arr(str_arr, size_stack_a);
 
 	check_no_duplicate(int_arr, size_stack_a, str_arr);
-	check_if_sorted(int_arr, size_stack_a, str_arr);
+//	check_if_sorted(int_arr, size_stack_a, str_arr);
 //	print_tab_int(int_arr, count);
 
 	stack_a = malloc(sizeof(t_list));
@@ -53,8 +53,8 @@ int	main(int argc, char **argv)
 
 	build_linked_list(int_arr, &stack_a);
 	ft_sort(int_arr, size_stack_a);
-	ft_putstr_fd("stack_a before sort :\n" ,1);
-	ft_lst_dc_print(stack_a->head);
+//	ft_putstr_fd("stack_a before sort :\n" ,1);
+//	ft_lst_dc_print(stack_a->head);
 	
 /*	ft_putstr_fd("int_array_a after sort :\n" ,1);
 	print_tab_int(int_arr, stack_a->size);*/
@@ -69,8 +69,8 @@ int	main(int argc, char **argv)
 	else if (stack_a->size <= 3)
 		ft_sort_3(&stack_a, &stack_b);
 
-/*	else if (stack_a->size <= 5)
-		ft_sort_5(&stack_a, &stack_b);*/
+	else if (stack_a->size <= 5)
+		ft_sort_5(&stack_a, &stack_b);
 
 /*	ft_putstr_fd("\nstack_a after sort :\n" ,1);
 	ft_lst_dc_print(stack_a->head);*/

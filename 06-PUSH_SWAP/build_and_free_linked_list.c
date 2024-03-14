@@ -8,8 +8,9 @@ void	build_linked_list(int *int_arr, t_list	**list)
 	i = 0;
 	while (i < (*list)->size)
 	{
-		new_element = ft_lst_dc_new(int_arr[i]);
-		new_element->position = i + 1;
+		new_element = ft_lst_dc_new(int_arr[i], 1, 1);
+		new_element->initial_position = i + 1;
+		new_element->new_position = new_element->initial_position;
 		ft_lst_dc_add_back(&(*list)->head, new_element);
 		i++;
 	}
@@ -24,7 +25,7 @@ void	index_stack(t_element **head)
 
 	i = 0;
 	size = ft_lst_dc_size(*head);
-	element_to_examinate = (*head);
+	element_to_examinate = *head;
 	while (i < size)
 	{
 		increased_element = element_to_examinate->next;
@@ -38,6 +39,22 @@ void	index_stack(t_element **head)
 		}
 		i++;
 		element_to_examinate = element_to_examinate->next;
+	}
+}
+void	update_position(t_element **head)
+{
+	int			i;
+	int			size;
+	t_element	*tmp_element;
+
+	i = 0;
+	size = ft_lst_dc_size(*head);
+	tmp_element = *head;
+	while (i < size)
+	{
+		tmp_element->new_position = i + 1;
+		tmp_element = tmp_element->next;
+		i++;
 	}
 }
 

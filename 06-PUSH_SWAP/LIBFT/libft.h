@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:20:42 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/13 19:59:25 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/14 15:03:07 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 typedef struct s_element
 {
 	int					number;
-	int					position;
+	int					initial_position;
+	int					new_position;
 	int					index;
 	struct s_element	*next;
 	struct s_element	*previous;
@@ -69,7 +70,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
-t_element	*ft_lst_dc_new(int content);
+t_element	*ft_lst_dc_new(int content, int index, int initial_position);
 void		ft_lst_dc_add_back(t_element **head, t_element *new_element);
 void		ft_lst_dc_add_front(t_element **head, t_element *new_element);
 t_element	*ft_lst_dc_last(t_element *head);
