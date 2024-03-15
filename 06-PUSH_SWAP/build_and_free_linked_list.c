@@ -41,7 +41,7 @@ void	index_stack(t_element **head)
 		element_to_examinate = element_to_examinate->next;
 	}
 }
-void	update_position(t_element **head)
+void	update_new_position(t_element **head)
 {
 	int			i;
 	int			size;

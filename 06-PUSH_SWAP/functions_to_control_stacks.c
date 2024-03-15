@@ -1,32 +1,51 @@
 #include "push_swap.h"
 
-void	swap(t_element **head, char c)
+/*void	swap(t_element **head, char c)
 {
-	t_element	*first;
-	t_element	*second;
-	t_element	*third;
-	t_element	*last_element;
 	int			size;
 
 	size = ft_lst_dc_size(*head);
 	if (!(*head) || !(*head)->next)
 		return;
-	first = *head;
-	second = (*head)->next;
 	if (size > 2)
 	{
-		third = second->next;
-		last_element = ft_lst_dc_last(*head);
-		last_element->next = second;
-		second->previous = last_element;
-		first->next = third;
-		third->previous = first;
+		(*head)->previous->next = (*head)->next;//1 
+		(*head)->next->previous = (*head)->previous;//2
+		(*head)->next->next->previous = (*head);//3
+		(*head)->next = (*head)->next->next;//4
+		(*head)->previous->next->next = (*head);//5
+		(*head)->previous = (*head)->previous->next;//6
+		*head = (*head)->previous;
 	}
-	second->next = first;
-	second->new_position = 1;
-	first->previous = second;
-	first->new_position = 2;
-	*head = second;
+	else
+		*head = (*head)->next;
+	(*head)->new_position = 1;
+	(*head)->next->new_position = 2;
+	if (c == 'a')
+		ft_printf("sa\n");
+	if (c == 'b')
+		ft_printf("sb\n");
+}*/
+
+void	swap(t_element **head, char c)
+{
+	int			size;
+
+	size = ft_lst_dc_size(*head);
+	if (!(*head) || !(*head)->next)
+		return;
+	*head = (*head)->next;
+	if (size > 2)
+	{
+		(*head)->next->previous = (*head)->previous;//1 
+		(*head)->previous->next = (*head)->next;//2 
+		(*head)->previous = (*head)->previous->previous;//3
+		(*head)->previous->next->previous = (*head);//4
+		(*head)->next = (*head)->previous->next;//5
+		(*head)->previous->next = (*head);//6
+	}
+	(*head)->new_position = 1;
+	(*head)->next->new_position = 2;
 	if (c == 'a')
 		ft_printf("sa\n");
 	if (c == 'b')
@@ -49,8 +68,8 @@ void	push(t_element **head_src, t_element **head_dest, char c)
 		ft_printf("pa\n");
 	if (c == 'b')
 		ft_printf("pb\n");
-	update_position(head_src);
-	update_position(head_dest);
+	update_new_position(head_src);
+	update_new_position(head_dest);
 }
 
 void	rotate(t_element **head, char c)
@@ -62,7 +81,7 @@ void	rotate(t_element **head, char c)
 		ft_printf("ra\n");
 	if (c == 'b')
 		ft_printf("rb\n");
-	update_position(head);
+	update_new_position(head);
 }
 
 void	reverse_rotate(t_element **head, char c)
@@ -74,7 +93,7 @@ void	reverse_rotate(t_element **head, char c)
 		ft_printf("rra\n");
 	if (c == 'b')
 		ft_printf("rrb\n");
-	update_position(head);
+	update_new_position(head);
 }
 
 void	double_swap(t_element **head_a, t_element **head_b)

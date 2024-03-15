@@ -87,29 +87,59 @@ int	search_max_til_median(t_list *list)
 	return(result);
 }*/
 
-int	combination(t_list *list, int index_1, int index_2)
+int	combination(t_list *list, int index_begin, int index_end)
 {
-	int	result;
+	int			i;
+	int			size;
+	int			result;
+	t_element	*tmp_element;
 
-	result = search_position((list), index_1) * index_1 +
-		search_position((list), index_2) * index_2;
+	i = 0;
+	size = ft_lst_dc_size(list->head);
+	result = 0;
+	tmp_element = list->head;
+	while (i < size && size != 0)
+	{
+		if (tmp_element->index >= index_begin && tmp_element->index <= index_end)
+				result += tmp_element->new_position * tmp_element->index;
+		tmp_element = tmp_element->next;
+		i++;
+	}
 	return(result);
+	
+	/*result = search_position((list), index_1) * index_1 +
+		search_position((list), index_2) * index_2;
+	return(result);*/
 }
 
-void	search_best_sort(t_list **src, t_list **dest, int index)
+int	search_best_sort(t_list **src, t_list **dest, int index)
 {
-	if (search_position((*src), index) <= 2 )
+	int	size_src;
+	int	hits;
+
+	size_src = ft_lst_dc_size((*src)->head);
+	hits = 0;
+	if (search_position((*src), index) <= size_src / 2)
 	{
 		while ((*src)->head->index != index)
+		{
 			rotate(&(*src)->head, 'a');
+			hits++;
+		}
 		push(&(*src)->head, &(*dest)->head, 'b');
+		hits++;
 	}
 	else
 	{
 		while ((*src)->head->index != index)
+		{
 			reverse_rotate(&(*src)->head, 'a');
+			hits++;
+		}
 		push(&(*src)->head, &(*dest)->head, 'b');
+		hits++;
 	}
+	return (hits);
 }
 
 void	ft_sort_2a(t_list **src, t_list **dest)
@@ -122,7 +152,7 @@ void	ft_sort_2b(t_list **src, t_list **dest)
 {
 		push(&(*src)->head, &(*dest)->head, 'b');
 		push(&(*src)->head, &(*dest)->head, 'b');
-		swap(&(*src)->head, 'b');
+		swap(&(*dest)->head, 'b');
 }
 
 /*void	ft_sort_2b(t_list **src, t_list **dest)

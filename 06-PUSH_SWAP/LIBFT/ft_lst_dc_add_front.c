@@ -14,6 +14,7 @@ void	ft_lst_dc_add_front(t_element **head, t_element *new_element)
 		new_element->next = *head;
 		new_element->previous = last_element;
 		last_element->next = new_element;
+		(*head)->previous = new_element;
 		*head = new_element;
 	}
 }

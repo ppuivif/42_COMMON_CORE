@@ -34,15 +34,53 @@ void	ft_sort_3(t_list **src, t_list **dest)
 
 void	ft_sort_5(t_list **src, t_list **dest)
 {
-	ft_printf("%d\n", combination((*src), 1, 2));
+	//ft_printf("%d\n", combination((*src), 1, 2));
 
-	if (combination((*src), 1, 2) == 5)
+/*	if (combination((*src), 1, 2) == 4)//not sorted
+	{
+		if (combination((*src), 3, 5) == 50)//sorted
+			swap(&(*src)->head, 'a');
+		else
+		{
+			ft_sort_2b(src, dest);
+			ft_sort_3(src, dest);
+			push(&(*dest)->head, &(*src)->head, 'a');
+			push(&(*dest)->head, &(*src)->head, 'a');
+		}
+	}
+	else if (combination((*src), 1, 2) == 5)//sorted
+	{
 		ft_sort_2a(src, dest);
-	if (combination((*src), 1, 2) == 4)
-		ft_sort_2b(src, dest);
-	/*	{
+		ft_sort_3(src, dest);
+		push(&(*dest)->head, &(*src)->head, 'a');
+		push(&(*dest)->head, &(*src)->head, 'a');
+	}
+	else if (combination((*src), 1, 2) == 13)//not sorted
+	{
+		reverse_rotate(&(*src)->head, 'a');
+		reverse_rotate(&(*src)->head, 'a');
+		if (combination((*src), 3, 5) == 50)//sorted
+			swap(&(*src)->head, 'a');
+		else
+		{
+			ft_sort_2b(src, dest);
+			ft_sort_3(src, dest);
+			push(&(*dest)->head, &(*src)->head, 'a');
+			push(&(*dest)->head, &(*src)->head, 'a');
+		}
+	}
+	else if (combination((*src), 1, 2) == 14)//sorted
+	{
+		reverse_rotate(&(*src)->head, 'a');
+		reverse_rotate(&(*src)->head, 'a');
+		ft_sort_2a(src, dest);
+		ft_sort_3(src, dest);
+		push(&(*dest)->head, &(*src)->head, 'a');
+		push(&(*dest)->head, &(*src)->head, 'a');
+	}
+	else*/
 		search_best_sort(src, dest, 1);
-	}*/
+		search_best_sort(src, dest, 2);
 	if (ft_lst_dc_size((*src)->head) == 2)
 		ft_sort_2(src);
 	else
@@ -51,7 +89,91 @@ void	ft_sort_5(t_list **src, t_list **dest)
 	push(&(*dest)->head, &(*src)->head, 'a');
 }
 
+void	ft_sort_100(t_list **src, t_list **dest)
+{
+	int	i;
+	int j;
+	int size_src;
+	int size_dest;
+	int hits;
+	
+	i = 1;
+	size_src = ft_lst_dc_size((*src)->head);
+	hits = 0;
+	while (i <= size_src / 4)
+	{
+		hits += search_best_sort(src, dest, i);
+		i++;
+	}
 
+	while (i <= size_src / 2)
+	{
+		hits += search_best_sort(src, dest, i);
+		i++;
+	}
+	
+	while (i <= (3 * size_src / 4))
+	{
+		hits += search_best_sort(src, dest, i);
+		i++;
+	}
+
+	while (i <= size_src)
+	{
+		hits += search_best_sort(src, dest, i);
+		i++;
+	}
+
+	size_dest = ft_lst_dc_size((*dest)->head);
+	j = size_dest;
+	while (j > (3 * size_dest / 4))
+	{
+		hits += search_best_sort(dest, src, j);
+		j--;
+	}
+	while (j > size_dest / 2)
+	{
+		hits += search_best_sort(dest, src, j);
+		j--;
+	}
+	while (j > size_dest / 4)
+	{
+		hits += search_best_sort(dest, src, j);
+		j--;
+	}
+	while (j > 0)
+	{
+		hits += search_best_sort(dest, src, j);
+		j--;
+	}
+	ft_printf("hits : %d\n", hits);
+}
+
+/*void	ft_sort_100(t_list **src, t_list **dest)//same result as previous
+{
+	int	i;
+	int j;
+	int size_src;
+	int size_dest;
+	int hits;
+	
+	i = 1;
+	size_src = ft_lst_dc_size((*src)->head);
+	hits = 0;
+	while (i <= size_src)
+	{
+		hits += search_best_sort(src, dest, i);
+		i++;
+	}
+	size_dest = ft_lst_dc_size((*dest)->head);
+	j = size_dest;
+	while (j > 0)
+	{
+		hits += search_best_sort(dest, src, j);
+		j--;
+	}
+	ft_printf("hits : %d\n", hits);
+}*/
 
 
 	

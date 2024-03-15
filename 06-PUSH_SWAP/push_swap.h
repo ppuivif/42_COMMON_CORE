@@ -27,7 +27,7 @@ void	print_tab_int(int *int_arr, int count);
 
 void	build_linked_list(int *int_arr, t_list **list);
 void	index_stack(t_element **head);
-void	update_position(t_element **head);
+void	update_new_position(t_element **head);
 
 void	swap(t_element	**head, char c);
 void	push(t_element	**head_src, t_element **head_dest, char c);
@@ -41,13 +41,14 @@ int		search_position(t_list	*list, int index);
 int		search_max_til_median(t_list *list);
 int		search_max(t_list *list);
 int		combination(t_list *list, int index_1, int index_2);
-void	search_best_sort(t_list **src, t_list **dest, int index);
+int		search_best_sort(t_list **src, t_list **dest, int index);
 
 void	ft_sort_2(t_list **src);
 void	ft_sort_2a(t_list **src, t_list **dest);
 void	ft_sort_2b(t_list **src, t_list **dest);
 void	ft_sort_3(t_list **src, t_list **dest);
 void	ft_sort_5(t_list **src, t_list **dest);
+void	ft_sort_100(t_list **src, t_list **dest);
 
 void	free_linked_list(t_list **list);
 

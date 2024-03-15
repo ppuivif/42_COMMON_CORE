@@ -1,1 +1,4 @@
 valgrind --suppressions=MacroLibX/valgrind.supp --leak-check=full --show-leak-kinds=all ./so_long Maps/map.ber
+
+valgrind --track-fds=yes ./so_long Maps/empty_map.ber
+
