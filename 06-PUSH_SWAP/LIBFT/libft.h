@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:20:42 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/14 15:03:07 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/18 19:10:08 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_element
 	int					number;
 	int					initial_position;
 	int					new_position;
+	int					next_position;
 	int					index;
 	struct s_element	*next;
 	struct s_element	*previous;

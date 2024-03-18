@@ -44,8 +44,8 @@ void	swap(t_element **head, char c)
 		(*head)->next = (*head)->previous->next;//5
 		(*head)->previous->next = (*head);//6
 	}
-	(*head)->new_position = 1;
-	(*head)->next->new_position = 2;
+//	(*head)->new_position = 1;
+//	(*head)->next->new_position = 2;
 	if (c == 'a')
 		ft_printf("sa\n");
 	if (c == 'b')
@@ -68,8 +68,8 @@ void	push(t_element **head_src, t_element **head_dest, char c)
 		ft_printf("pa\n");
 	if (c == 'b')
 		ft_printf("pb\n");
-	update_new_position(head_src);
-	update_new_position(head_dest);
+//	update_new_position(head_src);
+//	update_new_position(head_dest);
 }
 
 void	rotate(t_element **head, char c)
@@ -81,7 +81,7 @@ void	rotate(t_element **head, char c)
 		ft_printf("ra\n");
 	if (c == 'b')
 		ft_printf("rb\n");
-	update_new_position(head);
+//	update_new_position(head);
 }
 
 void	reverse_rotate(t_element **head, char c)
@@ -93,7 +93,7 @@ void	reverse_rotate(t_element **head, char c)
 		ft_printf("rra\n");
 	if (c == 'b')
 		ft_printf("rrb\n");
-	update_new_position(head);
+//	update_new_position(head);
 }
 
 void	double_swap(t_element **head_a, t_element **head_b)

@@ -11,6 +11,7 @@ void	build_linked_list(int *int_arr, t_list	**list)
 		new_element = ft_lst_dc_new(int_arr[i], 1, 1);
 		new_element->initial_position = i + 1;
 		new_element->new_position = new_element->initial_position;
+		new_element->next_position = new_element->initial_position;
 		ft_lst_dc_add_back(&(*list)->head, new_element);
 		i++;
 	}

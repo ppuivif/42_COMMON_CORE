@@ -71,25 +71,18 @@ int	main(int argc, char **argv)
 
 	else if (stack_a->size <= 5)
 		ft_sort_5(&stack_a, &stack_b);
+
+	else if (stack_a->size <= 50)
+		ft_sort_50(&stack_a, &stack_b);
 	
-	else if (stack_a->size <= 100)
-		ft_sort_100(&stack_a, &stack_b);
+/*	else if (stack_a->size <= 100)
+		ft_sort_100(&stack_a, &stack_b);*/
 
 /*	ft_putstr_fd("\nstack_a after sort :\n" ,1);
 	ft_lst_dc_print(stack_a->head);*/
 
-	ft_putstr_fd("\nstack_a after sort :\n" ,1);
-	ft_lst_dc_print(stack_a->head);
-
-
-
-
-
-
-
-
-
-
+//	ft_putstr_fd("\nstack_a after sort :\n" ,1);
+//	ft_lst_dc_print(stack_a->head);
 
 
 

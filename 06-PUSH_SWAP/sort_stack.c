@@ -30,6 +30,7 @@ void	ft_sort_3(t_list **src, t_list **dest)
 		}
 		reverse_rotate(&(*src)->head, 'a');	
 	}
+	update_new_position(&(*src)->head);//to delete
 }
 
 void	ft_sort_5(t_list **src, t_list **dest)
@@ -79,15 +80,86 @@ void	ft_sort_5(t_list **src, t_list **dest)
 		push(&(*dest)->head, &(*src)->head, 'a');
 	}
 	else*/
-		search_best_sort(src, dest, 1);
-		search_best_sort(src, dest, 2);
+		search_best_sort_index(src, dest, 1);
+		search_best_sort_index(src, dest, 2);
 	if (ft_lst_dc_size((*src)->head) == 2)
 		ft_sort_2(src);
 	else
 		ft_sort_3(src, dest);
 	push(&(*dest)->head, &(*src)->head, 'a');
 	push(&(*dest)->head, &(*src)->head, 'a');
+	update_new_position(&(*src)->head);//to delete
+ 	}
+
+/*void	ft_sort_50(t_list **src, t_list **dest)
+{
+//	int	median_src;
+//	int	median_dest;
+	int hits;//to delete
+	int j;
+
+
+	//median_src = ft_lst_dc_size((*src)->head) / 2 + 1;
+
+	hits = 0;//to delete
+	j = 1;
+//	while (median_src / j > 0)
+//	{
+		hits += ft_butterfly_ab(src, dest, j);
+		j*=2;
+		ft_printf("j : %d\n", j);
+	ft_lst_dc_print((*src)->head);
+	ft_lst_dc_print((*dest)->head);
+		hits += ft_butterfly_ba(src, dest, j);
+		hits += ft_butterfly_ba(src, dest, j);
+//		j*=2;
+//		ft_printf("j : %d\n", j);
+//	}
+		ft_printf("hits : %d\n", hits);//to delete
+	ft_putstr_fd("\nstack_a after sort :\n" ,1);
+	ft_lst_dc_print((*src)->head);
+	ft_putstr_fd("\nstack_b after sort :\n" ,1);
+	ft_lst_dc_print((*dest)->head);
+}*/
+
+void	ft_sort_50(t_list **src, t_list **dest)
+{
+//	int	median_src;
+	int size_src;
+//	int	median_dest;
+	int hits;//to delete
+	int i;
+	int j;
+
+
+	size_src = ft_lst_dc_size((*src)->head);
+	//median_src = size_src / 2 + 1;
+
+	hits = 0;//to delete
+	i = 1;
+	j = 1;
+	sort_step_1(src, j);
+
+	while (i <= size_src)
+	{
+		hits += search_best_sort_next_position(src, dest, i);
+		i++;
+	}
+//	ft_lst_dc_print((*dest)->head);
+	update_new_position(&(*dest)->head);	
+	ft_lst_dc_print((*dest)->head);
+
+
+
+
 }
+
+
+
+
+
+
+
 
 void	ft_sort_100(t_list **src, t_list **dest)
 {
@@ -95,32 +167,32 @@ void	ft_sort_100(t_list **src, t_list **dest)
 	int j;
 	int size_src;
 	int size_dest;
-	int hits;
+	int hits;//to delete
 	
 	i = 1;
 	size_src = ft_lst_dc_size((*src)->head);
-	hits = 0;
+	hits = 0;//to delete
 	while (i <= size_src / 4)
 	{
-		hits += search_best_sort(src, dest, i);
+		hits += search_best_sort_index(src, dest, i);
 		i++;
 	}
 
 	while (i <= size_src / 2)
 	{
-		hits += search_best_sort(src, dest, i);
+		hits += search_best_sort_index(src, dest, i);
 		i++;
 	}
 	
 	while (i <= (3 * size_src / 4))
 	{
-		hits += search_best_sort(src, dest, i);
+		hits += search_best_sort_index(src, dest, i);
 		i++;
 	}
 
 	while (i <= size_src)
 	{
-		hits += search_best_sort(src, dest, i);
+		hits += search_best_sort_index(src, dest, i);
 		i++;
 	}
 
@@ -128,25 +200,25 @@ void	ft_sort_100(t_list **src, t_list **dest)
 	j = size_dest;
 	while (j > (3 * size_dest / 4))
 	{
-		hits += search_best_sort(dest, src, j);
+		hits += search_best_sort_index(dest, src, j);
 		j--;
 	}
 	while (j > size_dest / 2)
 	{
-		hits += search_best_sort(dest, src, j);
+		hits += search_best_sort_index(dest, src, j);
 		j--;
 	}
 	while (j > size_dest / 4)
 	{
-		hits += search_best_sort(dest, src, j);
+		hits += search_best_sort_index(dest, src, j);
 		j--;
 	}
 	while (j > 0)
 	{
-		hits += search_best_sort(dest, src, j);
+		hits += search_best_sort_index(dest, src, j);
 		j--;
 	}
-	ft_printf("hits : %d\n", hits);
+	ft_printf("hits : %d\n", hits);//to delete
 }
 
 /*void	ft_sort_100(t_list **src, t_list **dest)//same result as previous
@@ -155,11 +227,11 @@ void	ft_sort_100(t_list **src, t_list **dest)
 	int j;
 	int size_src;
 	int size_dest;
-	int hits;
+	int hits;//to delete
 	
 	i = 1;
 	size_src = ft_lst_dc_size((*src)->head);
-	hits = 0;
+	hits = 0;//to delete
 	while (i <= size_src)
 	{
 		hits += search_best_sort(src, dest, i);
