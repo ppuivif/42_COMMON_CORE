@@ -1,0 +1,40 @@
+Testeur (Nda-cuhn) a installer dans repertoire du projet (/push_swap) :
+https://gitlab.com/hydrasho/push_swap-testeur-max
+
+Lancer les commandes dans le repertoire d'installation /push_swap-testeur-max
+
+Pour tester les cas d'erreur (attention aux messages d'erreur affiches par le programme) 
+./tester_push_swap
+ou
+./tester_push_swap true
+ou
+./tester_push_swap false
+
+Tester 100 fois 500 nombres aleatoires
+./tester_push_swap 500 100
+
+Tester 5 fois 500 nombres aleatoires
+./tester_push_swap 500 5
+
+./tester_push_swap leak ou ./tester_push_swap valgrind
+
+./tester_push_swap 5
+
+
+
+Testeur linux a telecharger depuis intra
+Coller le fichier dans repertoire du projet push_swap 
+
+Dans repertoire du projet (/push_swap) :
+ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker_linux $ARG
+
+https://www.calculatorsoup.com/calculators/statistics/random-number-generator.php
+
+
+
+Pour visualiser sur 500 nombres aleatoires
+
+git clone https://gitlab.com/hydrasho/visualizer-push-swap
+
+Dans repertoire /vizualiser, lancer la commande
+./visualiser 500
