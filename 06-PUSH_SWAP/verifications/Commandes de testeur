@@ -28,6 +28,12 @@ Coller le fichier dans repertoire du projet push_swap
 Dans repertoire du projet (/push_swap) :
 ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker_linux $ARG
 
+ou
+
+./push_swap 4 2 1 | ./checker_linux 4 2 1
+
+
+
 https://www.calculatorsoup.com/calculators/statistics/random-number-generator.php
 
 

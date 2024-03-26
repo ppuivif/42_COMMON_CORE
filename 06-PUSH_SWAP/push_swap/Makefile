@@ -1,30 +1,38 @@
 CC=clang
 CFLAGS=-Wall -Werror -Wextra -g
-#NAME=push_swap
-NAME2=push_swap_bonus
-SOURCES=push_swap.c ft_sort_params.c \
+NAME1=push_swap
+NAME2=checker
+SOURCES1=push_swap.c ft_sort_params.c \
 		build_and_free_linked_list.c \
-		utils_1.c utils_2.c utils_3.c \
+		utils_1.c utils_2.c \
+		functions_to_control_stacks.c \
+		sort_stack.c best_sort.c
+
+SOURCES2=checker.c ft_sort_params.c \
+		build_and_free_linked_list.c \
+		utils_1.c utils_2.c \
 		functions_to_control_stacks.c \
 		sort_stack.c best_sort.c \
-		checker.c
+		GNL/get_next_line.c GNL/get_next_line_utils.c
 
-OBJECTS=$(SOURCES:.c=.o)
+OBJECTS1=$(SOURCES1:.c=.o)
 
-all: $(NAME2)
+OBJECTS2=$(SOURCES2:.c=.o)
 
-#bonus: $(NAME2)
+all: $(NAME1)
 
-#$(NAME) : $(OBJECTS)
-#				cd LIBFT && make && cd ..
-#				cd FT_PRINTF && make && cd ..
-#				$(CC) $(CFLAGS) $(OBJECTS) LIBFT/libft.a FT_PRINTF/libftprintf.a -o $@
-#				@clear
+bonus: $(NAME2)
 
-$(NAME2) : $(OBJECTS)
+$(NAME1) : $(OBJECTS1)
 				cd LIBFT && make && cd ..
 				cd FT_PRINTF && make && cd ..
-				$(CC) $(CFLAGS) $(OBJECTS) LIBFT/libft.a FT_PRINTF/libftprintf.a GNL/get_next_line.h -o $@
+				$(CC) $(CFLAGS) $(OBJECTS1) LIBFT/libft.a FT_PRINTF/libftprintf.a -o $@
+				@clear
+
+$(NAME2) : $(OBJECTS2)
+				cd LIBFT && make && cd ..
+				cd FT_PRINTF && make && cd ..
+				$(CC) $(CFLAGS) $(OBJECTS2) LIBFT/libft.a FT_PRINTF/libftprintf.a -o $@
 				@clear
 
 %.o : %.c
@@ -32,10 +40,11 @@ $(NAME2) : $(OBJECTS)
 
 clean :
 				cd LIBFT && make clean && cd ..
-				rm -rf $(OBJECTS)
+				rm -rf $(OBJECTS1)
+				rm -rf $(OBJECTS2)
 
 fclean : clean
-#				rm -rf $(NAME)
+				rm -rf $(NAME1)
 				rm -rf $(NAME2)
 
 re : fclean all

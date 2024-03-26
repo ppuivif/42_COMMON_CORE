@@ -1,18 +1,24 @@
 #include "push_swap.h"
 
-void	free_tab(char **arr)
+void	free_tab(char **str_arr)
 {
 	int	i;
 
 	i = 0;
-	while ((arr)[i])
+	while ((str_arr)[i])
 	{
-		free(arr[i]);
+		free(str_arr[i]);
 		i++;
 	}
-	if (arr)
-		free(arr);
-	arr = NULL;
+	if (str_arr)
+		free(str_arr);
+	str_arr = NULL;
+}
+
+void	free_arr(char **str_arr, int *int_arr)
+{
+	free_tab(str_arr);
+	free(int_arr);
 }
 
 int	ft_atoi_long(char *str)

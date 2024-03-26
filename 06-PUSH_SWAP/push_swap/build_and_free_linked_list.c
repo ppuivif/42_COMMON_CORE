@@ -1,5 +1,43 @@
 #include "push_swap.h"
 
+void	build_and_sort_stacks(char **str_arr, int *int_arr, int parameters_number)
+{
+	t_list	*stack_a;
+	t_list	*stack_b;
+
+	stack_a = NULL;
+	stack_b = NULL;
+	if (stack_initialization(&stack_a, parameters_number) == 1)
+	{
+		ft_putstr_fd("error\nAt least one allocation for stack failed\n", 2);
+		free_arr(str_arr, int_arr);
+		exit (EXIT_FAILURE);
+	}
+	if (stack_initialization(&stack_b, parameters_number) == 1)
+	{
+		ft_putstr_fd("error\nAt least one allocation for stack failed\n", 2);
+		free_arr(str_arr, int_arr);
+		free_linked_list(&stack_a);
+		exit (EXIT_FAILURE);
+	}
+	build_linked_list(int_arr, &stack_a);
+	ft_sort_int_arr(int_arr, parameters_number);
+	index_stack(&stack_a->head);
+	sort_stack_a(&stack_a, &stack_b);
+	free_linked_list(&stack_a);
+	free_linked_list(&stack_b);
+}
+
+int	stack_initialization(t_list	**stack, int size)	
+{
+	*stack = malloc(sizeof(t_list));
+	if (!stack)
+		return (1);
+	(*stack)->head = NULL;
+	(*stack)->size = size;
+	return (0);
+}
+
 void	build_linked_list(int *int_arr, t_list	**list)
 {
 	int			i;

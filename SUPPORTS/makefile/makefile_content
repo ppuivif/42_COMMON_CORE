@@ -29,7 +29,8 @@ NAME=so_long
 	à generer en compilant le code source du projet
 	(dans le cas present il s'agit de creer un executable)
 
-HEADER=libftprintf.h
+HEADER=libftprintf.h				cd FT_PRINTF && make && cd ..
+
 	//la ligne declare une 'variable' HEADER
 	//la ligne permet de specifier les fichiers d'en-tete (.h ou header)
 	à inclure dans la compilation

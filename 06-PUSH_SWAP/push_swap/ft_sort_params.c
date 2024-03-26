@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 21:57:29 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/12 16:53:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/26 20:20:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_swap_int(int *a, int *b)
 	*b = tmp;
 }
 
-void	ft_sort(int *arr, int count)
+void	ft_sort_int_arr(int *arr, int count)
 {
 	int	i;
 	int	hits;

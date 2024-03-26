@@ -65,21 +65,21 @@ void	reverse_rotate(t_element **head, char c)
 
 void	double_swap(t_element **head_a, t_element **head_b)
 {
-	swap(head_a, 'c');
-	swap(head_b, 'c');
+	swap(head_a, 0);
+	swap(head_b, 0);
 	ft_printf("ss\n");
 }
 
 void	double_rotate(t_element **head_a, t_element **head_b)
 {
-	rotate(head_a, 'c');
-	rotate(head_b, 'c');
+	rotate(head_a, 0);
+	rotate(head_b, 0);
 	ft_printf("rr\n");
 }
 
 void	double_reverse_rotate(t_element **head_a, t_element **head_b)
 {
-	reverse_rotate(head_a, 'c');
-	reverse_rotate(head_b, 'c');
+	reverse_rotate(head_a, 0);
+	reverse_rotate(head_b, 0);
 	ft_printf("rrr\n");
 }

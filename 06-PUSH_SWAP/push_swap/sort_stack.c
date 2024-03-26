@@ -1,5 +1,25 @@
 #include "push_swap.h"
 
+void	sort_stack_a(t_list **stack_a, t_list **stack_b)
+{
+	if ((*stack_a)->size == 2)
+		ft_sort_2(stack_a);
+	else if ((*stack_a)->size <= 3)
+		ft_sort_3(stack_a, stack_b);
+	else if ((*stack_a)->size <= 5)
+		ft_sort_5(stack_a, stack_b);
+	else if ((*stack_a)->size <= 100)
+		ft_sort_500(stack_a, stack_b, 3);
+	else if ((*stack_a)->size <= 200)
+		ft_sort_500(stack_a, stack_b, 4);
+	else if ((*stack_a)->size <= 300)
+		ft_sort_500(stack_a, stack_b, 5);
+	else if ((*stack_a)->size <= 400)
+		ft_sort_500(stack_a, stack_b, 6);
+	else if ((*stack_a)->size > 400)
+		ft_sort_500(stack_a, stack_b, 8);
+}
+
 void	ft_sort_2(t_list **src)
 {
 	swap(&(*src)->head, 'a');
@@ -52,5 +72,5 @@ void	ft_sort_500(t_list **src, t_list **dest, int chunk)
 	hits += ft_butterfly(src, dest, chunk);//to modify
 	update_new_position(&(*dest)->head);//to delete
 	hits += ft_sort_back(src, dest);//to modify
-	ft_lst_dc_print((*dest)->head);//to delete*/
+//	ft_lst_dc_print((*dest)->head);//to delete*/
 }
