@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_linked_list.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/27 09:41:16 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/03/28 15:40:11 by ppuivif          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	build_and_sort_stacks(char **str_arr, int *int_arr, int parameters_number)
+void	build_and_sort_stacks(char **str_arr, int *int_arr,
+	int parameters_number)
 {
 	t_list	*stack_a;
 	t_list	*stack_b;
@@ -28,7 +41,7 @@ void	build_and_sort_stacks(char **str_arr, int *int_arr, int parameters_number)
 	free_linked_list(&stack_b);
 }
 
-int	stack_initialization(t_list	**stack, int size)	
+int	stack_initialization(t_list	**stack, int size)
 {
 	*stack = malloc(sizeof(t_list));
 	if (!stack)
@@ -57,8 +70,8 @@ void	build_linked_list(int *int_arr, t_list	**list)
 
 void	index_stack(t_element **head)
 {
-	int i;
-	int size;
+	int			i;
+	int			size;
 	t_element	*element_to_examinate;
 	t_element	*increased_element;
 
@@ -73,13 +86,14 @@ void	index_stack(t_element **head)
 			if (element_to_examinate->number > increased_element->number)
 				element_to_examinate->index += 1;
 			else
-				increased_element->index += 1;		
+				increased_element->index += 1;
 			increased_element = increased_element->next;
 		}
 		i++;
 		element_to_examinate = element_to_examinate->next;
 	}
 }
+
 void	update_new_position(t_element **head)
 {
 	int			i;
@@ -96,18 +110,3 @@ void	update_new_position(t_element **head)
 		i++;
 	}
 }
-void	free_linked_list(t_list **list)
-{
-	int size;
-
-	size = ft_lst_dc_size((*list)->head);
-
-	while (size > 1)
-	{
-		ft_lst_dc_delone(&(*list)->head, (*list)->head);
-		size--;
-	}
-	free((*list)->head);
-	free(*list);
-}
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 13:53:47 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/01/26 16:12:19 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/27 13:47:33 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ char	*ft_get_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	str = ft_get_calloc((ft_get_strlen(s1) + ft_get_strlen(s2) + 1), sizeof (char));
+	str = ft_get_calloc((ft_get_strlen(s1) + ft_get_strlen(s2) + 1),
+			sizeof (char));
 	if (!str)
 		return (NULL);
 	while (s1 && s1[i])

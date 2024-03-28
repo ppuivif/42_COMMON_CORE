@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_dc_last.c                                   :+:      :+:    :+:   */
+/*   free_arrays.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 13:24:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/27 13:43:45 by ppuivif          ###   ########.fr       */
+/*   Created: 2023/09/03 21:57:29 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/03/27 11:39:36 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-t_element	*ft_lst_dc_last(t_element *head)
+void	free_tab(char **str_arr)
 {
-	t_element	*last_element;
+	int	i;
 
-	if (!head)
-		return (NULL);
-	if (!head->previous)
-		last_element = head;
-	else
-		last_element = head->previous;
-	return (last_element);
+	i = 0;
+	while ((str_arr)[i])
+	{
+		free(str_arr[i]);
+		i++;
+	}
+	if (str_arr)
+		free(str_arr);
+	str_arr = NULL;
+}
+
+void	free_arr(char **str_arr, int *int_arr)
+{
+	free_tab(str_arr);
+	free(int_arr);
 }

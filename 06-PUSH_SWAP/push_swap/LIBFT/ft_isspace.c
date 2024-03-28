@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 18:03:15 by ppuivif           #+#    #+#             */
-/*   Updated: 2023/11/21 19:56:40 by ppuivif          ###   ########.fr       */
+/*   Created: 2023/11/02 09:28:40 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/03/28 16:47:39 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lst.h"
+#include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_isspace(int c)
 {
-	int	i;
-
-	i = 0;
-	if (s != 0)
-	{
-		while (s[i])
-		{
-			write(fd, &s[i], 1);
-			i++;
-		}
-	}
+	if (((c >= 9) && (c <= 13)) || c == 32)
+		return (1);
+	return (0);
 }

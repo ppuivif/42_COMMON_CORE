@@ -32,6 +32,7 @@ int	ft_atoi_long(char *str)
 			sign = -1;
 		i++;
 	}
+//		sign = (str[i++] == 45) * -2 + 1;//to replace previous code
 	if (str[i] == 0)
 		return (-1);
 	while (str[i])

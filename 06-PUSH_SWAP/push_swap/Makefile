@@ -2,17 +2,19 @@ CC=clang
 CFLAGS=-Wall -Werror -Wextra -g
 NAME1=push_swap
 NAME2=checker
-SOURCES1=push_swap.c ft_sort_params.c \
-		build_and_free_linked_list.c \
-		utils_1.c utils_2.c \
-		functions_to_control_stacks.c \
-		sort_stack.c best_sort.c
+SOURCES1=push_swap.c \
+		build_and_sort_arrays_1.c build_and_sort_arrays_2.c \
+		free_arrays.c check_parameters_in_str.c check_parameters_in_arrays.c\
+		build_linked_list.c free_linked_list.c \
+		functions_to_control_stacks_1.c functions_to_control_stacks_2.c \
+		sort_stack.c sort_stack_utils.c
 
-SOURCES2=checker.c ft_sort_params.c \
-		build_and_free_linked_list.c \
-		utils_1.c utils_2.c \
-		functions_to_control_stacks.c \
-		sort_stack.c best_sort.c \
+SOURCES2=checker.c \
+		build_and_sort_arrays_1.c build_and_sort_arrays_2.c \
+		free_arrays.c check_parameters_in_str.c check_parameters_in_arrays.c\
+		build_linked_list.c free_linked_list.c \
+		functions_to_control_stacks_1.c functions_to_control_stacks_2.c \
+		sort_stack.c sort_stack_utils.c \
 		GNL/get_next_line.c GNL/get_next_line_utils.c
 
 OBJECTS1=$(SOURCES1:.c=.o)

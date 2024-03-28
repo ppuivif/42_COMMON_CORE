@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_dc_last.c                                   :+:      :+:    :+:   */
+/*   free_linked_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 13:24:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/27 13:43:45 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/03/27 09:41:16 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/03/27 11:44:46 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-t_element	*ft_lst_dc_last(t_element *head)
+void	free_linked_list(t_list **list)
 {
-	t_element	*last_element;
+	int	size;
 
-	if (!head)
-		return (NULL);
-	if (!head->previous)
-		last_element = head;
-	else
-		last_element = head->previous;
-	return (last_element);
+	size = ft_lst_dc_size((*list)->head);
+	while (size > 1)
+	{
+		ft_lst_dc_delone(&(*list)->head, (*list)->head);
+		size--;
+	}
+	free((*list)->head);
+	free(*list);
 }

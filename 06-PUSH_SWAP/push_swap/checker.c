@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/27 11:59:23 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/03/28 17:28:27 by ppuivif          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 
@@ -7,101 +18,84 @@ int	main(int argc, char **argv)
 	char	**str_arr;
 	int		*int_arr;
 	int		i;
-	int		size_stack_a;
-	t_list	*stack_a;
-	t_list	*stack_b;
 
-	size_stack_a = 0;
 	if (argc < 2)
-	{
-		ft_putstr_fd("Error\nArguments are missing for the checker \n", 2);
 		exit(EXIT_FAILURE);
-	}
-	str = ft_strjoin(argv[1], " ");
-	i = 2;
-
+	str = NULL;
+	i = 1;
 	while (argv[i])
 	{
+		check_parameters_are_valid_1(argv[i], str);
+		check_parameters_are_valid_2(argv[i], str);
 		str = ft_strjoin_freed(str, argv[i]);
 		str = ft_strjoin_freed(str, " ");
 		i++;
 	}
 	str_arr = ft_split(str, ' ');
 	free(str);
-	size_stack_a = count_parameters(str_arr);
-
-//	ft_printf("count number of elements : %d\n\n", size_stack_a);
-
 	check_parameters_are_integers(str_arr);
-
-
-	int_arr = build_arr(str_arr, size_stack_a);
-
-	check_no_duplicate(int_arr, size_stack_a, str_arr);
-	stack_a = malloc(sizeof(t_list));
-	if (!stack_a)
-		return (1);
-	stack_a->head = NULL;
-	stack_a->size = size_stack_a;
-
-	stack_b = malloc(sizeof(t_list));
-	if (!stack_b)
-		return (1);
-	stack_b->head = NULL;
-	stack_b->size = 0;
-
-	build_linked_list(int_arr, &stack_a);
-	ft_sort_int_arr(int_arr, size_stack_a);
-
-//	index_stack(&stack_a->head);
-	
-	checker(&stack_a, &stack_b);
+	int_arr = build_int_arr(str_arr, count_parameters(str_arr));
+	check_no_duplicate(int_arr, count_parameters(str_arr), str_arr);
+	build_stacks_for_checker(str_arr, int_arr, count_parameters(str_arr));
 	free_arr(str_arr, int_arr);
+}
+
+void	build_stacks_for_checker(char **str_arr, int *int_arr,
+	int parameters_number)
+{
+	t_list	*stack_a;
+	t_list	*stack_b;
+
+	stack_a = NULL;
+	stack_b = NULL;
+	if (stack_initialization(&stack_a, parameters_number) == 1)
+	{
+		ft_putstr_fd("Error\nAt least one allocation for stack failed\n", 2);
+		free_arr(str_arr, int_arr);
+		exit (EXIT_FAILURE);
+	}
+	if (stack_initialization(&stack_b, parameters_number) == 1)
+	{
+		ft_putstr_fd("Error\nAt least one allocation for stack failed\n", 2);
+		free_arr(str_arr, int_arr);
+		free_linked_list(&stack_a);
+		exit (EXIT_FAILURE);
+	}
+	build_linked_list(int_arr, &stack_a);
+	ft_sort_int_arr(int_arr, parameters_number);
+	if (checker(&stack_a, &stack_b) == 0)
+		ft_error(&stack_a, &stack_b, str_arr, int_arr);
 	free_linked_list(&stack_a);
 	free_linked_list(&stack_b);
 }
 
-void checker(t_list **stack_a, t_list **stack_b)
+int	checker(t_list **stack_a, t_list **stack_b)
 {
-	char *tmp;
+	char	*tmp;
+
 	tmp = get_next_line(0);
 	if (!tmp)
-		return;
-//	ft_printf("tmp : %s\n", tmp);
-//	if (ft_strncmp(tmp, "r", 1) == 0)
-	which_instruction_2(&(*stack_a), &(*stack_b), tmp);
-/*	else if (ft_strncmp(tmp, "r", 1) != 0)
-	{
-		printf("%d\n", ft_strncmp(tmp, "r", 1));
-		which_instruction_2(&(*stack_a), &(*stack_b), tmp);
-	}*/
+		return (0);
 	while (tmp)
 	{
-//		ft_printf("tmp : %s\n", tmp);
+		if (which_instruction(&(*stack_a), &(*stack_b), tmp) == 0)
+		{
+			free(tmp);
+			return (0);
+		}
 		free(tmp);
 		tmp = NULL;
 		tmp = get_next_line(0);
-		/*if (tmp && ft_strncmp(tmp, "r", 1) == 0)
-		{
-			which_instruction_1(&(*stack_a), &(*stack_b), tmp);
-			printf("%d\n", ft_strncmp(tmp, "r", 1));
-		}
-		else if (tmp && ft_strncmp(tmp, "r", 1) != 0)*/
-		if (tmp)
-			which_instruction_2(&(*stack_a), &(*stack_b), tmp);
 	}
-	free(tmp);
-	tmp = NULL;
-//	ft_lst_dc_print((*stack_a)->head);
-
-	if (ft_lst_dc_is_sorted((*stack_a)->head) == 1)
+	if (ft_lst_dc_is_sorted((*stack_a)->head) == 1 \
+	&& ft_lst_dc_size((*stack_b)->head) == 0)
 		ft_printf("OK\n");
-	else	
+	else
 		ft_printf("K0\n");
-
+	return (1);
 }
 
-void	which_instruction_2(t_list **stack_a, t_list **stack_b, char *tmp)
+int	which_instruction(t_list **stack_a, t_list **stack_b, char *tmp)
 {
 	if (ft_strcmp(tmp, "sa\n") == 0)
 		swap(&(*stack_a)->head, 0);
@@ -125,5 +119,17 @@ void	which_instruction_2(t_list **stack_a, t_list **stack_b, char *tmp)
 		reverse_rotate(&(*stack_b)->head, 0);
 	else if (ft_strcmp(tmp, "rrr\n") == 0)
 		double_reverse_rotate(&(*stack_a)->head, &(*stack_b)->head);
+	else
+		return (0);
+	return (1);
 }
 
+void	ft_error(t_list **stack_a, t_list **stack_b,
+		char **str_arr, int *int_arr)
+{
+	ft_putstr_fd("Error\n", 2);
+	free_arr(str_arr, int_arr);
+	free_linked_list(stack_a);
+	free_linked_list(stack_b);
+	exit (EXIT_FAILURE);
+}

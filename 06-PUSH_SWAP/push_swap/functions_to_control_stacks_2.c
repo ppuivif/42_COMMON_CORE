@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_dc_last.c                                   :+:      :+:    :+:   */
+/*   functions_to_control_stacks_2.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 13:24:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/27 13:43:45 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/03/27 10:56:03 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/03/27 10:58:24 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-t_element	*ft_lst_dc_last(t_element *head)
+void	double_swap(t_element **head_a, t_element **head_b)
 {
-	t_element	*last_element;
+	swap(head_a, 0);
+	swap(head_b, 0);
+	ft_printf("ss\n");
+}
 
-	if (!head)
-		return (NULL);
-	if (!head->previous)
-		last_element = head;
-	else
-		last_element = head->previous;
-	return (last_element);
+void	double_rotate(t_element **head_a, t_element **head_b)
+{
+	rotate(head_a, 0);
+	rotate(head_b, 0);
+	ft_printf("rr\n");
+}
+
+void	double_reverse_rotate(t_element **head_a, t_element **head_b)
+{
+	reverse_rotate(head_a, 0);
+	reverse_rotate(head_b, 0);
+	ft_printf("rrr\n");
 }
