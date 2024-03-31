@@ -4,6 +4,7 @@ aucun argument 	: invalide
 ""		: invalide
 "" ""		: invalide
 " "		: invalide
+
 1 "" 5 3	: invalide
 1 " " 5 3	: invalide
 "1" 5 3		: valide
@@ -14,7 +15,7 @@ aucun argument 	: invalide
 "  1" 5 3	: valide
 
 "+1" 5 3	: valide
-"+00001" 5 3	: valide
+"+00001" 5 3	: valide a confirmer
 "1-5"		: invalide
 "--1" 5 3	: invalide
 "1-----5"	: invalide
@@ -33,7 +34,7 @@ aucun argument 	: invalide
 1d 5 3		: invalide
 
 1		: valide
-1 3 5		: valide
+1 2 3		: valide
 1 5 3 -42	: valide
 
 "18446744073709551616" 45 9	: valide

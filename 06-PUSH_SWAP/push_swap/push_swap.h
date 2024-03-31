@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:49:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 17:04:07 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 13:13:17 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@
 # include <stdlib.h>
 # include <limits.h>
 
+void	check_parameters_validity_and_join(char **arg, char **str);
 void	check_parameters_are_valid_1(char *arg, char *str);
 void	check_parameters_are_valid_2(char *arg, char *str);
 int		count_parameters(char **arr);
 void	check_parameters_are_integers(char **str_arr);
 void	check_no_duplicate(int *int_arr, int count, char **str_arr);
-void	check_if_sorted(int *int_arr, int count, char **str_arr);
+int		check_if_sorted(int *int_arr, int count, char **str_arr);
 void	free_tab(char **str_arr);
 void	free_arr(char **arr, int *int_arr);
 int		ft_atoi_long(char *str);
@@ -68,6 +69,7 @@ void	build_stacks_for_checker(char **str_arr, int *int_arr,
 int		checker(t_list **stack_a, t_list **stack_b);
 int		which_instruction(t_list **stack_a, t_list **stack_b, char *tmp);
 
-void	ft_error(t_list **stack_a, t_list **stack_b, char **str_arr, int *int_arr);
+void	ft_error(t_list **stack_a, t_list **stack_b,
+			char **str_arr, int *int_arr);
 
 #endif

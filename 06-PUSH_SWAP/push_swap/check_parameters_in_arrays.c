@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 09:11:22 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 16:52:39 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 15:02:16 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ int	count_parameters(char **tab)
 		ft_putstr_fd("Error\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	if (count == 1)
-	{
-		free_tab(tab);
-		ft_putstr_fd("Error\n", 2);
-		exit(EXIT_FAILURE);
-	}
 	return (count);
 }
 
@@ -41,9 +35,9 @@ void	check_parameters_are_integers(char **str_arr)
 	i = 0;
 	while (str_arr[i])
 	{
-		if (ft_atoi_long(str_arr[i]) == 1)
+		if (ft_atoi_long(str_arr[i]) == 0)
 			i++;
-		else if (ft_atoi_long(str_arr[i]) == 0)
+		else if (ft_atoi_long(str_arr[i]) == 1)
 		{
 			free_tab(str_arr);
 			ft_putstr_fd("Error\n", 2);
@@ -81,7 +75,7 @@ void	check_no_duplicate(int *int_arr, int count, char **str_arr)
 	}
 }
 
-void	check_if_sorted(int *int_arr, int count, char **str_arr)
+int	check_if_sorted(int *int_arr, int count, char **str_arr)
 {
 	int	i;
 
@@ -91,8 +85,8 @@ void	check_if_sorted(int *int_arr, int count, char **str_arr)
 		if (int_arr[i] < int_arr[i + 1])
 			i++;
 		else
-			return ;
+			return (1);
 	}
 	free_arr(str_arr, int_arr);
-	exit (EXIT_FAILURE);
+	return (0);
 }

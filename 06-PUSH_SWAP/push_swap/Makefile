@@ -1,5 +1,5 @@
-CC=clang
-CFLAGS=-Wall -Werror -Wextra -g
+CC=cc
+CFLAGS=-Wall -Werror -Wextra
 NAME1=push_swap
 NAME2=checker
 SOURCES1=push_swap.c \

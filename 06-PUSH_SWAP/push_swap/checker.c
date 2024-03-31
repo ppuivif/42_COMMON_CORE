@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 11:59:23 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 17:28:27 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 14:57:44 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	main(int argc, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		check_parameters_are_valid_1(argv[i], str);
-		check_parameters_are_valid_2(argv[i], str);
-		str = ft_strjoin_freed(str, argv[i]);
-		str = ft_strjoin_freed(str, " ");
+		check_parameters_validity_and_join(&argv[i], &str);
 		i++;
 	}
 	str_arr = ft_split(str, ' ');
@@ -63,7 +60,7 @@ void	build_stacks_for_checker(char **str_arr, int *int_arr,
 	}
 	build_linked_list(int_arr, &stack_a);
 	ft_sort_int_arr(int_arr, parameters_number);
-	if (checker(&stack_a, &stack_b) == 0)
+	if (checker(&stack_a, &stack_b) == 1)
 		ft_error(&stack_a, &stack_b, str_arr, int_arr);
 	free_linked_list(&stack_a);
 	free_linked_list(&stack_b);
@@ -74,25 +71,23 @@ int	checker(t_list **stack_a, t_list **stack_b)
 	char	*tmp;
 
 	tmp = get_next_line(0);
-	if (!tmp)
-		return (0);
 	while (tmp)
 	{
-		if (which_instruction(&(*stack_a), &(*stack_b), tmp) == 0)
+		if (which_instruction(&(*stack_a), &(*stack_b), tmp) == 1)
 		{
 			free(tmp);
-			return (0);
+			return (1);
 		}
 		free(tmp);
 		tmp = NULL;
 		tmp = get_next_line(0);
 	}
-	if (ft_lst_dc_is_sorted((*stack_a)->head) == 1 \
-	&& ft_lst_dc_size((*stack_b)->head) == 0)
+	if ((ft_lst_dc_is_sorted((*stack_a)->head) == 0 \
+	&& ft_lst_dc_size((*stack_b)->head) == 0))
 		ft_printf("OK\n");
 	else
 		ft_printf("K0\n");
-	return (1);
+	return (0);
 }
 
 int	which_instruction(t_list **stack_a, t_list **stack_b, char *tmp)
@@ -120,14 +115,14 @@ int	which_instruction(t_list **stack_a, t_list **stack_b, char *tmp)
 	else if (ft_strcmp(tmp, "rrr\n") == 0)
 		double_reverse_rotate(&(*stack_a)->head, &(*stack_b)->head);
 	else
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 void	ft_error(t_list **stack_a, t_list **stack_b,
 		char **str_arr, int *int_arr)
 {
-	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd("Error1\n", 2);
 	free_arr(str_arr, int_arr);
 	free_linked_list(stack_a);
 	free_linked_list(stack_b);

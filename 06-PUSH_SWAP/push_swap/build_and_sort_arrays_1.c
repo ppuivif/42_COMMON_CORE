@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 09:18:21 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 11:30:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 13:21:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	ft_atoi_long(char *str)
 		i++;
 	}
 	if ((nb * sign) < INT_MIN || (nb * sign) > INT_MAX)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 char	*ft_strjoin_freed(char *s1, char *s2)

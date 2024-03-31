@@ -1,7 +1,47 @@
+
+chmod [FICHIER]
+
+permet de modifier les droits pour le user (u), le group (g), les others (o)
+
+exemple :
+si ls -l script.sh donne :
+	-rw-r--r-- 1 ppuivif 2023_angouleme 118 Mar 30 17:54 script.sh
+chmod u+rwx script.sh permet d'obtenir :
+	-rwxr--r-- 1 ppuivif 2023_angouleme 118 Mar 30 17:54 script.sh
+
+-----------------------------------------------------------------------------------------------
+
 cat [OPTION] [FICHIER]
 
-afficher le contenu d'un fichier dans la console
-	cat nomdufichier.txt
+afficher le contenu d'un fichier (ou de plusieurs fichiers) dans la console
+	cat nomdufichier.txt (nomdufichier2.txt)
+
+cat >test1.txt
+"Pour créer un fichier et ajouter du texte"
+CTRL D
+
+cat >> test.txt
+"Permet d'ajouter du texte à un fichier existant"
+CTRL D
+
+cat test.txt > final.txt
+Copie le contenu de test.txt dans final.txt en écrasant le contenu de ce dernier
+
+cat test.txt test2.txt test3.txt > final.txt
+Copie le contenu des fichiers test dans final.txt en écrasant le contenu de ce dernier
+
+cat test.txt >> final.txt
+Ajoute le contenu de test.txt à la fin de final.txt
+
+cat test.txt test2.txt test3.txt > final.txt
+Ajoute le contenu des fichiers test à la fin de final.txt
+
+[OPTIONS]
+
+-e : permet de signaler les fins de lignes et par voie de conséquence les lignes vides à l'aide
+d'un $
+
+-n : permet d'activer la numérotation de ligne
 
 
 
@@ -12,6 +52,14 @@ ls [OPTIONS] [REPERTOIRE]
 
 afficher tout le contenu d'un répertoire
 
+[OPTIONS]
+
+-l : permet d'afficher le contenu d'un répertoire avec les informations relatives à chaque
+fichier
+Appliquée à un fichier (ls -l file.txt), la commande ls avec l'option -l permet notamment
+d'afficher les droits pour le user (u), le group (g), les others (o)
+Ces droits sont r pour read, w pour write, x pour execute.
+Ils peuvent être modifiés avec la commande chmod.  
 
 -----------------------------------------------------------------------------------------------
 

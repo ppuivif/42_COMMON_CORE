@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 11:01:33 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/27 15:52:07 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 14:01:54 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	ft_sort_5(t_list **src, t_list **dest)
 	search_best_sort_index(src, dest, char_to_print, 1);
 	search_best_sort_index(src, dest, char_to_print, 2);
 	if (ft_lst_dc_size((*src)->head) == 2 \
-	&& ft_lst_dc_is_sorted((*src)->head) == 0)
+	&& ft_lst_dc_is_sorted((*src)->head) == 1)
 		ft_sort_2(src);
 	else if (ft_lst_dc_size((*src)->head) == 3 \
-	&& ft_lst_dc_is_sorted((*src)->head) == 0)
+	&& ft_lst_dc_is_sorted((*src)->head) == 1)
 		ft_sort_3(src, dest);
 	push(&(*dest)->head, &(*src)->head, 'a');
 	push(&(*dest)->head, &(*src)->head, 'a');

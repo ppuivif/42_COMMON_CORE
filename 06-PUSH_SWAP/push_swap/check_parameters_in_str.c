@@ -6,11 +6,19 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 09:11:22 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 17:09:45 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 12:13:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	check_parameters_validity_and_join(char **arg, char **str)
+{
+	check_parameters_are_valid_1(*arg, *str);
+	check_parameters_are_valid_2(*arg, *str);
+	*str = ft_strjoin_freed(*str, *arg);
+	*str = ft_strjoin_freed(*str, " ");
+}
 
 void	check_parameters_are_valid_1(char *arg, char *str)
 {

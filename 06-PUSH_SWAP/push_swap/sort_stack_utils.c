@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:02:23 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/27 15:51:32 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 13:24:57 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_sort_back(t_list **src, t_list **dest)
 	while (ft_lst_dc_size((*dest)->head))
 	{
 		i = ft_lst_dc_size((*dest)->head);
-		if (i > 1 && optimizing_last_push(dest, i, i - 1) == 1)
+		if (i > 1 && optimizing_last_push(dest, i, i - 1) == 0)
 		{
 			search_best_sort_index(dest, src, char_to_print, i - 1);
 			search_best_sort_index(dest, src, char_to_print, i);
@@ -122,10 +122,10 @@ int	optimizing_last_push(t_list **dest, int index_max, int index_max_minus_1)
 			index_max_minus_1);
 	if (new_position_1 <= median_dest && new_position_2 <= median_dest \
 	&& new_position_2 < new_position_1)
-		return (1);
+		return (0);
 	if (new_position_1 > median_dest && new_position_2 > median_dest \
 	&& new_position_2 > new_position_1)
-		return (1);
-	else
 		return (0);
+	else
+		return (1);
 }

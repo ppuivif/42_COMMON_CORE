@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 19:14:48 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 17:00:16 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/03/30 13:58:44 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	main(int argc, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		check_parameters_are_valid_1(argv[i], str);
-		check_parameters_are_valid_2(argv[i], str);
-		str = ft_strjoin_freed(str, argv[i]);
-		str = ft_strjoin_freed(str, " ");
+		check_parameters_validity_and_join(&argv[i], &str);
 		i++;
 	}
 	str_arr = ft_split(str, ' ');
@@ -36,7 +33,9 @@ int	main(int argc, char **argv)
 	check_parameters_are_integers(str_arr);
 	int_arr = build_int_arr(str_arr, count_parameters(str_arr));
 	check_no_duplicate(int_arr, count_parameters(str_arr), str_arr);
-	check_if_sorted(int_arr, count_parameters(str_arr), str_arr);
+	if (check_if_sorted(int_arr, count_parameters(str_arr), str_arr) == 0)
+		exit (EXIT_SUCCESS);
 	build_and_sort_stacks(str_arr, int_arr, count_parameters(str_arr));
 	free_arr(str_arr, int_arr);
+	return (0);
 }
