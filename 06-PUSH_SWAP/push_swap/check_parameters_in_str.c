@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 09:11:22 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/30 12:13:41 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 14:45:47 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_parameters_are_valid_1(char *arg, char *str)
 		free (str);
 		exit (EXIT_FAILURE);
 	}
-	while (ft_isspace(arg[i]) == 1 && arg[i] != 0)
+	while (ft_isspace(arg[i]) == 0 && arg[i] != 0)
 		i++;
 	if (i == ft_strlen(arg))
 	{
@@ -48,7 +48,7 @@ void	check_parameters_are_valid_2(char *arg, char *str)
 	i = 0;
 	while (arg[i])
 	{
-		if ((ft_isdigit(arg[i]) == 0 || ft_isspace(arg[i]) == 0)
+		if ((ft_isdigit(arg[i]) == 0 || ft_isspace(arg[i]) == 1)
 			&& arg[i] == 43 && arg[i] == 45)
 		{
 			ft_putstr_fd("Error\n", 2);

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 09:18:21 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/30 13:21:41 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 19:29:36 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ int	ft_atoi_long(char *str)
 	i = 0;
 	sign = 1;
 	nb = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+	while (ft_isspace(str[i]) == 0)
 		i++;
 	if (str[i] == 43 || str[i] == 45)
 		sign = (str[i++] == 45) * -2 + 1;
 	if (str[i] == 0)
-		return (-1);
+		return (1);
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			return (-1);
+			return (1);
 		nb = nb * 10 + str[i] - '0';
 		i++;
 	}

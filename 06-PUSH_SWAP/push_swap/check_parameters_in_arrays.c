@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 09:11:22 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/30 15:02:16 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:01:37 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ void	check_parameters_are_integers(char **str_arr)
 			ft_putstr_fd("Error\n", 2);
 			exit (EXIT_FAILURE);
 		}
-		else if (ft_atoi_long(str_arr[i]) == -1)
-		{
-			free_tab(str_arr);
-			ft_putstr_fd("Error\n", 2);
-			exit(EXIT_FAILURE);
-		}
 	}
 }
 
@@ -75,7 +69,7 @@ void	check_no_duplicate(int *int_arr, int count, char **str_arr)
 	}
 }
 
-int	check_if_sorted(int *int_arr, int count, char **str_arr)
+void	check_if_sorted(int *int_arr, int count, char **str_arr)
 {
 	int	i;
 
@@ -85,8 +79,8 @@ int	check_if_sorted(int *int_arr, int count, char **str_arr)
 		if (int_arr[i] < int_arr[i + 1])
 			i++;
 		else
-			return (1);
+			return ;
 	}
 	free_arr(str_arr, int_arr);
-	return (0);
+	exit (EXIT_SUCCESS);
 }

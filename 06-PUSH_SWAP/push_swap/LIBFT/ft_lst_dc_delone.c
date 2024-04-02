@@ -6,13 +6,11 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:29:05 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/27 14:29:52 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 19:31:47 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-#include "stdio.h" // to delete
 
 int	ft_lst_dc_delone_util(t_element **head, t_element *element_to_del)
 {

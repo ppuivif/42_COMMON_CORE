@@ -43,7 +43,7 @@
 		- si l'une des deux recherche echoue, close, free et EXIT_FAILURE
 		- si la recherche est fructueuse, conserver la concatenation
 
-//		- sinon recuperer chacun des deux paths, puis concatener de nouveau avec chacune des deux commandes et leurs options pas vu dans le code ??
+//		- sinon recuperer chacun des deux paths, puihttps://github.com/Teddyburgonde/pipex_and_pipex_bonus.gits concatener de nouveau avec chacune des deux commandes et leurs options pas vu dans le code ??
 
 //6-le parsing des fichiers
 
@@ -66,3 +66,21 @@
 10-execution des commandes
 
 11-total free
+
+
+
+
+Attention a la commande sleep, attends toujours le plus grand sleep
+Attention si in invalide , le processus out s'execute quand meme
+Attention a /dev/random/ boucle infinie
+Attention si 2eme commande n'existe pas, pas d'appel a execve sur cmd2 et waitpid sur execution cmd1
+Attention --trace-children=yes
+
+valgrind --leak-check=full --track-fds=yes --trace-children=yes ./pipex Makefile ls ls test :
+Attention des erreurs apparaissent avec ls, pas avec cat
+
+Pour envoyer vers la sortie standard :
+ls /dev/stdout
+
+ ./pipex /dev/random cat ls /dev/stdout
+

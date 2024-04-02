@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 19:14:48 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/30 13:58:44 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 18:59:13 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	main(int argc, char **argv)
 	check_parameters_are_integers(str_arr);
 	int_arr = build_int_arr(str_arr, count_parameters(str_arr));
 	check_no_duplicate(int_arr, count_parameters(str_arr), str_arr);
-	if (check_if_sorted(int_arr, count_parameters(str_arr), str_arr) == 0)
-		exit (EXIT_SUCCESS);
+	check_if_sorted(int_arr, count_parameters(str_arr), str_arr);
 	build_and_sort_stacks(str_arr, int_arr, count_parameters(str_arr));
 	free_arr(str_arr, int_arr);
 	return (0);

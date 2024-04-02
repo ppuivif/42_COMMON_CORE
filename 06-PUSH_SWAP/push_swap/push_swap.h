@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 13:49:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/30 13:13:17 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:02:15 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_parameters_are_valid_2(char *arg, char *str);
 int		count_parameters(char **arr);
 void	check_parameters_are_integers(char **str_arr);
 void	check_no_duplicate(int *int_arr, int count, char **str_arr);
-int		check_if_sorted(int *int_arr, int count, char **str_arr);
+void	check_if_sorted(int *int_arr, int count, char **str_arr);
 void	free_tab(char **str_arr);
 void	free_arr(char **arr, int *int_arr);
 int		ft_atoi_long(char *str);

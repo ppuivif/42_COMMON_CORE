@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 09:41:16 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 15:40:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:14:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	build_linked_list(int *int_arr, t_list	**list)
 		new_element = ft_lst_dc_new(int_arr[i], 1, 1);
 		new_element->initial_position = i + 1;
 		new_element->new_position = new_element->initial_position;
-		new_element->next_position = new_element->initial_position;
 		ft_lst_dc_add_back(&(*list)->head, new_element);
 		i++;
 	}

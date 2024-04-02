@@ -1,16 +1,16 @@
 #include "get_next_line.h"
 
-static int	get_lines(char **tmp, char **buf, char **line)
+static int	get_lines(char **buf, char **line)
 {
 	int			start;
 	char 		*tmp2;
 	
-	start = ft_get_strchr(*buf, '\n');
 	if (!*buf)
 	{
 		*line = NULL;
 		return (1);
 	}
+	start = ft_get_strchr(*buf, '\n');
 	if (start != -1)
 	{
 		tmp2 = ft_substr(*buf, 0, start + 1);
@@ -23,39 +23,30 @@ static int	get_lines(char **tmp, char **buf, char **line)
 			free(*buf);
 			*buf = NULL;
 		}
-		free(*tmp);
-		*tmp = NULL;
 		return (1);
 	}
 	else
 		return (0);
 }	
 
-static void	end_of_file(char **tmp, char **buf, char **line)
+static void	end_of_file(char **buf, char **line)
 {
-		if (*buf)
-		{
-			if (get_lines(tmp, buf, line) == 1)
-				return ;
-			else
-			{
-				*line = ft_get_strjoin(*line, *buf);
-				free(*tmp);
-				*tmp = NULL;
-				free(*buf);
-				*buf = NULL;
-				return ;
-			}
-		}
-		else
-		{
-			free(*tmp);
-			*tmp = NULL;
-			free(*buf);
-			*buf = NULL;
-			*line = NULL;
-			return ;
-		}
+	if (!*buf)
+	{
+		free(*buf);
+		*buf = NULL;
+		*line = NULL;
+		return ;
+	}
+	if (get_lines(buf, line) == 1)
+		return ;
+	else
+	{
+		*line = ft_get_strjoin(*line, *buf);
+		free(*buf);
+		*buf = NULL;
+		return ;
+	}
 }	
 
 char	*get_next_line(int fd)
@@ -85,13 +76,15 @@ char	*get_next_line(int fd)
 		}
 		if (nb_read_bytes == 0)
 		{
-			end_of_file(&tmp, &buf, &line);
+			end_of_file(&buf, &line);
+			free (tmp);
+			tmp = NULL;
 			return (line);
 		}
 		buf = ft_get_strjoin(buf, tmp);
 		free(tmp);
 		tmp = NULL;
-		if (get_lines(&tmp, &buf, &line) == 1)
+		if (get_lines(&buf, &line) == 1)
 			return (line);
 	}
 }

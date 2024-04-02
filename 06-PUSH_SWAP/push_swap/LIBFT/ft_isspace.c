@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:28:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/03/28 16:47:39 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/01 14:44:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 int	ft_isspace(int c)
 {
 	if (((c >= 9) && (c <= 13)) || c == 32)
-		return (1);
-	return (0);
+		return (0);
+	return (1);
 }
