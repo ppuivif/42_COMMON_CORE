@@ -1,0 +1,7 @@
+utiliser gcc plutôt que cc ou clang
+
+une error1 dans le parsing à passer en error
+
+possibilité d'utiliser strtol : voir le man
+
+penser à classer les fichiers dans différents répertoire dont répertoires includes (avec LIBFT, GNL, .h) et répertoire sources voire répertoire objet

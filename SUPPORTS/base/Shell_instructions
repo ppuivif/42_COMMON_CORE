@@ -1,4 +1,10 @@
 
+type cat
+
+permet d'obtenir le path de la commande cat
+
+-----------------------------------------------------------------------------------------------
+
 chmod [FICHIER]
 
 permet de modifier les droits pour le user (u), le group (g), les others (o)
