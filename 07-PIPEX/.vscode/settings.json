@@ -1,5 +1,11 @@
 {
 	"files.associations": {
-		"types.h": "c"
+		"types.h": "c",
+		"stdlib.h": "c",
+		"pipex.h": "c",
+		"libftprintf.h": "c",
+		"fcntl.h": "c",
+		"stdio.h": "c",
+		"libft.h": "c"
 	}
 }

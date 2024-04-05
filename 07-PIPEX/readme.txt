@@ -11,6 +11,8 @@
 
 2-check : quels sont les lignes de commandes invalides ?
 	- nombre d'arguments different de 4,
+
+check retour du split des commandes avant de l'envoyer dans execve
 	- arguments correspondants aux commandes vides "" ou ne comportant que des whitespaces "  ",
 	- 
 
