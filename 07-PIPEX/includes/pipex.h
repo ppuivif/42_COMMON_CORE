@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:43:58 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/05 22:29:26 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:33:20 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #include "../LIBFT/libft.h"
 
 void	check_files(char **argv);
+void	check_cmd(char **argv, char **envp);
+char	*search_path(char **envp);
+
 
 
 

@@ -3,27 +3,42 @@
 
 1-comment se comporte bash avec une ligne de commande telle que < infile cmd1 | cmd2 > outfile ?
 	- la commande cmd1 s'execute
-	- si un parametre est requis pour l'execution de la commande cmd1, le fichier infile est pris en parametre
-	- le resultat de l'execution de la commande cmd1 est transmis a la commande cmd2 via le pipe
+	- si un parametre est requis pour l'execution de la commande cmd1, le fichier infile
+	est pris en parametre
+	- le resultat de l'execution de la commande cmd1 est transmis a la commande cmd2 via
+	le pipe
 	- la commande cmd2 s'execute
 	- le resultat de l'execution est envoye dans le fichier outfile
-	- l'execution de la ligne de commande peut etre verifiee par une lecture du contenu du fichier outfile
+	- l'execution de la ligne de commande peut etre verifiee par une lecture du contenu
+	du fichier outfile
+
+-----------------------------------------------------------------------------------------------
 
 2-check : quels sont les lignes de commandes invalides ?
 	- nombre d'arguments different de 4,
 
+3-check les fichiers infile et outfile :
+	- infile = argv[1] et outfile = arg[4],
+	- le fichier infile existe-il (utilisation de la fonction ACCESS) ? Sinon message
+	d'erreur et poursuite de l'exécution,
+	- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ?
+	Sinon message d'erreur et poursuite de l'exécution,
+	- le fichier outfile existe-il ?
+	- si le fichier outfile n'existe pas, le creer avec les droits d'ecriture avec OPEN,
+	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec
+	l'option O_WRONLY) ? Sinon EXIT_FAILURE.
+
+-----------------------------------------------------------------------------------------------
+
+
+
+	- 
 check retour du split des commandes avant de l'envoyer dans execve
 	- arguments correspondants aux commandes vides "" ou ne comportant que des whitespaces "  ",
 	- 
 
-3-check les fichiers infile et outfile :
-	- infile = argv[1] et outfile = arg[4],
-	- le fichier infile existe-il (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ? Sinon EXIT_FAILURE,
-	- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ? Sinon EXIT_FAILURE,
-	- le fichier outfile existe-il ?
-	- si le fichier outfile n'existe pas, le creer avec les droits d'ecriture avec OPEN,
-	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec l'option O_WRONLY) ? Sinon EXIT_FAILURE,
-	- 
+
+
 
 4-check les commandes :
 	- commande et/ou options valides
@@ -34,6 +49,7 @@ check retour du split des commandes avant de l'envoyer dans execve
 		- l'environnement est le dernier argument de la fonction main (char **envp)
 		- parcourir envp a la recherche de la ligne contenant le mot path
 		- si le mot n'est pas trouve : EXIT_FAILURE
+		- attention : si le path est supprimé (unset PATH), la commande doit pouvoir être lancée en saisissant le path en ligne de commande (ex : /usr/bin/cat). Le path peut être récupéré en ligne de commande avec "env | grep PATH=". Le path est restauré avec l'ouverture d'un nouveau terminal.
 		- si le mot est trouve : skip le mot et recuperer le reste de la sring
 		- construire un tableau de chaines de caracteres (les paths) en splitant sur les ":"
 
@@ -49,6 +65,9 @@ check retour du split des commandes avant de l'envoyer dans execve
 		- si la recherche est fructueuse, conserver la concatenation
 
 //		- sinon recuperer chacun des deux paths, puis concatener de nouveau avec chacune des deux commandes et leurs options pas vu dans le code ??
+
+Attention aux commandes du type "cat 'e r t'" !
+
 
 //6-le parsing des fichiers
 
@@ -94,12 +113,5 @@ cat
 ls
 wc
 dev/urandon cat | head -n1 > outfile.txt (limite a la premiere ligne)
-
-supprimer le path dans envp (unset PATH)
-(env | grep PATH=)
-la commande ne fonctionne pas
-mais possible de la lancer en saisissant son path /usr/bin/cat 
- 
-
 
 $? affiche 0 quand le processus s'est bien executé, et une valeur > 0 quand failed
