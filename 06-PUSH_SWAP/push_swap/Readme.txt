@@ -10,10 +10,11 @@ push_swap
   - check_parameters_validity_and_join
   
     a-vérification de l'absence d'argument vide type ""
-      et de l'absence d'argument constitué de whitspaces (entre doubles quotes) 
+      et de l'absence d'argument constitué de whitspaces (entre doubles quotes) type " "
           - check_parameters_are_valid_1
   
-    b-vérification de l'absence de caractères autres que digits et autres que + et -
+    b-vérification de l'absence de caractères autres que digits, autres que + et -, autres que
+      whitespaces
           - check_parameters_are_valid_2
 
     c-constitution d'une string avec les arguments séparés par un espace

@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_substr_freed.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/24 15:36:14 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/07 12:02:14 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/02/23 17:25:36 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/04/07 18:23:49 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcat(char *dest, char *src)
+char	*ft_substr_freed(char *s, unsigned int start, size_t len)
 {
-	int	i;
-	int	j;
+	unsigned int	i;
+	char			*str;
 
 	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
+	if (!s)
+		return (NULL);
+	if (start > (unsigned int)ft_strlen(s))
+		len = 0;
+	else if (len > ft_strlen(&s[start]))
+		len = ft_strlen(&s[start]);
+	str = malloc((len + 1) * sizeof(char));
+	if (str)
 	{
-		i++;
+		while (i < (unsigned int)len)
+		{
+			str[i] = s[start + i];
+			i++;
+		}
+		str[i] = 0;
+		free(s);
+		s = NULL;
+		return (str);
 	}
-	while (src[j] != '\0')
-	{
-		dest[i] = src[j];
-		i++;
-		j++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	return (NULL);
 }

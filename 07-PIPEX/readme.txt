@@ -115,3 +115,5 @@ wc
 dev/urandon cat | head -n1 > outfile.txt (limite a la premiere ligne)
 
 $? affiche 0 quand le processus s'est bien executé, et une valeur > 0 quand failed
+
+ATTENTION gerer "" " "

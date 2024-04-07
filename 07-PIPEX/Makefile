@@ -1,8 +1,8 @@
 CC=gcc
 FLAGS=-Wall -Werror -Wextra -g #-g to delete
 NAME=pipex
-HEADERS=includes/pipex.h
-SRCS=pipex.c pipex_utils.c
+#HEADERS=includes/pipex.h
+SRCS=pipex.c pipex_utils.c error_and_free.c
 OBJECTS=$(SRCS:.c=.o)
 all : $(NAME)
 $(NAME) : $(OBJECTS)
@@ -11,7 +11,7 @@ $(NAME) : $(OBJECTS)
 						$(CC) $(FLAGS) $(OBJECTS) LIBFT/libft.a -o $@
 						@clear
 
-%.o : %.c $(HEADERS)
+%.o : %.c
 						$(CC) $(FLAGS) -c $< -o $@
 
 clean :
