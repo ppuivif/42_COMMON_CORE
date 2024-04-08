@@ -2,7 +2,7 @@ CC=gcc
 FLAGS=-Wall -Werror -Wextra -g #-g to delete
 NAME=pipex
 #HEADERS=includes/pipex.h
-SRCS=pipex.c pipex_utils.c error_and_free.c
+SRCS=pipex.c pipex_utils.c error_and_free.c init_struct.c
 OBJECTS=$(SRCS:.c=.o)
 all : $(NAME)
 $(NAME) : $(OBJECTS)

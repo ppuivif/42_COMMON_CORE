@@ -1,80 +1,94 @@
 #include "pipex.h"
 
-void	check_files(char **argv)
+void	check_files(char **argv, t_main_struct *main_struct)
 {
-	int	fd_input;
-	int	fd_output;
-
-	fd_output = open(argv[4], O_WRONLY | O_CREAT, 0644);
-	if (fd_output == -1)
+	main_struct->files->fd_output = open(argv[4], O_WRONLY | O_CREAT, 0644);
+	if (main_struct->files->fd_output == -1)
 	{
 		perror("outfile couldn't be opened");
-		exit(EXIT_FAILURE);
+		exit (EXIT_FAILURE);
 	}
-	fd_input = open(argv[1], O_RDONLY);
-	if (fd_input == -1)
+	main_struct->files->fd_input = open(argv[1], O_RDONLY);
+	if (main_struct->files->fd_input == -1)
 	{
 		if (access(argv[1], F_OK) == -1)
 			perror("infile doesn't exist");
 		else
 			perror("infile couldn't be opened");
 	}
-	if (fd_output != -1)
-		close(fd_output);
-	if (fd_input != -1)
-		close(fd_input);
+	if (main_struct->files->fd_output != -1)
+		close(main_struct->files->fd_output);
+	if (main_struct->files->fd_input != -1)
+		close(main_struct->files->fd_input);
 }
 
-void 	build_full_path_cmd_arr(char **argv, char **envp)
+void 	build_full_path_cmd_arr(char **argv, char **envp, t_main_struct *main_struct)
 {
-	char **cmd1_with_options_arr;
-	char **cmd2_with_options_arr;
+	char **cmd1;
+	char **cmd2;
 
-
-
-	cmd1_with_options_arr = build_cmd_arr(argv[2]);
-	if (cmd1_with_options_arr == NULL)
-		ft_putstr_fd("cmd1 couldn't be read", 2);
-	cmd2_with_options_arr = build_cmd_arr(argv[3]);
-	if (cmd2_with_options_arr == NULL)
-		perror("cmd2 couldn't be read");
-
-	if (verify_existing_path_in_cmd(cmd1_with_options_arr) == 1)
-		check_full_path_in_envp(cmd1_with_options_arr, envp);
-	if (verify_existing_path_in_cmd(cmd2_with_options_arr) == -1)
-			exit(EXIT_FAILURE);
-	if (verify_existing_path_in_cmd(cmd2_with_options_arr) == 1)
+	cmd1 = main_struct->cmd->cmd1_with_options_arr;
+	cmd2 = main_struct->cmd->cmd2_with_options_arr;
+	cmd2 = build_cmd_arr(argv[3]);
+	if (cmd2 == NULL)
+		error_handling(main_struct);
+	cmd1 = build_cmd_arr(argv[2]);
+	if (cmd1 != NULL)
 	{
-		if (check_full_path_in_envp(cmd2_with_options_arr, envp) == -1)
-			exit (EXIT_FAILURE);
+		if (verify_existing_path_in_cmd(cmd1) == 1)
+			check_full_path_in_envp(&cmd1, envp);
 	}
-
-	printf("cmd1 : %s\n", cmd1_with_options_arr[0]);
-	printf("cmd1 1st option : %s\n", cmd1_with_options_arr[1]);
-	printf("cmd2 : %s\n", cmd2_with_options_arr[0]);
-	printf("cmd2 1st option : %s\n", cmd2_with_options_arr[1]);
+	if (verify_existing_path_in_cmd(cmd2) == -1)
+		error_handling(main_struct);
+	if (verify_existing_path_in_cmd(cmd2) == 1)
+	{
+		if (check_full_path_in_envp(&cmd2, envp) == -1)
+			error_handling(main_struct);
+	}
+	int i = 0;
+	while (cmd1 && cmd1[i])
+	{
+		printf("%s\n", cmd1[i]);
+		i++;
+	}
+	printf("cmd2 : %s\n", cmd2[0]);
+	printf("cmd2 1st option : %s\n", cmd2[1]);
 }
 
-char	**build_cmd_arr(char *argv)
+char	**build_cmd_arr(char *arg)
 {
 	char **cmd_with_options_arr;
 	int i;
-	size_t	len;
 	
 	i = 0;
-	cmd_with_options_arr = ft_split(argv, ' ');
+	cmd_with_options_arr = ft_split(arg, ' ');
+	if (!cmd_with_options_arr || !cmd_with_options_arr[0])
+	{
+		ft_putstr_fd("command not found\n", 2);
+		return(NULL);		
+	}
 	while (cmd_with_options_arr && cmd_with_options_arr[i])
 	{
-		if (cmd_with_options_arr[i][0] == 39)
-		{
-			len = ft_strlen((cmd_with_options_arr[i] + 1)) \
-				- ft_strlen(ft_strrchr(cmd_with_options_arr[i], 39));
-			cmd_with_options_arr[i] = ft_substr_freed(cmd_with_options_arr[i], 1, len);//to free
-		}
+		cmd_with_options_arr[i] = ft_strdup(ft_skip_chr(cmd_with_options_arr[i], 39));
 		i++;
 	}
-	return(cmd_with_options_arr);			
+	return(cmd_with_options_arr);
 }
+
+char *ft_skip_chr(char *str, char c)
+{
+	size_t	len;
+	char	*s;
+
+	len = ft_strlen(str);
+	if (str[0] == c && str[len - 1] == c)
+	{
+		s = ft_substr_freed(str, 1, len - 2);
+		return (s);
+	}
+	return (str);
+}
+
 
 int	verify_existing_path_in_cmd(char **cmd_with_options_arr)
 {
@@ -94,7 +108,7 @@ int	verify_existing_path_in_cmd(char **cmd_with_options_arr)
 	return (1);
 }
 
-int	check_full_path_in_envp(char **cmd_with_options_arr, char **envp)	
+int	check_full_path_in_envp(char ***cmd_with_options_arr, char **envp)	
 {	
 	char	**path;
 
@@ -134,7 +148,7 @@ char	**search_path(char **envp)
 	return (path);
 }
 
-int	check_path_cmd_validity(char **path, char **cmd_with_options_arr)
+int	check_path_cmd_validity(char **path, char ***cmd_with_options_arr)
 {
 	int 	i;
 	char	*cmd;
@@ -143,16 +157,52 @@ int	check_path_cmd_validity(char **path, char **cmd_with_options_arr)
 	while (path[i])
 	{
 		cmd = ft_strjoin(path[i], "/");
-		cmd = ft_strjoin_freed(cmd, cmd_with_options_arr[0]);
+		cmd = ft_strjoin_freed(cmd, *cmd_with_options_arr[0]);
 		if (access(cmd, F_OK) == 0)
 		{
+			*cmd_with_options_arr[0] = ft_strdup(cmd);
 			free(cmd);
+			if (!*cmd_with_options_arr[0])
+			{
+				ft_putstr_fd("array allocation failed\n", 2);
+				return (-1);
+			}
 			return (0);
 		}
 		free(cmd);
 		cmd = NULL;
 		i++;			
 	}
-	ft_putstr_fd("no valid path for the command or invalid command\n", 2);
+	ft_putstr_fd("command not found\n", 2);
 	return (-1);
 }
+
+/*void	create_child1(char *file_input, char *path, char **cmd1_with_options_arr, char **envp)
+{
+	int	fd[2];
+	pid_t pid;
+	
+	if (pipe(fd) == -1)
+	{
+		perror("create pipe failed");
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (!pid)
+	{
+		perror("create fork failed");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		int fd_input;
+		fd_input = open(file_input, O_RDONLY);
+
+//		free;
+//		close;
+		execve(path, cmd1_with_options_arr, envp);
+	}
+
+
+
+}*/

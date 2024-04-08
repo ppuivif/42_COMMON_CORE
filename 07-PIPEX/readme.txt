@@ -92,6 +92,7 @@ Attention aux commandes du type "cat 'e r t'" !
 11-total free
 
 
+https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 
 
 Attention a la commande sleep, attends toujours le plus grand sleep
@@ -116,4 +117,3 @@ dev/urandon cat | head -n1 > outfile.txt (limite a la premiere ligne)
 
 $? affiche 0 quand le processus s'est bien executé, et une valeur > 0 quand failed
 
-ATTENTION gerer "" " "

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:44:03 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/07 19:51:13 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/08 15:32:16 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,21 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	if (argc != 5)
+	
+	t_main_struct	*main_struct;
+
+	if (!envp || !envp[0])
+	{
+		ft_putstr_fd("envp doesn't exists or is empty\n", 2);// to delete
 		exit(EXIT_FAILURE);
-	check_files(argv);
-	build_full_path_cmd_arr(argv, envp);
+	}
+	if (argc != 5)
+	{
+		ft_putstr_fd("number of argumemnts isn't valid\n", 2);// to delete
+		exit(EXIT_FAILURE);
+	}
+	init_struct(&main_struct);
+	check_files(argv, main_struct);
+	build_full_path_cmd_arr(argv, envp, main_struct);
+//	create_child1(argv, path, cmd1_with_options_arr, envp);
 }

@@ -15,3 +15,27 @@ void	free_arr(char **str_arr)
 		free(str_arr);
 	str_arr = NULL;
 }
+
+void	error_handling(t_main_struct *main_struct)
+{
+	if (main_struct->files->fd_input >= 0)
+		close(main_struct->files->fd_input);
+	if (main_struct->files->fd_output >= 0)
+		close(main_struct->files->fd_output);
+	if (main_struct->cmd->cmd1_with_options_arr)
+		free_arr(main_struct->cmd->cmd1_with_options_arr);
+	if (main_struct->cmd->cmd2_with_options_arr)
+		free_arr(main_struct->cmd->cmd2_with_options_arr);
+	if (main_struct->files)
+		free(main_struct->files);
+	if (main_struct->cmd)
+		free(main_struct->cmd);
+	if (main_struct)
+		free(main_struct);
+
+//		free_arr();
+	exit (EXIT_FAILURE);
+	
+
+
+}
