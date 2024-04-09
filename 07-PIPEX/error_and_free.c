@@ -1,6 +1,5 @@
 #include "pipex.h"
 
-
 void	free_arr(char **str_arr)
 {
 	int	i;
@@ -16,11 +15,23 @@ void	free_arr(char **str_arr)
 	str_arr = NULL;
 }
 
+void	success_handling(t_main_struct *main_struct)
+{
+	free_all(main_struct);
+	exit (EXIT_SUCCESS);
+}
+
 void	error_handling(t_main_struct *main_struct)
 {
-	if (main_struct->files->fd_input >= 0)
+	free_all(main_struct);
+	exit (EXIT_FAILURE);
+}
+
+void	free_all(t_main_struct *main_struct)
+{
+	if (main_struct->files->fd_input)
 		close(main_struct->files->fd_input);
-	if (main_struct->files->fd_output >= 0)
+	if (main_struct->files->fd_output)
 		close(main_struct->files->fd_output);
 	if (main_struct->cmd->cmd1_with_options_arr)
 		free_arr(main_struct->cmd->cmd1_with_options_arr);
@@ -32,10 +43,4 @@ void	error_handling(t_main_struct *main_struct)
 		free(main_struct->cmd);
 	if (main_struct)
 		free(main_struct);
-
-//		free_arr();
-	exit (EXIT_FAILURE);
-	
-
-
 }

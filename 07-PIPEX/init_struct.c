@@ -2,8 +2,8 @@
 
 void	init_struct(t_main_struct **main_struct)
 {
-	t_files 		*files;
-	t_cmd			*cmd;
+	t_files	*files;
+	t_cmd	*cmd;
 
 	*main_struct = ft_calloc(1, sizeof(t_main_struct));
 	if (!*main_struct)
@@ -39,9 +39,8 @@ void	init_t_cmd(t_cmd **cmd)
 		ft_putstr_fd("structure allocation failed\n", 2);
 		exit (EXIT_FAILURE);
 	}
-	(*cmd)->path1 = NULL;
-	(*cmd)->path2 = NULL;
+	(*cmd)->full_path_cmd1 = NULL;
+	(*cmd)->full_path_cmd2 = NULL;
 	(*cmd)->cmd1_with_options_arr = NULL;
 	(*cmd)->cmd2_with_options_arr = NULL;
 }
-
