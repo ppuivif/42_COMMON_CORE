@@ -16,10 +16,6 @@ void	check_files(char **argv, t_main_struct *main_struct)
 		else
 			perror("infile couldn't be opened");
 	}
-	if (main_struct->files->fd_output != -1)
-		close(main_struct->files->fd_output);
-	if (main_struct->files->fd_input != -1)
-		close(main_struct->files->fd_input);
 }
 
 void	build_full_path_cmd_arr(char **argv, char **envp,
@@ -44,7 +40,7 @@ void	build_full_path_cmd_arr(char **argv, char **envp,
 		if (verify_existing_path_in_cmd(&cmd1, &full_path_cmd1) == 1)
 			check_full_path_in_envp(&cmd1, &full_path_cmd1, envp);
 	}
-	int flag2 = verify_existing_path_in_cmd(&cmd2. &full_path_cmd2))
+	int flag2 = verify_existing_path_in_cmd(&cmd2, &full_path_cmd2);
 	if (flag2 == -1)
 		error_handling(main_struct);
 	if (flag2 == 1)
@@ -78,28 +74,23 @@ void	build_cmd_arr(char **argv, t_main_struct *main_struct)
 		|| !main_struct->cmd->cmd2_with_options_arr[0])
 		ft_putstr_fd("command not found\n", 2);
 	else
-		check_and_skip_simple_cote(main_struct);
+	{
+		check_and_skip_simple_quote(&main_struct->cmd->cmd1_with_options_arr,
+			main_struct);
+		check_and_skip_simple_quote(&main_struct->cmd->cmd2_with_options_arr,
+			main_struct);
+	}
 }
 
-void	check_and_skip_simple_cote(t_main_struct *main_struct)
+void	check_and_skip_simple_quote(char ***cmd_with_options_arr, t_main_struct *main_struct)
 {
 	int	i;
 
 	i = 0;
-	while (main_struct->cmd->cmd1_with_options_arr
-		&& main_struct->cmd->cmd1_with_options_arr[i])
+	while (*cmd_with_options_arr && cmd_with_options_arr[i])
 	{
-		ft_skip_chr(main_struct->cmd->cmd1_with_options_arr[i], 39);
-		if (!main_struct->cmd->cmd1_with_options_arr[i])
-			error_handling(main_struct);
-		i++;
-	}
-	i = 0;
-	while (main_struct->cmd->cmd2_with_options_arr
-		&& main_struct->cmd->cmd2_with_options_arr[i])
-	{
-		ft_skip_chr(main_struct->cmd->cmd2_with_options_arr[i], 39);
-		if (!main_struct->cmd->cmd2_with_options_arr[i])
+		ft_skip_chr(cmd_with_options_arr[i], '\'');
+		if (!cmd_with_options_arr[i])
 			error_handling(main_struct);
 		i++;
 	}
@@ -116,15 +107,26 @@ void	ft_skip_chr(char *str, char c)
 		ft_putstr_fd("memory allocation failed\n", 2);
 }
 
-int	verify_existing_path_in_cmd(char **cmd_with_options_arr)
+int	verify_existing_path_in_cmd(char ***cmd_with_options_arr, char **full_path_cmd)
 {
-	char	*cmd;
+	char *cmd;
 
-	if (ft_strchr(cmd_with_options_arr[0], '/') != 0)
+	if (ft_strchr(*cmd_with_options_arr[0], '/') != 0)
 	{
-		cmd = cmd_with_options_arr[0];
-		if (access(cmd, F_OK) == 0)
+		if (access(*cmd_with_options_arr[0], F_OK) == 0)
+		{
+			*full_path_cmd = *cmd_with_options_arr[0];
+			while (ft_strchr(*cmd_with_options_arr[0], '/') != 0)
+			{
+				cmd = *cmd_with_options_arr[0];
+				free (*cmd_with_options_arr[0]);
+				*cmd_with_options_arr[0] = NULL;
+				*cmd_with_options_arr[0] = ft_strdup(ft_strchr(cmd, '/') + 1);
+				free (cmd);
+				cmd = NULL;
+			}
 			return (0);
+		}
 		else
 		{
 			ft_putstr_fd("given path isn't valid for the command\n", 2);
@@ -134,10 +136,10 @@ int	verify_existing_path_in_cmd(char **cmd_with_options_arr)
 	return (1);
 }
 
-int	check_full_path_in_envp(char ***cmd_with_options_arr, char **envp)
+int	check_full_path_in_envp(char ***cmd_with_options_arr, char **full_path_cmd, char **envp)
 {
 	char	**path;
-
+	
 	path = search_path(envp);
 	if (!path)
 	{
@@ -145,7 +147,7 @@ int	check_full_path_in_envp(char ***cmd_with_options_arr, char **envp)
 		free_arr(path);
 		return (1);
 	}
-	if (check_path_cmd_validity(path, cmd_with_options_arr) == 0)
+	if (check_path_cmd_validity(path, full_path_cmd, cmd_with_options_arr) == 0)
 	{
 		free_arr(path);
 		return (0);
@@ -174,19 +176,21 @@ char	**search_path(char **envp)
 	return (path);
 }
 
-int	check_path_cmd_validity(char **path, char ***cmd_with_options_arr)
+int	check_path_cmd_validity(char **path, char **full_path_cmd, char ***cmd_with_options_arr)
 {
-	char	*cmd;
+	char	*path_with_cmd;
 
-	while (*path)
+	while (*path_with_cmd)
 	{
-		cmd = ft_strjoin(*path, "/");
-		cmd = ft_strjoin_freed(cmd, *cmd_with_options_arr[0]);
-		if (access(cmd, F_OK) == 0)
+		path_with_cmd = ft_strjoin(*path, "/");
+		path_with_cmd = ft_strjoin_freed(path_with_cmd, *cmd_with_options_arr[0]);
+		if (access(path_with_cmd, F_OK) == 0)
 		{
-			main_struct->cmd->full_path_cmd1 = ft_strdup(cmd);
-			free(cmd);
-			cmd = NULL;
+			*full_path_cmd = ft_strdup(path_with_cmd);
+			free(path_with_cmd);
+			path_with_cmd = NULL;
+//			free(path);
+//			path = NULL;
 //			free(*cmd_with_options_arr[0]);
 //			*cmd_with_options_arr[0] = NULL;
 //			*cmd_with_options_arr[0] = ft_strdup(cmd);
@@ -198,10 +202,11 @@ int	check_path_cmd_validity(char **path, char ***cmd_with_options_arr)
 //			}
 			return (0);
 		}
-		free(cmd);
-		cmd = NULL;
+		free(path_with_cmd);
+		path_with_cmd = NULL;
 		path ++;
 	}
+//	free(path);
 	ft_putstr_fd("command not found\n", 2);
 	return (-1);
 }

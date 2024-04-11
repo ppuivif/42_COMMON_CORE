@@ -1,0 +1,46 @@
+
+PUSH_SWAP
+
+-----------------------------------------------------------------------------------------------
+
+1-vérification de l'existence du pointeur sur char **envp,
+	- sinon EXIT_FAILURE.
+
+2-vérification qu'envp n'est pas vide,
+	- sinon EXIT_FAILURE.
+	
+3-vérification que le nombre d'arguments dans la ligne de commande est bien égal à 4,
+	- sinon EXIT_FAILURE.
+
+4-initialisation des structures, avec calloc et mise à 0 ou NULL,
+	- init_struct.
+	
+5-vérification des fichiers (argv[1] et argv[3])
+	- si le fichier outfile n'existe pas, le créer avec les droits d'ecriture avec OPEN,
+	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec
+	l'option O_WRONLY) ? Sinon EXIT_FAILURE.
+	- le fichier infile existe-il (utilisation de la fonction ACCESS) ? Sinon message
+	d'erreur et poursuite de l'exécution,
+	- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ?
+	Sinon message d'erreur et poursuite de l'exécution.
+
+6-vérification des commandes et construction des commandes et des chemins d'accès
+	- build_full_path_cmd_arr
+		a-construction de deux tableaux contenant chacun une commande et ses arguments :
+			- build_cmd_arr :
+				a-split les arguments sur ' ',
+					- si échec de l'allocation, ou tableau vide :
+					message d'erreur et l'exécution se poursuit. ATTENTION
+				b-vérification de la présence éventuelle de simple quotes :
+					- check_and_skip_simple_quote
+						- si présence d'une simple quote au début de la
+						string et à la fin de la string, skip les 2,
+						- si présence d'une seule simple quote au début,
+						pas de skip,
+						- si présence de spaces entre simples quotes, voire
+						de deux options séparées par des spaces, ils sont
+						conservés et seront considérés invalides par execve
+						(même comportement que bash),
+						- protection en cas d'échec de l'allocation :
+						message d'erreur et EXIT_FAILURE. ATTENTION !
+		b-si le tableau relatif à cmd2 est vide

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:43:58 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/09 15:51:55 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/11 17:48:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_cmd
 
 typedef struct s_main_struct
 {
+	int		argv_number;
 	t_files	*files;
 	t_cmd	*cmd;
 }t_main_struct;
@@ -47,11 +48,12 @@ void	check_files(char **argv, t_main_struct *main_struct);
 void	build_full_path_cmd_arr(char **argv, char **envp,
 			t_main_struct *main_struct);
 void	build_cmd_arr(char **argv, t_main_struct *main_struct);
-int		verify_existing_path_in_cmd(char **cmd_with_options_arr);
-int		check_full_path_in_envp(char ***cmd_with_options_arr, char **envp);
+int		verify_existing_path_in_cmd(char ***cmd_with_options_arr, char **full_path_cmd);
+int		check_full_path_in_envp(char ***cmd_with_options_arr, char **full_path_cmd, char **envp);
 char	**search_path(char **envp);
-int		check_path_cmd_validity(char **path, char ***cmd_with_options_arr);
-void	check_and_skip_simple_cote(t_main_struct *main_struct);
+int		check_full_path_in_envp(char ***cmd_with_options_arr, char **full_path_cmd, char **envp);
+int		check_path_cmd_validity(char **path, char **full_path_cmd, char ***cmd_with_options_arr);
+void	check_and_skip_simple_quote(t_main_struct *main_struct);
 void	ft_skip_chr(char *str, char c);
 
 void	init_struct(t_main_struct **main_struct);

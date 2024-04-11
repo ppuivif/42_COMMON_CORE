@@ -11,6 +11,7 @@ void	init_struct(t_main_struct **main_struct)
 		ft_putstr_fd("structure allocation failed\n", 2);
 		exit (EXIT_FAILURE);
 	}
+	(*main_struct)-> argv_number = 0;
 	init_t_files(&files);
 	(*main_struct)->files = files;
 	init_t_cmd(&cmd);

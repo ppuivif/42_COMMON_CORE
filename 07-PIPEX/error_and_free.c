@@ -37,6 +37,10 @@ void	free_all(t_main_struct *main_struct)
 		free_arr(main_struct->cmd->cmd1_with_options_arr);
 	if (main_struct->cmd->cmd2_with_options_arr)
 		free_arr(main_struct->cmd->cmd2_with_options_arr);
+	if (main_struct->cmd->full_path_cmd1)
+		free(main_struct->cmd->full_path_cmd1);
+	if (main_struct->cmd->full_path_cmd2)
+		free(main_struct->cmd->full_path_cmd2);
 	if (main_struct->files)
 		free(main_struct->files);
 	if (main_struct->cmd)
@@ -44,3 +48,8 @@ void	free_all(t_main_struct *main_struct)
 	if (main_struct)
 		free(main_struct);
 }
+
+/*	if (main_struct->files->fd_output != -1)
+		close(main_struct->files->fd_output);
+	if (main_struct->files->fd_input != -1)
+		close(main_struct->files->fd_input);*/

@@ -26,7 +26,7 @@ void	create_child1(t_main_struct *main_struct, char **envp)
 		dup2(main_struct->files->fd_input, STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
 		cmd1 = main_struct->cmd->cmd1_with_options_arr;
-		execve(cmd1[0], cmd1, envp);
+		execve(main_struct->cmd->full_path_cmd1, cmd1, envp);
 		close(main_struct->files->fd_input);
 		close(fd[1]);
 		success_handling(main_struct);
