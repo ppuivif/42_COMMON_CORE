@@ -6,6 +6,7 @@ void	create_child1(t_main_struct *main_struct, char **envp)
 	int	fd[2];
 	pid_t pid1;
 	char **cmd1;
+	char *full_path_cmd1;
 	
 	if (pipe(fd) == -1)
 	{
@@ -22,12 +23,13 @@ void	create_child1(t_main_struct *main_struct, char **envp)
 	if (pid1 == 0)//child1 process
 	{
 		close(fd[0]);
-		close(main_struct->files->fd_output);
-		dup2(main_struct->files->fd_input, STDIN_FILENO);
+		close(main_struct->fd_output);
+		dup2(main_struct->fd_input, STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
-		cmd1 = main_struct->cmd->cmd1_with_options_arr;
-		execve(main_struct->cmd->full_path_cmd1, cmd1, envp);
-		close(main_struct->files->fd_input);
+		cmd1 = main_struct->cmd_with_options_arr[0];
+		full_path_cmd1 = main_struct->full_path_cmd[0];
+		execve(full_path_cmd1, cmd1, envp);
+		close(main_struct->fd_input);
 		close(fd[1]);
 		success_handling(main_struct);
 	}

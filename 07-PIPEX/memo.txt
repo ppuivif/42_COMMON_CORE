@@ -14,8 +14,11 @@ PUSH_SWAP
 
 4-initialisation des structures, avec calloc et mise à 0 ou NULL,
 	- init_struct.
+
+5-calcul du nombre d'arguments (y compris les fichiers infile et outfile)
+	- argv_number = argc - 1.
 	
-5-vérification des fichiers (argv[1] et argv[3])
+6-vérification des fichiers (argv[1] et argv[3])
 	- si le fichier outfile n'existe pas, le créer avec les droits d'ecriture avec OPEN,
 	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec
 	l'option O_WRONLY) ? Sinon EXIT_FAILURE.
@@ -24,9 +27,10 @@ PUSH_SWAP
 	- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ?
 	Sinon message d'erreur et poursuite de l'exécution.
 
-6-vérification des commandes et construction des commandes et des chemins d'accès
+7-vérification des commandes et construction des commandes et des chemins d'accès
 	- build_full_path_cmd_arr
-		a-construction de deux tableaux contenant chacun une commande et ses arguments :
+		a-construction de tableaux à 2 dimensions contenant chacun une commande
+		et ses arguments :
 			- build_cmd_arr :
 				a-split les arguments sur ' ',
 					- si échec de l'allocation, ou tableau vide :
@@ -37,10 +41,17 @@ PUSH_SWAP
 						string et à la fin de la string, skip les 2,
 						- si présence d'une seule simple quote au début,
 						pas de skip,
-						- si présence de spaces entre simples quotes, voire
-						de deux options séparées par des spaces, ils sont
-						conservés et seront considérés invalides par execve
-						(même comportement que bash),
+						- si présence de spaces entre simples quotes,
+						voire de deux options séparées par des spaces,
+						ils sont conservés et seront considérés invalides
+						par execve (même comportement que bash),
 						- protection en cas d'échec de l'allocation :
 						message d'erreur et EXIT_FAILURE. ATTENTION !
-		b-si le tableau relatif à cmd2 est vide
+		b-si le tableau relatif à la dernière commande est vide :
+			- EXIT_FAILURE.
+		c-si les tableaux relatifs aux autres commandes n'est pas vide :
+			- verification de la présence d'un path dans la première string du tableau
+			(qui correspond à la commande sans les options):
+				- verify_existing_path_in_cmd :
+					- si la première ligne contient au moins un slash '/',  
+				

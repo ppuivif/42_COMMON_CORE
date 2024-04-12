@@ -29,22 +29,25 @@ void	error_handling(t_main_struct *main_struct)
 
 void	free_all(t_main_struct *main_struct)
 {
-	if (main_struct->files->fd_input)
-		close(main_struct->files->fd_input);
-	if (main_struct->files->fd_output)
-		close(main_struct->files->fd_output);
-	if (main_struct->cmd->cmd1_with_options_arr)
-		free_arr(main_struct->cmd->cmd1_with_options_arr);
-	if (main_struct->cmd->cmd2_with_options_arr)
-		free_arr(main_struct->cmd->cmd2_with_options_arr);
-	if (main_struct->cmd->full_path_cmd1)
-		free(main_struct->cmd->full_path_cmd1);
-	if (main_struct->cmd->full_path_cmd2)
-		free(main_struct->cmd->full_path_cmd2);
-	if (main_struct->files)
-		free(main_struct->files);
-	if (main_struct->cmd)
-		free(main_struct->cmd);
+	int	i;
+
+	i = 0;
+	if (main_struct->fd_input)
+		close(main_struct->fd_input);
+	if (main_struct->fd_output)
+		close(main_struct->fd_output);
+	while (i < main_struct->argv_number - 1)
+	{
+		if (main_struct->cmd_with_options_arr[i])
+			free_arr(main_struct->cmd_with_options_arr[i]);
+		if (main_struct->full_path_cmd[i])
+			free(main_struct->full_path_cmd[i]);
+		i++;
+	}	
+	if (main_struct->cmd_with_options_arr)
+		free(main_struct->cmd_with_options_arr);
+	if (main_struct->full_path_cmd)
+		free(main_struct->full_path_cmd);
 	if (main_struct)
 		free(main_struct);
 }

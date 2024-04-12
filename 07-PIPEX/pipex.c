@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:44:03 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/11 17:49:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:40:23 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd("number of arguments isn't valid\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	init_struct(&main_struct);
-	main_struct->argv_number = argc - 1;
+	init_struct(&main_struct, argc);
 	check_files(argv, main_struct);
 	build_full_path_cmd_arr(argv, envp, main_struct);
 	create_child1(main_struct, envp);

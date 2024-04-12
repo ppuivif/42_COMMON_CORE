@@ -2,14 +2,14 @@
 
 void	check_files(char **argv, t_main_struct *main_struct)
 {
-	main_struct->files->fd_output = open(argv[4], O_WRONLY | O_CREAT, 0644);
-	if (main_struct->files->fd_output == -1)
+	main_struct->fd_output = open(argv[4], O_WRONLY | O_CREAT, 0644);
+	if (main_struct->fd_output == -1)
 	{
 		perror("outfile couldn't be opened");
 		exit (EXIT_FAILURE);
 	}
-	main_struct->files->fd_input = open(argv[1], O_RDONLY);
-	if (main_struct->files->fd_input == -1)
+	main_struct->fd_input = open(argv[1], O_RDONLY);
+	if (main_struct->fd_input == -1)
 	{
 		if (access(argv[1], F_OK) == -1)
 			perror("infile doesn't exist");
@@ -21,77 +21,94 @@ void	check_files(char **argv, t_main_struct *main_struct)
 void	build_full_path_cmd_arr(char **argv, char **envp,
 		t_main_struct *main_struct)
 {
-	char	**cmd1;
-	char	**cmd2;
-	char	*full_path_cmd1;
-	char	*full_path_cmd2;
-	
+	int	i;
+	int	last;
 
-
-	build_cmd_arr(argv, main_struct);
-	cmd1 = main_struct->cmd->cmd1_with_options_arr;
-	cmd2 = main_struct->cmd->cmd2_with_options_arr;
-	if (cmd2 == NULL)
-		error_handling(main_struct);
-	full_path_cmd1 = main_struct->cmd->full_path_cmd1;
-	full_path_cmd2 = main_struct->cmd->full_path_cmd2;
-	if (cmd1 != NULL)
+	i = 0;
+	last = main_struct->argv_number - 1;
+ 	build_cmd_arr(argv, main_struct);
+//	if (main_struct->cmd_with_options_arr[last - 1] == NULL)
+//			error_handling(main_struct);
+	while (i < last)
 	{
-		if (verify_existing_path_in_cmd(&cmd1, &full_path_cmd1) == 1)
-			check_full_path_in_envp(&cmd1, &full_path_cmd1, envp);
+		if (main_struct->cmd_with_options_arr[i])
+		{
+			if (verify_existing_path_in_cmd(&main_struct->cmd_with_options_arr[i], \
+			&main_struct->full_path_cmd[i]) == 1)
+			{
+				check_full_path_in_envp(&main_struct->cmd_with_options_arr[i], \
+				&main_struct->full_path_cmd[i], envp);
+
+			}
+		}		
+
+		i++;
 	}
-	int flag2 = verify_existing_path_in_cmd(&cmd2, &full_path_cmd2);
+/*	int flag2 = verify_existing_path_in_cmd(&main_struct->cmd_with_options_arr[last - 1], \
+		&main_struct->full_path_cmd[last - 1]);
 	if (flag2 == -1)
 		error_handling(main_struct);
 	if (flag2 == 1)
 	{
-		if (check_full_path_in_envp(&cmd2, &full_path_cmd2, envp) == -1)
+		if (check_full_path_in_envp(&main_struct->cmd_with_options_arr[last - 1], \
+		&main_struct->full_path_cmd[last], envp) == -1)
 			error_handling(main_struct);
-	}
+	}*/
 
 	//to delete
-	int	i = 0;
-	while (cmd1 && cmd1[i])
-	{
-		printf("cmd1 : %s\n", cmd1[i]);
-		i++;
-	}
 	i = 0;
-	while (cmd2	&& cmd2[i])
+	int	j;
+	while (main_struct->cmd_with_options_arr
+		&& main_struct->cmd_with_options_arr[i])
 	{
-		printf("cmd2 : %s\n", cmd2[i]);
+		j = 0;
+		while (main_struct->cmd_with_options_arr[i][j])
+		{
+			printf("cmd%d : %s\n", i, main_struct->cmd_with_options_arr[i][j]);
+			j++;
+		}
 		i++;
 	}
 }
 
 void	build_cmd_arr(char **argv, t_main_struct *main_struct)
 {
-	main_struct->cmd->cmd1_with_options_arr = ft_split(argv[2], ' ');
-	main_struct->cmd->cmd2_with_options_arr = ft_split(argv[3], ' ');
-	if (!main_struct->cmd->cmd1_with_options_arr
-		|| !main_struct->cmd->cmd1_with_options_arr[0]
-		|| !main_struct->cmd->cmd2_with_options_arr
-		|| !main_struct->cmd->cmd2_with_options_arr[0])
-		ft_putstr_fd("command not found\n", 2);
-	else
+	int	i;
+
+	i = 0;
+	while (i < main_struct->argv_number - 2)
 	{
-		check_and_skip_simple_quote(&main_struct->cmd->cmd1_with_options_arr,
-			main_struct);
-		check_and_skip_simple_quote(&main_struct->cmd->cmd2_with_options_arr,
-			main_struct);
+		main_struct->cmd_with_options_arr[i] = ft_split(argv[i + 2], ' ');
+		i++;
+	}
+	main_struct->cmd_with_options_arr[i] = NULL;
+	i = 0;
+	while (i < main_struct->argv_number - 2)
+	{
+		if (!main_struct->cmd_with_options_arr[i] \
+		|| !main_struct->cmd_with_options_arr[i][0])
+			ft_putstr_fd("command not found\n", 2);
+		else
+		{
+			check_and_skip_simple_quote(main_struct->cmd_with_options_arr[i], main_struct);
+
+//			printf("argv : %s\n", argv[i + 2]);
+		}
+		i++;
 	}
 }
 
-void	check_and_skip_simple_quote(char ***cmd_with_options_arr, t_main_struct *main_struct)
+void	check_and_skip_simple_quote(char **str_array, t_main_struct *main_struct)
 {
 	int	i;
 
 	i = 0;
-	while (*cmd_with_options_arr && cmd_with_options_arr[i])
+	while (str_array[i])
 	{
-		ft_skip_chr(cmd_with_options_arr[i], '\'');
-		if (!cmd_with_options_arr[i])
+		ft_skip_chr(str_array[i], '\'');
+		if (!str_array[i])
 			error_handling(main_struct);
+//		printf("str_arr : %s\n", str_array[i]);
 		i++;
 	}
 }
@@ -180,7 +197,7 @@ int	check_path_cmd_validity(char **path, char **full_path_cmd, char ***cmd_with_
 {
 	char	*path_with_cmd;
 
-	while (*path_with_cmd)
+	while (*path)
 	{
 		path_with_cmd = ft_strjoin(*path, "/");
 		path_with_cmd = ft_strjoin_freed(path_with_cmd, *cmd_with_options_arr[0]);
@@ -189,6 +206,7 @@ int	check_path_cmd_validity(char **path, char **full_path_cmd, char ***cmd_with_
 			*full_path_cmd = ft_strdup(path_with_cmd);
 			free(path_with_cmd);
 			path_with_cmd = NULL;
+
 //			free(path);
 //			path = NULL;
 //			free(*cmd_with_options_arr[0]);
@@ -202,6 +220,7 @@ int	check_path_cmd_validity(char **path, char **full_path_cmd, char ***cmd_with_
 //			}
 			return (0);
 		}
+
 		free(path_with_cmd);
 		path_with_cmd = NULL;
 		path ++;
