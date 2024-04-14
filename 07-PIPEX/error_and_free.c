@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_and_free.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/14 17:51:24 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/04/14 17:51:25 by ppuivif          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	free_arr(char **str_arr)
@@ -29,30 +41,14 @@ void	error_handling(t_main_struct *main_struct)
 
 void	free_all(t_main_struct *main_struct)
 {
-	int	i;
-
-	i = 0;
 	if (main_struct->fd_input)
 		close(main_struct->fd_input);
 	if (main_struct->fd_output)
 		close(main_struct->fd_output);
-	while (i < main_struct->argv_number - 1)
-	{
-		if (main_struct->cmd_with_options_arr[i])
-			free_arr(main_struct->cmd_with_options_arr[i]);
-		if (main_struct->full_path_cmd[i])
-			free(main_struct->full_path_cmd[i]);
-		i++;
-	}	
-	if (main_struct->cmd_with_options_arr)
-		free(main_struct->cmd_with_options_arr);
-	if (main_struct->full_path_cmd)
-		free(main_struct->full_path_cmd);
+	if (main_struct->cmd1_arr)
+		free_arr(main_struct->cmd1_arr);
+	if (main_struct->cmd2_arr)
+		free_arr(main_struct->cmd2_arr);
 	if (main_struct)
 		free(main_struct);
 }
-
-/*	if (main_struct->files->fd_output != -1)
-		close(main_struct->files->fd_output);
-	if (main_struct->files->fd_input != -1)
-		close(main_struct->files->fd_input);*/

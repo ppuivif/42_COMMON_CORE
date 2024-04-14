@@ -1,11 +1,11 @@
 
-[0;31mtest1	all inputs are valid		 : 
+[0;32mtest1	all inputs are valid		 : 
 	infile exists
 	outfile exists
 	cmd1 : "cat -e"
 	cmd2 : "cat -e"
 [0m
-[0;31mtest2	outfile doesn't exist		 : 
+[0;32mtest2	outfile doesn't exist		 : 
 	infile exists
 	outfile doesn't exist
 	cmd1 : "cat -e"
@@ -29,7 +29,7 @@
 	cmd1 : "ls -l"
 	cmd2 : "wc -l"
 [0m
-[0;31mtest6 : 
+[0;32mtest6 : 
 	infile exists
 	outfile exists
 	cmd1 : "invalid"

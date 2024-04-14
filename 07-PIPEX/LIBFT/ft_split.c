@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:27:17 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/12 19:21:43 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/13 09:45:23 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ static int	ft_len_str(char const *s, char c, int start)
 	}
 	return (i - start);
 }
-
-#include <stdio.h>
 
 char	**ft_split(char const *s, char c)
 {
