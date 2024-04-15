@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:48:23 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 15:39:39 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/15 16:10:11 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	exec_child1(t_main_struct *main_struct, int *fd, char **envp)
 		close(main_struct->fd_output);
 	dup2(main_struct->fd_input, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-	if (main_struct->fd_input && main_struct->fd_input != -1)	
+	if (main_struct->fd_input && main_struct->fd_input != -1)
 		close(main_struct->fd_input);
 	close(fd[1]);
 	if (main_struct->path1 && main_struct->cmd1_arr && main_struct->cmd1_arr[0] \
@@ -77,7 +77,7 @@ void	exec_parent(t_main_struct *main_struct, int *fd, char **envp)
 void	exec_child2(t_main_struct *main_struct, int *fd, char **envp)
 {
 	close(fd[1]);
-	if (main_struct->fd_input && main_struct->fd_input != -1)	
+	if (main_struct->fd_input && main_struct->fd_input != -1)
 		close(main_struct->fd_input);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(main_struct->fd_output, STDOUT_FILENO);

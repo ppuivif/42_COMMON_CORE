@@ -12,29 +12,30 @@ PUSH_SWAP
 3-vérification que le nombre d'arguments dans la ligne de commande est bien égal à 4,
 	- sinon EXIT_FAILURE.
 
-4-initialisation des structures, avec calloc et mise à 0 ou NULL,
+4-initialisation de la structure, avec calloc et mise à 0 ou NULL,
 	- init_struct.
 
-5-calcul du nombre d'arguments (y compris les fichiers infile et outfile)
-	- argv_number = argc - 1.
-	
-6-vérification des fichiers (argv[1] et argv[3])
+5-vérification des fichiers (argv[1] et argv[3])
 	- si le fichier outfile n'existe pas, le créer avec les droits d'ecriture avec OPEN,
 	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec
 	l'option O_WRONLY) ? Sinon EXIT_FAILURE.
+	- s'il existe, son contenu doit être écrasé par l'écriture suivante (O_TRUNC),
 	- le fichier infile existe-il (utilisation de la fonction ACCESS) ? Sinon message
-	d'erreur et poursuite de l'exécution,
+	d'erreur et poursuite de l'exécution (uniquement de la dernière commande),
 	- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ?
-	Sinon message d'erreur et poursuite de l'exécution.
+	Sinon message d'erreur et poursuite de l'exécution (uniquement de la dernière commande).
 
-7-vérification des commandes et construction des commandes et des chemins d'accès
+6-vérification des commandes et construction des commandes et des chemins d'accès
 	- build_full_path_cmd_arr
 		a-construction de tableaux à 2 dimensions contenant chacun une commande
 		et ses arguments :
 			- build_cmd_arr :
 				a-split les arguments sur ' ',
 					- si échec de l'allocation, ou tableau vide :
-					message d'erreur et l'exécution se poursuit. ATTENTION
+					message d'erreur et l'exécution se poursuit.
+					- si un path est donné avec la commande (déjà concaténé),
+					il est conservé en l'état.
+non mis en oeuvre :
 				b-vérification de la présence éventuelle de simple quotes :
 					- check_and_skip_simple_quote
 						- si présence d'une simple quote au début de la
@@ -47,11 +48,60 @@ PUSH_SWAP
 						par execve (même comportement que bash),
 						- protection en cas d'échec de l'allocation :
 						message d'erreur et EXIT_FAILURE. ATTENTION !
-		b-si le tableau relatif à la dernière commande est vide :
-			- EXIT_FAILURE.
-		c-si les tableaux relatifs aux autres commandes n'est pas vide :
-			- verification de la présence d'un path dans la première string du tableau
-			(qui correspond à la commande sans les options):
-				- verify_existing_path_in_cmd :
-					- si la première ligne contient au moins un slash '/',  
-				
+
+		b-vérification de la présence d'un path valide donné avec la commande
+			- un ACCESS sur la première string du tableau (index 0) permet de vérifier
+			si elle contient un path+commande valide,
+			- si le path+commande est valide, l'exécution se poursuit sans recherche
+			d'un path dans envp,
+			- si le path+commande n'est pas valide (ou abence de path), un path est
+			recherché dans envp :
+				- check_full_path_in_envp :
+					- search_path
+						- envp est parcouru jusqu'à trouver la ligne
+						commmençant par PATH,
+						- cette ligne est splitée sur les ':',
+					- si le split a échoué ou si le tableau est vide : un
+					message d'erreur est affiché et l'exécution se poursuit,
+					- si le tableau contient des valeurs (des path ont été
+					récupérés), la commande est testée avec chaque path :
+						- check_path_cmd_validity :
+							- des join permettent de constituer des
+							ensembles path+commande qui sont testés
+							un à un avec ACCESS,
+							- si un path+commande est valide, la
+							fonction return et cet ensemble vient
+							remplacer la commande seule dans la
+							string[0] du tableau,
+							-  si aucun ensemble path+commande
+							valide n'est trouvé, return. L'exécution
+							se poursuit.
+7- l'exécution :
+	- les fd_input et fd_output ont été ouverts dans la fonction check_files,
+	- un pipe est créé,
+	- un fork est créé,
+	- le processus enfant 1 s'exécute :
+		- exec_child1
+			- l'entrée de lecture (read) du pipe est fermée (fd[0]),
+			- le fd_output est fermé,
+			- l'entrée standard est dupliquée vers fd_input (à la manière d'un pointeur)
+			: le fichier infile prend l'entrée de lecture,
+			- la sortie standard est dupliquée vers la sortie d'écriture (write)
+			du pipe	(fd[1]),
+			- le fd_input et le fd[1] sont fermés,
+			- si le tableau des arguments de cmd1 n'est pas vide et si cmd1 existe
+			et si le fichier infile est accessible, execve est appelé avec les
+			arguments de cmd1 :
+				- si la commande ou ses options ne sont pas valides (execve
+				ne peut pas s'exécuter), une erreur s'affiche 
+			- sinon l'exécution se poursuit.
+	- un deuxième fork est créé
+	- le processus enfant 2 s'exécute :
+		- exec_child 2
+	- le processus parent s'exécute :
+		- fermeture des fd_input et fd_output pour la fermeture définitive du pipe (doit
+		être fait avant waitpid),
+		- attente de la fin de l'ensemble des processus (child1 et child2) grâce à une boucle
+		qui vérifie la valeur de chaque PID (waitpid(-1, ...). Le waitpid d'un processus fermé
+		renvoie -1.
+		- derniers closes et free.			 

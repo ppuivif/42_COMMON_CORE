@@ -6,11 +6,20 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:51:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 12:14:13 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/15 19:20:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	free_cmd(t_cmd **cmd)
+{
+	if((*cmd)->cmd_arr)
+		free_arr((*cmd)->cmd_arr);
+	if((*cmd)->path)
+		free((*cmd)->path);
+	free(*cmd);	
+}
 
 void	free_arr(char **str_arr)
 {
@@ -45,14 +54,8 @@ void	free_all(t_main_struct *main_struct)
 		close(main_struct->fd_input);
 	if (main_struct->fd_output && main_struct->fd_output != -1)
 		close(main_struct->fd_output);
-	if (main_struct->cmd1_arr)
-		free_arr(main_struct->cmd1_arr);
-	if (main_struct->path1)
-		free(main_struct->path1);
-	if (main_struct->cmd2_arr)
-		free_arr(main_struct->cmd2_arr);
-	if (main_struct->path2)
-		free(main_struct->path2);
+	while (main_struct->head != NULL)
+		ft_lst_dc_delone(&main_struct->head, main_struct->head);
 	if (main_struct)
 		free(main_struct);
 }

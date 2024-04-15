@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:52:14 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 15:39:08 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/15 19:42:00 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,21 @@
 void	build_full_path_cmd_arr(char **argv, char **envp,
 		t_main_struct *main_struct)
 {
-	build_cmd_arr(argv[2], &main_struct->cmd1_arr, &main_struct->path1, envp);
-	build_cmd_arr(argv[3], &main_struct->cmd2_arr, &main_struct->path2, envp);
+	int	i;
+
+	i = 2;
+	while (i < main_struct->nb_arg)
+	{
+		t_cmd	*new_cmd;
+		char	**cmd_arr;
+		char	*path_cmd;
+		
+		build_cmd_arr(argv[i], &cmd_arr, &path_cmd, envp);
+		new_cmd = ft_lst_dc_new(cmd_arr, path_cmd);
+		ft_lst_dc_add_back(&main_struct->head, new_cmd);
+		i++;
+	}
+//	ft_lst_dc_print(main_struct->head);
 }
 
 void	build_cmd_arr(char *argv, char ***cmd_arr, char	**cmd_path, char **envp)
