@@ -78,7 +78,7 @@ static int	ft_lst_dc_delone_util(t_cmd **head, t_cmd *cmd_to_del)
 	if (size == 1)
 	{
 		*head = NULL;
-		free_cmd(&cmd_to_del);
+		free_cmd(cmd_to_del);
 		return (1);
 	}
 	else if (size == 2)
@@ -86,7 +86,7 @@ static int	ft_lst_dc_delone_util(t_cmd **head, t_cmd *cmd_to_del)
 		*head = (*head)->next ;
 		(*head)->next = NULL;
 		(*head)->previous = NULL;
-		free_cmd(&cmd_to_del);
+		free_cmd(cmd_to_del);
 		return (1);
 	}
 	*head = cmd_to_del->next;
@@ -109,7 +109,7 @@ void	ft_lst_dc_delone(t_cmd **head, t_cmd *cmd_to_del)
 		cmd_to_search = cmd_to_search->next;
 	cmd_to_search->next = cmd_to_search->next->next;
 	cmd_to_search->next->previous = cmd_to_search;
-	free_cmd(&cmd_to_del);
+	free_cmd(cmd_to_del);
 }
 
 void	ft_lst_dc_print(t_cmd *head)

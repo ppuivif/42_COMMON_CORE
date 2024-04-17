@@ -6,19 +6,22 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:51:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 19:20:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:57:46 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_cmd(t_cmd **cmd)
+void	free_cmd(t_cmd *cmd)
 {
-	if((*cmd)->cmd_arr)
-		free_arr((*cmd)->cmd_arr);
-	if((*cmd)->path)
-		free((*cmd)->path);
-	free(*cmd);	
+	if((cmd)->cmd_arr)
+		free_arr((cmd)->cmd_arr);
+	if((cmd)->path)
+	{
+		free((cmd)->path);
+		(cmd)->path = NULL;
+	}
+	free(cmd);	
 }
 
 void	free_arr(char **str_arr)
@@ -50,9 +53,9 @@ void	error_handling(t_main_struct *main_struct)
 
 void	free_all(t_main_struct *main_struct)
 {
-	if (main_struct->fd_input && main_struct->fd_input != -1)
+	if (main_struct->fd_input && main_struct->fd_input != )
 		close(main_struct->fd_input);
-	if (main_struct->fd_output && main_struct->fd_output != -1)
+	if (main_struct->fd_output)
 		close(main_struct->fd_output);
 	while (main_struct->head != NULL)
 		ft_lst_dc_delone(&main_struct->head, main_struct->head);

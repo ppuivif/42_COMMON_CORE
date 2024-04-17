@@ -96,6 +96,7 @@ void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path)
 		free (path_with_cmd);
 		path ++;
 	}
-	ft_putstr_fd("error\ncommand not found\n", 2);
+//	ft_putstr_fd("error\ncommand not found\n", 2);
+	ft_putstr_fd("command not found\n", 2);
 	return ;
 }

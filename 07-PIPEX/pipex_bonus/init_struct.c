@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:51:48 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 19:49:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/17 09:32:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_main_struct(t_main_struct **main_struct)
 	(*main_struct)->nb_arg = 0;
 	(*main_struct)->fd_input = 0;
 	(*main_struct)->fd_output = 0;
-	(*main_struct)->fd_output = 0;
+	(*main_struct)->fd_tmp = 0;
 	(*main_struct)->head = NULL;
 	(*main_struct)->cursor = NULL;
 }

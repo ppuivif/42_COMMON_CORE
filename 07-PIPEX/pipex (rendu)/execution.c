@@ -37,15 +37,15 @@ void	execution(t_main_struct *main_struct, char **envp)
 void	exec_child1(t_main_struct *main_struct, int *fd, char **envp)
 {
 	close(fd[0]);
-	if (main_struct->fd_output && main_struct->fd_output != -1)
+	if (main_struct->fd_output)
 		close(main_struct->fd_output);
 	dup2(main_struct->fd_input, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-	if (main_struct->fd_input && main_struct->fd_input != -1)
+	if (main_struct->fd_input)
 		close(main_struct->fd_input);
 	close(fd[1]);
 	if (main_struct->path1 && main_struct->cmd1_arr && main_struct->cmd1_arr[0] \
-	&& main_struct->fd_input != -1)
+	&& main_struct->fd_input)
 	{
 		if (execve(main_struct->path1, main_struct->cmd1_arr, envp) == -1)
 			perror("error\nexecve cmd1 failed");
@@ -77,11 +77,11 @@ void	exec_parent(t_main_struct *main_struct, int *fd, char **envp)
 void	exec_child2(t_main_struct *main_struct, int *fd, char **envp)
 {
 	close(fd[1]);
-	if (main_struct->fd_input && main_struct->fd_input != -1)
+	if (main_struct->fd_input)
 		close(main_struct->fd_input);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(main_struct->fd_output, STDOUT_FILENO);
-	if (main_struct->fd_output && main_struct->fd_output != -1)
+	if (main_struct->fd_output)
 		close(main_struct->fd_output);
 	close(fd[0]);
 	if (main_struct->path2 && main_struct->cmd2_arr && main_struct->cmd2_arr[0])

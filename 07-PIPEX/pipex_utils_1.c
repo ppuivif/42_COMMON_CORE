@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:59:46 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 15:59:47 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:50:52 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,21 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int				i;
+	size_t			i;
 	unsigned char	*str1;
 	unsigned char	*str2;
 
 	i = 0;
 	str1 = (unsigned char *) s1;
 	str2 = (unsigned char *) s2;
-	while (str1[i] || str2[i])
+	while (i < n)
 	{
-		if ((str1[i] < str2[i]) || (str1[i] > str2[i]))
+		if ((str1[i] == str2[i]) && (str1[i] != '\0') && (str2[i] != '\0'))
+			i++;
+		else
 			return (str1[i] - str2[i]);
-		i++;
 	}
 	return (0);
 }

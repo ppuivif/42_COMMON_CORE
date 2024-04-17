@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   execution_copy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:48:23 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/17 17:54:32 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:40:58 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,31 @@
 
 void	execution(t_main_struct *main_struct, char **envp)
 {
-	int		i;
 	int		fd[2];
 	pid_t	pid_1;
-	int 	fd_in;
-	int		fd_out;
-	
-	main_struct->cursor = main_struct->head->next;
-	i = 0;
-	fd_in = main_struct->fd_input;
-	while (i < main_struct->nb_arg - 1)
+
+	if (pipe(fd) == -1)
 	{
-		if (main_struct->cursor == ft_lst_dc_last(main_struct->head))
-			fd_out = main_struct->fd_output;
-		else
-		{
-			if (pipe(fd) == -1)
-			{
-				perror("error\ncreate pipe failed");
-				error_handling(main_struct);
-			}
-			pid_1 = fork();
-			if (pid_1 == -1)
-			{
-				perror("error\ncreate fork failed");
-				error_handling(main_struct);
-			}
-			if (pid_1 == 0)
-				exec_child(main_struct, fd_in, fd_out, envp);
-			else
-			{
-				main_struct->cursor = main_struct->head->next;
-			
-			}
-
-
-
+		perror("error\ncreate pipe failed");
+		error_handling(main_struct);
+	}
+	pid_1 = fork();
+	if (pid_1 == -1)
+	{
+		perror("error\ncreate fork failed");
+		error_handling(main_struct);
+	}
+	if (pid_1 == 0)
+			exec_first_child(main_struct, fd, envp);
+	else
+	{
+//		main_struct->cursor = main_struct->head->next;
 //		printf ("cmd2%s\n", main_struct->cursor->cmd_arr[0]);
-//		exec_parent(main_struct, fd, envp);
+		exec_parent(main_struct, fd, envp);
 	}
 }
 
-void	exec_child(t_main_struct *main_struct, int fd_in, int fd_out, char **envp)
+void	exec_first_child(t_main_struct *main_struct, int *fd, char **envp)
 {
 	close(fd[0]);
 	if (main_struct->fd_output)

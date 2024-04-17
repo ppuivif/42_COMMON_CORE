@@ -41,9 +41,9 @@ void	error_handling(t_main_struct *main_struct)
 
 void	free_all(t_main_struct *main_struct)
 {
-	if (main_struct->fd_input && main_struct->fd_input != -1)
+	if (main_struct->fd_input)
 		close(main_struct->fd_input);
-	if (main_struct->fd_output && main_struct->fd_output != -1)
+	if (main_struct->fd_output)
 		close(main_struct->fd_output);
 	if (main_struct->cmd1_arr)
 		free_arr(main_struct->cmd1_arr);

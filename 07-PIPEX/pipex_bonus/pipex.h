@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:43:58 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 19:28:45 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:55:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_main_struct
 	int				nb_arg;
 	int				fd_input;
 	int				fd_output;
+	int				fd_tmp;
 	t_cmd			*head;
 	t_cmd			*cursor;
 }t_main_struct;
@@ -65,15 +66,13 @@ char	**search_path(char **envp);
 void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path);
 
 void	execution(t_main_struct *main_struct, char **envp);
-void	exec_first_child(t_main_struct *main_struct, int *fd, char **envp);
-void	exec_parent(t_main_struct *main_struct, int *fd, char **envp);
-void	exec_last_child(t_main_struct *main_struct, int *fd, char **envp);
+void	exec_child(t_main_struct *main_struct, int fd_in, int fd_out, char **envp);
 
 void	init_main_struct(t_main_struct **main_struct);
 void	success_handling(t_main_struct *main_struct);
 void	error_handling(t_main_struct *main_struct);
 void	free_all(t_main_struct *main_struct);
-void	free_cmd(t_cmd **cmd);
+void	free_cmd(t_cmd *cmd);
 void	free_arr(char **str_arr);
 
 #endif
