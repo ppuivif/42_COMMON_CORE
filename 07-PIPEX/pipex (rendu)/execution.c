@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:48:23 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 16:10:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/18 10:00:03 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	execution(t_main_struct *main_struct, char **envp)
 		perror("error\ncreate fork failed");
 		error_handling(main_struct);
 	}
-	if (pid1 == 0)
+	if (pid1 == 0 && main_struct->error_infile == 0 && main_struct->error_outfile == 0)
 		exec_child1(main_struct, fd, envp);
 	else
 		exec_parent(main_struct, fd, envp);
@@ -44,8 +44,8 @@ void	exec_child1(t_main_struct *main_struct, int *fd, char **envp)
 	if (main_struct->fd_input)
 		close(main_struct->fd_input);
 	close(fd[1]);
-	if (main_struct->path1 && main_struct->cmd1_arr && main_struct->cmd1_arr[0] \
-	&& main_struct->fd_input)
+	if (main_struct->path1 && main_struct->cmd1_arr && main_struct->cmd1_arr[0])
+//	&& main_struct->fd_input && main_struct->fd_input != -1)
 	{
 		if (execve(main_struct->path1, main_struct->cmd1_arr, envp) == -1)
 			perror("error\nexecve cmd1 failed");
@@ -63,7 +63,7 @@ void	exec_parent(t_main_struct *main_struct, int *fd, char **envp)
 		perror("error\ncreate fork failed");
 		error_handling(main_struct);
 	}
-	if (pid2 == 0)
+	if (pid2 == 0 && main_struct->error_outfile == 0)
 		exec_child2(main_struct, fd, envp);
 	else
 	{

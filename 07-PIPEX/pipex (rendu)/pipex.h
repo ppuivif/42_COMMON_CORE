@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:43:58 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 16:09:29 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:24:07 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ typedef struct s_main_struct
 	char	*path1;
 	char	**cmd2_arr;
 	char	*path2;
+	int		error_infile;
+	int		error_outfile;
+	int		exit_status;
 }t_main_struct;
 
 size_t	ft_strlen(const char *s);
@@ -41,13 +44,14 @@ char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 
 void	check_files(char **argv, t_main_struct *main_struct);
+void	error_files(char **argv, t_main_struct *main_struct);
 void	build_full_path_cmd_arr(char **argv, char **envp,
 			t_main_struct *main_struct);
-void	build_cmd_arr(char *argv, char ***cmd_arr, char	**cmd_path,
+int		build_cmd_arr(char *argv, char ***cmd_arr, char	**cmd_path,
 			char **envp);
-void	check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp);
+int		check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp, int error_path);
 char	**search_path(char **envp);
-void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path);
+int		check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path, int error_path);
 
 void	execution(t_main_struct *main_struct, char **envp);
 void	exec_child1(t_main_struct *main_struct, int *fd, char **envp);

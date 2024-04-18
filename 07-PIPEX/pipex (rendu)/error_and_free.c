@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:51:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/15 12:14:13 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:45:11 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ void	free_arr(char **str_arr)
 	if (str_arr)
 		free(str_arr);
 	str_arr = NULL;
-}
-
-void	success_handling(t_main_struct *main_struct)
-{
-	free_all(main_struct);
-	exit (EXIT_SUCCESS);
 }
 
 void	error_handling(t_main_struct *main_struct)

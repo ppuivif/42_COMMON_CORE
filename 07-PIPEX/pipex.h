@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:43:58 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/17 18:51:14 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/18 11:13:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	check_files(char **argv, t_main_struct *main_struct);
 void	build_full_path_cmd_arr(char **argv, char **envp,
 			t_main_struct *main_struct);
 void	build_cmd_arr(char *argv, char ***cmd_arr, char	**cmd_path, char **envp);
-void	check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp);
+void	check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp, int error_path);
 char	**search_path(char **envp);
-void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path);
+void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path,  int error_path);
 
 void	execution(t_main_struct *main_struct, char **envp);
 void	exec_child1(t_main_struct *main_struct, int *fd, char **envp);

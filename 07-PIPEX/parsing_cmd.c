@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:52:14 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/17 18:55:06 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/18 11:12:16 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ void	build_full_path_cmd_arr(char **argv, char **envp,
 
 void	build_cmd_arr(char *argv, char ***cmd_arr, char	**cmd_path, char **envp)
 {
+	int	error_path;
+
+	error_path = 0;
 	*cmd_arr = ft_split(argv, ' ');
 	if (!**cmd_arr || !*cmd_arr[0])
 		ft_putstr_fd("error\ncommand not found\n", 2);
@@ -33,11 +36,14 @@ void	build_cmd_arr(char *argv, char ***cmd_arr, char	**cmd_path, char **envp)
 				ft_putstr_fd("error\npath couldn't be created\n", 2);
 		}
 		else
-			check_full_path_in_envp(cmd_arr, cmd_path, envp);
+		{
+			error_path = 1;
+			check_full_path_in_envp(cmd_arr, cmd_path, envp, error_path);
+		}
 	}
 }
 
-void	check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp)
+void	check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp, int error_path)
 {
 	char	**path_envp;
 
@@ -47,7 +53,7 @@ void	check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp)
 		ft_putstr_fd("error\npath doesn't exist in envp\n", 2);
 		return ;
 	}
-	check_path_cmd_validity(path_envp, cmd_arr, cmd_path);
+	check_path_cmd_validity(path_envp, cmd_arr, cmd_path, error_path);
 	free_arr(path_envp);
 	return ;
 }
@@ -72,7 +78,7 @@ char	**search_path(char **envp)
 	return (path);
 }
 
-void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path)
+void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path, int error_path)
 {
 	char	*path_with_cmd;
 
@@ -96,6 +102,9 @@ void	check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path)
 		free (path_with_cmd);
 		path ++;
 	}
-	ft_putstr_fd("error\ncommand not found\n", 2);
+	if (error_path == 1)
+		ft_putstr_fd("error\ncommand not found\n", 2);
+	else
+		perror();
 	return ;
 }
