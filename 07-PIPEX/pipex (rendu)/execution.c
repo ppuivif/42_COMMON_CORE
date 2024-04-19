@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:48:23 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/18 10:00:03 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 09:17:17 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	execution(t_main_struct *main_struct, char **envp)
 		perror("error\ncreate fork failed");
 		error_handling(main_struct);
 	}
-	if (pid1 == 0 && main_struct->error_infile == 0 && main_struct->error_outfile == 0)
+	if (pid1 == 0 && main_struct->error_infile == 0 \
+	&& main_struct->error_outfile == 0)
 		exec_child1(main_struct, fd, envp);
 	else
 		exec_parent(main_struct, fd, envp);
@@ -36,16 +37,13 @@ void	execution(t_main_struct *main_struct, char **envp)
 
 void	exec_child1(t_main_struct *main_struct, int *fd, char **envp)
 {
-	close(fd[0]);
-	if (main_struct->fd_output)
-		close(main_struct->fd_output);
+	close_fd(fd[0]);
+	close_fd(main_struct->fd_output);
 	dup2(main_struct->fd_input, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-	if (main_struct->fd_input)
-		close(main_struct->fd_input);
-	close(fd[1]);
+	close_fd(main_struct->fd_input);
+	close_fd(fd[1]);
 	if (main_struct->path1 && main_struct->cmd1_arr && main_struct->cmd1_arr[0])
-//	&& main_struct->fd_input && main_struct->fd_input != -1)
 	{
 		if (execve(main_struct->path1, main_struct->cmd1_arr, envp) == -1)
 			perror("error\nexecve cmd1 failed");
@@ -67,8 +65,8 @@ void	exec_parent(t_main_struct *main_struct, int *fd, char **envp)
 		exec_child2(main_struct, fd, envp);
 	else
 	{
-		close(fd[0]);
-		close(fd[1]);
+		close_fd(fd[0]);
+		close_fd(fd[1]);
 		while (waitpid(-1, NULL, 0) != -1)
 			continue ;
 	}
@@ -76,14 +74,12 @@ void	exec_parent(t_main_struct *main_struct, int *fd, char **envp)
 
 void	exec_child2(t_main_struct *main_struct, int *fd, char **envp)
 {
-	close(fd[1]);
-	if (main_struct->fd_input)
-		close(main_struct->fd_input);
+	close_fd(fd[1]);
+	close_fd(main_struct->fd_input);
 	dup2(fd[0], STDIN_FILENO);
 	dup2(main_struct->fd_output, STDOUT_FILENO);
-	if (main_struct->fd_output)
-		close(main_struct->fd_output);
-	close(fd[0]);
+	close_fd(main_struct->fd_output);
+	close_fd(fd[0]);
 	if (main_struct->path2 && main_struct->cmd2_arr && main_struct->cmd2_arr[0])
 	{
 		if (execve(main_struct->path2, main_struct->cmd2_arr, envp) == -1)

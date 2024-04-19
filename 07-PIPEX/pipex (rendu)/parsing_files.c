@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:52:14 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/18 17:30:40 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 08:22:06 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,4 @@ void	check_files(char **argv, t_main_struct *main_struct)
 		perror(argv[4]);
 		main_struct->error_outfile = 1;
 	}
-
 }

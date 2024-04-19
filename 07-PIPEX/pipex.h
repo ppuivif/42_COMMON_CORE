@@ -19,6 +19,38 @@
 # include <stdio.h>
 # include <sys/wait.h>
 
+/*typedef enum e_error
+{
+	NO_RIGHTS = 1,
+	NO_FILE = 2,
+}	t_err;
+
+
+
+void	check_files(char **argv, t_main_struct *main_struct)
+{
+	main_struct->fd_input = open(argv[1], O_RDONLY);
+	if (main_struct->fd_input == -1)
+	{
+		if (access(argv[1], F_OK) == -1)
+		{
+			perror(argv[1]);
+			main_struct->error_infile = NO_RIGHTS;
+		}
+		else
+		{
+			perror(argv[1]);
+			main_struct->error_infile = NO_FILE;
+		}
+	}
+	main_struct->fd_output = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (main_struct->fd_output == -1)
+	{
+		perror(argv[4]);
+		main_struct->error_outfile = 1;
+	}
+}*/
+
 typedef struct s_main_struct
 {
 	int		fd_input;

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:51:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/17 17:57:46 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 11:38:42 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ void	free_arr(char **str_arr)
 	str_arr = NULL;
 }
 
-void	success_handling(t_main_struct *main_struct)
-{
-	free_all(main_struct);
-	exit (EXIT_SUCCESS);
-}
-
 void	error_handling(t_main_struct *main_struct)
 {
 	free_all(main_struct);
@@ -53,12 +47,16 @@ void	error_handling(t_main_struct *main_struct)
 
 void	free_all(t_main_struct *main_struct)
 {
-	if (main_struct->fd_input && main_struct->fd_input != )
-		close(main_struct->fd_input);
-	if (main_struct->fd_output)
-		close(main_struct->fd_output);
+	close_fd(main_struct->fd_input);
+	close_fd(main_struct->fd_output);
 	while (main_struct->head != NULL)
 		ft_lst_dc_delone(&main_struct->head, main_struct->head);
 	if (main_struct)
 		free(main_struct);
+}
+
+void	close_fd(int fd)
+{
+	if (fd && fd != -1 && fd != STDIN_FILENO && fd != STDOUT_FILENO)
+		close(fd);
 }

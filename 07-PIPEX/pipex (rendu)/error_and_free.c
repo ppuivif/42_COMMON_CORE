@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 17:51:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/18 17:45:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 09:12:52 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ void	error_handling(t_main_struct *main_struct)
 
 void	free_all(t_main_struct *main_struct)
 {
-	if (main_struct->fd_input)
-		close(main_struct->fd_input);
-	if (main_struct->fd_output)
-		close(main_struct->fd_output);
+	close_fd(main_struct->fd_input);
+	close_fd(main_struct->fd_output);
 	if (main_struct->cmd1_arr)
 		free_arr(main_struct->cmd1_arr);
 	if (main_struct->path1)
@@ -49,4 +47,10 @@ void	free_all(t_main_struct *main_struct)
 		free(main_struct->path2);
 	if (main_struct)
 		free(main_struct);
+}
+
+void	close_fd(int fd)
+{
+	if (fd && fd != -1 && fd != STDIN_FILENO && fd != STDOUT_FILENO)
+		close(fd);
 }

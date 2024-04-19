@@ -1,7 +1,7 @@
 CC=gcc
-FLAGS=-Wall -Werror -Wextra -g #-g to delete
+FLAGS=-Wall -Werror -Wextra
 NAME=pipex
-SRCS=pipex.c parsing_files.c parsing_cmd.c \
+SRCS=pipex.c parsing_files.c parsing_cmd_1.c parsing_cmd_2.c \
 	execution.c error_and_free.c init_struct.c \
 	pipex_utils_1.c pipex_utils_2.c pipex_utils_3.c
 

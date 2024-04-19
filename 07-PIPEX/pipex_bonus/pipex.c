@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:44:03 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/16 12:01:39 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 11:39:11 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int	main(int argc, char **argv, char **envp)
 	check_files(argv, main_struct);
 	build_full_path_cmd_arr(argv, envp, main_struct);
 	execution(main_struct, envp);
-	success_handling(main_struct);
+	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:43:58 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/17 17:55:28 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:04:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@
 # include <stdio.h>
 # include <sys/wait.h>
 
+typedef struct s_cmd t_cmd;
 typedef struct s_cmd
 {
-	char			**cmd_arr;
-	char			*path;
-	struct s_cmd	*next;
-	struct s_cmd	*previous;
+	char	**cmd_arr;
+	char	*path;
+	t_cmd	*next;
+	t_cmd	*previous;
 }t_cmd;
 
 typedef struct s_main_struct
 {
-	int				nb_arg;
-	int				fd_input;
-	int				fd_output;
-	int				fd_tmp;
-	t_cmd			*head;
-	t_cmd			*cursor;
+	int		nb_arg;
+	int		fd_input;
+	int		fd_output;
+	t_cmd	*head;
+	t_cmd	*cursor;
 }t_main_struct;
 
 size_t	ft_strlen(const char *s);
@@ -69,10 +69,12 @@ void	execution(t_main_struct *main_struct, char **envp);
 void	exec_child(t_main_struct *main_struct, int fd_in, int fd_out, char **envp);
 
 void	init_main_struct(t_main_struct **main_struct);
+void	init_cmd_struct(t_cmd **cmd);
 void	success_handling(t_main_struct *main_struct);
 void	error_handling(t_main_struct *main_struct);
 void	free_all(t_main_struct *main_struct);
 void	free_cmd(t_cmd *cmd);
 void	free_arr(char **str_arr);
+void	close_fd(int fd);
 
 #endif

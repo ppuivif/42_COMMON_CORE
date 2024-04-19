@@ -101,8 +101,24 @@ Attention a /dev/random/ boucle infinie
 Attention si 2eme commande n'existe pas, pas d'appel a execve sur cmd2 et waitpid sur execution cmd1
 Attention --trace-children=yes
 
-valgrind --leak-check=full --track-fds=yes --trace-children=yes ./pipex Makefile ls ls test :
+valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes ./pipex Makefile ls ls test :
 Attention des erreurs apparaissent avec ls, pas avec cat
+
+
+Tests Dany :
+unset PATH
+unset CWD
+unset PWD
+./pipex .. cat ls outfile
+mkdir test
+touch infile
+./pipex test cat ls outfile
+chmod 000 test
+./pipex test/infile cat ls outfile
+
+export PATH=\\
+
+valgrind --leak-check=full --track-fds=yes --track-origins=yes --show-leak-kinds=definite --leak-resolution=high ./pipex input cat /bn/cat output
 
 Pour envoyer vers la sortie standard :
 ls /dev/stdout

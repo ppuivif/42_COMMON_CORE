@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:44:03 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/18 18:02:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 09:23:33 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ int	main(int argc, char **argv, char **envp)
 	execution(main_struct, envp);
 	exit_status = main_struct->exit_status;
 	free_all(main_struct);
-	return(exit_status);
+	return (exit_status);
 }

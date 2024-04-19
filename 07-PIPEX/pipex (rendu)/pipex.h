@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 21:43:58 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/18 18:24:07 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/04/19 10:15:18 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,16 @@ char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 
 void	check_files(char **argv, t_main_struct *main_struct);
-void	error_files(char **argv, t_main_struct *main_struct);
 void	build_full_path_cmd_arr(char **argv, char **envp,
 			t_main_struct *main_struct);
 int		build_cmd_arr(char *argv, char ***cmd_arr, char	**cmd_path,
 			char **envp);
-int		check_full_path_in_envp(char ***cmd_arr, char **cmd_path, char **envp, int error_path);
+int		check_full_path_in_envp(char ***cmd_arr, char **cmd_path,
+			char **envp, int error_path);
 char	**search_path(char **envp);
-int		check_path_cmd_validity(char **path, char ***cmd_arr, char **cmd_path, int error_path);
+int		check_path_cmd_validity(char **path, char ***cmd_arr,
+			char **cmd_path, int error_path);
+int		no_path(char **cmd_arr, int error_path);
 
 void	execution(t_main_struct *main_struct, char **envp);
 void	exec_child1(t_main_struct *main_struct, int *fd, char **envp);
@@ -59,9 +61,9 @@ void	exec_parent(t_main_struct *main_struct, int *fd, char **envp);
 void	exec_child2(t_main_struct *main_struct, int *fd, char **envp);
 
 void	init_struct(t_main_struct **main_struct);
-void	success_handling(t_main_struct *main_struct);
 void	error_handling(t_main_struct *main_struct);
 void	free_all(t_main_struct *main_struct);
 void	free_arr(char **str_arr);
+void	close_fd(int fd);
 
 #endif

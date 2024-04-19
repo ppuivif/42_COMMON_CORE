@@ -16,14 +16,15 @@ PUSH_SWAP
 	- init_struct.
 
 5-vérification des fichiers (argv[1] et argv[3])
-	- si le fichier outfile n'existe pas, le créer avec les droits d'ecriture avec OPEN,
-	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec
-	l'option O_WRONLY) ? Sinon EXIT_FAILURE.
-	- s'il existe, son contenu doit être écrasé par l'écriture suivante (O_TRUNC),
 	- le fichier infile existe-il (utilisation de la fonction ACCESS) ? Sinon message
 	d'erreur et poursuite de l'exécution (uniquement de la dernière commande),
 	- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ?
 	Sinon message d'erreur et poursuite de l'exécution (uniquement de la dernière commande).
+
+	- si le fichier outfile n'existe pas, le créer avec les droits d'ecriture avec OPEN,
+	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec
+	l'option O_WRONLY) ? Sinon affichage d'un message d'erreur et poursuite de l'exécution.
+	- s'il existe, son contenu doit être écrasé par l'écriture suivante (O_TRUNC),
 
 6-vérification des commandes et construction des commandes et des chemins d'accès
 	- build_full_path_cmd_arr
@@ -69,10 +70,8 @@ non mis en oeuvre :
 							- des join permettent de constituer des
 							ensembles path+commande qui sont testés
 							un à un avec ACCESS,
-							- si un path+commande est valide, la
-							fonction return et cet ensemble vient
-							remplacer la commande seule dans la
-							string[0] du tableau,
+							- si un path+commande est valide, il est
+							stocké dans la variable cmd_path,
 							-  si aucun ensemble path+commande
 							valide n'est trouvé, return. L'exécution
 							se poursuit.
@@ -80,7 +79,7 @@ non mis en oeuvre :
 	- les fd_input et fd_output ont été ouverts dans la fonction check_files,
 	- un pipe est créé,
 	- un fork est créé,
-	- le processus enfant 1 s'exécute :
+	- en dehors du cas où le parsing des deux fichiers infile et outfile n'a pas abouti, le processus enfant 1 s'exécute :
 		- exec_child1
 			- l'entrée de lecture (read) du pipe est fermée (fd[0]),
 			- le fd_output est fermé,
@@ -96,7 +95,7 @@ non mis en oeuvre :
 				ne peut pas s'exécuter), une erreur s'affiche 
 			- sinon l'exécution se poursuit.
 	- un deuxième fork est créé
-	- le processus enfant 2 s'exécute :
+	- si le parsing sur le fichier de sortie a abouti, le processus enfant 2 s'exécute :
 		- exec_child 2
 	- le processus parent s'exécute :
 		- fermeture des fd_input et fd_output pour la fermeture définitive du pipe (doit
@@ -104,4 +103,4 @@ non mis en oeuvre :
 		- attente de la fin de l'ensemble des processus (child1 et child2) grâce à une boucle
 		qui vérifie la valeur de chaque PID (waitpid(-1, ...). Le waitpid d'un processus fermé
 		renvoie -1.
-		- derniers closes et free.			 
+		- derniers closes et free.
