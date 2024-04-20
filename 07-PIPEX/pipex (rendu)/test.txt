@@ -1,0 +1,7 @@
+
+[0;32mtest1	all inputs are valid		 : 
+	infile exists
+	outfile exists
+	cmd1 : "cat -e"
+	cmd2 : "cat -e"
+[0m

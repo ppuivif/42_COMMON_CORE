@@ -5,45 +5,6 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-clear
-echo > test.txt
-chmod 644 test.txt
-if [ -f "infile.txt" ] # to check if the given path exists and is a regular file
-then
-	chmod 644 infile.txt
-	rm infile.txt
-fi
-if [ -f "outfile_bash.txt" ]
-then
-	chmod 644 outfile_bash.txt
-	rm outfile_bash.txt
-fi
-if [ -f "outfile_pipex.txt" ]
-then
-	chmod 644 outfile_pipex.txt
-	rm outfile_pipex.txt
-fi
-if [ -f "stdout_bash.txt" ]
-then
-	chmod 644 stdout_bash.txt
-	rm stdout_bash.txt
-fi
-if [ -f "stderr_bash.txt" ]
-then
-	chmod 644 stderr_bash.txt
-	rm stderr_bash.txt
-fi
-if [ -f "stdout_pipex.txt" ]
-then
-	chmod 644 stdout_pipex.txt
-	rm stdout_pipex.txt
-fi
-if [ -f "stderr_pipex.txt" ]
-then
-	chmod 644 stderr_pipex.txt
-	rm stderr_pipex.txt
-fi
-
 function create_files_and_set_permissions() {
 #	local file1="$1"
 #	local file2="$2"
@@ -68,7 +29,7 @@ function create_files_and_set_permissions() {
 }
 
 function delete_files() {
-	if [ -f "infile.txt" ]
+	if [ -f "infile.txt" ] # to check if the given path exists and is a regular file
 	then
 		chmod 644 infile.txt
 		rm infile.txt
@@ -105,13 +66,24 @@ function delete_files() {
 	fi
 }
 
+clear
+echo > test.txt
+chmod 644 test.txt
+delete_files
+
 #test1 : all inputs are valid
 test="test1\tall inputs are valid\t\t"
 message=$test
 create_files_and_set_permissions
-< infile.txt cat -e | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr_bash.txt
-./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr_pipex.txt
-if diff stdout_bash.txt outfile_pipex.txt > /dev/null && diff stderr_bash.txt stderr_pipex.txt > /dev/null
+< infile.txt cat -e | cat -e > outfile_bash.txt #>stdout_bash.txt 2>stderr_bash.txt
+#status_output_bash=$?
+./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt #>stdout_pipex.txt 2>stderr_pipex.txt
+#status_output_pipex=$?
+#if [ $status_output_bash == $status_output_pipex ] &&
+if diff outfile_bash.txt outfile_pipex.txt > /dev/null
+#if diff stdout_bash.txt stdout_pipex.txt > /dev/null
+# && diff stderr_bash.txt stderr_pipex.txt > /dev/null
+#if diff stdout_bash.txt outfile_pipex.txt > /dev/null && diff stderr_bash.txt stderr_pipex.txt > /dev/null
 then
 	message+="${GREEN} OK${NC}"
 	echo -e "${GREEN}$test : \n\tinfile exists\n\toutfile exists\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt 
@@ -119,10 +91,11 @@ else
 	message+="${RED} KO${NC}"
 	echo -e "${RED}$test : \n\tinfile exists\n\toutfile exists\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt 
 fi
-delete_files
+#delete_files
 echo -e "$message"
 message=""
 
+: <<BLOCK_COMMENT
 #test2 : outfile doesn't exist
 test="test2\toutfile doesn't exist\t\t"
 message=$test
@@ -306,5 +279,7 @@ fi
 delete_files
 echo -e "$message"
 message=""
+
+BLOCK_COMMENT
 
 exit

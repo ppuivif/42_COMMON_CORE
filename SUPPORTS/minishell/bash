@@ -1,0 +1,137 @@
+BASH REFERENCE MANUEL (RESUME)
+
+-----------------------------------------------------------------------------------------------
+
+1.1 Qu'est-ce-que Bash ?
+
+Bash est le shell par defaut, à savoir l'interpréteur de commandes, de GNU OS.
+Il est compatible avec sh et incorpore les principales caractéristiques de ksh et csh.
+Bash est relativement portable : il fonctionne sur presque toutes les versions de Unix et sur
+quelques autres OS (MS-DOS, OS/2, WINDOWS).
+
+1.2 Qu'est-ce-qu'un shell ?
+
+Un shell est simplement un macro-processus qui execute des commandes.
+En d'autres termes, c'est un outil permettant d'utiliser des textes et symboles pour créer des
+expressions plus étendues.   
+
+Un shell est à la fois un interpréteur de commandes et un language de programmation.
+En tant qu'interpréteur de commande, shell offre une interface utilisateur vers les outils GNU.
+Shell permet la combinaison de ces outils. En cela, il offre les fonctionnalités d'un langage de
+programmation. Des fichiers contenant des commandes peuvent être créés, et deviennent en eux-même
+des commandes. Ces nouvelles commandes ont les mêmes status que les commandes système.
+
+Shell permet deux modes de fonctionnement 
+	- mode interactif : il prend les entrées du clavier,
+	- mode non-interactif : shell exécute les commandes lues dans un fichier.
+
+Shell permet l'exécution des commandes :
+	- de façon "synchronisée" : les commandes s'exécutent successivement dès lors que les
+	commandes "additionnelles" sont reçues,
+	- de façon "non synchronisée" : les commandes s'exécutent parallèlement sans attendre
+	les fonctions additionnelles,
+
+Le principe des redirections permet de gérer finement les in et output.
+Shell permet également le contrôle des "commandes d'environnement".
+
+Shell fournit des commandes dites "built-in" qui seraient difficiles à implémenter en dehors
+du shell car elles manipulent directement shell (ex. cd, break, continue, exec).
+Ces built-in sont implémentés dans shell, plutôt que dans des programmes quelque-part dans le
+système de fichiers.
+
+-----------------------------------------------------------------------------------------------
+
+2 Quelques definitions :
+
+exit status (ou return status) : valeur retournée par une commande à son "appelant". Cette valeur
+est comprise entre 0 et 255.
+
+metacharacter : caractère (lorsqu'il n'est pas entre quotes) faisant office de séparateur.
+A metacharacter is a space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’,
+ ‘)’, ‘<’, or ‘>’.
+ 
+control operator ou redirection operator
+
+token : c'est une séquence de caractères constituant une unité indivisible (mot ou opérateur).
+
+-----------------------------------------------------------------------------------------------
+
+3 Principales caractéristiques de Shell
+
+3.1 La syntaxe :
+	- # : symbole de commentaire. Shell ignore le symbole et le reste de la ligne,
+	- shell lit l'input et divise l'input en mots et en opérateurs, à partir des règles de
+	"quoting",
+	- shell filtre ensuite les tokens et les répartit en commandes et autres "constructions".
+	- "il retire la signification spéciale de certains mots et caractères",
+	- il en "expand" d'autres,
+	- il redirige les in et output,
+	- il exécute les commandes speciales,
+	- il attend les exit status des commandes,
+	- il rend ces exit status disponibles pour un contrôle ultérieur ou un processus
+	ultérieur.
+	
+3.1.1 Le processus de lecture et d'exécution d'une commande :
+	1- lecture de l'entrée depuis un fichier, depuis une string envoyée comme argument d'une
+	"invocation bash" ou depuis le terminal de l'utilisateur,
+	2- séparation des mots et des operateurs contenus dans l'input, en respectant les règles
+	décrites dans le Quoting. Les tokens sont séparés par des métacharacters. L'expansion
+	des alias est réalisée au cours de cette étape.
+	3- filtre et tri des tokens en commandes simples et composées.
+	4- réalisation des expansions, séparation des tokens expansés en listes de nom de fichiers,
+	en commandes et arguments.
+	5- réalisation des redirections et suppression des opérateurs de redirection et des
+	opérandes.
+	6- exécution de la commande.
+	7- éventuellement attendre que la commande soit complète et collection des exit status.
+
+3.1.2 Le quoting :
+	- le quoting est utilisé pour supprimer la signification spéciale de certains caractères
+	ou mots (caractéres spéciaux et mots réservés pouvant être reconnus comme tels), ceci
+	afin d'éviter leur expansion. C'est le cas des metacharacters.
+	- il existe 3 mécanismes de quoting :
+		- l'escape character : le backslash (non quoté). Il préserve la valeur littérale
+		du caractère suivant, hors newline qui est traité comme la suite de la ligne.
+		- les single quotes : le fait d'encadrer une string de single quotes permet de 
+		préserver la valeur littérale de la string. Un single quote seule entre single
+		quotes, même si elle est précédée d'un backslash, n'est pas acceptée.
+		- double quotes : le fait d'encadrer des caractères entre double quotes préserve
+		la valeur littérale de chaque caractère, à l'exception de ‘$’, ‘`’, ‘\’, et de '!'
+		quand l'expansion d'historique est activée (sauf en mode POSIX).
+		Le backslash entre double quotes garde sa signification spéciale seulement quand
+		il est suivi de ‘$’, ‘`’, ‘"’, ‘\’, or newline. Dans ces cas, il est supprimé. Si
+		le backslash est suivi de caractéres sans signification particulière, il n'est pas
+		supprimé.
+		Un double quote précédé d'un backslash peut être placé entre double quotes.
+A compléter	Cas de l'expansion historique à éclaircir avec '!'.
+		Les paramètres spéciaux '*' et '@' ont des significations particulières quand ils
+		sont placés entre double quotes.
+	- l'ANSI-C quoting :
+A compléter	Les séquences de caractères de la forme $'string' sont traités comme un cas spécial
+		de single quotes.
+		Cas des \a, \b, \e, ...
+	- la traduction locale-specifique :
+		En préfixant une string entre double quotes, cette string sera traduite
+		"selon la norme locale".
+A compléter	Se référer à gettext.
+
+3.1.3 Les commentaires
+	En mode non-interactif (input via un fichier), ou en mode interactif (input via la clavier)
+	dans lequel l'option interactive_comments est désactivée, un mot commençant par '#' et le
+	reste de la ligne seront ignorés.
+	En mode interactif avec l'option activée, les commentaires ne sont pas autorisés. Cette
+	option est activée par défaut.
+ 
+ 3.2 Les commandes shell
+ 	Une commande shell simple telle que echo a b c est constituée de la commande elle-même suivie
+ 	des arguments séparés par des espaces.
+ 	Les commandes plus complexes sont constituées de commandes simples combinées ensemble de
+ 	plusieurs façons : dans un pipe, dans une boucle ou une "conditional construct", ou d'autres
+ 	groupements.
+ 	
+ 3.2.1 Les mots réservés :
+ 	Ce sont les mots qui ont une signification particulière pour le shell. Ils sont utilisés pour
+ 	marquer le début et la fin  
+		 
+		
+		
