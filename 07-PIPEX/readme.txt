@@ -118,7 +118,7 @@ chmod 000 test
 
 export PATH=\\
 
-valgrind --leak-check=full --track-fds=yes --track-origins=yes --show-leak-kinds=definite --leak-resolution=high ./pipex input cat /bn/cat output
+valgrind --leak-check=full --show-leak-kinds=definite --track-fds=yes --track-origins=yes --leak-resolution=high --trace-children=yes ./pipex input cat /bn/cat output
 
 Pour envoyer vers la sortie standard :
 ls /dev/stdout

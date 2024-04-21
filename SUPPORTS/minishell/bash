@@ -122,16 +122,130 @@ A compléter	Se référer à gettext.
 	En mode interactif avec l'option activée, les commentaires ne sont pas autorisés. Cette
 	option est activée par défaut.
  
- 3.2 Les commandes shell
+3.2 Les commandes shell
  	Une commande shell simple telle que echo a b c est constituée de la commande elle-même suivie
  	des arguments séparés par des espaces.
  	Les commandes plus complexes sont constituées de commandes simples combinées ensemble de
  	plusieurs façons : dans un pipe, dans une boucle ou une "conditional construct", ou d'autres
  	groupements.
  	
- 3.2.1 Les mots réservés :
- 	Ce sont les mots qui ont une signification particulière pour le shell. Ils sont utilisés pour
- 	marquer le début et la fin  
-		 
-		
+3.2.1 Les mots réservés :
+ 	Ce sont les mots qui ont une signification particulière pour le shell. Ils sont utilisés
+ 	pour marquer le début et la fin des commandes combinées.
+ 	Ces mots sont reconnus comme mots réservés lorsqu'ils ne sont pas placés entre quotes et
+ 	lorsqu'ils sont en première place d'une commande (hors in et do dans une commande for).
+ 	Exemples : if, else, fi, time, {, [[, !, ...
+
+3.2.2 Les commandes simples :
+	Les commandes simples sont les plus fréquentes. C'est une séquence de mots séparés par des
+à confirmer	whitespaces, terminée par un opérateur de controle (metacharacter).
+	Le premier mot spécifie généralement la commande qui doit être exécutée. Les mots suivants
+	sont les arguments de la commande.
+	L'exit status d'une commande simple est l'exit status tel que fourni par la fonction
+	waitpid du  POSIX ou (128+n) si la commande se termine par un signal n.
+	
+3.2.3 Pipelines :
+	Un pipeline est une séquence d'une ou plusieurs commandes séparées par l'un des operateurs
+	'|' ou '|&'.
+	Le format d'un pipeline est le suivant : [time [-p]] [!] command1 [ | or |& command2 ] …
+	La sortie de chaque commande dans le pipeline est connectée via un pipe à l'entrée de la
+	commande suivante. Ainsi, chque commande lit la sortie de la commande précédente. Cette
+	connection est exécutée avant toute redirection spcécifiée dans la commande 1.
+	Le mot réservé time permet d'afficher des statistiques de temps concernant le pipeline
+	une fois terminé. Lorsque le mode POSIX est sélectionné, shell ne reconnait pas le mot
+	réservé time.
+	Si le pipeline n'est pas exécuté en mode asynchrone, le shell attend toutes les commandes.
+	Chaque commande dans un pipeline multi-commande est exécutée dans un subshell, qui est
+	un processus séparé. Si l'option lastpipe est desactivée (voir The Shopt Buitin), le
+	dernier élément du pipeline peut être lancé par le processus quand le "job control" n'est
+	pas actif.
+	L'exit status d'un pipeline est le status exit de la dernière commande du pipeline, sauf si
+	l'option pipefail est désactivée. Si le mot réservé '!' précède le pipeline, l'exit status
+	est la négation logique de l'exit status décrit précédemment.
+	Shell attend que toute les commandes se soient exécutées dans le pipeline, avant de retourner
+	une valeur.
+	
+3.2.4 Listes de commandes :
+	Une liste est une séquence d'un ou plusieurs pipelines séparés par l'un des opérateurs
+	‘;’, ‘&’, ‘&&’, or ‘||’, et optionnellement terminés par un ‘;’, ‘&’, ou une newline.
+A éclaircir	Dans cette liste d'opérateurs, ‘&&’ and ‘||’ ont la même priorité, suivi par 
+	‘;’ and ‘&’ qui ont la même priorité.
+	Une séquence d'une ou plusieurs newlines peut être utilisée dans une liste pour délimiter
+	les commandes, comme un semicolon ';'.
+	Si une commande est terminée par l'opérateur de contrôle '&', shell exécute la commande de
+	façon asynchrone dans un subshell. Shell n'attend pas la fin de la commande et retourne 0.
+	Quand le "job control" n'est pas actif, l'entrée standard pour les commandes asynchrones,
+	en l'absence de redirections, est redirigée vers /dev/null.
+	Les commandes séparées par un ';' sont exécutées séquentiellement ; shell attend que chaque
+	commande se termine à tour de rôle. L'exit status est celui de la dernière commande exécutée.
+	Les listes AND "&&" et OR "||" sont des séquences qui sont exécutées "en s'associant par la
+	gauche".
+	Exemple : command1 && command2
+	la commande 2 s'exécute si et seulement si la commande 1 retourne un exit status égal à 1. 
+	Exemple : command1 || command2
+	la commande 2 s'exécute si et seulement si la commande 1 retourne un exit status différent
+	de 1.
+
+3.2.5 Commandes composées :
+	Les commandes composées sont à la base des fonctionnalités de programmation de shell.
+	Chaque construction commence par un mot réservé ou un opérateur de contrôle et se termine
+	par le mot ou l'opérateur correspondant.
+à éclaircir	Chaque redirection associée à une commande composée s'applique à toutes les commandes
+	sauf si elles sont explicitement remplacées.
+	Dans la plupart des cas, une liste de commandes dans une description de commandes composées
+	peut être séparée du reste de la commande par une newline ou plus, et peut être suivie par
+	une newline au lieu d'une semicolon.
+	Bash fournit des construction de type boucle, de type conditionnelle, de type regroupement.
+	
+3.2.5.1 Les boucles :
+	until, while, for
+	Le metacharacter ';' peut être remplacé par une newline.
+	
+
+3.2.5.2 Les conditions
+	if, case, select, ((...)), [[...]]
+	
+3.2.5.3 Les regroupements
+	Bash offre 2 façons de grouper une liste de commandes à exécuter comme une seule.
+	Quand les commandes sont groupées, les redirections peuvent s'appliquer à la totalité de
+	la liste de commandes. Par exemple, la sortie de toutes les commandes dans la liste peut
+	étre redirigée vers un "simple flux".
+	- (list)
+		Le fait de placer une liste de commandes entre parenthèses force le shell à créer
+		un subshell, et chaque commande de la liste est exécutée ce cet environnement de
+		subshell.
+		Etant donné que la liste est exécutée dans un subshell, les assignation de variable
+		disparaissent une fois le subshell terminé.
+	- {list}
+		Le fait de placer une liste de commandes entre brackets entraîne l'exécution dans
+		le contexte du shell courant. Aucun subshell n'est créé. Le semicolon (ou la
+		newline) suivant la liste est requis.
+	- nota : Les brackets sont des mots reservés (ils doivent donc être separés par des
+		"whitespaces" ou d'autres metacharacters.
+		Les parenthèses sont des opérateurs.
+	L'exit status de ces deux constructions est l'exit status de la liste.
+	
+3.2.6 Les coprocess
+	Un coprocess est une commande shell précédée par le mot réservé 'coproc'.
+	Un coprocess s'exécute de façon asynchrone dans un subshell, comme si la commande s'était
+	achevée avec un opérateur '&', avec un pipe à deux sens etabli entre le shell qui s'exécute
+	et le coprocess. 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
