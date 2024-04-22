@@ -3,6 +3,7 @@
 
 # include <stdlib.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 # include "includes/libft_utils.h"
 # include "includes/linked_list_utils.h"

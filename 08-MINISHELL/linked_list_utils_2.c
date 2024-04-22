@@ -21,9 +21,15 @@ size_t	ft_lst_dc_size(t_element *head)
 
 static void	free_build_list_element(t_element *element_to_del)
 {
-	free_arr(element_to_del->arr);
-	if (element_to_del->path)
-		free(element_to_del->path);
+	if(element_to_del)
+	{
+		free_arr(element_to_del->arr);
+		if (element_to_del->line)
+			free(element_to_del->line);
+		if (element_to_del->path)
+			free(element_to_del->path);
+		free(element_to_del);
+	}
 }
 
 static int	ft_lst_dc_delone_util(t_element **head, t_element *element_to_del)

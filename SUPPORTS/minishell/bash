@@ -228,13 +228,39 @@ A éclaircir	Dans cette liste d'opérateurs, ‘&&’ and ‘||’ ont la même 
 3.2.6 Les coprocess
 	Un coprocess est une commande shell précédée par le mot réservé 'coproc'.
 	Un coprocess s'exécute de façon asynchrone dans un subshell, comme si la commande s'était
-	achevée avec un opérateur '&', avec un pipe à deux sens etabli entre le shell qui s'exécute
-	et le coprocess. 	
+	achevée avec un opérateur de contrôle '&', avec un pipe à deux sens etabli entre le shell
+	qui s'exécute et le coprocess. 	
 	
-	
-	
-	
-	
+3.2.7 GNU Parallel
+	Il y a deux façon d'exécuter des commandes en parallèle qui ne sont pas construites dans
+	Bash. GNU parallel est un outil permettant de réaliser ces actions.
+
+3.3 Fonctions shell
+	Les fonctions shell sont une façon de grouper des commandes pour une exécution ultérieure
+	en utilisant un nom simple pour le groupe.
+	Elles sont exécutées simplement comme des commandes "classiques". Quand le nom d'une fonction
+	shell est utilisé comme une commande simple, la liste des commandes associées à cette fonction
+	est exécutée. Les fonctions shell sont exécutées dans le contexte du shell courant ; aucun
+	nouveau processus n'est créé pour les interpréter.
+	Les fonctions sont déclarées en utilisant la syntaxe suivante :
+		fname () compound-command [ redirections ]
+		ou
+		function fname [()] compound-command [ redirections ]
+	Ce qui permet de définir une fonction shell nommée fname. L'utilisation du mot réservé
+	function est facultative.
+
+3.4 Les paramètres shell
+	Un paramètre est une entité qui stocke des valeurs. Il peut s'agir d'un nom (name), d'un
+	nombre, ou d'un caractère spécial (*, @, #, ?, -, $, !, 0).
+	Une variable est un paramètre dénoté par un nom (name). Une variable a une valeur, et aucun
+	ou plusieurs arguments (attributes). Les arguments sont assignés en utilisant le builtin
+	'declare'.
+	Un paramètre est defini si une valeur lui a été assignée. Une string null est une valeur
+	valide. Une fois qu'une variable est définie, elle peut être (unset) en utilisant le
+	builtin 'unset'.
+	Une variable peut être assignée de la façon suivante :
+		name=[value]
+	Si value n'est pas donnée, la valeur null est assignée à la variable.
 	
 	
 	

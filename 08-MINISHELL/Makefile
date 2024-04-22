@@ -1,6 +1,8 @@
 CC = gcc
 FLAGS = -Wall -Werror -Wextra -g
 NAME  = minishell
+#SRCDIR = src
+#OBJDIR = obj
 SRCS = minishell.c \
 		arr_utils.c
 
@@ -14,6 +16,9 @@ all : $(NAME)
 $(NAME) : $(OBJECTS)
 		$(CC) $(FLAGS) $(OBJECTS) -o $@ -lreadline
 		@clear
+
+#$(OBJDIR):
+#	mkdir -p $(OBJDIR)
 
 %.o : %.c
 		$(CC) $(FLAGS) -c $< -o $@
