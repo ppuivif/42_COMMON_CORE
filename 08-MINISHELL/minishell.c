@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int main (void)
+/*int main (void)
 {
 	int 		i;
 	char 		*line;
@@ -31,4 +31,17 @@ int main (void)
 	}
 	free(list);
 	return (0);
+}*/
+
+# include <term.h>
+# include <termios.h>
+# include <curses.h>
+
+int main(void)
+{
+
+	char *term_type = getenv("TERM");
+//	tgetent(char *bp, const char *name)
+	tgetent(char *bp, term_type)
+
 }
