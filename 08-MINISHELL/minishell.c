@@ -36,12 +36,15 @@
 # include <term.h>
 # include <termios.h>
 # include <curses.h>
+# include <stdio.h>
 
 int main(void)
 {
 
+	char *bp = NULL; 
 	char *term_type = getenv("TERM");
 //	tgetent(char *bp, const char *name)
-	tgetent(char *bp, term_type)
+	tgetent(bp, term_type);
+	printf("%s\n", bp);
 
 }
