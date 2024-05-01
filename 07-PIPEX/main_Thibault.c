@@ -38,7 +38,8 @@ typedef struct s_command{
 	t_argument_to_expand *arguments;
 	t_redirection_to_expand *redirections;
 
-	t_command *next;
+//	t_command *next;
+	t_command_to_expand *next;
 } t_command_to_expand;
 
 typedef struct
@@ -77,7 +78,7 @@ typedef struct
 
 	const char *remaining_line;
 
-} t_argument_parsing_result;
+} t_argument_parsing_result; redirections
 
 t_argument_parsing_result parse_argument(const char* command_line)
 {
@@ -87,7 +88,7 @@ t_argument_parsing_result parse_argument(const char* command_line)
 	char *arg = NULL;
 
 	remaining_line = skip_spaces(command_line);
-	while (remaining_line[0] != '|' et != '<' et != '>' et != ' ' et != '\0')
+	while (remaining_line[0] != '|' et != '<'  redirectionset != '>' et != ' ' et != '\0')
 	{
 		if (remaining_line[0] == '\'')
 		{

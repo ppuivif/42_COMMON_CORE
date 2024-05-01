@@ -66,6 +66,89 @@ function delete_files() {
 	fi
 }
 
+function error() {
+	stdout_bash="$1"
+	stderr_bash="$2"
+	outfile_pipex="$3"
+	stdout_pipex="$4"
+	stderr_pipex="$5"
+	diff -q $stdout_bash $outfile_pipex
+	diff_stdout=$?
+	diff -q $stderr_bash $stderr_pipex
+	diff_stderr=$?
+#	if diff $stdout_bash $outfile_pipex > /dev/null
+	if [ "$diff_stdout" -ne 0 ]
+	then
+		flag=1
+		error+="stdout_bash :\n"
+		error+=$(awk '{print "\t"$0}' $stdout_bash)
+		error+="\noutfile_pipex :\n"
+		error+=$(awk '{print "\t"$0}' $outfile_pipex)
+		error+="\n\n"
+	#	echo "stdout_bash :"
+	#	awk '{print "\t"$0}' $stdout_bash
+	#	echo "outfile_pipex :"
+	#	awk '{print "\t"$0}' $outfile_pipex
+	fi
+	if [ "$diff_stderr" -ne 0 ]
+	then
+		flag=1
+		error+="stderr_bash :\n"
+		error+=$(awk '{print "\t"$0}' $stderr_bash)
+		error+="stderr_pipex :\n"
+		error+=$(awk '{print "\t"$0}' $stderr_pipex)
+		error+="\n"
+	fi
+	if [ "$6" != "$7" ]
+	then
+		flag=1
+		error+="status_output_bash : "
+		error+=$(echo $6)
+		error+="\nstatus_output_pipex : "
+		error+=$(echo $7)
+		error+="\n"
+	#	echo "status_output_bash : "
+	#	printf "\t" && echo $6
+	#	echo "status_output_pipex :"
+	#	printf "\t" && echo $7
+	#	echo -e
+	fi
+	if [ "$flag" == 1 ]
+	then
+		message+="${RED} KO${NC}"
+		flag=0
+	else
+		message+="${GREEN} OK${NC}"
+		flag=0
+	fi
+}
+
+function display_files_content() {
+	stdout_bash="$1"
+	stderr_bash="$2"
+	outfile_pipex="$3"
+	stdout_pipex="$4"
+	stderr_pipex="$5"
+
+	echo "stdout_bash :"
+#	printf "\t" && cat stdout_bash.txt
+	awk '{print "\t"$0}' $stdout_bash
+	echo "stderr_bash :"
+#	cat $stderr_bash
+	awk '{print "\t"$0}' $stderr_bash
+#	echo -n "status_output_bash : " && cat $status_output_bash
+#	echo -n "status_output_bash : " && awk '{print $0}' <<< "$status_output_bash"
+#	awk -v var="$status_output_bash" 'BEGIN {print var}'
+	printf "status_output_bash : " && echo $6
+	echo -e
+	echo "outfile_pipex :"
+	awk '{print "\t"$0}' $outfile_pipex
+	echo "stderr_pipex :"
+	awk '{print "\t"$0}' $stderr_pipex
+	printf "status_output_pipex : " && echo $7
+	echo -e
+}
+
 clear
 echo > test.txt
 chmod 644 test.txt
@@ -75,27 +158,47 @@ delete_files
 test="test1\tall inputs are valid\t\t"
 message=$test
 create_files_and_set_permissions
-< infile.txt cat -e | cat -e > outfile_bash.txt #>stdout_bash.txt 2>stderr_bash.txt
-#status_output_bash=$?
-./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt #>stdout_pipex.txt 2>stderr_pipex.txt
-#status_output_pipex=$?
-#if [ $status_output_bash == $status_output_pipex ] &&
-if diff outfile_bash.txt outfile_pipex.txt > /dev/null
-#if diff stdout_bash.txt stdout_pipex.txt > /dev/null
-# && diff stderr_bash.txt stderr_pipex.txt > /dev/null
-#if diff stdout_bash.txt outfile_pipex.txt > /dev/null && diff stderr_bash.txt stderr_pipex.txt > /dev/null
-then
-	message+="${GREEN} OK${NC}"
-	echo -e "${GREEN}$test : \n\tinfile exists\n\toutfile exists\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt 
-else
-	message+="${RED} KO${NC}"
-	echo -e "${RED}$test : \n\tinfile exists\n\toutfile exists\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt 
-fi
-#delete_files
-echo -e "$message"
-message=""
+< infile.txt cat -e | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr_bash.txt
+status_output_bash=$?
+./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr_pipex.txt
+status_output_pipex=$?
+#display_files_content stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
+error stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
+if [ $status_output_bash == $status_output_pipex ] &&
+	diff $stdout_bash $outfile_pipex > /dev/null &&
+	[ $(wc -c < "$stdout_pipex") -eq 0 ] &&
+	diff $stderr_bash $stderr_pipex > /dev/null
+#	diff outfile_bash.txt outfile_pipex.txt > /dev/null#echo "stdout_bash :"
+#	diff stdout_bash.txt stdout_pipex.txt > /dev/null
 
 : <<BLOCK_COMMENT
+	echo "stdout_bash :"
+	awk '{print "\t"$0}' stdout_bash.txt
+	echo "stderr_bash :"
+	awk '{print "\t"$0}' stderr_bash.txt
+	echo "status_output_bash :"
+	printf "\t" && cat $status_output_bash
+	echo -e
+	echo "outfile_pipex :"
+	awk '{print "\t"$0}' outfile_pipex.txt
+	echo "stderr_pipex :"
+	awk '{print "\t"$0}' stderr_pipex.txt
+	echo "status_output_pipex :"
+	printf "\t" && cat $status_output_pipex
+	echo -e
+BLOCK_COMMENT
+
+then
+	echo -e "${GREEN}$test : \n\tinfile exists\n\toutfile exists\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt 
+else
+	echo -e "${RED}$test : \n\tinfile exists\n\toutfile exists\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt 
+fi
+delete_files
+echo -e "$message"
+echo -e "$error"
+message=""
+error=""
+
 #test2 : outfile doesn't exist
 test="test2\toutfile doesn't exist\t\t"
 message=$test
@@ -103,31 +206,27 @@ create_files_and_set_permissions
 rm outfile_bash.txt
 rm outfile_pipex.txt
 < infile.txt cat -e | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr_bash.txt
-
-#echo "stdout_bash :"
-#cat stdout_bash.txt
-#echo "stderr_bash :"
-#cat stderr_bash.txt
-
+status_output_bash=$?
 ./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr_pipex.txt
-
-#echo "outfile_pipex :"
-#cat outfile_pipex.txt
-#echo "stderr_pipex :"
-#cat stderr_pipex.txt
-
-if diff stdout_bash.txt outfile_pipex.txt > /dev/null && diff stderr_bash.txt stderr_pipex.txt > /dev/null
+status_output_pipex=$?
+#display_files_content stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
+error stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
+if [ $status_output_bash == $status_output_pipex ] &&
+	diff stdout_bash.txt outfile_pipex.txt > /dev/null &&
+	[ $(wc -c < "stdout_pipex.txt") -eq 0 ] &&
+	diff stderr_bash.txt stderr_pipex.txt > /dev/null
 then
-	message+="${GREEN} OK${NC}"
 	echo -e "${GREEN}$test : \n\tinfile exists\n\toutfile doesn't exist\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt
 else
-	message+="${RED} KO${NC}"
 	echo -e "${RED}$test : \n\tinfile exists\n\toutfile doesn't exist\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt 
 fi
 delete_files
 echo -e "$message"
+echo -e "$error"
 message=""
+error=""
 
+: <<BLOCK_COMMENT
 #test3 : no permission on outfile
 test="test3\tno permission on outfile\t"
 message=$test

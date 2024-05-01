@@ -36,8 +36,7 @@
 # include <term.h>
 # include <termios.h>
 # include <curses.h>
-# include <stdio.h>
-
+# include <stdio.h
 int main(void)
 {
 
