@@ -20,12 +20,16 @@ function create_files_and_set_permissions() {
 	chmod 644 outfile_pipex.txt
 	echo > stdout_bash.txt
 	chmod 644 stdout_bash.txt
-	echo > stderr_bash.txt
-	chmod 644 stderr_bash.txt
+	echo > stderr1_bash.txt
+	chmod 644 stderr1_bash.txt
+	echo > stderr2_bash.txt
+	chmod 644 stderr2_bash.txt
 	echo > stdout_pipex.txt
 	chmod 644 stdout_pipex.txt
-	echo > stderr_pipex.txt
-	chmod 644 stderr_pipex.txt
+	echo > stderr1_pipex.txt
+	chmod 644 stderr1_pipex.txt
+	echo > stderr2_pipex.txt
+	chmod 644 stderr2_pipex.txt
 }
 
 function delete_files() {
@@ -49,33 +53,47 @@ function delete_files() {
 		chmod 644 stdout_bash.txt
 		rm stdout_bash.txt
 	fi
-	if [ -f "stderr_bash.txt" ]
+	if [ -f "stderr1_bash.txt" ]
 	then
-		chmod 644 stderr_bash.txt
-		rm stderr_bash.txt
+		chmod 644 stderr1_bash.txt
+		rm stderr1_bash.txt
+	fi
+	if [ -f "stderr2_bash.txt" ]
+	then
+		chmod 644 stderr2_bash.txt
+		rm stderr2_bash.txt
 	fi
 		if [ -f "stdout_pipex.txt" ]
 	then
 		chmod 644 stdout_pipex.txt
 		rm stdout_pipex.txt
 	fi
-	if [ -f "stderr_pipex.txt" ]
+	if [ -f "stderr1_pipex.txt" ]
 	then
-		chmod 644 stderr_pipex.txt
-		rm stderr_pipex.txt
+		chmod 644 stderr1_pipex.txt
+		rm stderr1_pipex.txt
+	fi
+	if [ -f "stderr2_pipex.txt" ]
+	then
+		chmod 644 stderr2_pipex.txt
+		rm stderr2_pipex.txt
 	fi
 }
 
 function error() {
-	stdout_bash="$1"
-	stderr_bash="$2"
-	outfile_pipex="$3"
-	stdout_pipex="$4"
-	stderr_pipex="$5"
+	stderr1_bash="$1"
+	stdout_bash="$2"
+	stderr2_bash="$3"
+	stderr1_pipex="$4"
+	outfile_pipex="$5"
+	stdout_pipex="$6"
+	stderr2_pipex="$7"
 	diff -q $stdout_bash $outfile_pipex
 	diff_stdout=$?
-	diff -q $stderr_bash $stderr_pipex
-	diff_stderr=$?
+	diff -q $stderr1_bash $stderr1_pipex
+	diff_stderr1=$?
+	diff -q $stderr2_bash $stderr2_pipex
+	diff_stderr2=$?
 #	if diff $stdout_bash $outfile_pipex > /dev/null
 	if [ "$diff_stdout" -ne 0 ]
 	then
@@ -90,22 +108,31 @@ function error() {
 	#	echo "outfile_pipex :"
 	#	awk '{print "\t"$0}' $outfile_pipex
 	fi
-	if [ "$diff_stderr" -ne 0 ]
+	if [ "$diff_stderr1" -ne 0 ]
 	then
 		flag=1
-		error+="stderr_bash :\n"
-		error+=$(awk '{print "\t"$0}' $stderr_bash)
-		error+="stderr_pipex :\n"
-		error+=$(awk '{print "\t"$0}' $stderr_pipex)
+		error+="stderr1_bash :\n"
+		error+=$(awk '{print "\t"$0}' $stderr1_bash)
+		error+="stderr1_pipex :\n"
+		error+=$(awk '{print "\t"$0}' $stderr1_pipex)
 		error+="\n"
 	fi
-	if [ "$6" != "$7" ]
+	if [ "$diff_stderr2" -ne 0 ]
 	then
 		flag=1
-		error+="status_output_bash : "
-		error+=$(echo $6)
-		error+="\nstatus_output_pipex : "
-		error+=$(echo $7)
+		error+="stderr2_bash :\n"
+		error+=$(awk '{print "\t"$0}' $stderr2_bash)
+		error+="stderr2_pipex :\n"
+		error+=$(awk '{print "\t"$0}' $stderr2_pipex)
+		error+="\n"
+	fi
+	if [ "$8" != "$9" ]
+	then
+		flag=1
+		error+="status_exit_bash : "
+		error+=$(echo $8)
+		error+="\nstatus_exit_pipex : "
+		error+=$(echo $9)
 		error+="\n"
 	#	echo "status_output_bash : "
 	#	printf "\t" && echo $6
@@ -124,28 +151,34 @@ function error() {
 }
 
 function display_files_content() {
-	stdout_bash="$1"
-	stderr_bash="$2"
-	outfile_pipex="$3"
-	stdout_pipex="$4"
-	stderr_pipex="$5"
+	stderr1_bash="$1"
+	stdout_bash="$2"
+	stderr2_bash="$3"
+	stderr1_pipex="$4"
+	outfile_pipex="$5"
+	stdout_pipex="$6"
+	stderr2_pipex="$7"
 
+	echo "stderr1_bash :"
+	awk '{print "\t"$0}' $stderr1_bash
 	echo "stdout_bash :"
 #	printf "\t" && cat stdout_bash.txt
 	awk '{print "\t"$0}' $stdout_bash
-	echo "stderr_bash :"
+	echo "stderr2_bash :"
 #	cat $stderr_bash
-	awk '{print "\t"$0}' $stderr_bash
+	awk '{print "\t"$0}' $stderr2_bash
 #	echo -n "status_output_bash : " && cat $status_output_bash
 #	echo -n "status_output_bash : " && awk '{print $0}' <<< "$status_output_bash"
 #	awk -v var="$status_output_bash" 'BEGIN {print var}'
-	printf "status_output_bash : " && echo $6
+	printf "status_output_bash : " && echo $8
 	echo -e
+	echo "stderr1_pipex :"
+	awk '{print "\t"$0}' $stderr1_pipex
 	echo "outfile_pipex :"
 	awk '{print "\t"$0}' $outfile_pipex
-	echo "stderr_pipex :"
-	awk '{print "\t"$0}' $stderr_pipex
-	printf "status_output_pipex : " && echo $7
+	echo "stderr2_pipex :"
+	awk '{print "\t"$0}' $stderr2_pipex
+	printf "status_output_pipex : " && echo $9
 	echo -e
 }
 
@@ -158,16 +191,29 @@ delete_files
 test="test1\tall inputs are valid\t\t"
 message=$test
 create_files_and_set_permissions
-< infile.txt cat -e | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr_bash.txt
+< infile.txt cat -e 2>stderr1_bash.txt | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr2_bash.txt
 status_output_bash=$?
-./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr_pipex.txt
+# 2>&1 standard error (stderr : fd 2) is combined with standard output (stdout : fd 1)
+# so both standard error and standard output are captured and stored in the variable output and are not displayed on the terminal
+# to capture only standard error : output=$(./pipex infile.txt "cat -e" "cat -e" outfile2.txt 2>&1 >/dev/null) because standard output is redirect to /dev/null 
+# Save original stderr file descriptor
+#exec 3>&2
+# Redirect stderr to /dev/null
+#./script.sh >/dev/null 3>&2
+#./script.sh 2>error.log
+# Restore stderr to its original state
+#exec 2>&3
+# Close the temporary file descriptor
+#exec 3>&-
+./pipex infile.txt "cat -e" 2>stderr1_pipex "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr2_pipex.txt
 status_output_pipex=$?
-#display_files_content stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
-error stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
+#display_files_content stderr1_bash.txt stdout_bash.txt stderr2_bash.txt stderr1_pipex.txt outfile_pipex.txt stdout_pipex.txt stderr2_pipex.txt "$status_output_bash" "$status_output_pipex"
+error stderr1_bash.txt stdout_bash.txt stderr2_bash.txt stderr1_pipex.txt outfile_pipex.txt stdout_pipex.txt stderr2_pipex.txt "$status_output_bash" "$status_output_pipex"
 if [ $status_output_bash == $status_output_pipex ] &&
 	diff $stdout_bash $outfile_pipex > /dev/null &&
 	[ $(wc -c < "$stdout_pipex") -eq 0 ] &&
-	diff $stderr_bash $stderr_pipex > /dev/null
+	diff $stderr1_bash $stderr2_pipex > /dev/null &&
+	diff $stderr2_bash $stderr2_pipex > /dev/null
 #	diff outfile_bash.txt outfile_pipex.txt > /dev/null#echo "stdout_bash :"
 #	diff stdout_bash.txt stdout_pipex.txt > /dev/null
 
@@ -205,16 +251,17 @@ message=$test
 create_files_and_set_permissions
 rm outfile_bash.txt
 rm outfile_pipex.txt
-< infile.txt cat -e | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr_bash.txt
+< infile.txt cat -e 2>stderr1_bash.txt | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr2_bash.txt
 status_output_bash=$?
-./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr_pipex.txt
+./pipex infile.txt "cat -e" 2>stderr1_pipex "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr2_pipex.txt
 status_output_pipex=$?
-#display_files_content stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
-error stdout_bash.txt stderr_bash.txt outfile_pipex.txt stdout_pipex.txt stderr_pipex.txt "$status_output_bash" "$status_output_pipex"
+#display_files_content stderr1_bash.txt stdout_bash.txt stderr2_bash.txt stderr1_pipex.txt outfile_pipex.txt stdout_pipex.txt stderr2_pipex.txt "$status_output_bash" "$status_output_pipex"
+error stderr1_bash.txt stdout_bash.txt stderr2_bash.txt stderr1_pipex.txt outfile_pipex.txt stdout_pipex.txt stderr2_pipex.txt "$status_output_bash" "$status_output_pipex"
 if [ $status_output_bash == $status_output_pipex ] &&
 	diff stdout_bash.txt outfile_pipex.txt > /dev/null &&
 	[ $(wc -c < "stdout_pipex.txt") -eq 0 ] &&
-	diff stderr_bash.txt stderr_pipex.txt > /dev/null
+	diff stderr1_bash.txt stderr1_pipex.txt > /dev/null &&
+	diff stderr2_bash.txt stderr2_pipex.txt > /dev/null
 then
 	echo -e "${GREEN}$test : \n\tinfile exists\n\toutfile doesn't exist\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt
 else
@@ -226,7 +273,6 @@ echo -e "$error"
 message=""
 error=""
 
-: <<BLOCK_COMMENT
 #test3 : no permission on outfile
 test="test3\tno permission on outfile\t"
 message=$test
@@ -234,12 +280,14 @@ create_files_and_set_permissions
 chmod 044 outfile_bash.txt
 chmod 044 outfile_pipex.txt
 substring="Permission denied"
-# 2>&1 standard error (stderr : fd 2) is combined with standard output (stdout : fd 1)
-# so both standard error and standard output are captured and stored in the variable output and are not displayed on the terminal
-# to capture only standard error : output=$(./pipex infile.txt "cat -e" "cat -e" outfile2.txt 2>&1 >/dev/null) because standard output is redirect to /dev/null 
-./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr_pipex.txt
-error_output_pipex=$?
-if grep "$substring" stderr_pipex.txt >/dev/null && [ "$error_output_pipex" -ne 0 ] # && diff stdout_bash.txt outfile_pipex.txt > /dev/null to verify result of cmd2
+#< infile.txt cat -e 2>stderr1_bash.txt | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr2_bash.txt
+#status_output_bash=$?
+./pipex infile.txt "cat -e" 2>stderr1_pipex.txt "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr2_pipex.txt
+#display_files_content stderr1_bash.txt stdout_bash.txt stderr2_bash.txt stderr1_pipex.txt outfile_pipex.txt stdout_pipex.txt stderr2_pipex.txt "$status_output_bash" "$status_output_pipex"
+status_output_pipex=$?
+if grep "$substring" stderr2_pipex.txt >/dev/null &&
+	[ $status_output_pipex == 1 ]
+# && diff stdout_bash.txt outfile_pipex.txt > /dev/null to verify result of cmd2
 then
 	message+="${GREEN} OK${NC}"
 	echo -e "${GREEN}$test : \n\tinfile exists\n\toutfile exists without any permissions\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"cat -e\"\n${NC}" >> test.txt
@@ -251,39 +299,18 @@ delete_files
 echo -e "$message"
 message=""
 
+
 #test4 : infile doesn't exist
 test="test4\tinfile doesn't exist\t\t"
 message=$test
 create_files_and_set_permissions
 rm infile.txt
-
-# Save original stderr file descriptor
-#exec 3>&2
-# Redirect stderr to /dev/null
-#./script.sh >/dev/null 3>&2
-#./script.sh 2>error.log
-# Restore stderr to its original state
-#exec 2>&3
-# Close the temporary file descriptor
-#exec 3>&-
-
-#echo "stdout_bash :"
-#cat stdout_bash.txt
-#echo "stderr_bash :"
-#cat stderr_bash.txt
-
 substring="No such file or directory"
-./pipex infile.txt "cat -e" "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr_pipex.txt
-
-#echo "outfile_pipex :"
-#cat outfile_pipex.txt
-#echo "stderr_pipex :"
-#cat stderr_pipex.txt
-
-#./script.sh 2>/dev/null
-
-#if diff outfile1.txt outfile2.txt > /dev/null
-if grep "$substring" stderr_pipex.txt >/dev/null # && diff stdout_bash.txt outfile_pipex.txt > /dev/null to verify result of cmd2
+#< infile.txt cat -e 2>stderr1_bash.txt | cat -e > outfile_bash.txt >stdout_bash.txt 2>stderr2_bash.txt
+./pipex infile.txt "cat -e" 2>stderr1_pipex.txt "cat -e" outfile_pipex.txt >stdout_pipex.txt 2>stderr2_pipex.txt
+if grep "$substring" stderr2_pipex.txt >/dev/null &&
+	[ $status_output_pipex == 0 ]
+# && diff stdout_bash.txt outfile_pipex.txt > /dev/null to verify result of cmd2
 then
 	message+="${GREEN} OK${NC}"
 	echo -e "${GREEN}$test : \n\tinfile doesn't exist\n\toutfile exists\n\tcmd1 : \"cat -e\"\n\tcmd2 : \"wc -l\"\n${NC}" >> test.txt
@@ -294,6 +321,8 @@ fi
 delete_files
 echo -e "$message"
 message=""
+
+: <<BLOCK_COMMENT
 
 #test5 : no permission on infile
 test="test5"

@@ -33,10 +33,11 @@
 	return (0);
 }*/
 
-# include <term.h>
+/*# include <term.h>
 # include <termios.h>
 # include <curses.h>
-# include <stdio.h
+# include <stdio.h>
+
 int main(void)
 {
 
@@ -46,4 +47,10 @@ int main(void)
 	tgetent(bp, term_type);
 	printf("%s\n", bp);
 
+}*/
+
+int main(void)
+{
+	parse_command_line(" < infile.txt cat | cat");
+	return (0);
 }

@@ -21,7 +21,8 @@ typedef struct s_list
 	t_element	*head;
 }	t_list;
 
-int			list_initialization(t_list	**stack, int size);
+int			init_list_struct(t_list	**stack, int size);
+void		init_element_struct(t_element *element);
 t_element	*ft_lst_dc_new(char *line, char **arr, char *path);
 void		ft_lst_dc_add_back(t_element **head, t_element *new_element);
 void		ft_lst_dc_add_front(t_element **head, t_element *new_element);

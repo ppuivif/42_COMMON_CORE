@@ -1,5 +1,6 @@
 #ifndef LIBFT_UTILS_H
-# define LIBFT_UTILS_H
+# define LIBFT_UTILS_H	t_command.line = NULL;
+
 
 # include <stdlib.h>
 # include <unistd.h>

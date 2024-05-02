@@ -12,5 +12,9 @@
 
 //arr_utils.c
 void	print_arr(char **arr);
+char	*skip_first_spaces(char *str);
+t_element parse_command_line(char *str);
+t_element parse_between_pipes(char *str);
+
 
 #endif

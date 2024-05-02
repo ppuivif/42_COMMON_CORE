@@ -1,6 +1,6 @@
 #include "includes/linked_list_utils.h"
 
-int	list_initialization(t_list	**list, int size)
+int	init_list_struct(t_list	**list, int size)
 {
 	*list = malloc(sizeof(t_list));
 	if (!list)
@@ -8,6 +8,21 @@ int	list_initialization(t_list	**list, int size)
 	(*list)->head = NULL;
 	(*list)->size = size;
 	return (0);
+}
+
+void	init_element_struct(t_element *element)
+{
+/*	*cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!*cmd)
+	{
+		ft_putstr_fd("error\nstructure allocation failed\n", 2);
+		exit (EXIT_FAILURE);
+	}*/
+	element->line = NULL;
+	element->arr = NULL;
+	element->path = NULL;
+	element->next = NULL;
+	element->previous = NULL;
 }
 
 t_element	*ft_lst_dc_new(char *line, char **arr, char *path)

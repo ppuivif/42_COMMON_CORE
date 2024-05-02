@@ -5,9 +5,21 @@
 	cmd1 : "cat -e"
 	cmd2 : "cat -e"
 [0m
-[0;32mtest2	outfile doesn't exist		 : 
+[0;31mtest2	outfile doesn't exist		 : 
 	infile exists
 	outfile doesn't exist
 	cmd1 : "cat -e"
 	cmd2 : "cat -e"
+[0m
+[0;32mtest3	no permission on outfile	 : 
+	infile exists
+	outfile exists without any permissions
+	cmd1 : "cat -e"
+	cmd2 : "cat -e"
+[0m
+[0;31mtest4	infile doesn't exist		 : 
+	infile doesn't exist
+	outfile exists
+	cmd1 : "cat -e"
+	cmd2 : "wc -l"
 [0m
