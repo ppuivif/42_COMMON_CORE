@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:58:37 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/21 19:29:40 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/05/03 11:18:55 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,45 @@ char	*ft_strdup(const char *s)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+char	*ft_strdup_freed(char *s)
+{
+	char	*str;
+	int		i;
+	int		len;
+
+	if (!s)
+		return (NULL);
+	i = 0;
+	len = ft_strlen(s);
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	while (s[i] && i < len)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	free(s);
+	s = NULL;
+	str[i] = '\0';
+	return (str);
+}
+
+char	*extract_substring(char *str, char c)
+{
+	unsigned int	i;
+	char			*result;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	if (ft_strchr(str, c) == 0)
+		return (str);
+	i = search_first_occurence(str, c);
+	result = ft_substr(str, 0, i);
+	return (result);
 }
 
 char	*ft_substr(const char *s, unsigned int start, size_t len)

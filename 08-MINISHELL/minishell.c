@@ -51,6 +51,22 @@ int main(void)
 
 int main(void)
 {
-	parse_command_line(" < infile.txt cat | cat");
+	char	*line;
+	t_command_line command_line;
+	
+	while (1)
+	{
+		line = readline("minishell : ");
+		if (!line)
+			break;
+		add_history(line);//here?
+		init_command_line_struct(command_line);
+		command_line = parse_command_line(line);
+		if (!command_line.flag)
+		{
+			free ;
+			return (1);
+		}
+	}
 	return (0);
 }

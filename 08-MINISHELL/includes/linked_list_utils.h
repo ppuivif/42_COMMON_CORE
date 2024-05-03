@@ -2,12 +2,14 @@
 # define LINKED_LIST_UTILS_H
 
 # include <stdlib.h>
+# include <stdbool.h>
 
 # include "libft_utils.h"
 
 typedef struct s_element t_element;
 typedef struct s_element
 {
+	bool		did_succeed;
 	char		*line;
 	char		**arr;
 	char		*path;

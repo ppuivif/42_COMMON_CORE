@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:59:46 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/04/21 19:22:14 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/05/03 10:06:39 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,22 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (s[i] == (char)c)
 		return ((char *)&(s[i]));
+	return (0);
+}
+
+unsigned int	search_first_occurence(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		i++;
+	}
+	if (c == '\0')
+		return (i);
 	return (0);
 }
 

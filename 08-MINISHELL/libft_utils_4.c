@@ -22,3 +22,10 @@ void	ft_putnbr_fd(int n, int fd)
 	write (fd, &c, 1);
 }
 
+char	*skip_first_spaces(char *str)
+{
+	while (str && str[0] == ' ')
+		str++;
+	return (str);
+}
+

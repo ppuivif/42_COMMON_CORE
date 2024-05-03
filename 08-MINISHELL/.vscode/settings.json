@@ -3,6 +3,7 @@
 		"readline.h": "c",
 		"stdlib.h": "c",
 		"libft_utils.h": "c",
-		"linked_list_utils.h": "c"
+		"linked_list_utils.h": "c",
+		"stdbool.h": "c"
 	}
 }
