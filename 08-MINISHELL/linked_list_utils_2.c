@@ -1,6 +1,6 @@
 #include "includes/linked_list_utils.h"
 
-size_t	ft_lst_dc_size(t_element *head)
+size_t	ft_lst_size(t_element *head)
 {
 	size_t		len;
 	t_element	*last_element;
@@ -8,7 +8,7 @@ size_t	ft_lst_dc_size(t_element *head)
 	len = 1;
 	if (!head)
 		return (0);
-	last_element = ft_lst_dc_last(head);
+	last_element = ft_lst_last(head);
 	if (last_element == head)
 		return (1);
 	while (head != last_element)
@@ -19,7 +19,7 @@ size_t	ft_lst_dc_size(t_element *head)
 	return (len);
 }
 
-static void	free_build_list_element(t_element *element_to_del)
+/*static void	free_build_list_element(t_element *element_to_del)
 {
 	if(element_to_del)
 	{
@@ -30,32 +30,31 @@ static void	free_build_list_element(t_element *element_to_del)
 			free(element_to_del->path);
 		free(element_to_del);
 	}
-}
+}*/
 
-static int	ft_lst_dc_delone_util(t_element **head, t_element *element_to_del)
+static int	ft_lst_delone_util(t_element **head, t_element *element_to_del)
 {
 	int	size;
 
-	size = ft_lst_dc_size(*head);
+	size = ft_lst_size(*head);
 	if (size == 1)
 	{
 		*head = NULL;
-		free_build_list_element(element_to_del);
+//		free_build_list_element(element_to_del);
 		return (1);
 	}
 	else if (size == 2)
 	{
 		*head = (*head)->next ;
 		(*head)->next = NULL;
-		(*head)->previous = NULL;
-		free_build_list_element(element_to_del);
+//		free_build_list_element(element_to_del);
 		return (1);
 	}
 	*head = element_to_del->next;
 	return (0);
 }
 
-void	ft_lst_dc_delone(t_element **head, t_element *element_to_del)
+void	ft_lst_delone(t_element **head, t_element *element_to_del)
 {
 	t_element	*element_to_search;
 
@@ -63,24 +62,23 @@ void	ft_lst_dc_delone(t_element **head, t_element *element_to_del)
 		return ;
 	if (*head == element_to_del)
 	{
-		if (ft_lst_dc_delone_util(head, element_to_del) == 1)
+		if (ft_lst_delone_util(head, element_to_del) == 1)
 			return ;
 	}
 	element_to_search = *head;
 	while (element_to_search->next != element_to_del)
 		element_to_search = element_to_search->next;
 	element_to_search->next = element_to_search->next->next;
-	element_to_search->next->previous = element_to_search;
-	free_build_list_element(element_to_del);
+//	free_build_list_element(element_to_del);
 }
 
-void	ft_lst_dc_print(t_element *head)
+void	ft_lst_print(t_element *head)
 {
 	int	len;
 	int	i;
 
 	i = 0;
-	len = ft_lst_dc_size(head);
+	len = ft_lst_size(head);
 	while (i < len)
 	{
 		ft_putstr_fd("line ", 1);

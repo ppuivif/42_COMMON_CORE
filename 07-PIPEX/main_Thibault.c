@@ -32,6 +32,8 @@ typedef struct s_redirection_to_expand
 } t_redirection_to_expand;
 
 
+
+
 typedef struct s_command t_command;
 typedef struct s_command{
 
@@ -42,6 +44,10 @@ typedef struct s_command{
 	t_command_to_expand *next;
 } t_command_to_expand;
 
+
+
+
+Level 1
 typedef struct
 {
 	bool did_succeed;
@@ -49,6 +55,9 @@ typedef struct
 	t_command_to_expand *commands;
 
 } t_command_line_parsing_result;
+
+
+
 
 typedef struct
 {
@@ -59,6 +68,8 @@ typedef struct
 	const char *remaining_line;
 
 } t_command_parsing_result;
+
+
 
 typedef struct
 {
@@ -78,7 +89,9 @@ typedef struct
 
 	const char *remaining_line;
 
-} t_argument_parsing_result; redirections
+} t_argument_parsing_result;
+
+----------------------------------------------------------------------
 
 t_argument_parsing_result parse_argument(const char* command_line)
 {

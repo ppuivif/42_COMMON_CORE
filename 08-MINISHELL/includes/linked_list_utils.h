@@ -14,23 +14,22 @@ typedef struct s_element
 	char		**arr;
 	char		*path;
 	t_element	*next;
-	t_element	*previous;
 }	t_element;
 
-typedef struct s_list
+/*typedef struct s_list
 {
 	int			size;
 	t_element	*head;
-}	t_list;
+}	t_list;*/
 
-int			init_list_struct(t_list	**stack, int size);
-void		init_element_struct(t_element *element);
-t_element	*ft_lst_dc_new(char *line, char **arr, char *path);
-void		ft_lst_dc_add_back(t_element **head, t_element *new_element);
-void		ft_lst_dc_add_front(t_element **head, t_element *new_element);
-t_element	*ft_lst_dc_last(t_element *head);
-size_t		ft_lst_dc_size(t_element *head);
-void		ft_lst_dc_delone(t_element **head, t_element *element_to_del);
-void		ft_lst_dc_print(t_element *head);
+//int			init_list_struct(t_list	**stack, int size);
+//void		init_element_struct(t_element *element);
+//t_element	*ft_lst_dc_new(char *line, char **arr, char *path);
+void		ft_lst_add_back(t_element **head, t_element *new_element);
+void		ft_lst_add_front(t_element **head, t_element *new_element);
+t_element	*ft_lst_last(t_element *head);
+size_t		ft_lst_size(t_element *head);
+void		ft_lst_delone(t_element **head, t_element *element_to_del);
+void		ft_lst_print(t_element *head);
 
 #endif

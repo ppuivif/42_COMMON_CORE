@@ -60,11 +60,11 @@ int main(void)
 		if (!line)
 			break;
 		add_history(line);//here?
-		init_command_line_struct(command_line);
+		init_command_line_struct(&command_line);
 		command_line = parse_command_line(line);
 		if (!command_line.flag)
 		{
-			free ;
+//			free ;
 			return (1);
 		}
 	}
