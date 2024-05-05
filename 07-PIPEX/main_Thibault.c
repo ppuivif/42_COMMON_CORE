@@ -101,7 +101,7 @@ t_argument_parsing_result parse_argument(const char* command_line)
 	char *arg = NULL;
 
 	remaining_line = skip_spaces(command_line);
-	while (remaining_line[0] != '|' et != '<'  redirectionset != '>' et != ' ' et != '\0')
+	while (remaining_line[0] != '|' et != '<'  redirections et != '>' et != ' ' et != '\0')
 	{
 		if (remaining_line[0] == '\'')
 		{
