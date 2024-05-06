@@ -4,13 +4,12 @@ t_command_line	*parse_command_line(char *str)
 {
 	t_command_line	*command_line;
 	char			*remaining_line;
+	int				return_value;
 
 	command_line = NULL;
+	return_value = 0;
 	if (init_command_line_struct(&command_line) == 1)
-	{
-		command_line->flag = false;
-		return (command_line);
-	}
+		error_allocation(&command_line);
 	remaining_line = skip_first_spaces(str);
 	if (ft_strlen(remaining_line) == 0)
 	{
@@ -19,9 +18,14 @@ t_command_line	*parse_command_line(char *str)
 	}
 	while(ft_strlen(remaining_line))
 	{
-		parse_substrings(&remaining_line, command_line);
-		if (command_line->flag == false)
+		return_value = parse_substrings(&remaining_line, command_line);
+		if (return_value == 1)
+			error_allocation(&command_line);
+		if (return_value == 2)
+		{
+			command_line->flag = false;
 			return (command_line);
+		}
 		remaining_line = skip_first_spaces(remaining_line);
 		if (remaining_line[0] == '|')
 		{
@@ -38,42 +42,51 @@ t_command_line	*parse_command_line(char *str)
 	return (command_line);
 }
 
-void	parse_substrings(char **remaining_line, t_command_line *command_line)
+int	parse_substrings(char **remaining_line, t_command_line *command_line)
 {
 	t_substring		*substring;
+	int				return_value_redirections;
+	int				return_value_arguments;
 
 	substring = NULL;
+	return_value_redirections = 0;
+	return_value_arguments = 0;
 	if (init_substring_struct(&substring) == 1)
-	{
-		command_line->flag = false;
-		return ;//to confirm
-	}
+		return (1);
 	if (!*remaining_line)
-	{
-		command_line->flag = false;
-		return ;//to confirm
-	}
+		return (2);//to confirm
 	*remaining_line = skip_first_spaces(*remaining_line);
 	if (ft_strlen(*remaining_line) == 0)
-	{
-		command_line->flag = false;
-		return ;// to confirm
-	}
+		return (2);// to confirm
 	while (*remaining_line[0] && *remaining_line[0] != '|')
 	{
 		if (*remaining_line[0] == '<' || *remaining_line[0] == '>')
-			get_redirections(remaining_line, substring);
+		{
+			return_value_redirections = get_redirections(remaining_line, substring);
+			if (return_value_redirections)
+				return (return_value_redirections);
+		}
 		else
-			get_arguments(remaining_line, substring);
+		{
+			return_value_arguments =  get_arguments(remaining_line, substring);
+			if (return_value_arguments)
+				return (return_value_arguments);
+		}
 		*remaining_line = skip_first_spaces(*remaining_line);
 	}
 	ft_lst_add_back1(&command_line->substrings, substring);
+	return (0);
 }
 
 
 static void get_redirection_type(char **str, t_native_redirection *n_redirection)
 {
-	if (str[0][0] == '<' && str[0][1] == '<')
+	if (str[0][0] == '<' && str[0][1] == '<' && str[0][2] == '<')
+	{
+		(*n_redirection).e_redirection = REDIRECTION_TEXT;
+		*str += 3;
+	}
+	else if (str[0][0] == '<' && str[0][1] == '<')
 	{
 		(*n_redirection).e_redirection = REDIRECTION_HEREDOC;
 		*str += 2;
@@ -101,7 +114,7 @@ static void get_redirection_type(char **str, t_native_redirection *n_redirection
 	}
 }
 
-void	get_redirections(char **remaining_line, t_substring *substring)
+int	get_redirections(char **remaining_line, t_substring *substring)
 {
 	size_t					len;
 	t_native_redirection	*n_redirection;
@@ -109,23 +122,23 @@ void	get_redirections(char **remaining_line, t_substring *substring)
 	len = 0;
 	n_redirection = NULL;
 	if (init_redirection_struct(&n_redirection) == 1)
-	{
-		return ;//to confirm
-	}
+		return (1);
 	get_redirection_type(remaining_line, n_redirection);
 	*remaining_line = skip_first_spaces(*remaining_line);
 	len = strcspn(*remaining_line, " \n\t\0");
-	if (strcspn(*remaining_line, "<>") < len)
-		substring->flag = false;//to complete
+	if (strcspn(*remaining_line, "<>|") < len)
+//		n_redirection->e_redirection = 5;
+		return (2);
 	else
 	{
 		n_redirection->content = ft_substr(*remaining_line, 0, len);
 		*remaining_line += len;
 		ft_lst_add_back2(&substring->n_redirections, n_redirection);
+		return (0);
 	}
 }
 
-void get_arguments(char **remaining_line, t_substring *substring)
+int	get_arguments(char **remaining_line, t_substring *substring)
 {
 	size_t				len;
 	t_native_argument	*n_argument;
@@ -133,18 +146,17 @@ void get_arguments(char **remaining_line, t_substring *substring)
 	len = 0;
 	n_argument = NULL;
 	if (init_argument_struct(&n_argument) == 1)
-	{
-		return ;//to confirm
-	}
+		return (1);
 	*remaining_line = skip_first_spaces(*remaining_line);
 	len = strcspn(*remaining_line, " \n\t\0");
 	if (strcspn(*remaining_line, "<>|") < len)
-		substring->flag = false;//to complete
+		return (2);
 	else
 	{
 		n_argument->content = ft_substr(*remaining_line, 0, len);
 		*remaining_line += len;
 		ft_lst_add_back3(&substring->n_arguments, n_argument);
+		return (0);
 	}
 }
 

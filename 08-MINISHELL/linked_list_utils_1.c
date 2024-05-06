@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:08:36 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/05/05 18:11:35 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/05/06 11:21:56 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,8 @@ void	print_e_redirection (int e_redirection)
 	if (e_redirection == 3)
 		ft_putstr_fd("REDIRECTION_HEREDOC", 1);
 	if (e_redirection == 4)
+		ft_putstr_fd("REDIRECTION_TEXT", 1);
+	if (e_redirection == 5)
 		ft_putstr_fd("REDIRECTION_INDEFINED", 1);
 }
 
