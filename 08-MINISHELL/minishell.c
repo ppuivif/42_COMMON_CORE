@@ -69,11 +69,12 @@ int main(int argc, char **argv)
 			{
 				free_all(&command_line);
 				ft_putstr_fd("syntax error\n", 2);
+				return (1);// to confirm
 			}
 			free_all(&command_line);
 		}
 	}
 	else
-		ft_putstr_fd("please, give an fd to print\n", 1);
+		ft_putstr_fd("please, give an fd to display\n", 1);
 	return (0);
 }
