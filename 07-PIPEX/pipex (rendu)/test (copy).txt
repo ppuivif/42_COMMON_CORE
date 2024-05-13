@@ -5,4 +5,9 @@ si whitespace ou | ou < ou > recuperer l'argument
 
 sinon poursuivre la lecture  et chercher une simple ou double quote
 
-si pas de simple ou double quote 
+si pas de simple ou double quote chercher whitespace, <, >, \0, | puis récupérer l'argument
+
+si simple ou double quote
+
+
+
