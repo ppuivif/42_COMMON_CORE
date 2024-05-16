@@ -68,12 +68,9 @@ int main(int argc, char **argv)
 			free(line);
 			line = NULL;
 			if (command_line->exit_code != 0)
-			{
-				error_handling(&command_line);
-				printf("%d\n", command_line->exit_code);
-				return (command_line->exit_code);
-			}
+				return(error_handling(&command_line));
 			free_all(&command_line);
+
 		}
 	}
 	else
