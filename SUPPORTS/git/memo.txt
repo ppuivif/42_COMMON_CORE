@@ -1,1 +1,73 @@
+https://www.youtube.com/watch?v=tRZGeaHPoaw
+
+Git est un système libre de gestion de sources (fichiers par ex.) soit un SCM.
+	- gestion des modifications de fichiers en temps réel,
+	- la possibilite de visualiser quels ont été les changements,
+	- possibilité de comparer différentes versions,
+	- possibilité de retour	en arrière.
+
+Pour l'installer : https://www.git-scm.com/
+
+Pour le configurer :
+	- spécifier le nom d'utilisateur et l'adresse mail notamment pour le suivi
+	des modifications :
+		- git config --global user.name "Kevin Stratvert"
+		- git config --global user.email kevinstratvertyoutube@outlook.com
+	- configurer la branche par défaut (main) :
+		- git config --global init.default branch main
+	- initialiser le git dans le répertoire où sont stockés les fichiers sur le
+	disque dur :
+		- cd path
+		- git init
+		- un .git est créé dans le répertoire.
+	- git status donne l'état du git :
+		- les branches,
+		- les fichiers (untracked pour l'instant).
+7'55
+
+		
+
+
+
+NB : git config -h pour afficher les options et leurs fonctionnalités
+ou git help config pour obtenir une aide sur la fonction config via la manuel
+
+Github est une plateforme collaborative de stockage et d'échange de fichiers.
+
+
+Pour créer une branche :
+	- git branch "nom de la branche",
+	- git branch pour afficher l'arborescence,
+	- git switch "nom de la branche" pour se placer sur la branche
+	
+
+
+
+
+Création d'une clé SSH :
+ssh-keygen -t rsa -C papuivif@gmail.com
+le path et le nom du fichier contenant la clé est défini par défaut mais peut être
+modifié à l'invite
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 git rm <directory> permet d'effacer le repertoire d'un git avant de repush
