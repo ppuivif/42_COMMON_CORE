@@ -45,8 +45,25 @@ système de fichiers.
 
 2 Quelques definitions :
 
+POSIX : c'est un standard basé sur Unix
+
+blank : espace ou carcatère de tabulation
+
+builtin : c'est une commande qui est implémentée de façon interne par le shell lui-même et non
+par un programme dans le système de fichiers.
+
+opérateur de contrôle : c'est un token qui joue lee rôle d'une fonction de contrôle. C'est une
+newline ou l'un des opérateurs suivants : '||', '&&', '&', ';', ';;', ':&', '|', '|&', '(', ')'
+
 exit status (ou return status) : valeur retournée par une commande à son "appelant". Cette valeur
 est comprise entre 0 et 255.
+
+field (champ) : c'est une unité de texte qui résulte de l'une des expansions de shell. Aprés
+l'expansion, au moment de l'exécution d'une commande, les champs résultant de l'expansion sont
+utilisés comme les noms de commande et les arguments.
+
+
+
 
 metacharacter : caractère (lorsqu'il n'est pas entre quotes) faisant office de séparateur.
 A metacharacter is a space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’,
@@ -54,17 +71,28 @@ A metacharacter is a space, tab, newline, or one of the following characters: �
  
 control operator ou redirection operator
 
+lexer ou tokenizer (ou analyser) : opération qui consiste à prendre les entrées (input) en tant
+que chaînes de caractères et à les convertir en un jeu de tokens.
+
 token : c'est une séquence de caractères constituant une unité indivisible (mot ou opérateur).
+Un token est en quelque sorte le plus petit élément « unitaire » des données à analyser.
+exemple : en code, un commentaire est un token, une commande est un token, un type de variable
+est un token, un nombre est un token, ...
+
+parser (vérifier) : opération consistant à prendre les tokens issus du lexer et à vérifier la
+cohérence (validité) grammaticale. Il retourne un arbre syntaxique.
 
 -----------------------------------------------------------------------------------------------
 
 3 Principales caractéristiques de Shell
 
 3.1 La syntaxe :
+	En lisant l'input, le shell procède en une succession d'opérations.  
 	- # : symbole de commentaire. Shell ignore le symbole et le reste de la ligne,
 	- shell lit l'input et divise l'input en mots et en opérateurs, à partir des règles de
-	"quoting",
-	- shell filtre ensuite les tokens et les répartit en commandes et autres "constructions".
+	"quoting" (règles associées à l'utilisation des single ''' et double quotes'"') afin
+	d'assigner une signification aux mots et caractères,
+	- shell filtre ensuite ces tokens et les répartit en commandes et autres "constructions".
 	- "il retire la signification spéciale de certains mots et caractères",
 	- il en "expand" d'autres,
 	- il redirige les in et output,
@@ -140,7 +168,8 @@ A compléter	Se référer à gettext.
 
 3.2.2 Les commandes simples :
 	Les commandes simples sont les plus fréquentes. C'est une séquence de mots séparés par des
-à confirmer	whitespaces, terminée par un opérateur de controle (metacharacter).
+à confirmer	whitespaces, terminée par un opérateur de controle (metacharacter :  ‘|’, ‘&’, ‘;’,
+	‘(’, ‘)’, ‘<’, or ‘>’).
 	Le premier mot spécifie généralement la commande qui doit être exécutée. Les mots suivants
 	sont les arguments de la commande.
 	L'exit status d'une commande simple est l'exit status tel que fourni par la fonction
@@ -152,11 +181,11 @@ A compléter	Se référer à gettext.
 	Le format d'un pipeline est le suivant : [time [-p]] [!] command1 [ | or |& command2 ] …
 	La sortie de chaque commande dans le pipeline est connectée via un pipe à l'entrée de la
 	commande suivante. Ainsi, chque commande lit la sortie de la commande précédente. Cette
-	connection est exécutée avant toute redirection spcécifiée dans la commande 1.
+	connection est exécutée avant toute redirection spécifiée dans la commande 1.
 	Le mot réservé time permet d'afficher des statistiques de temps concernant le pipeline
 	une fois terminé. Lorsque le mode POSIX est sélectionné, shell ne reconnait pas le mot
 	réservé time.
-	Si le pipeline n'est pas exécuté en mode asynchrone, le shell attend toutes les commandes.
+	Si le pipeline est exécuté en mode synchrone, le shell attend toutes les commandes.
 	Chaque commande dans un pipeline multi-commande est exécutée dans un subshell, qui est
 	un processus séparé. Si l'option lastpipe est desactivée (voir The Shopt Buitin), le
 	dernier élément du pipeline peut être lancé par le processus quand le "job control" n'est

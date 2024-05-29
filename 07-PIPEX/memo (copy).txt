@@ -4,39 +4,50 @@ PIPEX MANDATORY
 -----------------------------------------------------------------------------------------------
 
 1-vérification de l'existence du pointeur sur char **envp,
-	- sinon EXIT_FAILURE.
+	- sinon EXIT_FAILURE (avec code d'erreur ?).
 
 2-vérification qu'envp n'est pas vide,
-	- sinon EXIT_FAILURE.
+	- sinon EXIT_FAILURE (avec code d'erreur ?).
 	
-3-vérification que le nombre d'arguments dans la ligne de commande est bien égal à 4,
-	- sinon EXIT_FAILURE.
+3-vérification que le nombre d'arguments dans la ligne de commande est bien supérieur à 2
+(yc argv[0]),
+	- sinon EXIT_FAILURE (avec code d'erreur ?).
 
 4-initialisation de la structure, avec calloc et mise à 0 ou NULL,
 	- init_struct.
 
-5-vérification des fichiers (argv[1] et argv[3])
-	- le fichier infile existe-il (utilisation de la fonction ACCESS) ? Sinon message
-	d'erreur et poursuite de l'exécution (uniquement de la dernière commande),
-	- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option O_RDONLY) ?
-	Sinon message d'erreur et poursuite de l'exécution (uniquement de la dernière commande).
-
-	- si le fichier outfile n'existe pas, le créer avec les droits d'ecriture avec OPEN,
-	- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir avec
-	l'option O_WRONLY) ? Sinon affichage d'un message d'erreur et poursuite de l'exécution.
-	- s'il existe, son contenu doit être écrasé par l'écriture suivante (O_TRUNC),
+5-vérification et ouverture des fichiers (tous les arguments suivant une redirection soit les
+redirection->content)
+	- pour les redirections hors heredoc :
+		- le fichier infile existe-il (utilisation de la fonction ACCESS) ? Sinon
+		message d'erreur et poursuite de l'exécution
+		(uniquement de la dernière commande),
+		- le user a-t-il les droits de lecture (OPEN peut-il l'ouvrir avec l'option
+		O_RDONLY) ?
+		Sinon message d'erreur et poursuite de l'exécution (uniquement de la dernière
+		commande).
+		- si le fichier outfile n'existe pas, le créer avec les droits d'ecriture
+		avec OPEN,
+		- s'il existe, le user a-t-il les droits d'ecriture (OPEN peut-il l'ouvrir
+		avec l'option O_WRONLY) ? Sinon affichage d'un message d'erreur et poursuite
+		de l'exécution.
+		- s'il existe, s'agit-il d'un append :
+			- son contenu est complété,
+		- ou non :
+			- son contenu doit être écrasé par l'écriture suivante (O_TRUNC),
+	- pour les redirections heredoc :
+		-
 
 6-vérification des commandes et construction des commandes et des chemins d'accès
 	- build_full_path_cmd_arr
 		a-construction de tableaux à 2 dimensions contenant chacun une commande
 		et ses arguments :
-			- build_cmd_arr :
+			- build_cmd_arr : à adapter
 				a-split les arguments sur ' ',
 					- si échec de l'allocation, ou tableau vide :
 					message d'erreur et l'exécution se poursuit.
 					- si un path est donné avec la commande (déjà concaténé),
 					il est conservé en l'état.
-non mis en oeuvre :
 				b-vérification de la présence éventuelle de simple quotes :
 					- check_and_skip_simple_quote
 						- si présence d'une simple quote au début de la
