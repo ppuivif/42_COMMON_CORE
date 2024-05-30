@@ -62,12 +62,18 @@ field (champ) : c'est une unité de texte qui résulte de l'une des expansions d
 l'expansion, au moment de l'exécution d'une commande, les champs résultant de l'expansion sont
 utilisés comme les noms de commande et les arguments.
 
+filename : une chaîne de caractères utilisée pour identifier un fichier
 
+job : un jeu de processus incluant un pipe, et tout processus en découlant
 
+job control : un mécanisme par lequel les utilisateurs peuvent arrêter (supspendre) et
+redémarrer (reprendre) l'exécution de processus  
 
 metacharacter : caractère (lorsqu'il n'est pas entre quotes) faisant office de séparateur.
 A metacharacter is a space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’,
  ‘)’, ‘<’, or ‘>’.
+ 
+ 
  
 control operator ou redirection operator
 
@@ -168,8 +174,7 @@ A compléter	Se référer à gettext.
 
 3.2.2 Les commandes simples :
 	Les commandes simples sont les plus fréquentes. C'est une séquence de mots séparés par des
-à confirmer	whitespaces, terminée par un opérateur de controle (metacharacter :  ‘|’, ‘&’, ‘;’,
-	‘(’, ‘)’, ‘<’, or ‘>’).
+	whitespaces, terminée par un opérateur de controle (‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’).
 	Le premier mot spécifie généralement la commande qui doit être exécutée. Les mots suivants
 	sont les arguments de la commande.
 	L'exit status d'une commande simple est l'exit status tel que fourni par la fonction
@@ -291,7 +296,12 @@ A éclaircir	Dans cette liste d'opérateurs, ‘&&’ and ‘||’ ont la même 
 	builtin 'unset'.
 	Une variable peut être assignée de la façon suivante :
 		name=[value]
-	Si value n'est pas donnée, la valeur null est assignée à la variable.
+	Si value n'est pas donnée, la valeur null est assignée à la variable. Toutes les valeurs
+	font l'objet d'une expansion du tilde (~), d'une expansion du paramètre et de la variable
+	(ie?), d'une substitution de la commande, d'une expansion arithmétique, et d'une suppression
+	des quotes. Si la variable possède son jeu d'attributs (integer attribute set), alors la
+	valeur est évaluée comme une expression arithmétique même si l'expansion $(...) n'est pas
+	utilisée. Le split des mots et l'expansion des noms de fichiers ne sont pas exécutés.
 	
 	
 	
