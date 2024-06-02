@@ -56,8 +56,6 @@ static void	free_exec_argument_struct(t_exec_argument **exec_arguments)
 	while (ft_lst_size9(*exec_arguments))
 	{
 		tmp = (*exec_arguments)->next;
-		free((*exec_arguments)->cmd_arr);
-		free((*exec_arguments)->path);
 		free(*exec_arguments);
 		*exec_arguments = tmp;
 	}
@@ -70,7 +68,7 @@ static void	free_exec_redirection_struct(t_exec_redirection **exec_redirections)
 	while (ft_lst_size8(*exec_redirections))
 	{
 		tmp = (*exec_redirections)->next;
-		free ((*exec_redirections)->file);
+//		free ((*exec_redirections)->file);
 		free (*exec_redirections);
 		*exec_redirections = tmp;
 	}
@@ -89,6 +87,8 @@ static void	free_exec_subline_struct(t_exec_subline **exec_sublines)
 			free_exec_argument_struct(&(*exec_sublines)->exec_arguments);
 		free ((*exec_sublines)->exec_redirections);
 		free ((*exec_sublines)->exec_arguments);
+		free((*exec_sublines)->cmd_arr);
+		free((*exec_sublines)->path_with_cmd);
 		free ((*exec_sublines));
 		*exec_sublines = tmp;
 	}
