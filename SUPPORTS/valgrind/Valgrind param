@@ -1,0 +1,40 @@
+
+set history save on
+set history size 10000
+set history filename ~/history
+set pagination off
+
+define st
+    start 7 7 7 7 7 7 7 6 5 4 3 2 1
+    b 836
+    c
+end
+
+define ppc
+    p *vars->chunk@vars->len_c
+end
+
+define ppa
+    p *vars->pa@vars->len_a
+end
+
+define ppb
+    p *vars->pb@vars->len_b
+end
+
+define da
+    display *vars->pa@vars->len_a
+end
+
+define db
+    display *vars->pb@vars->len_b
+end
+
+define re5
+    shell g *.c -D BUFFER_SIZE=5
+    directory
+    file a.out
+    st
+end
+
+fs cmd

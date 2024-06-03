@@ -2,3 +2,4 @@ valgrind --suppressions=MacroLibX/valgrind.supp --leak-check=full --show-leak-ki
 
 valgrind --track-fds=yes ./so_long Maps/empty_map.ber
 
+
