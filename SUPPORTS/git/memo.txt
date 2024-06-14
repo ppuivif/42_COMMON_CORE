@@ -41,7 +41,8 @@ Pour créer une branche :
 	- git switch "nom de la branche" pour se placer sur la branche
 	
 
-
+Pour effacer une branche :
+	- git branch -d "nom de la branche",
 
 
 Création d'une clé SSH :

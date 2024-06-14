@@ -10,17 +10,24 @@ void	expand_contents(t_command_line **command_line)
 	while (tmp1)
 	{
 		tmp2 = tmp1->n_redirections;
-		//while (tmp2)
-		while (tmp2 && (*command_line)->current_exit_code == 0)
+//		while (tmp2 && (*command_line)->current_exit_code == 0)
+		while (tmp2 && (*command_line)->current_exit_code != 2)
+//		while (tmp2)
 		{
 			expand_redirections(tmp1, tmp2, command_line);
+			if ((*command_line)->current_exit_code == 1)//ambiguous redirection
+				break ;
 			if (tmp1->exp_redirections->alloc_succeed == false)
+			{
 				free_all_command_line(command_line);
+				return ;
+			}
 			tmp2 = tmp2->next;
 		}
 		tmp3 = tmp1->n_arguments;
-		while (tmp3 && (*command_line)->current_exit_code == 0)
-		//while (tmp3)
+//		while (tmp3 && (*command_line)->current_exit_code == 0)
+		while (tmp3 && (*command_line)->current_exit_code != 2)
+//		while (tmp3)
 		{
 			expand_arguments(tmp1, tmp3, command_line);
 			if (tmp1->exp_arguments->alloc_succeed == false)

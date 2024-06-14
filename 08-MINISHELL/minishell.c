@@ -65,10 +65,22 @@ int main(int argc, char **argv, char **envp)
 //		ft_envp_struct_lst_print(envp_struct, 1);
 	if (argc == 2)
 	{
+		/*if (!isatty(STDIN_FILENO))
+		{
+			line = get_next_line(STDIN_FILENO);
+			ft_putstr_fd("line: ", STDERR_FILENO);
+			ft_putstr_fd(line, STDERR_FILENO);
+			write (STDERR_FILENO, "\n", 1);
+			free(line);
+			exit(0);
+		}*/
+		if (!isatty(STDIN_FILENO))
+			line = get_next_line(STDIN_FILENO);
 		while (1)
 		{
 			get_envp(envp, &envp_struct);
-			line = readline("minishell : ");
+			if (isatty(STDIN_FILENO))
+				line = readline("minishell : ");
 			if (!line)
 				break;
 			if (line[0])//no history on empty lines
@@ -76,7 +88,7 @@ int main(int argc, char **argv, char **envp)
 			if (ft_strncmp(line, "exit", 4) != 0)//pb free with exittt
 			{
 //				command_line = parse_command_line(line, &envp_struct, atoi(argv[1]));//to run script.sh
-				command_line = parse_command_line(line, &envp_struct, previous_exit_code);
+				command_line = parse_command_line(argv, line, &envp_struct, previous_exit_code);
 //				if (command_line->exit_code != 0)
 //					error_handling(&command_line);
 			}
@@ -90,7 +102,7 @@ int main(int argc, char **argv, char **envp)
 
 			if (ft_strncmp(line, "exit", 5) == 0)
 			{
-				free_envp(&envp_struct);
+				free_envp_struct(&envp_struct);
 				free(line);
 				line = NULL;
 				clear_history();
@@ -106,13 +118,14 @@ int main(int argc, char **argv, char **envp)
 //				if (command_line->exit_code != 0)
 //					error_handling(&command_line);
 
-				ft_execution_lst_print(exec_struct, atoi(argv[1]));
+//				ft_execution_lst_print(exec_struct, atoi(argv[1]));
+				execution(&exec_struct);
 			}
 			if (command_line)
 				previous_exit_code = command_line->current_exit_code;
 			free(line);
 			line = NULL;
-			free_envp(&envp_struct);
+			free_envp_struct(&envp_struct);
 			free_all_command_line(&command_line);
 			free_all_exec_struct(&exec_struct);
 			
