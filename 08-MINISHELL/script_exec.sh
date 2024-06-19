@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Define global variables for index range
+start_index=0
+end_index=0
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -14,53 +18,66 @@ function create_temp_directory() {
 
 function create_files_and_set_permissions() {
 	test_index=$1
-	echo -e "ceci est\nun test1\n" > infile1.txt
-	echo -e "ceci est\nun test2\n" > infile2.txt
-	echo > bash_outfile1.txt
-	chmod 644 bash_outfile1.txt
-	echo > bash_outfile2.txt
-	chmod 644 bash_outfile2.txt
-	echo > outfile1.txt
-	chmod 644 outfile1.txt
-	echo > outfile2.txt
-	chmod 644 outfile2.txt
-	echo > "temp/minishell_stdout$test_index.txt"
-    chmod 644 "temp/minishell_stdout$test_index.txt"
-	exec 100> "temp/minishell_stdout$test_index.txt"
-	echo > "temp/minishell_stderr$test_index.txt"
-    chmod 644 "temp/minishell_stderr$test_index.txt"
-	exec 101> "temp/minishell_stderr$test_index.txt"
-	echo > "temp/bash_stdout$test_index.txt"
-    chmod 644 "temp/bash_stdout$test_index.txt"
-	exec 200> "temp/bash_stdout$test_index.txt"
-	echo > "temp/bash_stderr$test_index.txt"
-    chmod 644 "temp/bash_stderr$test_index.txt"
-	exec 201> "temp/bash_stderr$test_index.txt"
+	echo -e "ceci est\nun test1\n" > temp/infile1.txt
+	echo -e "ceci est\nun test2\n" > temp/infile2.txt
+	echo -e "ceci est\nun test3\n" > temp/infile3.txt
+	echo > temp/outfile1.txt
+	chmod 644 temp/outfile1.txt
+	echo > temp/outfile2.txt
+	chmod 644 temp/outfile2.txt
+	echo > temp/outfile3.txt
+	chmod 644 temp/outfile3.txt
+	echo > "temp/$test_index-minishell_stdout.txt"
+    chmod 644 "temp/$test_index-minishell_stdout.txt"
+#	exec 100> "temp/minishell_stdout$test_index.txt"
+	echo > "temp/$test_index-minishell_stderr.txt"
+    chmod 644 "temp/$test_index-minishell_stderr.txt"
+#	exec 101> "temp/minishell_stderr$test_index.txt"
+	echo > "temp/$test_index-bash_stdout.txt"
+    chmod 644 "temp/$test_index-bash_stdout.txt"
+#	exec 200> "temp/bash_stdout$test_index.txt"
+	echo > "temp/$test_index-bash_stderr.txt"
+    chmod 644 "temp/$test_index-bash_stderr.txt"
+#	exec 201> "temp/bash_stderr$test_index.txt"
+	echo > "temp/tmp_to_read_command.txt"
+    chmod 644 "temp/tmp_to_read_command.txt"
+	exec 100< "temp/tmp_to_read_command.txt"
+
 }
 
 function delete_infiles() {
-	if [ -f "infile1.txt" ] # to check if the given path exists and is a regular file
+	if [ -f "temp/infile1.txt" ] # to check if the given path exists and is a regular file
 	then
-		chmod 644 infile1.txt
-		rm infile1.txt
+		chmod 644 temp/infile1.txt
+		rm temp/infile1.txt
 	fi
-	if [ -f "infile2.txt" ]
+	if [ -f "temp/infile2.txt" ]
 	then
-		chmod 644 infile2.txt
-		rm infile2.txt
+		chmod 644 temp/infile2.txt
+		rm temp/infile2.txt
+	fi
+	if [ -f "temp/infile3.txt" ]
+	then
+		chmod 644 temp/infile3.txt
+		rm temp/infile3.txt
 	fi
 }
 
 function delete_outfiles() {
-	if [ -f "outfile1.txt" ]
+	if [ -f "temp/outfile1.txt" ]
 	then
-		chmod 644 outfile1.txt
-		rm outfile1.txt
+		chmod 644 temp/outfile1.txt
+		rm temp/outfile1.txt
 	fi
-	if [ -f "outfile2.txt" ]
+	if [ -f "temp/outfile2.txt" ]
 	then
-		chmod 644 outfile2.txt
-		rm outfile2.txt
+		chmod 644 temp/outfile2.txt
+		rm temp/outfile2.txt
+	fi
+	if [ -f "temp/outfile3.txt" ]
+	then
+		chmod 644 temp/outfile3.txt
+		rm temp/outfile3.txt
 	fi
 }
 
@@ -189,7 +206,8 @@ function delete_file() {
 	fi
 }
 
-run_test() {
+
+execute_test() {
     test_index=$1
     command=$2
 	file_test=$3
@@ -197,82 +215,104 @@ run_test() {
  	substring=$5
 	test="test$test_index\t$command\t"
     message=$test
-    create_files_and_set_permissions $test_index
-	eval "$command" 1>"temp/bash_stdout$test_index.txt" 2>temp/bash_stderr$test_index.txt
+    
+	create_files_and_set_permissions $test_index
+	
+	eval "$command" 1>"temp/$test_index-bash_stdout.txt" 2>"temp/$test_index-bash_stderr.txt"
 	exit_code_bash=$?
-	cat "outfile1.txt" >"temp/$test_index\_bash_outfile_1.txt"
-	cat "outfile2.txt" >"temp/$test_index\_bash_outfile_2.txt"
-	echo > outfile1.txt
-	echo > outfile2.txt	
-    echo "$command" | ./minishell 100 1>"temp/minishell_stdout$test_index.txt" 2>temp/minishell_stderr$test_index.txt
-#	exit_code_minishell=$?
+#	echo "exit_code_bash"
+#	echo "$exit_code_bash"
+	cat "temp/outfile1.txt" >"temp/$test_index-bash_outfile1.txt"
+	cat "temp/outfile2.txt" >"temp/$test_index-bash_outfile2.txt"
+	
+	echo > temp/outfile1.txt
+	echo > temp/outfile2.txt	
+    
+#	echo "$command" >&100
+	echo "$command" >"temp/tmp_to_read_command.txt"
+
+#	ls -l /proc/$$/fd
+
+#    echo "$command" | ./minishell 1>"temp/$test_index-minishell_stdout.txt" 2>"temp/$test_index-minishell_stderr.txt"
+    ./minishell 100 1>"temp/$test_index-minishell_stdout.txt" 2>"temp/$test_index-minishell_stderr.txt"
+	exit_code_minishell=$?
+#	echo "exit_code_minishell"
 #	echo "$exit_code_minishell"
-	cat "outfile1.txt" >"temp/$test_index\_minishell_outfile_1.txt"
-	cat "outfile2.txt" >"temp/$test_index\_minishell_outfile_2.txt"
- 	diff_outfile1=$(diff "temp/$test_index\_minishell_outfile_1.txt" "temp/$test_index\_bash_outfile_1.txt" > /dev/null)
+	cat "temp/outfile1.txt" >"temp/$test_index-minishell_outfile1.txt"
+	cat "temp/outfile2.txt" >"temp/$test_index-minishell_outfile2.txt"
+ 	
+	diff_outfile1=$(diff "temp/$test_index-minishell_outfile1.txt" "temp/$test_index-bash_outfile1.txt" > /dev/null)
 	diff_exit_outfile1=$?
-	diff_outfile1=$(diff "temp/$test_index\_minishell_outfile_2.txt" "temp/$test_index\_bash_outfile_2.txt" > /dev/null)
+	diff_outfile2=$(diff "temp/$test_index-minishell_outfile2.txt" "temp/$test_index-bash_outfile2.txt" > /dev/null)
 	diff_exit_outfile2=$?
-	diff_stdout=$(diff "temp/minishell_stdout$test_index.txt" "temp/bash_stdout$test_index.txt" > /dev/null)
+	diff_stdout=$(diff "temp/$test_index-minishell_stdout.txt" "temp/$test_index-bash_stdout.txt" > /dev/null)
 	diff_exit_stdout=$?
+	
 	empty_substring=""
-	if [ "$substring" = "$empty_substring" ] && [ ! -s "temp/minishell_stderr$test_index.txt" ]
+	if [ "$substring" = "$empty_substring" ] && [ ! -s "temp/$test_index-minishell_stderr.txt" ]
 	then
 		diff_empty_substring=0
 	else
 		diff_empty_substring=1
 	fi
- 	diff_stderr=$(grep "$substring" temp/minishell_stderr$test_index.txt >/dev/null)
+ 	diff_stderr=$(grep "$substring" temp/$test_index-minishell_stderr.txt >/dev/null)
 	diff_exit_stderr=$?
+	
 	if [ $diff_exit_outfile1 -eq 1 ]
 	then
+		status1="KO"
 		error_detail1="${RED}outfile1.txt ${NC}"
-		status_message="${RED}KO : ${NC}"
 		flag=$((flag + 1))
 	else
-		status_message="${GREEN} OK${NC}"
-		delete_file "temp/$test_index\_minishell_outfile_1.txt"
-		delete_file "temp/$test_index\_bash_outfile_1.txt"
+		status1="OK"
+		delete_file "temp/$test_index-minishell_outfile1.txt"
+		delete_file "temp/$test_index-bash_outfile1.txt"
 	fi
+	
 	if [ $diff_exit_outfile2 -eq 1 ]
 	then
+		status2="KO"
 		error_detail2="${RED}outfile2.txt ${NC}"
-		status_message="${RED}KO : ${NC}"
 		flag=$((flag + 1))
 	else
-		status_message="${GREEN} OK${NC}"
-		delete_file "temp/$test_index\_minishell_outfile_2.txt"
-		delete_file "temp/$test_index\_bash_outfile_2.txt"
+		status2="OK"
+		delete_file "temp/$test_index-minishell_outfile2.txt"
+		delete_file "temp/$test_index-bash_outfile2.txt"
 	fi
+	
 	if [ $diff_exit_stdout -eq 1 ]
 	then
+		status3="KO"
 		error_detail3="${RED}std_output ${NC}"
-		status_message="${RED}KO : ${NC}"
 		flag=$((flag + 1))
 	else
-		status_message="${GREEN} OK${NC}"
-		delete_file "temp/minishell_stdout$test_index.txt"
-		delete_file "temp/bash_stdout$test_index.txt"
+		status3="OK"
+		delete_file "temp/$test_index-minishell_stdout.txt"
+		delete_file "temp/$test_index-bash_stdout.txt"
 	fi
+	
 	if [ $diff_exit_stderr -eq 0 ] || [ $diff_empty_substring -eq 0 ]
 #	if	grep "$substring" temp/minishell_stderr$test_index.txt >/dev/null
 	then
-    	status_message="${GREEN} OK${NC}"
-		delete_file "temp/minishell_stderr$test_index.txt"
-		delete_file "temp/bash_stderr$test_index.txt"
+		status4="OK"
+		delete_file "temp/$test_index-minishell_stderr.txt"
+		delete_file "temp/$test_index-bash_stderr.txt"
 	else	
+		status4="KO"
 		error_detail4="${RED}stderr_output ${NC}"
-		status_message="${RED}KO : ${NC}"
 		flag=$((flag + 1))
     fi
-#	if [ $exit_code_minishell -ne $exit_code_bash ]
-#   then
-#		error_detail5="${RED}exit_code ${NC}"
-#	    status_message="${RED}KO : ${NC}"
-#		flag=$((flag + 1))
-#	else
-#       status_message="${GREEN} OK${NC}"
-#    fi
+
+	if [ "$exit_code_minishell" -ne "$exit_code_bash" ]
+	then
+		status5="KO"
+		error_detail5="${RED}exit_code ${NC}"
+		flag=$((flag + 1))
+	else
+		status5="OK"
+		status_message="${GREEN} OK${NC}"
+    fi
+
 	# Calculate the length of the message
     message_length=${#message}
     # Calculate the number of spaces needed for alignment
@@ -283,17 +323,31 @@ run_test() {
   #  spaces=$(printf "%-${num_spaces}s" "")
     spaces=$(printf "%-30s" "")
     # Print the message with aligned status
+
 	if [ "$display" == "wrong_only" ]
 	then
-		if [ "$status_message" == "${RED}KO : ${NC}" ]
+		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ] || [ "$status5" == "KO" ]
+#		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ]
 		then
-			echo -e "${message}${spaces}${status_message}${error_detail1}${error_detail2}${error_detail3}${error_detail4}${error_detail5}"
+			status_message="${RED} KO : ${NC}"
+			echo -e "${message}${spaces}${test_index}${status_message}${error_detail1}${error_detail2}${error_detail3}${error_detail4}${error_detail5}"
 		fi
 	else
+		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ] || [ "$status5" == "KO" ]
+#		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ]
+		then
+			status_message="${RED} KO : ${NC}"
+			echo -e "${message}${spaces}${test_index}${status_message}${error_detail1}${error_detail2}${error_detail3}${error_detail4}${error_detail5}"
+		else
+			status_message="${GREEN} OK${NC}"
 			echo -e "${message}${spaces}${status_message}"
+		fi
 	fi
+	substring=""
 	delete_infiles
 	delete_outfiles
+	delete_file "temp/tmp_to_read_command.txt"
+	exec 100>&-
 }
 
 run_test_heredoc() {
@@ -305,11 +359,11 @@ run_test_heredoc() {
 	test="test$test_index\t$command\t"
     message=$test
     create_files_and_set_permissions $test_index
-	heredoc_input=$(cat << 'EOF'
-	first_line
-	limiter
-	EOF
-	)
+#	heredoc_input=$(cat << 'EOF'
+#	first_line
+#	limiter
+#	EOF
+#	)
 	eval "$command" <<< "$heredoc_input" 1>"temp/bash_stdout$test_index.txt" 2>temp/bash_stderr$test_index.txt
 	exit_code_bash=$?
 	cat "outfile1.txt" >"temp/$test_index\_bash_outfile_1.txt"
@@ -317,7 +371,7 @@ run_test_heredoc() {
 	echo > outfile1.txt
 	echo > outfile2.txt	
     echo "$command" | ./minishell 100 | echo -e "first line" | echo -e "limiter" 1>"temp/minishell_stdout$test_index.txt" 2>temp/minishell_stderr$test_index.txt
-#	exit_code_minishell=$?
+	exit_code_minishell=$?
 #	echo "$exit_code_minishell"
 	cat "outfile1.txt" >"temp/$test_index\_minishell_outfile_1.txt"
 	cat "outfile2.txt" >"temp/$test_index\_minishell_outfile_2.txt"
@@ -611,8 +665,69 @@ run_test_error() {
 	#echo -e "$message"
 }
 
-
 create_temp_directory
+
+run_test() {
+	index=$1
+	if (( index >= "$start_index" && index <= "$end_index" ))
+	then
+		execute_test "$@"
+	fi
+}
+
+
+choice_one() {
+	execute="all"
+	start_index=1
+	end_index=20000
+}
+
+choice_two() {
+	execute="parsing"
+	start_index=1
+	end_index=4999
+}
+
+choice_three() {
+	execute="execution"
+	start_index=5000
+	end_index=20000
+}
+
+choice_four() {
+	execute="free_choice"
+	start_index=2000
+	end_index=2100
+}
+
+#: << BLOCK_COMMENT
+echo "To execute all tests choice 1"
+echo "To execute only parsing tests choice 2"
+echo "To execute only tests choice 3"
+echo "To execute specify tests choice 4"
+read -p "Enter your choice : " choice
+
+# Handle the user's choice
+case $choice in
+    1)
+        choice_one
+        ;;
+    2)
+        choice_two
+        ;;
+    3)
+        choice_three
+        ;;
+    4)
+        choice_four
+        ;;
+#do not work    
+	*)
+        echo -e "${RED}Invalid choice. Please enter 1 or 2.${NC}"
+        ;;
+esac
+
+#BLOCK_COMMENT
 
 # Function to handle the first choice
 choice_one() {
@@ -636,144 +751,170 @@ case $choice in
     2)
         choice_two
         ;;
-#do not run    
+#do not work    
 	*)
         echo -e "${RED}Invalid choice. Please enter 1 or 2.${NC}"
         ;;
 esac
 
 
-run_test 1 "< infile.txt cat | cat > outfile1.txt" 1 0
-run_test 2 "<infile.txt cat | cat > outfile1.txt" 1 0
-run_test 3 "< infile.txt cat| cat > outfile1.txt" 1 0
-run_test 4 "< infile.txt cat |cat > outfile1.txt" 1 0
-run_test 5 "< infile.txt cat | cat >outfile1.txt" 1 0
-run_test 6 "<infile.txt cat|cat >outfile1.txt" 1 0
-run_test 7 "<	infile.txt cat | cat > outfile1.txt" 1 0
-run_test 8 "<		infile.txt cat | cat > outfile1.txt" 1 0
-run_test 9 "< infile.txt cat	| cat > outfile1.txt" 1 0
-run_test 10 "< infile.txt cat		| cat > outfile1.txt" 1 0
-run_test 11 "< infile.txt cat |	cat > outfile1.txt" 1 0
-run_test 12 "< infile.txt cat |		cat > outfile1.txt" 1 0
-run_test 13 "< infile.txt cat |	cat > outfile1.txt" 1 0
-run_test 14 "< infile.txt cat |		cat > outfile1.txt" 1 0
-run_test 15 "< infile.txt cat | cat	> outfile1.txt" 1 0
-run_test 16 "< infile.txt cat | cat		> outfile1.txt" 1 0
-run_test 17 "< infile.txt cat | cat >	outfile1.txt" 1 0
-run_test 18 "< infile.txt cat | cat >		outfile1.txt" 1 0
-run_test 19 "< infile.txt cat | cat > outfile1.txt	" 1 0
-run_test 20 "< infile.txt cat | cat > outfile1.txt		" 1 0
+
+run_test 1 "< temp/infile1.txt cat | cat > temp/outfile1.txt" 1 0
+run_test 2 "<temp/infile1.txt cat | cat > temp/outfile1.txt" 1 0
+run_test 3 "< temp/infile1.txt cat| cat > temp/outfile1.txt" 1 0
+run_test 4 "< temp/infile1.txt cat |cat > temp/outfile1.txt" 1 0
+run_test 5 "< temp/infile1.txt cat | cat >temp/outfile1.txt" 1 0
+run_test 6 "<temp/infile1.txt cat|cat >temp/outfile1.txt" 1 0
+run_test 7 "<	temp/infile1.txt cat | cat > temp/outfile1.txt" 1 0
+run_test 8 "<		temp/infile1.txt cat | cat > temp/outfile1.txt" 1 0
+run_test 9 "< temp/infile1.txt cat	| cat > temp/outfile1.txt" 1 0
+run_test 10 "< temp/infile1.txt cat		| cat > temp/outfile1.txt" 1 0
+run_test 11 "< temp/infile1.txt cat |	cat > temp/outfile1.txt" 1 0
+run_test 12 "< temp/infile1.txt cat |		cat > temp/outfile1.txt" 1 0
+run_test 13 "< temp/infile1.txt cat |	cat > temp/outfile1.txt" 1 0
+run_test 14 "< temp/infile1.txt cat |		cat > temp/outfile1.txt" 1 0
+run_test 15 "< temp/infile1.txt cat | cat	> temp/outfile1.txt" 1 0
+run_test 16 "< temp/infile1.txt cat | cat		> temp/outfile1.txt" 1 0
+run_test 17 "< temp/infile1.txt cat | cat >	temp/outfile1.txt" 1 0
+run_test 18 "< temp/infile1.txt cat | cat >		temp/outfile1.txt" 1 0
+run_test 19 "< temp/infile1.txt cat | cat > temp/outfile1.txt	" 1 0
+run_test 20 "< temp/infile1.txt cat | cat > temp/outfile1.txt		" 1 0
 
 
-run_test_heredoc 21 "<< limiter cat | cat > outfile.txt" 21 0
-#run_test_heredoc 22 "<<limiter cat | cat > outfile.txt" 21 0
-#run_test_heredoc 36 "<< limiter cat | cat		> outfile.txt" 21 0
-#run_test_heredoc 37 "<< limiter cat | cat >	outfile.txt" 21 0
-#run_test_heredoc 38 "<< limiter cat | cat >		outfile.txt" 21 0
-#run_test_heredoc 39 "<< limiter cat | cat > outfile.txt	" 21 0
-#run_test_heredoc 40 "<< limiter cat | cat > outfile.txt		" 21 0
+#run_test_heredoc 21 "<< limiter cat | cat > outfile1.txt" 21 0
+#run_test_heredoc 22 "<<limiter cat | cat > outfile1.txt" 21 0
+#run_test_heredoc 36 "<< limiter cat | cat		> outfile1.txt" 21 0
+#run_test_heredoc 37 "<< limiter cat | cat >	outfile1.txt" 21 0
+#run_test_heredoc 38 "<< limiter cat | cat >		outfile1.txt" 21 0
+#run_test_heredoc 39 "<< limiter cat | cat > outfile1.txt	" 21 0
+#run_test_heredoc 40 "<< limiter cat | cat > outfile1.txt		" 21 0
 
-run_test 41 "< infile.txt cat | cat >> outfile.txt" 41 0
-run_test 42 "<infile.txt cat | cat >> outfile.txt" 41 0
-run_test 43 "< infile.txt cat| cat >> outfile.txt" 41 0
-run_test 44 "< infile.txt cat |cat >> outfile.txt" 41 0
-run_test 45 "< infile.txt cat | cat>> outfile.txt" 41 0
-run_test 46 "< infile.txt cat | cat >>outfile.txt" 41 0
-run_test 47 "<infile.txt cat|cat >>outfile.txt" 41 0
-run_test 48 "< infile.txt cat | cat >> outfile.txt" 41 0
-run_test 49 "<	infile.txt cat | cat >> outfile.txt" 41 0
-run_test 50 "<		infile.txt cat | cat >> outfile.txt" 41 0
-run_test 51 "< infile.txt cat	| cat >> outfile.txt" 41 0
-run_test 52 "< infile.txt cat		| cat >> outfile.txt" 41 0
-run_test 53 "< infile.txt cat |	cat >> outfile.txt" 41 0
-run_test 54 "< infile.txt cat |		cat >> outfile.txt" 41 0
-run_test 55 "< infile.txt cat | cat	>> outfile.txt" 41 0
-run_test 56 "< infile.txt cat | cat		>> outfile.txt" 41 0
-run_test 57 "< infile.txt cat | cat >>	outfile.txt" 41 0
-run_test 58 "< infile.txt cat | cat >>		outfile.txt" 41 0
-run_test 59 "< infile.txt cat | cat >> outfile.txt	" 41 0
-run_test 60 "< infile.txt cat | cat >> outfile.txt		" 41 0
+run_test 41 "< temp/infile1.txt cat | cat >> temp/outfile1.txt" 41 0
+run_test 42 "<temp/infile1.txt cat | cat >> temp/outfile1.txt" 41 0
+run_test 43 "< temp/infile1.txt cat| cat >> temp/outfile1.txt" 41 0
+run_test 44 "< temp/infile1.txt cat |cat >> temp/outfile1.txt" 41 0
+run_test 45 "< temp/infile1.txt cat | cat>> temp/outfile1.txt" 41 0
+run_test 46 "< temp/infile1.txt cat | cat >>temp/outfile1.txt" 41 0
+run_test 47 "<temp/infile1.txt cat|cat >>temp/outfile1.txt" 41 0
+run_test 48 "< temp/infile1.txt cat | cat >> temp/outfile1.txt" 41 0
+run_test 49 "<	temp/infile1.txt cat | cat >> temp/outfile1.txt" 41 0
+run_test 50 "<		temp/infile1.txt cat | cat >> temp/outfile1.txt" 41 0
+run_test 51 "< temp/infile1.txt cat	| cat >> temp/outfile1.txt" 41 0
+run_test 52 "< temp/infile1.txt cat		| cat >> temp/outfile1.txt" 41 0
+run_test 53 "< temp/infile1.txt cat |	cat >> temp/outfile1.txt" 41 0
+run_test 54 "< temp/infile1.txt cat |		cat >> temp/outfile1.txt" 41 0
+run_test 55 "< temp/infile1.txt cat | cat	>> temp/outfile1.txt" 41 0
+run_test 56 "< temp/infile1.txt cat | cat		>> temp/outfile1.txt" 41 0
+run_test 57 "< temp/infile1.txt cat | cat >>	temp/outfile1.txt" 41 0
+run_test 58 "< temp/infile1.txt cat | cat >>		temp/outfile1.txt" 41 0
+run_test 59 "< temp/infile1.txt cat | cat >> temp/outfile1.txt	" 41 0
+run_test 60 "< temp/infile1.txt cat | cat >> temp/outfile1.txt		" 41 0
+
+if (( "$start_index" >= 1 && "$start_index" <= 60 && "$end_index" >= 1 && "$end_index" <= 60 ))
+then
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 1 to 60\n"
+	else
+		echo -e "end of test serie from 1 to 60"
+	fi
+fi
 
 : <<BLOCK_COMMENT
 
 
-#run_test_heredoc 61 "<< limiter cat | cat >> outfile.txt" 61 0
-#run_test_heredoc 62 "<<limiter cat | cat >> outfile.txt" 61 0
-#run_test_heredoc 63 "<< limiter cat| cat >> outfile.txt" 61 0
-#run_test_heredoc 64 "<< limiter cat |cat >> outfile.txt" 61 0
-#run_test_heredoc 65 "<< limiter cat | cat>> outfile.txt" 61 0
-#run_test_heredoc 66 "<< limiter cat | cat >>outfile.txt" 61 0
-#run_test_heredoc 67 "<<limiter cat|cat >>outfile.txt" 61 0
-#run_test_heredoc 68 "<< limiter cat | cat >> outfile.txt" 61 0
-#run_test_heredoc 69 "<<	limiter cat | cat >> outfile.txt" 61 0
-#run_test_heredoc 70 "<<		limiter cat | cat >> outfile.txt" 61 0
-#run_test_heredoc 71 "<< limiter cat	| cat >> outfile.txt" 61 0
-#run_test_heredoc 72 "<< limiter cat		| cat >> outfile.txt" 61 0
-#run_test_heredoc 73 "<< limiter cat |	cat >> outfile.txt" 61 0
-#run_test_heredoc 74 "<< limiter cat |		cat >> outfile.txt" 61 0
-#run_test_heredoc 75 "<< limiter cat | cat	>> outfile.txt" 61 0
-#run_test_heredoc 76 "<< limiter cat | cat		>> outfile.txt" 61 0
-#run_test_heredoc 77 "<< limiter cat | cat >>	outfile.txt" 61 0
-#run_test_heredoc 78 "<< limiter cat | cat >>		outfile.txt" 61 0
-#run_test_heredoc 79 "<< limiter cat | cat >> outfile.txt	" 61 0
-#run_test_heredoc 80 "<< limiter cat | cat >> outfile.txt		" 61 0
-if [ "$display" == "all" ]
+#run_test_heredoc 61 "<< limiter cat | cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 62 "<<limiter cat | cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 63 "<< limiter cat| cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 64 "<< limiter cat |cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 65 "<< limiter cat | cat>> temp/outfile1.txt" 61 0
+#run_test_heredoc 66 "<< limiter cat | cat >>temp/outfile1.txt" 61 0
+#run_test_heredoc 67 "<<limiter cat|cat >>temp/outfile1.txt" 61 0
+#run_test_heredoc 68 "<< limiter cat | cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 69 "<<	limiter cat | cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 70 "<<		limiter cat | cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 71 "<< limiter cat	| cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 72 "<< limiter cat		| cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 73 "<< limiter cat |	cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 74 "<< limiter cat |		cat >> temp/outfile1.txt" 61 0
+#run_test_heredoc 75 "<< limiter cat | cat	>> temp/outfile1.txt" 61 0
+#run_test_heredoc 76 "<< limiter cat | cat		>> temp/outfile1.txt" 61 0
+#run_test_heredoc 77 "<< limiter cat | cat >>	temp/outfile1.txt" 61 0
+#run_test_heredoc 78 "<< limiter cat | cat >>		temp/outfile1.txt" 61 0
+#run_test_heredoc 79 "<< limiter cat | cat >> temp/outfile1.txt	" 61 0
+#run_test_heredoc 80 "<< limiter cat | cat >> temp/outfile1.txt		" 61 0
+
+if (( "$start_index" >= 61 ))
 then
-	echo -e "end of test serie from 1 to 80\n"
-else
-	echo -e "end of test serie from 1 to 80"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 61 to 80\n"
+	else
+		echo -e "end of test serie from 61 to 80"
+	fi
 fi
 
-run_test 81 "< infile.txt < infile.txt" 81 0
-run_test 82 "<infile.txt < infile.txt" 81 0
-run_test 83 "< infile.txt <infile.txt" 81 0
-run_test 84 "<infile.txt <infile.txt" 81 0
-run_test 85 "<infile.txt<infile.txt" 81 0
-run_test 86 "<infile.txt<infile.txt" 81 0
-run_test 87 " <	infile.txt < infile.txt" 81 0
-run_test 88 " < infile.txt	< infile.txt" 81 0
-run_test 89 " < infile.txt <	infile.txt" 81 0
-run_test 90 " < infile.txt < infile.txt	" 81 0
-run_test 91 "< infile.txt < infile.txt < infile.txt" 91 0
-run_test 92 "<infile.txt < infile.txt < infile.txt" 91 0
-run_test 93 "< infile.txt <infile.txt < infile.txt" 91 0
-run_test 94 "< infile.txt < infile.txt <infile.txt" 91 0
-run_test 95 "< infile.txt < infile.txt < infile.txt" 91 0
-run_test 96 "<infile.txt <infile.txt < infile.txt" 91 0
-run_test 97 "<infile.txt <infile.txt <infile.txt" 91 0
-run_test 98 "<infile.txt<infile.txt <infile.txt" 91 0
-run_test 99 "<infile.txt<infile.txt<infile.txt" 91 0
-if [ "$display" == "all" ]
+BLOCK_COMMENT
+
+run_test 81 "< temp/infile1.txt < temp/infile2.txt" 81 0
+run_test 82 "<temp/infile1.txt < temp/infile2.txt" 81 0
+run_test 83 "< temp/infile1.txt <temp/infile2.txt" 81 0
+run_test 84 "<temp/infile1.txt <temp/infile2.txt" 81 0
+run_test 85 "<temp/infile1.txt<temp/infile2.txt" 81 0
+run_test 86 "<temp/infile1.txt<temp/infile2.txt" 81 0
+run_test 87 " <	temp/infile1.txt < temp/infile2.txt" 81 0
+run_test 88 " < temp/infile1.txt	< temp/infile2.txt" 81 0
+run_test 89 " < temp/infile1.txt <	temp/infile2.txt" 81 0
+run_test 90 " < temp/infile1.txt < temp/infile2.txt	" 81 0
+run_test 91 "< temp/infile1.txt < temp/infile2.txt < temp/infile3.txt" 91 0
+run_test 92 "<temp/infile1.txt < temp/infile2.txt < temp/infile3.txt" 91 0
+run_test 93 "< temp/infile1.txt <temp/infile2.txt < temp/infile3.txt" 91 0
+run_test 94 "< temp/infile1.txt < temp/infile2.txt <temp/infile3.txt" 91 0
+run_test 95 "< temp/infile1.txt < temp/infile2.txt < temp/infile3.txt" 91 0
+run_test 96 "<temp/infile1.txt <temp/infile2.txt < temp/infile3.txt" 91 0
+run_test 97 "<temp/infile1.txt <temp/infile2.txt <temp/infile3.txt" 91 0
+run_test 98 "<temp/infile1.txt<temp/infile2.txt <temp/infile3.txt" 91 0
+run_test 99 "<temp/infile1.txt<temp/infile2.txt<temp/infile3.txt" 91 0
+
+if (( "$start_index" >= 81 && "$start_index" <= 99 && "$end_index" >= 81 && "$end_index" <= 99 ))
+#if [ "$execution" == "all" ] || [ "$execution" == "parsing" ]
 then
-	echo -e "end of test serie from 81 to 99\n"
-else
-	echo -e "end of test serie from 81 to 99"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 81 to 99\n"
+	else
+		echo -e "end of test serie from 81 to 99"
+	fi
 fi
 
-run_test 100 "> outfile.txt > outfile.txt" 100 0
-run_test 101 ">outfile.txt > outfile.txt" 100 0
-run_test 102 "> outfile.txt >outfile.txt" 100 0
-run_test 103 ">outfile.txt >outfile.txt" 100 0
-run_test 104 ">outfile.txt>outfile.txt" 100 0
-run_test 105 ">outfile.txt>outfile.txt" 100 0
-run_test 106 " >	outfile.txt > outfile.txt" 100 0
-run_test 107 " > outfile.txt	> outfile.txt" 100 0
-run_test 108 " > outfile.txt >	outfile.txt" 100 0
-run_test 109 " > outfile.txt > outfile.txt	" 100 0
-run_test 110 "> outfile.txt > outfile.txt > outfile.txt" 110 0
-run_test 111 ">outfile.txt > outfile.txt > outfile.txt" 110 0
-run_test 112 "> outfile.txt >outfile.txt > outfile.txt" 110 0
-run_test 113 "> outfile.txt > outfile.txt >outfile.txt" 110 0
-run_test 114 "> outfile.txt > outfile.txt > outfile.txt" 110 0
-run_test 115 ">outfile.txt >outfile.txt > outfile.txt" 110 0
-run_test 116 ">outfile.txt >outfile.txt >outfile.txt" 110 0
-run_test 117 ">outfile.txt>outfile.txt >outfile.txt" 110 0
-run_test 118 ">outfile.txt>outfile.txt>outfile.txt" 110 0
-if [ "$display" == "all" ]
+run_test 100 "> temp/outfile1.txt > temp/outfile2.txt" 100 0
+run_test 101 ">temp/outfile1.txt > temp/outfile2.txt" 100 0
+run_test 102 "> temp/outfile1.txt >temp/outfile2.txt" 100 0
+run_test 103 ">temp/outfile1.txt >temp/outfile2.txt" 100 0
+run_test 104 ">temp/outfile1.txt>temp/outfile2.txt" 100 0
+run_test 105 ">temp/outfile1.txt>temp/outfile2.txt" 100 0
+run_test 106 " >	temp/outfile1.txt > temp/outfile2.txt" 100 0
+run_test 107 " > temp/outfile1.txt	> temp/outfile2.txt" 100 0
+run_test 108 " > temp/outfile1.txt >	temp/outfile2.txt" 100 0
+run_test 109 " > temp/outfile1.txt > temp/outfile2.txt	" 100 0
+run_test 110 "> temp/outfile1.txt > temp/outfile2.txt > temp/outfile3.txt" 110 0
+run_test 111 ">temp/outfile1.txt > temp/outfile2.txt > temp/outfile3.txt" 110 0
+run_test 112 "> temp/outfile1.txt >temp/outfile2.txt > temp/outfile3.txt" 110 0
+run_test 113 "> temp/outfile1.txt > temp/outfile2.txt >temp/outfile3.txt" 110 0
+run_test 114 "> temp/outfile1.txt > temp/outfile2.txt > temp/outfile3.txt" 110 0
+run_test 115 ">temp/outfile1.txt >temp/outfile2.txt > temp/outfile3.txt" 110 0
+run_test 116 ">temp/outfile1.txt >temp/outfile2.txt >temp/outfile3.txt" 110 0
+run_test 117 ">temp/outfile1.txt>temp/outfile2.txt >temp/outfile3.txt" 110 0
+run_test 118 ">temp/outfile1.txt>temp/outfile2.txt>temp/outfile3.txt" 110 0
+
+if (( "$start_index" >= 100 && "$start_index" <= 118 && "$end_index" >= 100 && "$end_index" <= 118 ))
 then
-	echo -e "end of test serie from 100 to 118\n"
-else
-	echo -e "end of test serie from 100 to 118"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 100 to 118\n"
+	else
+		echo -e "end of test serie from 100 to 118"
+	fi
 fi
 
 
@@ -796,52 +937,60 @@ fi
 #run_test_heredoc 136 "<<limiter1 <<limiter2 <<limiter3" 130 0
 #run_test_heredoc 137 "<<limiter1<<limiter2 <<limiter3" 130 0
 #run_test_heredoc 138 "<<limiter1<<limiter2<<limiter3" 130 0
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 120 && "$start_index" <= 138 && "$end_index" >= 120 && "$end_index" <= 138 ))
 then
-	echo -e "end of test serie from 120 to 138\n"
-else
-	echo -e "end of test serie from 120 to 138"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 120 to 138\n"
+	else
+		echo -e "end of test serie from 120 to 138"
+	fi
 fi
 
-run_test 140 ">> outfile.txt >> outfile.txt" 140 0
-run_test 141 ">>outfile.txt >> outfile.txt" 140 0
-run_test 142 ">> outfile.txt >>outfile.txt" 140 0
-run_test 143 ">>outfile.txt >>outfile.txt" 140 0
-run_test 144 ">>outfile.txt>>outfile.txt" 140 0
-run_test 145 ">>outfile.txt>>outfile.txt" 140 0
-run_test 146 " >>	outfile.txt >> outfile.txt" 140 0
-run_test 147 " >> outfile.txt	>> outfile.txt" 140 0
-run_test 148 " >> outfile.txt >>	outfile.txt" 140 0
-run_test 149 " >> outfile.txt >> outfile.txt	" 140 0
-run_test 150 ">> outfile.txt >> outfile.txt >> outfile.txt" 150 0
-run_test 151 ">>outfile.txt >> outfile.txt >> outfile.txt" 150 0
-run_test 152 ">> outfile.txt >>outfile.txt >> outfile.txt" 150 0
-run_test 153 ">> outfile.txt >> outfile.txt >>outfile.txt" 150 0
-run_test 154 ">> outfile.txt >> outfile.txt >> outfile.txt" 150 0
-run_test 155 ">>outfile.txt >>outfile.txt >> outfile.txt" 150 0
-run_test 156 ">>outfile.txt >>outfile.txt >>outfile.txt" 150 0
-run_test 157 ">>outfile.txt>>outfile.txt >>outfile.txt" 150 0
-run_test 158 ">>outfile.txt>>outfile.txt>>outfile.txt" 150 0
-if [ "$display" == "all" ]
+run_test 140 ">> temp/outfile1.txt >> temp/outfile2.txt" 140 0
+run_test 141 ">>temp/outfile1.txt >> temp/outfile2.txt" 140 0
+run_test 142 ">> temp/outfile1.txt >>temp/outfile2.txt" 140 0
+run_test 143 ">>temp/outfile1.txt >>temp/outfile2.txt" 140 0
+run_test 144 ">>temp/outfile1.txt>>temp/outfile2.txt" 140 0
+run_test 145 ">>temp/outfile1.txt>>temp/outfile2.txt" 140 0
+run_test 146 " >>	temp/outfile1.txt >> temp/outfile2.txt" 140 0
+run_test 147 " >> temp/outfile1.txt	>> temp/outfile2.txt" 140 0
+run_test 148 " >> temp/outfile1.txt >>	temp/outfile2.txt" 140 0
+run_test 149 " >> temp/outfile1.txt >> temp/outfile2.txt	" 140 0
+run_test 150 ">> temp/outfile1.txt >> temp/outfile2.txt >> temp/outfile3.txt" 150 0
+run_test 151 ">>temp/outfile1.txt >> temp/outfile2.txt >> temp/outfile3.txt" 150 0
+run_test 152 ">> temp/outfile1.txt >>temp/outfile2.txt >> temp/outfile3.txt" 150 0
+run_test 153 ">> temp/outfile1.txt >> temp/outfile2.txt >>temp/outfile3.txt" 150 0
+run_test 154 ">> temp/outfile1.txt >> temp/outfile2.txt >> temp/outfile3.txt" 150 0
+run_test 155 ">>temp/outfile1.txt >>temp/outfile2.txt >> temp/outfile3.txt" 150 0
+run_test 156 ">>temp/outfile1.txt >>temp/outfile2.txt >>temp/outfile3.txt" 150 0
+run_test 157 ">>temp/outfile1.txt>>temp/outfile2.txt >>temp/outfile3.txt" 150 0
+run_test 158 ">>temp/outfile1.txt>>temp/outfile2.txt>>temp/outfile3.txt" 150 0
+
+if (( "$start_index" >= 140 && "$start_index" <= 158 && "$end_index" >= 140 && "$end_index" <= 158 ))
 then
-	echo -e "end of test serie from 140 to 158\n"
-else
-	echo -e "end of test serie from 140 to 158"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 140 to 158\n"
+	else
+		echo -e "end of test serie from 140 to 158"
+	fi
 fi
 
 
-run_test 160 "< 'infile.txt'" 160 0
-run_test 161 "< \"infile.txt\"" 160 0
-run_test 162 "< '\"infile.txt\"'" 162 0
-run_test 163 "< \"'infile.txt'\"" 163 0
-run_test 164 "< '\"'infile.txt'\"'" 164 0
-run_test 165 "< \"'\"infile.txt\"'\"" 165 0
-run_test 166 "> 'outfile.txt'" 166 0
-run_test 167 "> \"outfile.txt\"" 166 0
-run_test 168 "> '\"outfile.txt\"'" 168 0
-run_test 169 "> \"'outfile.txt'\"" 169 0
-run_test 170 "> '\"'outfile.txt'\"'" 170 0
-run_test 171 "> \"'\"outfile.txt\"'\"" 171 0
+run_test 160 "< 'temp/infile1.txt'" 160 0
+run_test 161 "< \"temp/infile1.txt\"" 160 0
+run_test 162 "< '\"temp/infile1.txt\"'" 162 0
+run_test 163 "< \"'temp/infile1.txt'\"" 163 0
+run_test 164 "< '\"'temp/infile1.txt'\"'" 164 0
+run_test 165 "< \"'\"temp/infile1.txt\"'\"" 165 0
+run_test 166 "> 'temp/outfile1.txt'" 166 0
+run_test 167 "> \"temp/outfile1.txt\"" 166 0
+run_test 168 "> '\"temp/outfile1.txt\"'" 168 0
+run_test 169 "> \"'temp/outfile1.txt'\"" 169 0
+run_test 170 "> '\"'temp/outfile1.txt'\"'" 170 0
+run_test 171 "> \"'\"temp/outfile1.txt\"'\"" 171 0
 #run_test_heredoc 172 "<< 'limiter'" 172 0
 #run_test_heredoc 173 "<< \"limiter\"" 172 0
 #run_test_heredoc 174 "<< '\"limiter\"'" 174 0
@@ -851,31 +1000,37 @@ run_test 171 "> \"'\"outfile.txt\"'\"" 171 0
 #run_test_heredoc 178 "<< '<limiter'" 178 0
 #run_test_heredoc 179 "<< \"<limiter\"" 179 0
 
-run_test 190 ">> 'outfile.txt'" 190 0
-run_test 191 ">> \"outfile.txt\"" 190 0
-run_test 192 ">> '\"outfile.txt\"'" 192 0
-run_test 193 ">> \"'outfile.txt'\"" 193 0
-run_test 194 ">> '\"'outfile.txt'\"'" 194 0
-run_test 195 ">> \"'\"outfile.txt\"'\"" 195 0
+run_test 190 ">> 'temp/outfile1.txt'" 190 0
+run_test 191 ">> \"temp/outfile1.txt\"" 190 0
+run_test 192 ">> '\"temp/outfile1.txt\"'" 192 0
+run_test 193 ">> \"'temp/outfile1.txt'\"" 193 0
+run_test 194 ">> '\"'temp/outfile1.txt'\"'" 194 0
+run_test 195 ">> \"'\"temp/outfile1.txt\"'\"" 195 0
 
-if [ "$display" == "all" ]
+if (( "$start_index" >= 160 && "$start_index" <= 195 && "$end_index" >= 160 && "$end_index" <= 195 ))
 then
-	echo -e "end of test serie from 160 to 183\n"
-else
-	echo -e "end of test serie from 160 to 183"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 160 to 195\n"
+	else
+		echo -e "end of test serie from 160 to 195"
+	fi
 fi
 
 
-run_test 200 "\"< infile.txt\"" 200 0
-run_test 210 "\"<< limiter\"" 210 0
-run_test 220 "\"> output.txt\"" 220 0
-run_test 230 "\">> output.txt\"" 230 0
+run_test 200 "\"< temp/infile1.txt\"" 200 0
+#run_test 210 "\"<< limiter\"" 210 0
+run_test 220 "\"> temp/output1.txt\"" 220 0
+run_test 230 "\">> temp/output1.txt\"" 230 0
 
-if [ "$display" == "all" ]
+if (( "$start_index" >= 200 && "$start_index" <= 250 && "$end_index" >= 200 && "$end_index" <= 250 ))
 then
-	echo -e "end of test serie from 200 to 250\n"
-else
-	echo -e "end of test serie from 200 to 250"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 200 to 250\n"
+	else
+		echo -e "end of test serie from 200 to 250"
+	fi
 fi
 
 
@@ -988,29 +1143,37 @@ run_test 630 "ls \"-l\" | \"cat\" \"-e\"" 550 0
 run_test 631 "'ls' \"-l\" | \"cat\" \"-e\"" 550 0
 
 run_test 632 "\"ls\" \"-l\" | \"cat\" \"-e\"" 550 0
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 500 && "$start_index" <= 632 && "$end_index" >= 500 && "$end_index" <= 632 ))
 then
-	echo -e "end of test serie from 500 to 632\n"
-else
-	echo -e "end of test serie from 500 to 632"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 500 to 632\n"
+	else
+		echo -e "end of test serie from 500 to 632"
+	fi
 fi
 
-run_test_error 650 "'ls -l'" 650 127 "command not found"
-run_test_error 651 "\"ls -l\"" 651 127 "command not found"
-run_test_error 652 "'\"ls -l\"'" 652 127 "command not found"
-run_test_error 653 "\"'ls -l'\"" 653 127 "command not found"
-run_test_error 654 "'ls'-l" 654 127 "command not found"
-run_test_error 655 "ls'-l'" 655 127 "command not found"
-run_test_error 656 "\"ls\"-l" 656 127 "command not found"
-run_test_error 657 "ls\"-l\"" 657 127 "command not found"
-if [ "$display" == "all" ]
+run_test 650 "'ls -l'" 650 127 "command not found"
+run_test 651 "\"ls -l\"" 651 127 "command not found"
+run_test 652 "'\"ls -l\"'" 652 127 "command not found"
+run_test 653 "\"'ls -l'\"" 653 127 "command not found"
+run_test 654 "'ls'-l" 654 127 "command not found"
+run_test 655 "ls'-l'" 655 127 "command not found"
+run_test 656 "\"ls\"-l" 656 127 "command not found"
+run_test 657 "ls\"-l\"" 657 127 "command not found"
+
+if (( "$start_index" >= 650 && "$start_index" <= 657 && "$end_index" >= 650 && "$end_index" <= 657 ))
 then
-	echo -e "end of test serie from 650 to 657\n"
-else
-	echo -e "end of test serie from 650 to 657"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 650 to 657\n"
+	else
+		echo -e "end of test serie from 650 to 657"
+	fi
 fi
 
-run_test_error 700 "'ls -l cat -e'" 700 127 "command not found"
+run_test 700 "'ls -l cat -e'" 700 127 "command not found"
 run_test 701 "\"ls -l cat -e\"" 701 0
 run_test 702 "'\"ls -l cat -e\"'" 702 0
 run_test 703 "\"'ls -l cat -e'\"" 703 0
@@ -1052,11 +1215,15 @@ run_test 732 "'ls -l' \"cat\" \"-e\"" 732 0
 run_test 733 "\"ls -l\" \"cat\" \"-e\"" 733 0
 run_test 734 "'\"ls -l\"' \"cat\" \"-e\"" 734 0
 run_test 735 "\"'ls -l'\" \"cat\" \"-e\"" 735 0
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 700 && "$start_index" <= 735 && "$end_index" >= 700 && "$end_index" <= 735 ))
 then
-	echo -e "end of test serie from 700 to 735\n"
-else
-	echo -e "end of test serie from 700 to 735"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 700 to 735\n"
+	else
+		echo -e "end of test serie from 700 to 735"
+	fi
 fi
 
 run_test 736 "'ls -l'cat '-e'" 736 0
@@ -1083,11 +1250,15 @@ run_test 756 "'ls -l'\"cat\" \"-e\"" 756 0
 run_test 757 "\"ls -l\"\"cat\" \"-e\"" 757 0
 run_test 758 "'\"ls -l\"'\"cat\" \"-e\"" 758 0
 run_test 759 "\"'ls -l'\"\"cat\" \"-e\"" 759 0
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 735 && "$start_index" <= 759 && "$end_index" >= 735 && "$end_index" <= 759 ))
 then
-	echo -e "end of test serie from 735 to 759\n"
-else
-	echo -e "end of test serie from 735 to 759"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 735 to 759\n"
+	else
+		echo -e "end of test serie from 735 to 759"
+	fi
 fi
 
 run_test 760 "'ls -l' cat'-e'" 760 0
@@ -1107,23 +1278,30 @@ run_test 773 "\"ls -l\" \"cat\"\"-e\"" 773 0
 run_test 774 "'\"ls -l\"' \"cat\"\"-e\"" 774 0
 run_test 775 "\"'ls -l'\" \"cat\"\"-e\"" 775 0
 run_test 776 "\"ls\"'-l'cat\"-e\"" 776 0
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 760 && "$start_index" <= 776 && "$end_index" >= 760 && "$end_index" <= 776 ))
 then
-	echo -e "end of test serie from 760 to 776\n"
-else
-	echo -e "end of test serie from 760 to 776"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 760 to 776\n"
+	else
+		echo -e "end of test serie from 760 to 776"
+	fi
 fi
 
 run_test 1000 "'ls'-l'cat -e'" 1000 0
 run_test 1001 "'ls'-l'cat  -e'" 1001 0
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 1000 && "$start_index" <= 1001 && "$end_index" >= 1000 && "$end_index" <= 1001 ))
 then
-	echo -e "end of test serie from 1000 to 1001\n"
-else
-	echo -e "end of test serie from 1000 to 1001"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 1000 to 1001\n"
+	else
+		echo -e "end of test serie from 1000 to 1001"
+	fi
 fi
 
-: <<BLOCK_COMMENT
 
 run_test 1100 "\\" 1100 0
 run_test 1101 "\"\\\"" 1100 0
@@ -1139,15 +1317,19 @@ run_test 1110 "@" 1110 0
 run_test 1111 "\"@\"" 1110 0
 run_test 1112 "*" 1112 0
 run_test 1113 "\"*\"" 1112 0
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 1100 && "$start_index" <= 1200 && "$end_index" >= 1100 && "$end_index" <= 1200 ))
 then
-	echo -e "end of test serie from 1100 to 1200\n"
-else
-	echo -e "end of test serie from 1100 to 1200"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 1100 to 1200\n"
+	else
+		echo -e "end of test serie from 1100 to 1200"
+	fi
 fi
 
 
-export TEST="test_minishell"
+export TEST="temp/test_minishell"
 run_test 1500 "\$TEST" 1500 0
 run_test 1501 "\$DO_NOT_EXIST" 1501 0
 run_test 1502 "'\$TEST'" 1502 0
@@ -1163,14 +1345,14 @@ run_test 1511 "\"\$TEST \"" 1511 0
 run_test 1512 "\"\$TEST  \"" 1512 0
 run_test 1513 "\" \$TEST \"" 1513 0
 run_test 1514 "\"  \$TEST  \"" 1514 0
-#run_test 1515 "\"	\$TEST\"" 1515 0 #pb with\t
-#run_test 1516 "\"\t\t\$TEST\"" 1516 0 #pb with\t
-#run_test 1517 "\"\$TEST\t\"" 1517 0 #pb with\t
-#run_test 1518 "\"\$TEST\t\t\"" 1518 0 #pb with\t
-#run_test 1519 "\"\t\$TEST\t\"" 1519 0 #pb with\t
-#run_test 1520 "\"\t\t\$TEST\t\t\"" 1520 0 #pb with\t
-#run_test 1521 "\" \$TEST\t\"" 1521 0 #pb with\t
-#run_test 1522 "\"\t\$TEST \"" 1522 0 #pb with\t
+run_test 1515 "\"	\$TEST\"" 1515 0
+run_test 1516 "\"\t\t\$TEST\"" 1516 0
+run_test 1517 "\"\$TEST\t\"" 1517 0
+run_test 1518 "\"\$TEST\t\t\"" 1518 0
+run_test 1519 "\"\t\$TEST\t\"" 1519 0
+run_test 1520 "\"\t\t\$TEST\t\t\"" 1520 0
+run_test 1521 "\" \$TEST\t\"" 1521 0
+run_test 1522 "\"\t\$TEST \"" 1522 0
 
 run_test 1523 "\$\"TEST\"" 1523 0
 run_test 1524 "\$'TEST'" 1524 0
@@ -1184,16 +1366,16 @@ run_test 1533 "\"\$TEST \$TEST \"" 1533 0
 run_test 1534 "\"\$TEST \$TEST  \"" 1534 0
 run_test 1535 "\" \$TEST  \$TEST\"" 1535 0
 run_test 1536 "\" \$TEST  \$TEST \"" 1536 0
-#run_test 1537 "\"\t\$TEST\t\$TEST\"" 1537 0//pb with\t
-#run_test 1538 "\"\t\$TEST\t\$TEST\t\"" 1538 0//pb with\t
-#run_test 1539 "\"\t\t\$TEST\t\t\$TEST\t\t\"" 1539 0//pb with\t
+run_test 1537 "\"\t\$TEST\t\$TEST\"" 1537 0
+run_test 1538 "\"\t\$TEST\t\$TEST\t\"" 1538 0
+run_test 1539 "\"\t\t\$TEST\t\t\$TEST\t\t\"" 1539 0
 run_test 1540 "\$TEST\$TEST" 1540 0
 run_test 1541 "\" \$TEST\$TEST\"" 1541 0
 run_test 1542 "\"\$TEST\$TEST \"" 1542 0
 run_test 1543 "\" \$TEST\$TEST \"" 1543 0
-#run_test 1544 "\"	\$TEST\$TEST\"" 1544 0//pb with\t
-#run_test 1545 "\"\$TEST\$TEST	\"" 1545 0//pb with\t
-#run_test 1546 "\"	\$TEST\$TEST	\"" 1546 0//pb with\t
+run_test 1544 "\"	\$TEST\$TEST\"" 1544 0
+run_test 1545 "\"\$TEST\$TEST	\"" 1545 0
+run_test 1546 "\"	\$TEST\$TEST	\"" 1546 0
 
 run_test 1550 "\"text\$TEST\"" 1550 0
 run_test 1551 "\"text \$TEST\"" 1551 0
@@ -1207,7 +1389,7 @@ run_test 1558 "\"\$TEST text \$TEST\"" 1558 0
 
 run_test 1559 "\"\$TEST cat\"" 1559 0
 run_test 1560 "\"\$TEST cat \"" 1560 0
-#run_test 1561 "\"\$TEST cat	\"" 1561 0//pb with\t
+run_test 1561 "\"\$TEST cat	\"" 1561 0
 
 run_test 1562 "\$" 1562 0
 run_test 1563 "\"\$ TEST\"" 1563 0
@@ -1219,14 +1401,18 @@ run_test 1568 "\"\$\" \"\"" 1568 0
 run_test 1569 "\"\$' '\"" 1569 0
 run_test 1570 "'\$'''" 1570 0
 unset TEST
-if [ "$display" == "all" ]
+
+if (( "$start_index" >= 1500 && "$start_index" <= 1570 && "$end_index" >= 1500 && "$end_index" <= 1570 ))
 then
-	echo -e "end of test serie from 1500 to 1570\n"
-else
-	echo -e "end of test serie from 1500 to 1570"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 1500 to 1570\n"
+	else
+		echo -e "end of test serie from 1500 to 1570"
+	fi
 fi
 
-export INFILE="infile.txt"
+export INFILE="temp/infile1.txt"
 run_test 1700 "< \$INFILE" 1700 0
 run_test 1701 "< \$DO_NOT_EXIST" 1701 0
 run_test 1702 "< '\$INFILE'" 1702 0
@@ -1240,16 +1426,16 @@ run_test 1709 "< \"\$INFILE \"" 1709 0
 run_test 1710 "< \"\$INFILE  \"" 1710 0
 run_test 1711 "< \" \$INFILE \"" 1711 0
 run_test 1712 "< \"  \$INFILE  \"" 1712 0
-#run_test 1713 "< \"	\$INFILE\"" 1713 0
-#run_test 1714 "< \"\$INFILE	\"" 1714 0
-#run_test 1715 "< \"		\$INFILE\"" 1715 0
-#run_test 1716 "< \"\$INFILE		\"" 1716 0
-#run_test 1717 "< \"	\$INFILE	\"" 1717 0
-#run_test 1718 "< \"		\$INFILE		\"" 1718 0
+run_test 1713 "< \"	\$INFILE\"" 1713 0
+run_test 1714 "< \"\$INFILE	\"" 1714 0
+run_test 1715 "< \"		\$INFILE\"" 1715 0
+run_test 1716 "< \"\$INFILE		\"" 1716 0
+run_test 1717 "< \"	\$INFILE	\"" 1717 0
+run_test 1718 "< \"		\$INFILE		\"" 1718 0
 run_test 1719 "< \"INFILE \$INFILE\"" 1719 0
 unset INFILE
 
-export OUTFILE="outfile.txt"
+export OUTFILE="temp/outfile1.txt"
 run_test 1740 "> \$OUTFILE" 1740 0
 run_test 1741 "> \$DO_NOT_EXIST" 1741 0
 run_test 1742 "> '\$OUTFILE'" 1742 0
@@ -1263,14 +1449,16 @@ run_test 1749 "> \"\$OUTFILE \"" 1749 0
 run_test 1750 "> \"\$OUTFILE  \"" 1750 0
 run_test 1751 "> \" \$OUTFILE \"" 1751 0
 run_test 1752 "> \"  \$OUTFILE  \"" 1752 0
-#run_test 1753 "> \"	\$OUTFILE\"" 1753 0
-#run_test 1754 "> \"\$OUTFILE	\"" 1754 0
-#run_test 1755 "> \"		\$OUTFILE\"" 1755 0
-#run_test 1756 "> \"\$OUTFILE		\"" 1756 0
-#run_test 1757 "> \"	\$OUTFILE	\"" 1757 0
-#run_test 1758 "> \"		\$OUTFILE		\"" 1758 0
+run_test 1753 "> \"	\$OUTFILE\"" 1753 0
+run_test 1754 "> \"\$OUTFILE	\"" 1754 0
+run_test 1755 "> \"		\$OUTFILE\"" 1755 0
+run_test 1756 "> \"\$OUTFILE		\"" 1756 0
+run_test 1757 "> \"	\$OUTFILE	\"" 1757 0
+run_test 1758 "> \"		\$OUTFILE		\"" 1758 0
 run_test 1759 "> \"OUTFILE \$OUTFILE\"" 1759 0
 unset OUTFILE
+
+: <<BLOCK_COMMENT
 
 export LIMITER="limiter"
 run_test 1780 "<< \$LIMITER" 1780 0
@@ -1286,16 +1474,18 @@ run_test 1789 "<< \"\$LIMITER \"" 1789 0
 run_test 1790 "<< \"\$LIMITER  \"" 1790 0
 run_test 1791 "<< \" \$LIMITER \"" 1791 0
 run_test 1792 "<< \"  \$LIMITER  \"" 1792 0
-#run_test 1793 "<< \"	\$LIMITER\"" 1793 0
-#run_test 1794 "<< \"\$LIMITER	\"" 1794 0
-#run_test 1795 "<< \"		\$LIMITER\"" 1795 0
-#run_test 1796 "<< \"\$LIMITER		\"" 1796 0
-#run_test 1797 "<< \"	\$LIMITER	\"" 1797 0
-#run_test 1798 "<< \"		\$LIMITER		\"" 1798 0
+run_test 1793 "<< \"	\$LIMITER\"" 1793 0
+run_test 1794 "<< \"\$LIMITER	\"" 1794 0
+run_test 1795 "<< \"		\$LIMITER\"" 1795 0
+run_test 1796 "<< \"\$LIMITER		\"" 1796 0
+run_test 1797 "<< \"	\$LIMITER	\"" 1797 0
+run_test 1798 "<< \"		\$LIMITER		\"" 1798 0
 run_test 1799 "<< \"LIMITER \$LIMITER\"" 1799 0
 unset LIMITER
 
-export OUTFILE="outfile.txt"
+BLOCK_COMMENT
+
+export OUTFILE="temp/outfile1.txt"
 run_test 1820 ">> \$OUTFILE" 1820 0
 run_test 1821 ">> \$DO_NOT_EXIST" 1821 0
 run_test 1822 ">> '\$OUTFILE'" 1822 0
@@ -1309,413 +1499,581 @@ run_test 1829 ">> \"\$OUTFILE \"" 1829 0
 run_test 1830 ">> \"\$OUTFILE  \"" 1830 0
 run_test 1831 ">> \" \$OUTFILE \"" 1831 0
 run_test 1832 ">> \"  \$OUTFILE  \"" 1832 0
-#run_test 1833 ">> \"	\$OUTFILE\"" 1833 0
-#run_test 1834 ">> \"\$OUTFILE	\"" 1834 0
-#run_test 1835 ">> \"		\$OUTFILE\"" 1835 0
-#run_test 1836 ">> \"\$OUTFILE		\"" 1836 0
-#run_test 1837 ">> \"	\$OUTFILE	\"" 1837 0
-#run_test 1838 ">> \"		\$OUTFILE		\"" 1838 0
+run_test 1833 ">> \"	\$OUTFILE\"" 1833 0
+run_test 1834 ">> \"\$OUTFILE	\"" 1834 0
+run_test 1835 ">> \"		\$OUTFILE\"" 1835 0
+run_test 1836 ">> \"\$OUTFILE		\"" 1836 0
+run_test 1837 ">> \"	\$OUTFILE	\"" 1837 0
+run_test 1838 ">> \"		\$OUTFILE		\"" 1838 0
 unset OUTFILE
 
-if [ "$display" == "all" ]
+if (( "$start_index" >= 1700 && "$start_index" <= 1900 && "$end_index" >= 1700 && "$end_index" <= 1900 ))
 then
-	echo -e "end of test serie from 1700 to 1900\n"
-else
-	echo -e "end of test serie from 1700 to 1900"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 1700 to 1900\n"
+	else
+		echo -e "end of test serie from 1700 to 1900"
+	fi
+fi
+
+run_test 2000 "<" 2000 2 "syntax error"
+run_test 2001 "<<" 2001 2 "syntax error"
+run_test 2002 "<<<" 2002 2 "syntax error"
+run_test 2003 "<<<<" 2003 2 "syntax error"
+run_test 2004 "<" 2004 2 "syntax error"
+run_test 2005 "<<" 2005 2 "syntax error"
+run_test 2006 "<<<" 2006 2 "syntax error"
+run_test 2007 "<<<<" 2007 2 "syntax error"
+run_test 2008 "<>" 2008 2 "syntax error"
+run_test 2009 "><" 2009 2 "syntax error"
+run_test 2010 "<><>" 2010 2 "syntax error"
+run_test 2011 "><><" 2011 2 "syntax error"
+run_test 2012 "<<>" 2012 2 "syntax error"
+run_test 2013 "<<>>" 2013 2 "syntax error"
+run_test 2014 "<<<>>>" 2014 2 "syntax error"
+run_test 2015 "<<<<>>>>" 2015 2 "syntax error"
+run_test 2016 ">><" 2016 2 "syntax error"
+run_test 2017 ">><<" 2017 2 "syntax error"
+run_test 2018 ">>><<<" 2018 2 "syntax error"
+run_test 2019 ">>>><<<<" 2019 2 "syntax error"
+
+run_test 2020 "ls <" 2020 2 "syntax error"
+run_test 2021 "ls <<" 2021 2 "syntax error"
+run_test 2022 "ls >" 2022 2 "syntax error"
+run_test 2023 "ls >>" 2023 2 "syntax error"
+run_test 2024 "ls<" 2024 2 "syntax error"
+run_test 2025 "ls<<" 2025 2 "syntax error"
+run_test 2026 "ls>" 2026 2 "syntax error"
+run_test 2027 "ls>>" 2027 2 "syntax error"
+
+run_test 2030 "|" 2030 2 "syntax error"
+run_test 2031 " |" 2031 2 "syntax error"
+run_test 2032 "  |" 2032 2 "syntax error"
+run_test 2033 "| " 2033 2 "syntax error"
+run_test 2034 "|  " 2034 2 "syntax error"
+run_test 2035 " | " 2035 2 "syntax error"
+run_test 2036 "  | " 2036 2 "syntax error"
+run_test 2037 "  |  " 2037 2 "syntax error"
+run_test 2038 "	|" 2038 2 "syntax error"
+run_test 2039 "		|" 2039 2 "syntax error"
+run_test 2040 "|	" 2040 2 "syntax error"
+run_test 2041 "|		" 2041 2 "syntax error"
+run_test 2042 "	|	" 2042 2 "syntax error"
+run_test 2043 "		|		" 2043 2 "syntax error"
+
+run_test 2050 "| ls" 2050 2 "syntax error"
+run_test 2051 "|ls" 2051 2 "syntax error"
+run_test 2052 " |ls" 2052 2 "syntax error"
+run_test 2053 "ls |" 2053 2 "syntax error"
+run_test 2054 "ls|" 2054 2 "syntax error"
+run_test 2055 "ls| " 2055 2 "syntax error"
+
+run_test 2060 "||" 2060 2 "syntax error"
+run_test 2061 "| |" 2061 2 "syntax error"
+run_test 2062 "|	|" 2062 2 "syntax error"
+run_test 2063 "|||" 2063 2 "syntax error"
+run_test 2064 "| | |" 2064 2 "syntax error"
+run_test 2065 "|	|	|" 2065 2 "syntax error"
+run_test 2066 "||||" 2066 2 "syntax error"
+run_test 2067 "| | | |" 2067 2 "syntax error"
+run_test 2068 "|	|	|	|" 2068 2 "syntax error"
+
+run_test 2070 ">|" 2070 2 "syntax error"
+run_test 2071 "<|" 2071 2 "syntax error"
+run_test 2072 "|>" 2072 2 "syntax error"
+run_test 2073 "|<" 2073 2 "syntax error"
+run_test 2074 ">>|" 2074 2 "syntax error"
+run_test 2075 "<<|" 2075 2 "syntax error"
+run_test 2076 "|>>" 2076 2 "syntax error"
+run_test 2077 "|<<" 2077 2 "syntax error"
+
+run_test 2090 ">|>" 2090 2 "syntax error"
+run_test 2091 "<|<" 2091 2 "syntax error"
+run_test 2092 "<|>" 2092 2 "syntax error"
+run_test 2093 ">|<" 2093 2 "syntax error"
+run_test 2094 ">>|<<" 2094 2 "syntax error"
+run_test 2095 "<<|>>" 2095 2 "syntax error"
+run_test 2096 "<<|>>" 2096 2 "syntax error"
+run_test 2097 ">>|<<" 2097 2 "syntax error"
+
+run_test 2100 "|| ls" 2100 2 "syntax error"
+run_test 2101 "||ls" 2101 2 "syntax error"
+run_test 2102 "ls ||" 2102 2 "syntax error"
+run_test 2103 "ls||" 2103 2 "syntax error"
+run_test 2104 "||| ls" 2104 2 "syntax error"
+run_test 2105 "|||ls" 2105 2 "syntax error"
+run_test 2106 "ls |||" 2106 2 "syntax error"
+run_test 2107 "ls|||" 2107 2 "syntax error"
+
+run_test 2110 "ls || cat" 2110 2 "syntax error"
+run_test 2111 "ls | | cat" 2111 2 "syntax error"
+run_test 2112 "ls | cat |" 2112 2 "syntax error"
+run_test 2113 "ls || cat |" 2113 2 "syntax error"
+
+
+if (( "$start_index" >= 2000 && "$start_index" <= 2150 && "$end_index" >= 2000 && "$end_index" <= 2150 ))
+then
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 2000 to 2150\n"
+	else
+		echo -e "end of test serie from 2000 to 2150"
+	fi
 fi
 
 
+run_test 3000 "<<< infile.txt" 2 "syntax error"
+run_test 3001 "<<<< infile.txt" 2 "syntax error"
+run_test 3002 "<<<<< infile.txt" 2 "syntax error"
+run_test 3003 "<<> infile.txt" 2 "syntax error"
+run_test 3004 "<<>> infile.txt" 2 "syntax error"
+run_test 3005 "<<>>> infile.txt" 2 "syntax error"
+run_test 3006 "<<>>>> infile.txt" 2 "syntax error"
+run_test 3007 "<<>< infile.txt" 2 "syntax error"
+run_test 3008 "<<><< infile.txt" 2 "syntax error"
+run_test 3009 "<<><<< infile.txt" 2 "syntax error"
+run_test 3010 "<<><<<< infile.txt" 2 "syntax error"
+run_test 3011 "<<><> infile.txt" 2 "syntax error"
+run_test 3012 "<<><>> infile.txt" 2 "syntax error"
+run_test 3013 "<<><>>> infile.txt" 2 "syntax error"
+run_test 3014 "<<><>>>> infile.txt" 2 "syntax error"
+run_test 3014 "<> infile.txt" 2 "syntax error"
+run_test 3015 "<>> infile.txt" 2 "syntax error"
+run_test 3016 "<>>> infile.txt" 2 "syntax error"
+run_test 3017 "<>>>> infile.txt" 2 "syntax error"
+run_test 3018 "<>>>>> infile.txt" 2 "syntax error"
+run_test 3019 "<>< infile.txt" 2 "syntax error"
+run_test 3020 "<><< infile.txt" 2 "syntax error"
+run_test 3021 "<><<< infile.txt" 2 "syntax error"
+run_test 3022 "<><<<< infile.txt" 2 "syntax error"
+run_test 3023 "<><> infile.txt" 2 "syntax error"
+run_test 3024 "<><>> infile.txt" 2 "syntax error"
+run_test 3025 "<><>>> infile.txt" 2 "syntax error"
+run_test 3026 "<><>>>> infile.txt" 2 "syntax error"
+run_test 3027 "<><>>>>> infile.txt" 2 "syntax error"
+run_test 3028 ">>> outfile.txt" 2 "syntax error"
+run_test 3029 ">>>> outfile.txt" 2 "syntax error"
+run_test 3030 ">>>>> outfile.txt" 2 "syntax error"
+run_test 3031 ">>>>>> outfile.txt" 2 "syntax error"
+run_test 3032 ">>< outfile.txt" 2 "syntax error"
+run_test 3033 ">><< outfile.txt" 2 "syntax error"
+run_test 3034 ">><<< outfile.txt" 2 "syntax error"
+run_test 3035 ">><<<< outfile.txt" 2 "syntax error"
+run_test 3036 ">><<<<< outfile.txt" 2 "syntax error"
+run_test 3037 ">><> outfile.txt" 2 "syntax error"
+run_test 3038 ">><>> outfile.txt" 2 "syntax error"
+run_test 3039 ">><>>> outfile.txt" 2 "syntax error"
+run_test 3040 ">><>>>> outfile.txt" 2 "syntax error"
+run_test 3041 ">><>>>>> outfile.txt" 2 "syntax error"
 
-
-run_test_syntax_error 2000 "<" 2
-run_test_syntax_error 2001 "<<" 2
-run_test_syntax_error 2002 "<<<" 2
-run_test_syntax_error 2003 "<<<<" 2
-run_test_syntax_error 2004 "<" 2
-run_test_syntax_error 2005 "<<" 2
-run_test_syntax_error 2006 "<<<" 2
-run_test_syntax_error 2007 "<<<<" 2
-run_test_syntax_error 2008 "<>" 2
-run_test_syntax_error 2009 "><" 2
-run_test_syntax_error 2010 "<><>" 2
-run_test_syntax_error 2011 "><><" 2
-run_test_syntax_error 2012 "<<>" 2
-run_test_syntax_error 2013 "<<>>" 2
-run_test_syntax_error 2014 "<<<>>>" 2
-run_test_syntax_error 2015 "<<<<>>>>" 2
-run_test_syntax_error 2016 ">><" 2
-run_test_syntax_error 2017 ">><<" 2
-run_test_syntax_error 2018 ">>><<<" 2
-run_test_syntax_error 2019 ">>>><<<<" 2
-
-run_test_syntax_error 2020 "ls <" 2
-run_test_syntax_error 2021 "ls <<" 2
-run_test_syntax_error 2022 "ls >" 2
-run_test_syntax_error 2023 "ls >>" 2
-run_test_syntax_error 2024 "ls<" 2
-run_test_syntax_error 2025 "ls<<" 2
-run_test_syntax_error 2026 "ls>" 2
-run_test_syntax_error 2027 "ls>>" 2
-
-run_test_syntax_error 2030 "|" 2
-run_test_syntax_error 2031 " |" 2
-run_test_syntax_error 2032 "  |" 2
-run_test_syntax_error 2033 "| " 2
-run_test_syntax_error 2034 "|  " 2
-run_test_syntax_error 2035 " | " 2
-run_test_syntax_error 2036 "  | " 2
-run_test_syntax_error 2037 "  |  " 2
-run_test_syntax_error 2038 "	|" 2
-run_test_syntax_error 2039 "		|" 2
-run_test_syntax_error 2040 "|	" 2
-run_test_syntax_error 2041 "|		" 2
-run_test_syntax_error 2042 "	|	" 2
-run_test_syntax_error 2043 "		|		" 2
-
-run_test_syntax_error 2050 "| ls" 2
-run_test_syntax_error 2051 "|ls" 2
-run_test_syntax_error 2052 " |ls" 2
-run_test_syntax_error 2053 "ls |" 2
-run_test_syntax_error 2054 "ls|" 2
-run_test_syntax_error 2055 "ls| " 2
-
-run_test_syntax_error 2060 "||" 2
-run_test_syntax_error 2061 "| |" 2
-run_test_syntax_error 2062 "|	|" 2
-run_test_syntax_error 2063 "|||" 2
-run_test_syntax_error 2064 "| | |" 2
-run_test_syntax_error 2065 "|	|	|" 2
-run_test_syntax_error 2066 "||||" 2
-run_test_syntax_error 2067 "| | | |" 2
-run_test_syntax_error 2068 "|	|	|	|" 2
-
-run_test_syntax_error 2070 ">|" 2
-run_test_syntax_error 2071 "<|" 2
-run_test_syntax_error 2072 "|>" 2
-run_test_syntax_error 2073 "|<" 2
-run_test_syntax_error 2074 ">>|" 2
-run_test_syntax_error 2075 "<<|" 2
-run_test_syntax_error 2076 "|>>" 2
-run_test_syntax_error 2077 "|<<" 2
-
-run_test_syntax_error 2090 ">|>" 2
-run_test_syntax_error 2091 "<|<" 2
-run_test_syntax_error 2092 "<|>" 2
-run_test_syntax_error 2093 ">|<" 2
-run_test_syntax_error 2094 ">>|<<" 2
-run_test_syntax_error 2095 "<<|>>" 2
-run_test_syntax_error 2096 "<<|>>" 2
-run_test_syntax_error 2097 ">>|<<" 2
-
-run_test_syntax_error 2100 "|| ls" 2
-run_test_syntax_error 2101 "||ls" 2
-run_test_syntax_error 2102 "ls ||" 2
-run_test_syntax_error 2103 "ls||" 2
-run_test_syntax_error 2104 "||| ls" 2
-run_test_syntax_error 2105 "|||ls" 2
-run_test_syntax_error 2106 "ls |||" 2
-run_test_syntax_error 2107 "ls|||" 2
-
-run_test_syntax_error 2110 "ls || cat" 2
-run_test_syntax_error 2111 "ls | | cat" 2
-run_test_syntax_error 2112 "ls | cat |" 2
-run_test_syntax_error 2113 "ls || cat |" 2
-
-
-if [ "$display" == "all" ]
+if (( "$start_index" >= 3000 && "$start_index" <= 3050 && "$end_index" >= 3000 && "$end_index" <= 3050 ))
 then
-	echo -e "end of test serie from 2000 to 2113\n"
-else
-	echo -e "end of test serie from 2000 to 2113"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 3000 to 3050\n"
+	else
+		echo -e "end of test serie from 3000 to 3050"
+	fi
 fi
 
+run_test 3300 "< 'infile.txt" 2  "syntax error"
+run_test 3301 "< infile.txt'" 2 "syntax error"
+run_test 3302 "< \"infile.txt" 2 "syntax error"
+run_test 3303 "< infile.txt\"" 2 "syntax error"
+run_test 3304 "< 'infile.txt\"" 2 "syntax error"
+run_test 3305 "< 'infile.txt'\"" 2 "syntax error"
+#run_test 3306 "< \"infile.txt'\"" 2 "syntax error"
+run_test 3307 "< \"infile.txt\"'" 2 "syntax error"
+run_test 3308 "<< 'infile.txt" 2 "syntax error"
+run_test 3309 "<< infile.txt'" 2 "syntax error"
+run_test 3310 "<< \"infile.txt" 2 "syntax error"
+run_test 3311 "<< infile.txt\"" 2 "syntax error"
+run_test 3312 "<< 'infile.txt\"" 2 "syntax error"
+run_test 3313 "<< 'infile.txt'\"" 2 "syntax error"
+#run_test 3314 "<< \"infile.txt'\"" 2 "syntax error"
+run_test 3315 "<< \"infile.txt\"'" 2 "syntax error"
 
+run_test 3400 "> 'outfile.txt" 2 "syntax error"
+run_test 3401 "> outfile.txt'" 2 "syntax error"
+run_test 3402 "> \"outfile.txt" 2 "syntax error"
+run_test 3403 "> outfile.txt\"" 2 "syntax error"
+run_test 3404 "> 'outfile.txt\"" 2 "syntax error"
+run_test 3405 "> 'outfile.txt'\"" 2 "syntax error"
+#run_test 3406 "> \"outfile.txt'\"" 2 "syntax error"
+run_test 3407 "> \"outfile.txt\"'" 2 "syntax error"
+run_test 3408 ">> 'outfile.txt" 2 "syntax error"
+run_test 3409 ">> outfile.txt'" 2 "syntax error"
+run_test 3410 ">> \"outfile.txt" 2 "syntax error"
+run_test 3411 ">> outfile.txt\"" 2 "syntax error"
+run_test 3412 ">> 'outfile.txt\"" 2 "syntax error"
+run_test 3413 ">> 'outfile.txt'\"" 2 "syntax error"
+#run_test 3414 ">> \"outfile.txt'\"" 2 "syntax error"
+run_test 3415 ">> \"outfile.txt\"'" 2 "syntax error"
 
-
-
-
-run_test_syntax_error 3000 "<<< infile.txt" 2 #exit_status to confirm
-run_test_syntax_error 3001 "<<<< infile.txt" 2
-run_test_syntax_error 3002 "<<<<< infile.txt" 2
-run_test_syntax_error 3003 "<<> infile.txt" 2
-run_test_syntax_error 3004 "<<>> infile.txt" 2
-run_test_syntax_error 3005 "<<>>> infile.txt" 2
-run_test_syntax_error 3006 "<<>>>> infile.txt" 2
-run_test_syntax_error 3007 "<<>< infile.txt" 2
-run_test_syntax_error 3008 "<<><< infile.txt" 2
-run_test_syntax_error 3009 "<<><<< infile.txt" 2
-run_test_syntax_error 3010 "<<><<<< infile.txt" 2
-run_test_syntax_error 3011 "<<><> infile.txt" 2
-run_test_syntax_error 3012 "<<><>> infile.txt" 2
-run_test_syntax_error 3013 "<<><>>> infile.txt" 2
-run_test_syntax_error 3014 "<<><>>>> infile.txt" 2
-run_test_syntax_error 3014 "<> infile.txt" 2
-run_test_syntax_error 3015 "<>> infile.txt" 2
-run_test_syntax_error 3016 "<>>> infile.txt" 2
-run_test_syntax_error 3017 "<>>>> infile.txt" 2
-run_test_syntax_error 3018 "<>>>>> infile.txt" 2
-run_test_syntax_error 3019 "<>< infile.txt" 2
-run_test_syntax_error 3020 "<><< infile.txt" 2
-run_test_syntax_error 3021 "<><<< infile.txt" 2
-run_test_syntax_error 3022 "<><<<< infile.txt" 2
-run_test_syntax_error 3023 "<><> infile.txt" 2
-run_test_syntax_error 3024 "<><>> infile.txt" 2
-run_test_syntax_error 3025 "<><>>> infile.txt" 2
-run_test_syntax_error 3026 "<><>>>> infile.txt" 2
-run_test_syntax_error 3027 "<><>>>>> infile.txt" 2
-run_test_syntax_error 3028 ">>> outfile.txt" 2
-run_test_syntax_error 3029 ">>>> outfile.txt" 2
-run_test_syntax_error 3030 ">>>>> outfile.txt" 2
-run_test_syntax_error 3031 ">>>>>> outfile.txt" 2
-run_test_syntax_error 3032 ">>< outfile.txt" 2
-run_test_syntax_error 3033 ">><< outfile.txt" 2
-run_test_syntax_error 3034 ">><<< outfile.txt" 2
-run_test_syntax_error 3035 ">><<<< outfile.txt" 2
-run_test_syntax_error 3036 ">><<<<< outfile.txt" 2
-run_test_syntax_error 3037 ">><> outfile.txt" 2
-run_test_syntax_error 3038 ">><>> outfile.txt" 2
-run_test_syntax_error 3039 ">><>>> outfile.txt" 2
-run_test_syntax_error 3040 ">><>>>> outfile.txt" 2
-run_test_syntax_error 3041 ">><>>>>> outfile.txt" 2
-if [ "$display" == "all" ]
+if (( "$start_index" >= 3300 && "$start_index" <= 3415 && "$end_index" >= 3300 && "$end_index" <= 3415 ))
 then
-	echo -e "end of test serie from 3000 to 3041\n"
-else
-	echo -e "end of test serie from 3000 to 3041"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 3300 to 3415\n"
+	else
+		echo -e "end of test serie from 3300 to 3415"
+	fi
 fi
 
-run_test_syntax_error 3300 "< 'infile.txt" 2 #exit_status to confirm
-run_test_syntax_error 3301 "< infile.txt'" 2
-run_test_syntax_error 3302 "< \"infile.txt" 2
-run_test_syntax_error 3303 "< infile.txt\"" 2
-run_test_syntax_error 3304 "< 'infile.txt\"" 2
-run_test_syntax_error 3305 "< 'infile.txt'\"" 2
-#run_test_syntax_error 3306 "< \"infile.txt'\"" 2
-run_test_syntax_error 3307 "< \"infile.txt\"'" 2
-run_test_syntax_error 3308 "<< 'infile.txt" 2
-run_test_syntax_error 3309 "<< infile.txt'" 2
-run_test_syntax_error 3310 "<< \"infile.txt" 2
-run_test_syntax_error 3311 "<< infile.txt\"" 2
-run_test_syntax_error 3312 "<< 'infile.txt\"" 2
-run_test_syntax_error 3313 "<< 'infile.txt'\"" 2
-#run_test_syntax_error 3314 "<< \"infile.txt'\"" 2
-run_test_syntax_error 3315 "<< \"infile.txt\"'" 2
-
-run_test_syntax_error 3400 "> 'outfile.txt" 2
-run_test_syntax_error 3401 "> outfile.txt'" 2
-run_test_syntax_error 3402 "> \"outfile.txt" 2
-run_test_syntax_error 3403 "> outfile.txt\"" 2
-run_test_syntax_error 3404 "> 'outfile.txt\"" 2
-run_test_syntax_error 3405 "> 'outfile.txt'\"" 2
-#run_test_syntax_error 3406 "> \"outfile.txt'\"" 2
-run_test_syntax_error 3407 "> \"outfile.txt\"'" 2
-run_test_syntax_error 3408 ">> 'outfile.txt" 2
-run_test_syntax_error 3409 ">> outfile.txt'" 2
-run_test_syntax_error 3410 ">> \"outfile.txt" 2
-run_test_syntax_error 3411 ">> outfile.txt\"" 2
-run_test_syntax_error 3412 ">> 'outfile.txt\"" 2
-run_test_syntax_error 3413 ">> 'outfile.txt'\"" 2
-#run_test_syntax_error 3414 ">> \"outfile.txt'\"" 2
-run_test_syntax_error 3415 ">> \"outfile.txt\"'" 2
-if [ "$display" == "all" ]
-then
-	echo -e "end of test serie from 3300 to 3415\n"
-else
-	echo -e "end of test serie from 3300 to 3415"
-fi
-
-run_test_syntax_error 4000 "'ls" 2 #exit_status to confirm
-run_test_syntax_error 4001 "ls'" 2
-run_test_syntax_error 4002 "\"ls" 2
-run_test_syntax_error 4003 "ls\"" 2
-run_test_syntax_error 4004 "'ls\"" 2
-run_test_syntax_error 4005 "'ls'\"" 2
-run_test_syntax_error 4006 "\"ls'" 2
-run_test_syntax_error 4007 "\"ls\"'" 2
-#run_test_syntax_error 4008 "''ls" 2
-run_test_syntax_error 4009 "''ls'" 2
-run_test_syntax_error 4010 "'''ls" 2
-#run_test_syntax_error 4011 "'''ls'" 2
-run_test_syntax_error 4012 "'''ls''" 2
-#run_test_syntax_error 4013 "\"\"ls" 2
-run_test_syntax_error 4014 "\"\"ls\"" 2
-run_test_syntax_error 4015 "\"\"\"ls" 2
-#run_test_syntax_error 4016 "\"\"\"ls\"" 2
-run_test_syntax_error 4017 "\"\"\"ls\"\"" 2
+run_test 4000 "'ls" 2 "syntax error"
+run_test 4001 "ls'" 2 "syntax error"
+run_test 4002 "\"ls" 2 "syntax error"
+run_test 4003 "ls\"" 2 "syntax error"
+run_test 4004 "'ls\"" 2 "syntax error"
+run_test 4005 "'ls'\"" 2 "syntax error"
+run_test 4006 "\"ls'" 2 "syntax error"
+run_test 4007 "\"ls\"'" 2 "syntax error"
+#run_test 4008 "''ls" 2 "syntax error"
+run_test 4009 "''ls'" 2 "syntax error"
+run_test 4010 "'''ls" 2 "syntax error"
+#run_test 4011 "'''ls'" 2 "syntax error"
+run_test 4012 "'''ls''" 2 "syntax error"
+#run_test 4013 "\"\"ls" 2 "syntax error"
+run_test 4014 "\"\"ls\"" 2 "syntax error"
+run_test 4015 "\"\"\"ls" 2 "syntax error"
+#run_test 4016 "\"\"\"ls\"" 2 "syntax error"
+run_test 4017 "\"\"\"ls\"\"" 2 "syntax error"
 #to continue
 
 
-if [ "$display" == "all" ]
+if (( "$start_index" >= 4000 && "$start_index" <= 4020 && "$end_index" >= 4000 && "$end_index" <= 4020 ))
 then
-	echo -e "end of test serie from 4000 to 4017\n"
-else
-	echo -e "end of test serie from 4000 to 4017"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 4000 to 4020\n"
+	else
+		echo -e "end of test serie from 4000 to 4020"
+	fi
 fi
 
 
 
-run_test_syntax_error 4100 "cat 'ls" 2
-run_test_syntax_error 4101 "cat ls'" 2
-run_test_syntax_error 4102 "cat \"ls" 2
-run_test_syntax_error 4103 "cat ls\"" 2
-run_test_syntax_error 4104 "'cat' 'ls" 2
-run_test_syntax_error 4105 "'cat' ls'" 2
-run_test_syntax_error 4106 "'cat' ls'" 2
-run_test_syntax_error 4107 "'cat' \"ls" 2
-run_test_syntax_error 4108 "'cat' ls\"" 2
-run_test_syntax_error 4109 ""cat" 'ls" 2
-run_test_syntax_error 4110 ""cat" ls'" 2
-run_test_syntax_error 4111 ""cat" ls'" 2
-run_test_syntax_error 4112 ""cat" \"ls" 2
-run_test_syntax_error 4113 ""cat" ls\"" 2
-run_test_syntax_error 4114 "cat 'ls " 2
-run_test_syntax_error 4115 "cat ls' " 2
-run_test_syntax_error 4116 "cat \"ls " 2
-run_test_syntax_error 4117 "cat ls\" " 2
-run_test_syntax_error 4118 "cat 'ls  " 2
-run_test_syntax_error 4119 "cat ls'  " 2
-run_test_syntax_error 4120 "cat \"ls  " 2
-run_test_syntax_error 4121 "cat ls\"  " 2
-run_test_syntax_error 4122 "cat ' ls" 2
-run_test_syntax_error 4123 "cat  ls'" 2
-run_test_syntax_error 4124 "cat \" ls" 2
-run_test_syntax_error 4125 "cat ls \"" 2
-if [ "$display" == "all" ]
+run_test 4100 "cat 'ls" 2 "syntax error"
+run_test 4101 "cat ls'" 2 "syntax error"
+run_test 4102 "cat \"ls" 2 "syntax error"
+run_test 4103 "cat ls\"" 2 "syntax error"
+run_test 4104 "'cat' 'ls" 2 "syntax error"
+run_test 4105 "'cat' ls'" 2 "syntax error"
+run_test 4106 "'cat' ls'" 2 "syntax error"
+run_test 4107 "'cat' \"ls" 2 "syntax error"
+run_test 4108 "'cat' ls\"" 2 "syntax error"
+run_test 4109 ""cat" 'ls" 2 "syntax error"
+run_test 4110 ""cat" ls'" 2 "syntax error"
+run_test 4111 ""cat" ls'" 2 "syntax error"
+run_test 4112 ""cat" \"ls" 2 "syntax error"
+run_test 4113 ""cat" ls\"" 2 "syntax error"
+run_test 4114 "cat 'ls " 2 "syntax error"
+run_test 4115 "cat ls' " 2 "syntax error"
+run_test 4116 "cat \"ls " 2 "syntax error"
+run_test 4117 "cat ls\" " 2 "syntax error"
+run_test 4118 "cat 'ls  " 2 "syntax error"
+run_test 4119 "cat ls'  " 2 "syntax error"
+run_test 4120 "cat \"ls  " 2 "syntax error"
+run_test 4121 "cat ls\"  " 2 "syntax error"
+run_test 4122 "cat ' ls" 2 "syntax error"
+run_test 4123 "cat  ls'" 2 "syntax error"
+run_test 4124 "cat \" ls" 2 "syntax error"
+run_test 4125 "cat ls \"" 2 "syntax error"
+
+if (( "$start_index" >= 4100 && "$start_index" <= 4125 && "$end_index" >= 4100 && "$end_index" <= 4125 ))
 then
-	echo -e "end of test serie from 4100 to 4125\n"
-else
-	echo -e "end of test serie from 4100 to 4125"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 4100 to 4125\n"
+	else
+		echo -e "end of test serie from 4100 to 4125"
+	fi
 fi
 
-run_test_syntax_error 4300 "'" 2 #exit_status to confirm
-run_test_syntax_error 4301 "\"" 2 #exit_status to confirm
-run_test_syntax_error 4302 "\"\"\"" 2 #exit_status to confirm
+run_test 4300 "'" 2 #exit_status to confirm
+run_test 4301 "\"" 2 #exit_status to confirm
+run_test 4302 "\"\"\"" 2 #exit_status to confirm
 
-if [ "$display" == "all" ]
+if (( "$start_index" >= 4300 && "$start_index" <= 4350 && "$end_index" >= 4300 && "$end_index" <= 4350 ))
 then
-	echo -e "end of test serie from 4300 to 4350\n"
-else
-	echo -e "end of test serie from 4300 to 4350"
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 4300 to 4350\n"
+	else
+		echo -e "end of test serie from 4300 to 4350"
+	fi
 fi
 
-BLOCK_COMMENT
 
-: <<BLOCK_COMMENT
+run_test 4400 "'ls -l cat -e'" 4400 127
+run_test 4401 "\"ls -l cat -e\"" 4401 127
+run_test 4402 "'\"ls -l cat -e\"'" 4402 127
+run_test 4403 "\"'ls -l cat -e'\"" 4403 127
 
-run_test 700 "'ls -l cat -e'" 700 127
-run_test 701 "\"ls -l cat -e\"" 701 127
-run_test 702 "'\"ls -l cat -e\"'" 702 127
-run_test 703 "\"'ls -l cat -e'\"" 703 127
+run_test 4404 "'ls'-l cat -e" 4404 127
+run_test 4405 "ls'-l' cat -e" 4405 127
+run_test 4406 "\"ls\"-l cat -e" 4406 127
+run_test 4407 "ls\"-l\" cat -e" 4407 127
 
-run_test 704 "'ls'-l cat -e" 704 127
-run_test 705 "ls'-l' cat -e" 705 127
-run_test 706 "\"ls\"-l cat -e" 706 127
-run_test 707 "ls\"-l\" cat -e" 707 127
+run_test 4408 "'ls -l' cat -e" 4408 127
+run_test 4409 "\"ls -l\" cat -e" 4409 127
+run_test 4410 "'\"ls -l\"' cat -e" 4410 127
+run_test 4411 "\"'ls -l'\" cat -e" 4411 127
 
-run_test 708 "'ls -l' cat -e" 708 127
-run_test 709 "\"ls -l\" cat -e" 709 127
-run_test 710 "'\"ls -l\"' cat -e" 710 127
-run_test 711 "\"'ls -l'\" cat -e" 711 127
+run_test 4412 "'ls -l'cat -e" 4412 127
+run_test 4413 "\"ls -l\"cat -e" 4413 127
+run_test 4414 "'\"ls -l\"'cat -e" 4414 127
+run_test 4415 "\"'ls -l'\"cat -e" 4415 127
 
-run_test 712 "'ls -l'cat -e" 712 127
-run_test 713 "\"ls -l\"cat -e" 713 127
-run_test 714 "'\"ls -l\"'cat -e" 714 127
-run_test 715 "\"'ls -l'\"cat -e" 715 127
-
-run_test 716 "'ls -l' 'cat' -e" 716 127
-run_test 717 "\"ls -l\" 'cat' -e" 717 127
-run_test 718 "'\"ls -l\"' 'cat' -e" 718 127
-run_test 719 "\"'ls -l'\" 'cat' -e" 719 127
+run_test 4416 "'ls -l' 'cat' -e" 4416 127
+run_test 4417 "\"ls -l\" 'cat' -e" 4417 127
+run_test 4418 "'\"ls -l\"' 'cat' -e" 4418 127
+run_test 4419 "\"'ls -l'\" 'cat' -e" 4419 127
 
 
-run_test 720 "'ls -l' cat '-e'" 720 127
-run_test 721 "\"ls -l\" cat '-e'" 721 127
-run_test 722 "'\"ls -l\"' cat '-e'" 722 127
-run_test 723 "\"'ls -l'\" cat '-e'" 723 127
-run_test 724 "'ls -l' 'cat' '-e'" 724 127
-run_test 725 "\"ls -l\" 'cat' '-e'" 725 127
-run_test 726 "'\"ls -l\"' 'cat' '-e'" 726 127
-run_test 727 "\"'ls -l'\" 'cat' '-e'" 727 127
-run_test 728 "'ls -l' \"cat\" '-e'" 728 127
-run_test 729 "\"ls -l\" \"cat\" '-e'" 729 127
-run_test 730 "'\"ls -l\"' \"cat\" '-e'" 730 127
-run_test 731 "\"'ls -l'\" \"cat\" '-e'" 731 127
-run_test 732 "'ls -l' \"cat\" \"-e\"" 732 127
-run_test 733 "\"ls -l\" \"cat\" \"-e\"" 733 127
-run_test 734 "'\"ls -l\"' \"cat\" \"-e\"" 734 127
-run_test 735 "\"'ls -l'\" \"cat\" \"-e\"" 735 127
+run_test 4420 "'ls -l' cat '-e'" 4420 127
+run_test 4421 "\"ls -l\" cat '-e'" 4421 127
+run_test 4422 "'\"ls -l\"' cat '-e'" 4422 127
+run_test 4423 "\"'ls -l'\" cat '-e'" 4423 127
+run_test 4424 "'ls -l' 'cat' '-e'" 4424 127
+run_test 4425 "\"ls -l\" 'cat' '-e'" 4425 127
+run_test 4426 "'\"ls -l\"' 'cat' '-e'" 4426 127
+run_test 4427 "\"'ls -l'\" 'cat' '-e'" 4427 127
+run_test 4428 "'ls -l' \"cat\" '-e'" 4428 127
+run_test 4429 "\"ls -l\" \"cat\" '-e'" 4429 127
+run_test 4430 "'\"ls -l\"' \"cat\" '-e'" 4430 127
+run_test 4431 "\"'ls -l'\" \"cat\" '-e'" 4431 127
+run_test 4432 "'ls -l' \"cat\" \"-e\"" 4432 127
+run_test 4433 "\"ls -l\" \"cat\" \"-e\"" 4433 127
+run_test 4434 "'\"ls -l\"' \"cat\" \"-e\"" 4434 127
+run_test 4435 "\"'ls -l'\" \"cat\" \"-e\"" 4435 127
 
-run_test 736 "'ls -l'cat '-e'" 736 127
-run_test 737 "\"ls -l\"cat '-e'" 737 127
-run_test 738 "'\"ls -l\"'cat '-e'" 738 127
-run_test 739 "\"'ls -l'\"cat '-e'" 739 127
-run_test 740 "'ls -l'cat \"-e\"" 770 127
-run_test 741 "\"ls -l\"cat \"-e\"" 741 127
-run_test 742 "'\"ls -l\"'cat \"-e\"" 772 127
-run_test 743 "\"'ls -l'\"cat \"-e\"" 743 127
-run_test 744 "'ls -l''cat' '-e'" 744 127
-run_test 745 "\"ls -l\"'cat' '-e'" 745 127
-run_test 746 "'\"ls -l\"''cat' '-e'" 746 127
-run_test 747 "\"'ls -l'\"'cat' '-e'" 747 127
-run_test 748 "'ls -l''cat' \"-e\"" 748 127
-run_test 749 "\"ls -l\"'cat' \"-e\"" 749 127
-run_test 750 "'\"ls -l\"''cat' \"-e\"" 750 127
-run_test 751 "\"'ls -l'\"'cat' \"-e\"" 751 127
-run_test 752 "'ls -l'\"cat\" '-e'" 752 127
-run_test 753 "\"ls -l\"\"cat\" '-e'" 753 127
-run_test 754 "'\"ls -l\"'\"cat\" '-e'" 754 127
-run_test 755 "\"'ls -l'\"\"cat\" '-e'" 755 127
-run_test 756 "'ls -l'\"cat\" \"-e\"" 756 127
-run_test 757 "\"ls -l\"\"cat\" \"-e\"" 757 127
-run_test 758 "'\"ls -l\"'\"cat\" \"-e\"" 758 127
-run_test 759 "\"'ls -l'\"\"cat\" \"-e\"" 759 127
+run_test 4436 "'ls -l'cat '-e'" 4436 127
+run_test 4437 "\"ls -l\"cat '-e'" 4437 127
+run_test 4438 "'\"ls -l\"'cat '-e'" 4438 127
+run_test 4439 "\"'ls -l'\"cat '-e'" 4439 127
+run_test 4440 "'ls -l'cat \"-e\"" 4470 127
+run_test 4441 "\"ls -l\"cat \"-e\"" 4441 127
+run_test 4442 "'\"ls -l\"'cat \"-e\"" 4472 127
+run_test 4443 "\"'ls -l'\"cat \"-e\"" 4443 127
+run_test 4444 "'ls -l''cat' '-e'" 4444 127
+run_test 4445 "\"ls -l\"'cat' '-e'" 4445 127
+run_test 4446 "'\"ls -l\"''cat' '-e'" 4446 127
+run_test 4447 "\"'ls -l'\"'cat' '-e'" 4447 127
+run_test 4448 "'ls -l''cat' \"-e\"" 4448 127
+run_test 4449 "\"ls -l\"'cat' \"-e\"" 4449 127
+run_test 4450 "'\"ls -l\"''cat' \"-e\"" 4450 127
+run_test 4451 "\"'ls -l'\"'cat' \"-e\"" 4451 127
+run_test 4452 "'ls -l'\"cat\" '-e'" 4452 127
+run_test 4453 "\"ls -l\"\"cat\" '-e'" 4453 127
+run_test 4454 "'\"ls -l\"'\"cat\" '-e'" 4454 127
+run_test 4455 "\"'ls -l'\"\"cat\" '-e'" 4455 127
+run_test 4456 "'ls -l'\"cat\" \"-e\"" 4456 127
+run_test 4457 "\"ls -l\"\"cat\" \"-e\"" 4457 127
+run_test 4458 "'\"ls -l\"'\"cat\" \"-e\"" 4458 127
+run_test 4459 "\"'ls -l'\"\"cat\" \"-e\"" 4459 127
 
-run_test 760 "'ls -l' cat'-e'" 760 127
-run_test 761 "\"ls -l\" cat'-e'" 761 127
-run_test 762 "'\"ls -l\"' cat'-e'" 762 127
-run_test 763 "\"'ls -l'\" cat'-e'" 763 127
-run_test 764 "'ls -l' 'cat''-e'" 764 127
-run_test 765 "\"ls -l\" 'cat''-e'" 765 127
-run_test 766 "'\"ls -l\"' 'cat''-e'" 766 127
-run_test 767 "\"'ls -l'\" 'cat''-e'" 767 127
-run_test 768 "'ls -l' \"cat\"'-e'" 768 127
-run_test 769 "\"ls -l\" \"cat\"'-e'" 769 127
-run_test 770 "'\"ls -l\"' \"cat\"'-e'" 770 127
-run_test 771 "\"'ls -l'\" \"cat\"'-e'" 771 127
-run_test 772 "'ls -l' \"cat\"\"-e\"" 772 127
-run_test 773 "\"ls -l\" \"cat\"\"-e\"" 773 127
-run_test 774 "'\"ls -l\"' \"cat\"\"-e\"" 774 127
-run_test 775 "\"'ls -l'\" \"cat\"\"-e\"" 775 127
+run_test 4460 "'ls -l' cat'-e'" 4460 127
+run_test 4461 "\"ls -l\" cat'-e'" 4461 127
+run_test 4462 "'\"ls -l\"' cat'-e'" 4462 127
+run_test 4463 "\"'ls -l'\" cat'-e'" 4463 127
+run_test 4464 "'ls -l' 'cat''-e'" 4464 127
+run_test 4465 "\"ls -l\" 'cat''-e'" 4465 127
+run_test 4466 "'\"ls -l\"' 'cat''-e'" 4466 127
+run_test 4467 "\"'ls -l'\" 'cat''-e'" 4467 127
+run_test 4468 "'ls -l' \"cat\"'-e'" 4468 127
+run_test 4469 "\"ls -l\" \"cat\"'-e'" 4469 127
+run_test 4470 "'\"ls -l\"' \"cat\"'-e'" 4470 127
+run_test 4471 "\"'ls -l'\" \"cat\"'-e'" 4471 127
+run_test 4472 "'ls -l' \"cat\"\"-e\"" 4472 127
+run_test 4473 "\"ls -l\" \"cat\"\"-e\"" 4473 127
+run_test 4474 "'\"ls -l\"' \"cat\"\"-e\"" 4474 127
+run_test 4475 "\"'ls -l'\" \"cat\"\"-e\"" 4475 127
 
-BLOCK_COMMENT
+if (( "$start_index" >= 4400 && "$start_index" <= 4475 && "$end_index" >= 4400 && "$end_index" <= 4475 ))
+then
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 4400 to 4475\n"
+	else
+		echo -e "end of test serie from 4400 to 4475"
+	fi
+fi
+
+run_test 5000 "< temp/infile1.txt cat" 5000 0
+run_test 5001 "cat < temp/infile1.txt" 5000 0
+run_test 5002 "< temp/infile1.txt cat -e" 5002 0
+run_test 5003 "cat -e < temp/infile1.txt" 5002 0
+run_test 5004 "cat temp/infile1.txt" 5004 0
+
+run_test 5010 "< temp/infile1.txt wc" 5010 0
+run_test 5011 "wc < temp/infile1.txt" 5010 0
+run_test 5012 "< temp/infile1.txt wc -l" 5012 0
+run_test 5013 "wc -l < temp/infile1.txt" 5012 0
+run_test 5014 "wc -l temp/infile1.txt" 5014 0
+
+run_test 5020 "ls > temp/outfile1.txt" 5020 0
+run_test 5021 "> temp/outfile1.txt ls" 5020 0
+
+run_test 5030 "< temp/infile1.txt cat > temp/outfile1.txt" 5030 0
+run_test 5031 "< temp/infile1.txt > temp/outfile1.txt cat" 5030 0
+run_test 5032 "> temp/outfile1.txt < temp/infile1.txt cat" 5030 0
+
+run_test 5035 "< temp/infile1.txt wc -l > temp/outfile1.txt" 5035 0
+run_test 5036 "< temp/infile1.txt > temp/outfile1.txt wc -l" 5035 0
+run_test 5037 "> temp/outfile1.txt < temp/infile1.txt wc -l" 5035 0
+
+run_test 5040 "< temp/infile1.txt ls > temp/outfile1.txt" 5040 0
+run_test 5041 "< temp/infile1.txt > temp/outfile1.txt ls" 5040 0
+run_test 5042 "> temp/outfile1.txt < temp/infile1.txt ls" 5040 0
+
+run_test 5045 "< temp/infile1.txt < temp/infile2.txt cat" 5045 0
+run_test 5046 "< temp/infile1.txt cat < temp/infile2.txt" 5045 0
+run_test 5047 "cat < temp/infile1.txt < temp/infile2.txt" 5045 0
+
+run_test 5050 "< temp/infile1.txt < temp/infile2.txt wc -l" 5050 0
+run_test 5051 "< temp/infile1.txt wc -l < temp/infile2.txt" 5050 0
+run_test 5052 "wc -l < temp/infile1.txt < temp/infile2.txt" 5050 0
+
+run_test 5055 "< temp/infile1.txt < temp/infile2.txt ls" 5055 0
+run_test 5056 "< temp/infile1.txt ls < temp/infile2.txt" 5055 0
+run_test 5057 "ls < temp/infile1.txt < temp/infile2.txt" 5055 0
+
+#run_test 5060 "> temp/outfile1.txt > temp/outfile2.txt cat" 5060 0
+#run_test 5061 "> temp/outfile1.txt cat > temp/outfile2.txt" 5060 0
+#run_test 5062 "cat > temp/outfile1.txt > temp/outfile2.txt" 5060 0
+
+#run_test 5065 "> temp/outfile1.txt > temp/outfile2.txt wc -l" 5065 0
+#run_test 5066 "> temp/outfile1.txt wc -l > temp/outfile2.txt" 5065 0
+#run_test 5067 "wc -l > temp/outfile1.txt > temp/outfile2.txt" 5065 0
+
+run_test 5070 "> temp/outfile1.txt > temp/outfile2.txt ls" 5070 0
+run_test 5071 "> temp/outfile1.txt ls > temp/outfile2.txt" 5070 0
+run_test 5072 "ls > temp/outfile1.txt > temp/outfile2.txt" 5070 0
+
+run_test 5080 "cat < temp/infile1.txt < temp/infile2.txt > temp/outfile1.txt" 5080 0
+run_test 5081 "< temp/infile1.txt cat < temp/infile2.txt > temp/outfile1.txt" 5080 0
+run_test 5082 "< temp/infile1.txt < temp/infile2.txt cat > temp/outfile1.txt" 5080 0
+run_test 5083 "< temp/infile1.txt < temp/infile2.txt > temp/outfile1.txt cat" 5080 0
+run_test 5084 "> temp/outfile1.txt < temp/infile1.txt < temp/infile2.txt cat" 5080 0
+run_test 5085 "< temp/infile1.txt > temp/outfile1.txt < temp/infile2.txt cat" 5080 0
+
+run_test 5090 "wc -l < temp/infile1.txt < temp/infile2.txt > temp/outfile1.txt" 5090 0
+run_test 5091 "< temp/infile1.txt wc -l < temp/infile2.txt > temp/outfile1.txt" 5090 0
+run_test 5092 "< temp/infile1.txt < temp/infile2.txt wc -l > temp/outfile1.txt" 5090 0
+run_test 5093 "< temp/infile1.txt < temp/infile2.txt > temp/outfile1.txt wc -l" 5090 0
+run_test 5094 "> temp/outfile1.txt < temp/infile1.txt < temp/infile2.txt wc -l" 5090 0
+run_test 5095 "< temp/infile1.txt > temp/outfile1.txt < temp/infile2.txt wc -l" 5090 0
+
+run_test 5100 "ls < temp/infile1.txt < temp/infile2.txt > temp/outfile1.txt" 5100 0
+run_test 5101 "< temp/infile1.txt ls < temp/infile2.txt > temp/outfile1.txt" 5100 0
+run_test 5102 "< temp/infile1.txt < temp/infile2.txt ls > temp/outfile1.txt" 5100 0
+run_test 5103 "< temp/infile1.txt < temp/infile2.txt > temp/outfile1.txt ls" 5100 0
+run_test 5104 "> temp/outfile1.txt < temp/infile1.txt < temp/infile2.txt ls" 5100 0
+run_test 5105 "< temp/infile1.txt > temp/outfile1.txt < temp/infile2.txt ls" 5100 0
+
+run_test 5110 "cat < temp/infile1.txt > temp/outfile1.txt > temp/outfile2.txt" 5110 0
+run_test 5111 "< temp/infile1.txt cat > temp/outfile1.txt > temp/outfile2.txt" 5110 0
+run_test 5112 "< temp/infile1.txt > temp/outfile1.txt cat > temp/outfile2.txt" 5110 0
+run_test 5113 "< temp/infile1.txt > temp/outfile1.txt > temp/outfile2.txt cat" 5110 0
+run_test 5114 "> temp/outfile1.txt < temp/infile1.txt > temp/outfile2.txt cat" 5110 0
+run_test 5115 "> temp/outfile1.txt > temp/outfile2.txt < temp/infile1.txt cat" 5110 0
+
+run_test 5120 "wc -l < temp/infile1.txt > temp/outfile1.txt > temp/outfile2.txt" 5120 0
+run_test 5121 "< temp/infile1.txt wc -l > temp/outfile1.txt > temp/outfile2.txt" 5120 0
+run_test 5122 "< temp/infile1.txt > temp/outfile1.txt wc -l > temp/outfile2.txt" 5120 0
+run_test 5123 "< temp/infile1.txt > temp/outfile1.txt > temp/outfile2.txt wc -l" 5120 0
+run_test 5124 "> temp/outfile1.txt < temp/infile1.txt > temp/outfile2.txt wc -l" 5120 0
+run_test 5125 "> temp/outfile1.txt > temp/outfile2.txt < temp/infile1.txt wc -l" 5120 0
+
+run_test 5130 "ls < temp/infile1.txt > temp/outfile1.txt > temp/outfile2.txt" 5130 0
+run_test 5131 "< temp/infile1.txt ls > temp/outfile1.txt > temp/outfile2.txt" 5130 0
+run_test 5132 "< temp/infile1.txt > temp/outfile1.txt ls > temp/outfile2.txt" 5130 0
+run_test 5133 "< temp/infile1.txt > temp/outfile1.txt > temp/outfile2.txt ls" 5130 0
+run_test 5134 "> temp/outfile1.txt < temp/infile1.txt > temp/outfile2.txt ls" 5130 0
+run_test 5135 "> temp/outfile1.txt > temp/outfile2.txt < temp/infile1.txt ls" 5130 0
+
+run_test 5150 "< temp/infile1.txt < temp/infile2.txt cat > temp/outfile1.txt > temp/outfile2.txt" 5150 0
+run_test 5151 "< temp/infile1.txt > temp/outfile1.txt < temp/infile2.txt > temp/outfile2.txt cat" 5150 0
+run_test 5152 "> temp/outfile1.txt < temp/infile1.txt < temp/infile2.txt > temp/outfile2.txt cat" 5150 0
+run_test 5153 "> temp/outfile1.txt < temp/infile1.txt > temp/outfile2.txt < temp/infile2.txt cat" 5150 0
+run_test 5154 "> temp/outfile1.txt > temp/outfile2.txt < temp/infile1.txt < temp/infile2.txt cat" 5150 0
+
+run_test 5155 "< temp/infile1.txt < temp/infile2.txt wc -l > temp/outfile1.txt > temp/outfile2.txt" 5155 0
+run_test 5156 "< temp/infile1.txt > temp/outfile1.txt < temp/infile2.txt > temp/outfile2.txt wc -l" 5155 0
+run_test 5157 "> temp/outfile1.txt < temp/infile1.txt < temp/infile2.txt > temp/outfile2.txt wc -l" 5155 0
+run_test 5158 "> temp/outfile1.txt < temp/infile1.txt > temp/outfile2.txt < temp/infile2.txt wc -l" 5155 0
+run_test 5159 "> temp/outfile1.txt > temp/outfile2.txt < temp/infile1.txt < temp/infile2.txt wc -l" 5155 0
+
+run_test 5165 "< temp/infile1.txt < temp/infile2.txt ls > temp/outfile1.txt > temp/outfile2.txt" 5165 0
+run_test 5166 "< temp/infile1.txt > temp/outfile1.txt < temp/infile2.txt > temp/outfile2.txt ls" 5165 0
+run_test 5167 "> temp/outfile1.txt < temp/infile1.txt < temp/infile2.txt > temp/outfile2.txt ls" 5165 0
+run_test 5168 "> temp/outfile1.txt < temp/infile1.txt > temp/outfile2.txt < temp/infile2.txt ls" 5165 0
+run_test 5169 "> temp/outfile1.txt > temp/outfile2.txt < temp/infile1.txt < temp/infile2.txt ls" 5165 0
+
+if (( "$start_index" >= 5000 && "$start_index" <= 5170 && "$end_index" >= 5000 && "$end_index" <= 5170 ))
+then
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 5000 to 5170\n"
+	else
+		echo -e "end of test serie from 5000 to 5170"
+	fi
+fi
+
+run_test 5200 "grep un < temp/infile1.txt" 5200 0
+run_test 5201 "echo < temp/infile1.txt added_word" 5201 0
+run_test 5202 "echo < temp/infile1.txt added_word" 5202 0
+run_test 5203 "echo added_word1 < temp/infile1.txt added_word2" 5203 0
+
+if (( "$start_index" >= 5200 && "$start_index" <= 5300 && "$end_index" >= 5200 && "$end_index" <= 5300 ))
+then
+	if [ "$display" == "all" ]
+	then
+		echo -e "end of test serie from 5200 to 5300\n"
+	else
+		echo -e "end of test serie from 5200 to 5300"
+	fi
+fi
 
 
-run_test 5000 "< infile1.txt cat" 5000 0
-run_test 5001 "cat < infile1.txt" 5000 0
-run_test 5002 "< infile1.txt cat -e" 5002 0
-run_test 5003 "cat -e < infile1.txt" 5002 0
-run_test 5004 "cat infile1.txt" 5004 0
+run_test 7000 "temp/infile1.txt cat" 7000 127 "temp/infile1.txt: No such file or directory"
+run_test 7001 "temp/infile1.txt wc" 7001 127 "temp/infile1.txt: No such file or directory"
+run_test 7002 "Makefile cat" 7002 127 "Makefile: command not found"
+run_test 7003 "Makefile wc" 7003 127 "Makefile: command not found"
 
-run_test 5010 "< infile1.txt wc" 5010 0
-run_test 5011 "wc < infile1.txt" 5010 0
-run_test 5012 "< infile1.txt wc -l" 5012 0
-run_test 5013 "wc -l < infile1.txt" 5012 0
-run_test 5014 "wc -l infile1.txt" 5014 0
+run_test 7002 "< temp/infile1.txt cat wc" 7002 1 "cat: wc: No such file or directory"
 
-run_test 5020 "ls > outfile1.txt" 5020 0
-run_test 5021 "> outfile1.txt ls" 5020 0
-run_test 5022 "< infile1.txt cat > outfile1.txt" 5022 0
-run_test 5023 "< infile1.txt > outfile1.txt cat" 5022 0
-run_test 5024 "> outfile1.txt < infile1.txt cat" 5022 0
-run_test 5025 "< infile1.txt cat > outfile1.txt > outfile2.txt" 5025 0
-run_test 5026 "< infile1.txt < infile2.txt cat" 5026 0
+run_test 7100 "< missing_file cat -e" 7100 1 "missing_file: No such file or directory"
+run_test 7101 "< missing_file invalid_command" 7101 1 "missing_file: No such file or directory"
 
+run_test 7200 "< missing_file cat > outfile1.txt" 7200 1 "missing_file: No such file or directory"
+run_test 7201 "> temp/outfile1.txt < missing_file cat" 7201 1 "missing_file: No such file or directory"
 
-run_test 7000 "infile1.txt cat" 7000 127 "infile1.txt: command not found"
-run_test 7001 "infile1.txt wc" 7001 127 "infile1.txt: command not found"
+echo > temp/outfile_without_permission
+chmod 000 temp/outfile_without_permission
+run_test 7300 "> temp/outfile_without_permission < missing_file cat -e" 7300 1 "temp/outfile_without_permission: Permission denied"
+run_test 7301 "< missing_file > temp/outfile_without_permission cat -e" 7301 1 "missing_file: No such file or directory"
+run_test 7302 "> temp/outfile_without_permission < temp/infile1.txt cat -e" 7302 1 "temp/outfile_without_permission: Permission denied"
+run_test 7303 "< temp/infile1.txt > temp/outfile_without_permission cat -e" 7303 1 "temp/outfile_without_permission: Permission denied"
+run_test 7304 "> temp/outfile_without_permission < missing_file invalid_command" 7304 1 "temp/outfile_without_permission: Permission denied"
+run_test 7305 " invalid_command > temp/outfile_without_permission < missing_file" 7305 1 "temp/outfile_without_permission: Permission denied"
 
-#run_test 5000 "< infile.txt cat wc" 5000 1 //cat: wc: No such file or directory
+echo > temp/infile_without_permission
+chmod 000 temp/infile_without_permission
+run_test 7300 "< temp/infile_without_permission > temp/outfile1.txt cat -e" 7300 1 "temp/infile_without_permission: Permission denied"
+run_test 7301 "> temp/outfile_without_permission < temp/infile_without_permission cat -e" 7301 1 "temp/outfile_without_permission: Permission denied"
+run_test 7302 "< temp/infile_without_permission > temp/outfile_without_permission cat -e" 7302 1 "temp/infile_without_permission: Permission denied"
+run_test 7303 "< temp/infile_without_permission > temp/outfile1.txt cat -e" 7303 1 "temp/infile_without_permission: Permission denied"
+run_test 7304 "> temp/outfile1.txt < temp/infile_without_permission cat -e" 7304 1 "temp/infile_without_permission: Permission denied"
+run_test 7305 "< temp/infile_without_permission > temp/outfile1.txt invalid_command" 7305 1 "temp/infile_without_permission: Permission denied"
+run_test 7306 "invalid_command < temp/infile_without_permission > temp/outfile1.txt" 7306 1 "temp/infile_without_permission: Permission denied"
 
+chmod 644 temp/outfile_without_permission
+delete_file temp/outfile_without_permission
+chmod 644 temp/infile_without_permission
+delete_file temp/infile_without_permission
 
 
 # -g for greater than and -ge for greater than or equal to

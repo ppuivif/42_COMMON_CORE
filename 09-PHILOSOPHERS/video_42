@@ -1,0 +1,254 @@
+https://www.youtube.com/watch?v=UGQsvVKwe90
+
+-----------------------------------------------------------------------------------------------
+
+1'02
+
+Function get_time_of_day :
+
+The function allows to get the current time with high precision.
+It returns the time in seconds and microseconds.
+It accepts 2 arguments :
+	- a pointer to a struct called time,
+	- a pointer to extract time zone, which is not really used.
+It saves number of seconds past since first January 1970 and number of microseconds passed since
+last second.
+In success it returns zero and other value when there is an error.
+
+Examples :
+
+// struct timeval {
+//	time_t		tv_sec;	// seconds from January 1, 1970
+//	suseconds_t	tv_usec; // microseconds
+// }
+// 1 second = 1 000 000 microseconds
+// 1 second = 1 000 milliseconds
+
+
+// int	gettimeofday(struct timeval *tv, struct timezone *tz);
+
+
+void	example_1()
+{
+	struct timeval	time;
+	
+	if (gettimeofday(&time, NULL) // to get the current time
+		return;
+	printf("%ld seconds\n", time.tv_sec);
+	// number of seconds passed since first January 1970
+
+	printf("%ld microseconds\n", time.tv_usec);
+	// number of microseconds passed since last second
+	
+	printf("%ld years passed since 1970\n\n", time.tv_sec / 60 / 60 / 24 / 365);
+	// (num_of_seconds / 60 seconds / 60 minutes / 24 hours / 350 days)
+}
+
+win64_t	get_time(void) // returns time in milliseconds
+{
+	struct timeval	tv;
+	
+	if (gettimeofday(&time, NULL)
+		return (0);
+	return ((tv.tv_sec * (wint64_t)1000) + (tv.tv_usec / 1000));
+}
+
+void	example_2()
+{
+	wint64_t	start_time;
+	wint64_t	now;
+
+	start_time = get_time();
+	usleep(10000); // accepts value in microseconds with 10 000 microseconds = 10 milliseconds
+	now = get_time();
+	printf("%ld milliseconds passed since the start\n", now - start_time);
+}
+
+// This previous version works but a problem could happen if value passed to usleep is deeper.
+// So see another version :
+
+void	example_2()
+{
+	struct timeval	start_time;
+	struct timeval	end_time;
+	long		requested_sleep_time;
+	long		actual_sleep_time;
+
+	requested_sleep_time = 200 * 1000; // 200 milliseconds
+	gettimeofday(&start_time, NULL);
+	usleep(requested_sleep_time);
+	gettimeofday(&end_time, NULL);
+	actual_sleep_time = (end_time.tv_sec - start_time.tv_sec) * 1 000 000 + \
+	(end_time.tv_usec - start_time.tv_usec); 
+	
+	printf("requested sleep time : %ld microseconds\n", requested_sleep_time);
+	printf(actual sleep time : %ld microseconds\n", actual_sleep_time);
+}
+
+int	main()
+{
+	// example_1();
+	example_2();
+	
+	return(0);
+}
+
+
+
+}
+
+For philosopher it will be necessary to code his own function sleep because the real function
+is not precise enough.
+
+-----------------------------------------------------------------------------------------------
+
+4'47
+
+Threads : it's a separate flow that executes tasks concurrently.
+For example, if you want to play a game while your laptop is downloading a movie it is possible
+thanks to multi-? on your laptop which can manage multiple tasks in one time. This is also
+possible thanks to a thread. So if you want that 2 operations to be going at the same time in
+your program then we use threads. This is necessary for philosophers because in the project
+subject that every single philosopher needs to be a separate thread because all the philosophers
+need to exist at the same time.
+
+Examples :
+
+void	*print_hello(void *arg)
+{
+	int	i;
+	
+	i = 0;
+	while (i < 100)
+	{
+		printf("Hello\n");
+		i++;
+		usleep(10000);
+	}
+	return (NULL);
+}
+
+void	*print_world(void *arg)
+{
+	int	i;
+	
+	i = 0;
+	while (i < 100)
+	{
+		printf("\t\tworld\n");
+		i++;
+		usleep(10000);
+	}
+	return (NULL);
+}
+
+void	example_1()
+{
+	print_hello(NULL);
+	print_world(NULL);
+}
+
+int	main()
+{
+	example_1();
+	return (0);
+}
+
+In this first example, the program first prints 100 times hello and then world because there
+is only one thread, the main one. The 2 functions executed one after another.
+
+void	example_2()
+{
+	pthread_1	t1;
+	pthread_2	t2;
+
+	if (pthread_create(&t1, NULL, print_hello, NULL)
+		exit(1);
+	if (pthread_create(&t2, NULL, print_world, NULL)
+		exit(1);
+	if (pthread_join(t1, NULL)
+		exit(1);
+	if (pthread_join(t2, NULL)
+		exit(1);
+}
+
+In this second example, we have 2 threads. In one of them, we assigned function print hello
+and in in the other, print world.
+The printing is mixed. Sometimes it prints one after another, sometimes it prints twice.
+This is because threads do not work at the same speed. Sometimes, one of them works faster,
+sometimes another is faster.
+
+pthread_create : 
+	- pthread is a built-in structure which comes with header pthread.h
+	- pthread_create accept four arguments :
+		- a pointer to a pthread t,
+		- the attributes that we can use fo the function, which won't be used with
+		philosophers project,
+		- the function that we want to assign to the thread,
+		- the arguments that we can pass to the assigned function.
+	- the assigned function must return a void pointer, and must take a void pointer (which
+	could be cast for something else).
+After pthread_create, we have 2 threads running at the same time the main thread.
+After we have create 2 threads, we have 2 options :
+	- either we need to join them back to the main thread,
+	- or we need to detach them.
+If we want to join the threads, the main thread needs to wait until these 2 threads finish and
+only afterwards our main thread can finish.
+If we want to detach them, this is another function that we can use. The main thread doesn't
+have to wait.
+In the end we need to free all the values that we have marked.
+pthread_join accepts pthread variable and it's possible to save the return value from the
+function that we've attached to the thread.
+
+
+void	*routine(void *arg)
+{
+	int	*num;
+	int	i;
+	
+	num = (int *)arg;
+	i = 0;
+	while (i < 100 000)
+	{
+		(*num)++;
+		i++;
+	}
+	return (NULL);
+	}
+
+
+void	example_3()
+{
+	int	*num;
+	pthread_1	t1;
+	pthread_2	t2;
+	
+	num = malloc(sizeof(int));
+	if (num == NULL)
+		exit(1);
+	*num = 0;
+	if (pthread_create(&t1, NULL, routine, num)
+		exit_on_error(num, 2);
+	if (pthread_create(&t2, NULL, routine, num)
+		exit_on_error(num, 2);
+	if (pthread_join(t1, NULL)
+		exit_on_error(num, 3);
+	if (pthread_join(t2, NULL)
+		exit_on_error(num, 3);
+	printf("Num : %d\n", *num)
+
+}
+
+As the routine function increase num with 100 000 in the thread1 and 100 000 in the thread2,
+we should have a result of 200 000.
+However, we have a result of almost half : it's the problem of data races.
+The 2 threads access to the same variable, and so the same memory. If a thread execute faster
+than the other, it could catch up the other. The 2 threads could mixed up the result.
+It should never happen in the program. There are tools to check these data races.
+It is necessary to use mutex to avoid data races.
+
+-----------------------------------------------------------------------------------------------
+
+13'10
+
+mutex

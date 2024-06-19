@@ -22,9 +22,8 @@
 void			print_arr(char **arr);
 //!t_command_line 	*parse_command_line(char *str);
 
-void get_envp(char **envp, t_envp_struct **envp_struct);
+void get_envp(char **envp, t_envp_struct **envp_struct, char *line);
 
-//t_command_line 	*parse_command_line(char *str, t_envp_struct **envp_struct, int exit_code, int fd);
 t_command_line 	*parse_command_line(char **argv, char *str, t_envp_struct **envp_struct, int exit_code);
 int		cut_remaining_line_on_pipes(t_command_line **command_line, char *remaining_line);
 int		parse_substrings(char **remaining_line, t_command_line **command_line);
@@ -76,7 +75,7 @@ void	expand_content_when_heredoc(char **str);
 
 void	build_exec_struct(t_exec_struct **exec_struct);
 
-int		open_and_check_file(t_expanded_redirection *exp_redirections , t_exec_redirection **exec_redirection);
+int		open_and_check_file(t_expanded_redirection *exp_redirections , t_exec_redirection **exec_redirection, t_exec_substring **exec_substring);
 
 void	check_exec_arguments(t_exec_substring **exec_substring, t_exec_struct **exec_struct);
 char	**build_envp_arr(t_exec_struct **exec_struct);
@@ -87,7 +86,7 @@ int		check_path_cmd_validity(char **path, t_exec_substring **exec_substring);
 
 void	execution(t_exec_struct **exec_struct);
 //void	exec_child(t_exec_substring *substrings, int fd_in, int fd_out, char **envp, t_exec_struct **exec_struct);
-void	exec_child(t_exec_substring *substrings, int fd_in, int fd_out, char **envp);
+void	exec_child(t_exec_substring *substring, int fd_in, int fd_out, char **envp_arr, t_exec_struct **exec_struct);
 
 
 

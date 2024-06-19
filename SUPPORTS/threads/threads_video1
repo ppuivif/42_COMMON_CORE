@@ -1,0 +1,63 @@
+ https://www.youtube.com/watch?v=LOfGJcVnvAk
+
+-----------------------------------------------------------------------------------------------
+
+Threads are an important topic in operating system.
+
+A program under execution is known as a process.
+A thread is a basic unit execution or a basic unit of CPU utilization.
+Each program may have a number of processes with it and each process can have a number of
+threads executing in it.
+
+A thread comprises 4 unique items :
+	- a thread ID,
+	- a program counter,
+	- a register set,
+	- a stack,
+
+And it shares with other threads belonging to the same process :
+	- its code section,
+	- its data section,
+	- other operating system resources such as open files ans signals.
+	
+A traditional or also known as a heavyweight process has a single thread of control. It's not
+a very efficient system.
+But if a process has multiple threads of control, it can perform more than one task at a time.
+In this case, each thread will be assigned a different task and hence the process can perform
+more than one task at a time
+
+-----------------------------------------------------------------------------------------------
+
+For example : when browsing on the net with a navigator
+
+In a multi-threaded process, many threads are running and each of them may be used to perform
+a different task. In a same time, a thread is used for displaying the web page and an another
+is used for downloading something from the internet.
+In a single-threaded process, while the downloading was happening, the page could not be
+displayed or while the page is being displayed, the download will not happen.
+The multi-threaded process improve effeciency and speed of computation.
+
+-----------------------------------------------------------------------------------------------
+
+The benefits of having multi-threaded process can be broken down into four major categories :
+	- responsiveness : multithreading an interactive application may allow a program to
+	continue running even if part of it is blocked or is performing a lenghty operation,
+	thereby increasing responsiveness to the user,
+	- resource sharing : by default, threads share the memory and the resources of the
+	process to which the belong. The benefit of sharing code an data is that it allows an
+	application to have several different threads of activity within the same address space,
+	- economy : allocating memory and resources for process creation is costly. Because
+	threads share resources of the process to which they belong, it is more economical to
+	create and context-switch threads.
+	ie : if there is no multi-threading, we will need to have a separate process for each and
+	every task that has to be performed and allocating memory and resources for the processes
+	is costly because each process will need to have its dedicated resources and memory which
+	it may not be able to share with other processes.
+	- utilization of multiprocessor architectures: the benefits of multithreading can be
+	greatly increased in a multiprocessor architecture, where threads may be running in parallel
+	on different processors. A single-threaded process can only run on one CPU, no matter how
+	many are available. Multi-threading on a multi-cpu machine increases concurrency.
+	ie : in a single-threading approach, even if there are several processors, only one will be
+	used by the process.
+	
+

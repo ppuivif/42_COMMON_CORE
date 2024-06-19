@@ -112,4 +112,22 @@ Dans le domaine des réseaux , un paquet est un petit segment d'un message plus 
 
 Lien : https://www.cloudflare.com/fr-fr/learning/network-layer/what-is-a-packet/
 
------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
+Registre :
+
+Un registre de processeur est l'un des plus petits emplacements de stockage de données du processeur.
+
+Un registre peut contenir une instruction, une adresse de stockage ou toute autre donnée (une
+séquence de bits ou des caractères individuels, par exemple). Certaines instructions incluent des
+registres dans l'instruction elle-même. Par exemple, une instruction peut demander à ce que le
+contenu de deux registres définis soit ajouté, puis placé dans un registre spécifique.
+
+
+Lien : https://www.lemagit.fr/definition/Registre-registre-de-processeur-registre-de-lunite-centrale#:~:text=Un%20registre%20de%20processeur%20est,caract%C3%A8res%20individuels%2C%20par%20exemple).
+
+Un registre est un emplacement de mémoire interne à un processeur. Les registres se situent au sommet
+de la hiérarchie mémoire : il s'agit de la mémoire la plus rapide d'un ordinateur, mais dont le coût
+de fabrication est le plus élevé, car la place dans un microprocesseur est limitée.
+
+Lien : https://fr.wikipedia.org/wiki/Registre_de_processeur
