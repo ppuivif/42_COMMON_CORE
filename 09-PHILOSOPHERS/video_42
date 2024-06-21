@@ -387,4 +387,96 @@ Deadlock is the situation when mutex are locked and threads are waiting for them
 
 30'06
 
-check death
+check death : philosophers shouldn't be able to communicate with each other.
+
+Philosophers can't check themselves if they are dead or not. So it's necessary to have another
+thread to check constantly the philosophers if somebody died or not (last_eat_time). If somebody
+died, this thread needs to go to every single philosopher thread and let them know like you need
+to stop because somebody died (via a flag).
+It could have another thread which will check if everybody is full. This is going to be executed
+only if we have this option.
+
+It could be possible to have a flag in the main struct. If a philosopher dies, he will access
+this flag and switch it. Then each philosopher could check this flag in the main struct and
+stop their routine. But this way doesn't match with the subject. 
+
+-----------------------------------------------------------------------------------------------
+
+problems which could happen :
+
+- if there is only one philosopher : he will have only one fork and he won't be able to eat.
+
+- we sould also have a mutex for printf for printing timestamps and messages because printf first
+write to a buffer. At the same time a philosopher can try to run the right to buffer. We will have
+somewhat like mixed printing.
+
+- we should create our own sleep function because sleep function isn't precise enough.
+
+- we should avoid infinite loop
+
+void	wait(long time_to_sleep)
+{
+	long	wake_up_time;
+	
+	wake_up_time = get_time() + time_to_sleep;
+	while (get_time() < wake_up_time)
+	{
+		infinite loop possible
+		solution : usleep with a few microseconds (100 - 500?)
+		so the function will wake up and check the time
+	}
+}
+
+- philosophers should not die when they're eating. We should have a check in the function :
+
+bool	philo_died(t_philo *philo)
+{
+	bool	result;
+	t_data	*data;
+	
+	data = philo->data;
+	result = false;
+	if (get_time() - get_last_eat_time(philo) > get_die_time(data)
+
+>>>		&& get_philo_state(philo) != EATING)
+
+	{
+		set_philo_state(philo, DEAD);
+		result = true;
+	}
+	return (result);
+}
+	
+- check data races with valgrind : valgrind --tool=helgrind
+This flag could be add to the Makefile
+
+- 
+
+
+bool	get_keep_iter(t_data *data)
+{
+	bool	keep_iterating;
+	
+	pthread_mutex_lock(&data->mut_keep_iter);
+	keep_iterating = data->keep_iterating;
+	pthread_mutex_unlock(&data->mut_keep_iter);
+	return(keep_iterating);
+}
+
+
+
+- another function to get numbner of philo :
+
+int	get_nb_philos(t_data *data)
+{
+	int	nb_philos;
+	
+	pthread_mutex_lock(&data->mut_nb_philos);
+	nb_philos = data->nb_philos;
+	pthread_mutex_unlock(&data->mut_nb_philos);
+	return(nb_philos);
+}
+
+
+
+
