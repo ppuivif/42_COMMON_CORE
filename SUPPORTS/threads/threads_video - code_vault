@@ -1,0 +1,50 @@
+https://www.youtube.com/watch?v=d9s_d28yJq0
+
+-----------------------------------------------------------------------------------------------
+
+to compile : gcc -g -pthread main.c -o.main
+
+#include <pthread.h>
+
+When we create a thread, we execute a function.
+To start we could create a simple routine.
+
+
+void	*routine()
+{
+	printf("Test from threads\n");
+}
+
+
+
+
+To start creating a thread, we have to define a sort of place where api could store some
+informations about the thread. This place is like type pthread. We don't know where it is
+
+To initialize thread, we use pthread_create function.
+The arguments of this function are :
+	- a pointer to the structure,
+	- the attributes which are used to customize the thread. If the argument passed is at
+	NULL, the pointer will be set up itself with default attributes,
+	- a pointer to the function,
+	- the arguments passed to the function.
+	
+Then, we have to wait for the function finish its execution, with the function pthread_join.
+To this function, we could pass a pointer that get the result from the thread. In our case
+of use, we pass NULL.
+	 
+int main(int arg, char *argv[])
+{
+	pthread_t	t1;
+	if (pthread_create(&t1, NULL, &routine, NULL) != 0)
+		return (1);
+	if (pthread_join(t1, NULL) != 0)
+		return (3);
+	return (0):
+}
+
+When we have 2 thread, they are executed in parallel.
+
+Important : error check
+When creating thread, we could add a check to verify if creation work. If creation worked, the
+function return 0.
