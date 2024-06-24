@@ -13,7 +13,7 @@ static void	expand_string_between_single_quotes(char **str, t_envp_struct *envp_
 		if (str[0][i] == '$')
 		{
 			i += get_len_and_extract_after_first_dollar(&str[0][i], &tmp);
-			expand_string_after_dollar(&tmp, envp_struct);
+			expand_string_after_dollar(&tmp, NULL, envp_struct, 0);
 		}
 		else
 			i += get_len_and_extract_until_next_dollar(&str[0][i], &tmp);
@@ -39,7 +39,7 @@ static int	expand_content_when_dollar_first(char *str, char **tmp, t_envp_struct
 	else
 	{
 		len += get_len_and_extract_after_first_dollar(str, tmp);
-		expand_string_after_dollar(tmp, envp_struct);
+		expand_string_after_dollar(tmp, NULL, envp_struct, 1);//flag 1 to verify in complete_expand
 	}
 	return (len);
 }
@@ -89,7 +89,10 @@ void	complete_expand_content(char **str, t_command_line *command_line)
 		if (!result)
 			result = ft_strdup_freed(tmp);//malloc à protéger
 		else
+		{
 			result = ft_strjoin_freed(result, tmp);//malloc à protéger
+			tmp = free_and_null(tmp);
+		}
 	}
 	free(*str);
 	*str = ft_strdup_freed(result);//malloc à protéger

@@ -1,0 +1,97 @@
+https://code-vault.net/lesson/18ec1942c2da46840693efe9b51eabf6
+
+-----------------------------------------------------------------------------------------------
+
+A mutex is a sort of lock around a section of code. We could see it as some brackets between a
+part of code that we want to protect against other threads executing it at the same time.
+
+It works as we have this type of code :
+
+void	*routine()
+{
+	for (int i = 0; i < 1 000 000; i++)
+	{
+		if (lock == 1)
+		{
+			//wait until the lock is 0
+		}
+		lock = 1;
+		mails++;
+		lock = 0;
+		// read mails
+		// increment
+		// write mails
+	}
+}
+
+The api pthread has its own implemented code.
+
+To start using it, we add a pthread_mutex and we initialize it.
+We use pthread_mutex_init function which takes 2 arguments :
+	- the adress of mutex,
+	- some attributes which can be set to null.
+
+Don't forget to destroy the memory which had been allocated.
+
+Now mutex is available.
+
+In the previous code, the different operations (checking the lock, waiting, verify the unlock)
+could be replaced with only 2 functions : pthread_mutex_lock and pthread_mutex_unlock.
+This function only takes a reference to our mutex.
+
+With mutex, the process runs slower but the result will be correct.
+
+With a single cored CPU, it would be unlikely to have data races. But today, 99% of the CPU are
+multi-cored and data races are often encountered.  
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+
+int mails = 0;
+pthread_mutex_t mutex;
+
+void* routine() {
+    for (int i = 0; i < 10000000; i++) {
+        pthread_mutex_lock(&mutex);
+        mails++;
+        pthread_mutex_unlock(&mutex);
+        // read mails
+        // increment
+        // write mails
+    }
+}
+
+example :
+
+int main(int argc, char* argv[]) {
+    pthread_t p1, p2, p3, p4;
+    pthread_mutex_init(&mutex, NULL);
+    if (pthread_create(&p1, NULL, &routine, NULL) != 0) {
+        return 1;
+    }
+    if (pthread_create(&p2, NULL, &routine, NULL) != 0) {
+        return 2;
+    }
+    if (pthread_create(&p3, NULL, &routine, NULL) != 0) {
+        return 3;
+    }
+    if (pthread_create(&p4, NULL, &routine, NULL) != 0) {
+        return 4;
+    }
+    if (pthread_join(p1, NULL) != 0) {
+        return 5;
+    }
+    if (pthread_join(p2, NULL) != 0) {
+        return 6;
+    }
+    if (pthread_join(p3, NULL) != 0) {
+        return 7;
+    }
+    if (pthread_join(p4, NULL) != 0) {
+        return 8;
+    }
+    pthread_mutex_destroy(&mutex);
+    printf("Number of mails: %d\n", mails);
+    return 0;
+}

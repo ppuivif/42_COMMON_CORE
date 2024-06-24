@@ -1,55 +1,52 @@
 #include "minishell.h"
 
-static int	get_content(t_expanded_argument **exp_arguments, char *argument)
+
+
+
+
+
+
+/*static int cut_content_on_whitespaces(t_expanded_argument **exp_arguments, char **content, char **extracted_line)
 {
-	t_expanded_argument	*exp_argument;
-
-	exp_argument = NULL;
-	if (init_expanded_argument_struct(&exp_argument) == -1)
-	{
-		exp_argument->alloc_succeed = false;//return error alloc ?
-		return (-1);
-	}
-	exp_argument->content = ft_strdup(argument);
-	ft_lst_add_back5(exp_arguments, exp_argument);
-	return (0);
-}
-
-
-static size_t	extract_and_expand_content_of_arguments(char *content, \
-char **extracted_line, t_command_line **command_line)
-{
+//	int		i;
+//	int		start;
+//	int		flag;
 	size_t	len;
 
-	if (content[0] == '\'')
-		len = (int)get_len_and_extract_between_single_quotes \
-		(&content[1], extracted_line);
-	else if (content[0] == '\"')
+//	i = 0;
+//	start = 0;
+	len = 0;
+//	flag = 0;
+//	extracted_line = NULL;
+//	flag = ft_isspace(*content[i]);
+	while (*content && len == 0)
 	{
-		len = get_len_and_extract_between_double_quotes \
-		(&content[1], extracted_line);
-		if (strcspn(*extracted_line, "$") < ft_strlen(*extracted_line))
-			complete_expand_content(extracted_line, *command_line);
-//			no special_treatment with $
+		if (ft_isspace(*content[0]) == 0)
+		{
+			if (extracted_line) //never because free_and_null(extracted_line)
+				get_content(exp_arguments, extracted_line);
+			*content = skip_first_whitespaces(*content);
+			if (ft_strlen(*content) == 0)
+				break;
+			len = get_len_and_extract_until_next_whitespace_or_dollar(*content, extracted_line);
+			get_content(exp_arguments, extracted_line);
+		}
+		else
+		{
+			len = get_len_and_extract_until_next_whitespace_or_dollar(*content, extracted_line);
+	//		printf("content : %s\n", *content);
+		}
+//		content += len;
+//		printf("len : %ld\n", len);
+		(*content) += len;
+//		printf("content : %s\n", *content);
 	}
-	else if (content[0] == '$')
-		len = simple_expand_content(&content[0], extracted_line, command_line);
-//		special_treatment with $
-	else
-		len = get_len_and_extract_until_next_quote_or_dollar \
-		(&content[0], extracted_line);
-//		special_treatment with $
 	return (len);
-}
+}*/
 
-static int	get_definitive_content_of_arguments(char *content, char **definitive_content, \
-t_command_line **command_line)
+
+int	add_to_definitive_content(char **definitive_content, char *extracted_line)
 {
-	char	*extracted_line;
-	int		len;
-
-	len = (int)extract_and_expand_content_of_arguments(content, &extracted_line, \
-	command_line);
 	if (!extracted_line)
 		return (-1);
 	if (!*definitive_content)
@@ -57,61 +54,172 @@ t_command_line **command_line)
 	else
 		*definitive_content = \
 		ft_strjoin_freed(*definitive_content, extracted_line);
-	free(extracted_line);
-	extracted_line = NULL;
+	extracted_line = free_and_null(extracted_line);
 	if (!*definitive_content)
 		return (-1);
-	return (len);
+	return (0);
 }
+
+
+static int	extract_and_expand_content_of_arguments(char *n_argument_content, \
+t_expanded_argument **exp_arguments, t_command_line **command_line)
+{
+	size_t	len;
+	char *extracted_line;
+	char *definitive_content;
+
+	while (n_argument_content)
+	{
+		if (n_argument_content[0] == '\'')
+		{
+			len = (int)get_len_and_extract_between_single_quotes \
+			(&n_argument_content[1], &extracted_line);
+			if (add_to_definitive_content(&definitive_content, extracted_line) == -1)
+			{
+				printf("error\n");
+				return (1);
+			}
+			if (!n_argument_content)
+				add_exp_arguments(exp_arguments, definitive_content);
+		}
+		else if (n_argument_content[0] == '\"')
+		{
+			len = get_len_and_extract_between_double_quotes \
+			(&n_argument_content[1], &extracted_line);
+			if (strcspn(extracted_line, "$") < ft_strlen(extracted_line))
+				complete_expand_content(&extracted_line, *command_line);
+			if (add_to_definitive_content(&definitive_content, extracted_line) == -1)
+			{
+				printf("error\n");
+				return (1);
+			}
+//				no special_treatment with $
+			if (!n_argument_content)
+				add_exp_arguments(exp_arguments, definitive_content);
+		}
+		else if (n_argument_content[0] == '$')
+		{
+			len = simple_expand_content(&n_argument_content[0], &extracted_line, exp_arguments, &definitive_content, command_line, 1);
+			if (add_to_definitive_content(&definitive_content, extracted_line) == -1)
+			{
+				printf("error\n");
+				return (1);
+			}
+//			special_treatment with $
+			if (!n_argument_content)
+				add_exp_arguments(exp_arguments, definitive_content);
+		}
+		else
+		{
+			len = get_len_and_extract_until_next_quote_or_dollar \
+			(&n_argument_content[0], &extracted_line);
+			if (add_to_definitive_content(definitive_content, extracted_line) == -1)
+			{
+				printf("error\n");
+				return (1);
+			}
+			if (!n_argument_content)
+				add_exp_arguments(exp_arguments, definitive_content);
+
+//			special_treatment with $
+		}
+	}
+	return (0);
+}
+
+/*static size_t	extract_and_expand_content_of_arguments(char *content, \
+char **definitive_content, t_expanded_argument **exp_arguments, \
+t_command_line **command_line)
+{
+	size_t	len;
+	char *extracted_line;
+
+	if (content[0] == '\'')
+	{
+		len = (int)get_len_and_extract_between_single_quotes \
+		(&content[1], &extracted_line);
+		if (add_to_definitive_content(definitive_content, extracted_line) == -1)
+			printf("error\n");
+	}
+	else if (content[0] == '\"')
+	{
+		len = get_len_and_extract_between_double_quotes \
+		(&content[1], &extracted_line);
+		if (strcspn(extracted_line, "$") < ft_strlen(extracted_line))
+			complete_expand_content(&extracted_line, *command_line);
+		if (add_to_definitive_content(definitive_content, extracted_line) == -1)
+			printf("error\n");
+//			no special_treatment with $
+	}
+	else if (content[0] == '$')
+	{
+		len = simple_expand_content(&content[0], &extracted_line, exp_arguments, command_line, 1);
+		if (add_to_definitive_content(definitive_content, extracted_line) == -1)
+			printf("error\n");
+//		special_treatment with $
+	}
+	else
+	{
+		len = get_len_and_extract_until_next_quote_or_dollar \
+		(&content[0], &extracted_line);
+		if (add_to_definitive_content(definitive_content, extracted_line) == -1)
+			printf("error\n");
+//		special_treatment with $
+	}
+	return (len);
+}*/
+
+/*static int	get_definitive_content_of_arguments(char *content, char **definitive_content, \
+t_expanded_argument **exp_arguments, t_command_line **command_line)
+{
+//	char	*extracted_line;
+	int		len;
+
+	len = (int)extract_and_expand_content_of_arguments(content, definitive_content, \
+	exp_arguments, command_line);
+
+	return (len);
+}*/
+
+void	add_exp_arguments(t_expanded_argument *exp_arguments, char *definitive_content)
+{
+	t_expanded_argument	*exp_argument;
+
+	exp_argument = NULL;
+	if (init_expanded_argument_struct(&exp_argument) == -1)
+		exp_argument->alloc_succeed = false;//return error alloc ?
+
+	exp_argument->content = definitive_content;
+	ft_lst_add_back5(&exp_arguments, exp_argument);
+}
+
+
+
+/*void	expand_arguments(t_substring *substring, t_native_argument *n_argument, \
+t_command_line **command_line)
+{
+	int					i;
+	int					len;
+	char				*definitive_content;
+
+	len = 0;
+	definitive_content = NULL;
+	i = 0;
+
+	if (n_argument && n_argument->content[i])
+//	{
+		len = get_definitive_content_of_arguments(&n_argument->content[i], \
+		&definitive_content, &substring->exp_arguments, command_line);
+//		if (len == -1)
+//			exp_argument->alloc_succeed = false;//which treatment ?
+//		i += len;
+//	}
+}*/
 
 void	expand_arguments(t_substring *substring, t_native_argument *n_argument, \
 t_command_line **command_line)
 {
-	int					i;
-	t_expanded_argument	*exp_argument;
-	int					len;
-	char				*definitive_content;
-	char 	**tmp;
-
-	len = 0;
-	exp_argument = NULL;
-	definitive_content = NULL;
-	tmp = NULL;
-	i = 0;
-	while ((n_argument->content[i]))
-	{
-		if (n_argument->content[0] == '$')
-		{
-			len = get_definitive_content_of_arguments(&n_argument->content[i], \
-			&definitive_content, command_line);
-			i += len;
-//			if (*tmp == 0)
-//				get_content(&substring->exp_arguments, "");
-//			else
-			{
-				tmp = ft_split(definitive_content, 32);//add split on $, whitespaces
-				while (*tmp)
-				{
-					get_content(&substring->exp_arguments, *tmp);
-					tmp++;
-				}
-		}
-	//prevoir le cas ou la variable contient une variable qui contient une variable ?
-		}
-		else
-		{
-			if (init_expanded_argument_struct(&exp_argument) == -1)
-			exp_argument->alloc_succeed = false;//return error alloc ?
-			while (n_argument && n_argument->content[i])
-			{
-				len = get_definitive_content_of_arguments(&n_argument->content[i], \
-				&definitive_content, command_line);
-				if (len == -1)
-					exp_argument->alloc_succeed = false;//which treatment ?
-				i += len;
-			}
-			exp_argument->content = definitive_content;
-			ft_lst_add_back5(&substring->exp_arguments, exp_argument);
-		}
-	}
+	if (n_argument->content && n_argument->content[0])
+		extract_and_expand_content_of_arguments(n_argument->content, \
+		&substring->exp_arguments, command_line);
 }
