@@ -1,4 +1,4 @@
-CC=clang
+CC=cc
 CFLAGS=-Wall -Werror -Wextra -g
 MACROLIBXFLAGS= -lSDL2
 NAME=so_long

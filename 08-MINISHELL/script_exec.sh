@@ -42,7 +42,9 @@ function create_files_and_set_permissions() {
 	echo > "temp/tmp_to_read_command.txt"
     chmod 644 "temp/tmp_to_read_command.txt"
 	exec 100< "temp/tmp_to_read_command.txt"
-
+	echo > "temp/tmp_to_execute_valgrind.txt"
+    chmod 644 "temp/tmp_to_execute_valgrind.txt"
+	exec 101< "temp/tmp_to_execute_valgrind.txt"
 }
 
 function delete_infiles() {
@@ -235,13 +237,24 @@ execute_test() {
 #	ls -l /proc/$$/fd
 
 #    echo "$command" | ./minishell 1>"temp/$test_index-minishell_stdout.txt" 2>"temp/$test_index-minishell_stderr.txt"
-    ./minishell 100 1>"temp/$test_index-minishell_stdout.txt" 2>"temp/$test_index-minishell_stderr.txt"
+	./minishell 100 1>"temp/$test_index-minishell_stdout.txt" 2>"temp/$test_index-minishell_stderr.txt"
 	exit_code_minishell=$?
 #	echo "exit_code_minishell"
 #	echo "$exit_code_minishell"
 	cat "temp/outfile1.txt" >"temp/$test_index-minishell_outfile1.txt"
 	cat "temp/outfile2.txt" >"temp/$test_index-minishell_outfile2.txt"
- 	
+	delete_file "temp/tmp_to_read_command.txt"
+	exec 100>&-
+
+	echo "$command" >"temp/tmp_to_execute_valgrind.txt"
+	echo "exit" >>"temp/tmp_to_execute_valgrind.txt"
+
+# 	valgrind --suppressions=readline.supp --leak-check=full --track-fds=yes --trace-children=yes --error-exitcode=1 ./minishell 101
+ 	valgrind --suppressions=readline.supp --leak-check=full --trace-children=yes --error-exitcode=1 ./minishell 101 1>/dev/null 2>&1
+	exit_code_valgrind=$?
+#	exit_code_valgrind=1
+#	echo "$exit_code_valgrind"
+
 	diff_outfile1=$(diff "temp/$test_index-minishell_outfile1.txt" "temp/$test_index-bash_outfile1.txt" > /dev/null)
 	diff_exit_outfile1=$?
 	diff_outfile2=$(diff "temp/$test_index-minishell_outfile2.txt" "temp/$test_index-bash_outfile2.txt" > /dev/null)
@@ -314,6 +327,16 @@ execute_test() {
 		status_message="${GREEN} OK${NC}"
     fi
 
+	if [ $exit_code_valgrind -ne 0 ]
+	then
+		status6="KO"
+		error_detail6="${RED}error_valgrind ${NC}"
+		flag=$((flag + 1))
+	else
+		status6="OK"
+		status_message="${GREEN} OK${NC}"
+    fi
+
 	# Calculate the length of the message
     message_length=${#message}
     # Calculate the number of spaces needed for alignment
@@ -327,18 +350,18 @@ execute_test() {
 
 	if [ "$display" == "wrong_only" ]
 	then
-		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ] || [ "$status5" == "KO" ]
+		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ] || [ "$status5" == "KO" ] || [ "$status6" == "KO" ]
 #		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ]
 		then
 			status_message="${RED} KO : ${NC}"
-			echo -e "${message}${spaces}${test_index}${status_message}${error_detail1}${error_detail2}${error_detail3}${error_detail4}${error_detail5}${invalid_test}"
+			echo -e "${message}${spaces}${test_index}${status_message}${error_detail1}${error_detail2}${error_detail3}${error_detail4}${error_detail5}${error_detail6}${invalid_test}"
 		fi
 	else
-		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ] || [ "$status5" == "KO" ]
+		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ] || [ "$status5" == "KO" ] || [ "$status6" == "KO" ]
 #		if [ "$status1" == "KO" ] || [ "$status2" == "KO" ] || [ "$status3" == "KO" ] || [ "$status4" == "KO" ]
 		then
 			status_message="${RED} KO : ${NC}"
-			echo -e "${message}${spaces}${test_index}${status_message}${error_detail1}${error_detail2}${error_detail3}${error_detail4}${error_detail5}${invalid_test}"
+			echo -e "${message}${spaces}${test_index}${status_message}${error_detail1}${error_detail2}${error_detail3}${error_detail4}${error_detail5}${error_detail6}${invalid_test}"
 		else
 			status_message="${GREEN} OK${NC}"
 			echo -e "${message}${spaces}${status_message}"
@@ -347,8 +370,8 @@ execute_test() {
 	substring=""
 	delete_infiles
 	delete_outfiles
-	delete_file "temp/tmp_to_read_command.txt"
-	exec 100>&-
+	delete_file "temp/tmp_to_execute_valgrind.txt"
+	exec 101>&-
 }
 
 run_test_heredoc() {
@@ -665,6 +688,9 @@ run_test_error() {
 	fi
 	#echo -e "$message"
 }
+
+
+#trap EXIT SIGINT SIGTERM
 
 create_temp_directory
 
@@ -2012,6 +2038,21 @@ run_test 4813 "echo \"> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<\"" 4813 0
 run_test 4857 "grep est <./temp/infile.txt" 4857 0
 run_test 4858 "grep est \"<infile.txt\" <         ./temp/infile.txt" 4858 0
 
+
+run_test 4873 "cat <\"./temp/infile.txt\" | echo hi" 4873 0
+run_test 4874 "cat <\"./test_files/infile\" | grep hello\" | echo hi" 4874 0
+#run_test 4875 "cat <\"./temp/infile_big.txt\" | echo hi" 4875 0
+
+
+
+run_test 4933 "\$PWD" 4933 126 ": is a directory"
+
+#run_test 4936 "./temp/invalid_permission" 4936 126 "permission denied"
+
+run_test 4937 "./missing.out" 4937 127 "./missing.out: No such file or directory"
+
+run_test 4941 "./temp" 4941 126 "./temp: is a directory"
+run_test 4942 "/temp" 4942 127 "/temp: No such file or directory"
 
 
 

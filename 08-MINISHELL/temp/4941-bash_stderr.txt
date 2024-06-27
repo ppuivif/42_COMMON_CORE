@@ -1,0 +1,1 @@
+./script_exec.sh: ligne 222: ./temp : est un dossier

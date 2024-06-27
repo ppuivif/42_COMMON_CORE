@@ -22,7 +22,7 @@ OBJS		= $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
 
 OS = $(shell uname -s)
 DEBUG		?= false
-TOOLCHAIN	?= clang
+TOOLCHAIN	?= cc
 IMAGES_OPTIMIZED	?= true
 FORCE_INTEGRATED_GPU ?= false
 GRAPHICS_MEMORY_DUMP ?= false
@@ -30,7 +30,7 @@ PROFILER ?= false
 
 MODE	= "release"
 
-CXX		= clang++
+CXX		= cc
 
 CXXFLAGS	= -std=c++17 -O3 -fPIC -Wall -Wextra -Werror -DSDL_MAIN_HANDLED
 INCLUDES	= -I./includes -I./src -I./third_party
