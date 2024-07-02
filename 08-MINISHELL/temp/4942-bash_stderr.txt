@@ -1,1 +1,0 @@
-./script_exec.sh: ligne 222: /temp: Aucun fichier ou dossier de ce nom
