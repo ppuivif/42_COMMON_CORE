@@ -1,4 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_exec_redirections.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/11 06:32:46 by drabarza          #+#    #+#             */
+/*   Updated: 2024/07/11 11:59:13 by ppuivif          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+void sigint_handler(int sig)
+{
+    (void)sig;
+    g_sign = 1;
+    
+    ioctl(STDIN_FILENO, TIOCSTI, "\n");
+}
 
 static int	check_outfile(t_expanded_redirection *exp_redirection, \
 t_exec_redirection **exec_redirection)
@@ -56,22 +76,38 @@ t_exec_redirection **exec_redirection, t_envp_struct *envp_struct)
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
 		return (-1);
-	limiter = ft_strjoin(exp_redirection->content, "\n");
+	limiter = exp_redirection->content;
+//	limiter = ft_strjoin(exp_redirection->content, "\n");
 	while (1)
 	{
-		line = get_next_line(0);
-		if (ft_strcmp(line, limiter) == 0)
+		line = readline("heredoc : ");
+		if (!line)
 		{
-			line = free_and_null(line);
+			clear_history();
 			close(fd);
 			break;
 		}
+		if (g_sign)
+        {
+            clear_history();
+            close(fd);
+            unlink(filename); // Optionally delete the temporary file
+            free(filename);
+            return (-1);
+        }		if (ft_strcmp(line, limiter) == 0)
+		{
+			line = free_and_null(line);
+			close(fd);
+			break ;
+		}
+		if (line[0])
+			add_history(line);
 		expand_content_when_heredoc(&line, envp_struct);
 		ft_putstr_fd(line, fd);
 		line = free_and_null(line);
 	}
-	free(limiter);
-	limiter = NULL;
+//	free(limiter);
+//	limiter = NULL;
 	(*exec_redirection)->file = filename;
 	(*exec_redirection)->e_redirection = REDIRECTION_INFILE;
 	(*exec_redirection)->fd_input = open((*exec_redirection)->file, O_RDONLY);
@@ -92,7 +128,6 @@ t_exec_struct *exec_struct)
 	return_value = 0;
 //	printf("fd_input : %d\n", (*exec_redirection)->fd_input);
 //	printf("fd_output : %d\n", (*exec_redirection)->fd_output);
-
 	if ((exp_redirection->e_redirection == REDIRECTION_OUTFILE || \
 	exp_redirection->e_redirection == REDIRECTION_APPEND) && \
 	(*exec_substring)->is_previous_file_opened == true)

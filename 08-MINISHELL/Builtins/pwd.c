@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 11:30:07 by drabarza          #+#    #+#             */
-/*   Updated: 2024/07/09 03:19:57 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/07/11 06:23:21 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	pwd(void)
 	if (getcwd(str, PATH_MAX))
 	{
 		ft_putstr_fd(str, 1);
-		write(1, "\n", 1);
+		ft_putstr_fd("\n", 1);
 	}
-	//else
-		//return (errno);
+	else
+	{
+		ft_putstr_fd("An error as detected\n", 2);
+	}
 }

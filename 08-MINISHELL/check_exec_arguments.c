@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_exec_arguments.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/11 06:32:35 by drabarza          #+#    #+#             */
+/*   Updated: 2024/07/11 06:40:13 by drabarza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	check_exec_arguments(t_exec_substring **exec_substring, \
@@ -36,7 +48,6 @@ t_exec_struct **exec_struct)
 	}
 	(*exec_substring)->cmd_arr = cmd_arr;
 }
-
 
 /*static bool is_part_of_envp_path(char *cmd_arr_0, t_exec_struct **exec_struct)
 {
@@ -144,11 +155,14 @@ t_exec_struct **exec_struct)
 	}
 	else if (access(cmd_arr[0], X_OK) == 0)//F_OK to verify if file exists, X_OK to verify if the file is executable
 	{
+/*		if ()
+			expand_file_content;
+		else*/
 		(*exec_substring)->path_with_cmd = ft_strdup(cmd_arr[0]);
 		if (!(*exec_substring)->path_with_cmd)
 			error_allocation_exec_struct_and_exit(exec_struct);
 	}
-	else if (access(cmd_arr[0], F_OK) == 0)
+	else if (access(cmd_arr[0], F_OK) == 0 && strcspn(cmd_arr[0], "/") < ft_strlen(cmd_arr[0]))
 	{
 		ft_putstr_fd((*exec_substring)->cmd_arr[0], 2);
 		ft_putstr_fd(": Permission denied\n", 2);
@@ -173,7 +187,7 @@ char	**build_envp_arr(t_exec_struct **exec_struct)
 		error_allocation_exec_struct_and_exit(exec_struct);
 	tmp = (*exec_struct)->envp_struct;
 	i = 0;
-	while (tmp)
+	while (i < envp_arr_size - 1)
 	{
 		envp_arr[i] = ft_strjoin(tmp->name, "=");
 		envp_arr[i] = ft_strjoin_freed(envp_arr[i], tmp->value);
@@ -252,7 +266,7 @@ t_exec_struct **exec_struct)
 		{
 			ft_putstr_fd((*exec_substring)->cmd_arr[0], 2);
 			if (strcspn((*exec_substring)->cmd_arr[0], "/") < ft_strlen((*exec_substring)->cmd_arr[0]))
-				ft_putstr_fd(": No such file or directorytest\n", 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
 			else
 				ft_putstr_fd(": command not found\n", 2);
 			(*exec_struct)->command_line->current_exit_code = 127;

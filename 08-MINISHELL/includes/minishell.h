@@ -14,9 +14,17 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 #include <dirent.h>//for opendir in check_exec_arguments.c
+#include <sys/stat.h>//for stat
+#include <sys/ioctl.h>
 
 #include <errno.h>//to delete
+#include <signal.h>
+# include <limits.h>
 
+# ifndef GLOBAL
+# define GLOBAL
+extern int	g_sign;
+# endif
 
 
 
@@ -119,5 +127,12 @@ void	cd(t_exec_struct *exec_struct, t_exec_argument *exec_arguments);
 void	env(t_exec_struct *exec_struct);
 void	unset(t_exec_struct *exec_struct, t_exec_argument *exec_arguments);
 void	export(t_exec_struct *exec_struct, t_exec_argument *exec_arguments);
+int		ft_aatoi(char *nptr, t_exec_struct *exec_struct, char **envp_arr);
+void	message_error(char *str, t_exec_struct *exec_struct, char **envp_arr);
+
+//Signals
+void signals(int sign);
+
+
 
 #endif
