@@ -52,7 +52,7 @@ blank : espace ou carcatère de tabulation
 builtin : c'est une commande qui est implémentée de façon interne par le shell lui-même et non
 par un programme dans le système de fichiers.
 
-opérateur de contrôle : c'est un token qui joue lee rôle d'une fonction de contrôle. C'est une
+opérateur de contrôle : c'est un token qui joue le rôle d'une fonction de contrôle. C'est une
 newline ou l'un des opérateurs suivants : '||', '&&', '&', ';', ';;', ':&', '|', '|&', '(', ')'
 
 exit status (ou return status) : valeur retournée par une commande à son "appelant". Cette valeur
