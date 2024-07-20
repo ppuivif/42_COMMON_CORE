@@ -182,7 +182,7 @@ pthread_create :
 	- pthread is a built-in structure which comes with header pthread.h
 	- pthread_create accept four arguments :
 		- a pointer to a pthread t,
-		- the attributes that we can use fo the function, which won't be used with
+		- the attributes that we can use for the function, which won't be used with
 		philosophers project,
 		- the function that we want to assign to the thread,
 		- the arguments that we can pass to the assigned function.
@@ -381,7 +381,7 @@ Deadlock is the situation when mutex are locked and threads are waiting for them
 	will bee only 2 groups.
 	- half of philosophers (odd for exemple) start taking forks from the right side and
 	the other half of philosophers (even so) start taking the forks from left side.
-	- all philosophers take from right fork, except for last one philosoher.
+	- all philosophers take from right fork, except for last one philosopher.
 	
 -----------------------------------------------------------------------------------------------
 

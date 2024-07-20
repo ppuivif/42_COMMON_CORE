@@ -60,7 +60,7 @@ l'évènement.
 -----------------------------------------------------------------------------------------------
 
 Rêgles générales :
-	- une seule variable globale n'est autorisée,
+	- les variables globales sont interdites,
 
 NB : point de la correction à éclaircir	
 "Check if there is any global variable which is used to manage the shared
