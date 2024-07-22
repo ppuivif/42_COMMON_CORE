@@ -69,7 +69,33 @@ L'exécution de chaque étape (manger, dormir, penser) est verifiée par une fon
 -----------------------------------------------------------------------------------------------
 
 Définir une routine :
+	- quand il ne dort pas et qu'il ne mange pas, le philospher vérifie si les fourchettes
+	sont disponibles.
+	- le philosopher ne sait pas quand il meurt.
+	- le processus principal doit vérifier si l'un des philosophers est mort pour mettre
+	fin aux processus.
+	- chaque philosopher dispose de sa propre fourchette (une variable) et vérifie si la
+	fourchette de son voisin est disponible ou non (via un pointeur) : a priori non
+	
+	
+-----------------------------------------------------------------------------------------------	
+	
+Un thread est un outil qui permet de gérer plusieurs actions. Ce n'est pas un processus.
 
+Check de la mort avant et apres chaque action.
+
+Les philo ne prennent les fourchettes que lorsqu'elles sont toutes les 2 disponibles.
+
+La routine regroupe la succession des différentes actions.
+
+Attention quand de tres nombreux philos, décalage dans la création (pb de temps ?).
+
+Une structure données, une structure philo, une structure fork.
+
+Pour éviter que tous les philos lock une fourchette en même temps, leur faire prendre une
+fourchette droite pour les pairs et gauche pour les impairs par exemple, à confirmer.
+
+ 
 
 -----------------------------------------------------------------------------------------------
 
