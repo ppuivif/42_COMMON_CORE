@@ -465,7 +465,7 @@ bool	get_keep_iter(t_data *data)
 
 
 
-- another function to get numbner of philo :
+- another function to get number of philo :
 
 int	get_nb_philos(t_data *data)
 {
