@@ -29,7 +29,8 @@ Vérification des arguments (le nom des arguments est proposé / imposé par le 
 		(number_of_times_each_philosopher_must_eat).
 	- les arguments ne doivent pas être vides ("").
 	- les arguments doivent être des int.
-	- vérifier l'absence d'overflow.
+	- vérifier l'absence d'overflow (pas de spécification particulière dans le sujet
+	concernant les valeurs max : int ou long int).
 	- les arguments doivent être supérieurs à 0. 
 	- le nombre max de philosopher est 200 (non spécifié dans le sujet, seult dans le
 	sujet de correction). 

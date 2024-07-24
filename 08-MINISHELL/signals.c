@@ -33,7 +33,7 @@ static void	ctrl_backslash(int sign)
 {
 	g_sign = sign;
 	ft_putstr_fd("Quit\n", 1);
-	(void)sign;
+	(void)sign;//see if void necessary
 }
 
 void	signals(int sign)
