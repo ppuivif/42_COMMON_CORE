@@ -6,59 +6,98 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 07:35:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/07/24 15:16:24 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:49:25 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long int	get_current_time_us()
+int	count_available_forks(t_philo *philo)
 {
-	struct timeval	time;
+	int	number_of_available_forks;
 
-	if (gettimeofday(&time, NULL) == -1)
-	{
-		ft_putstr_fd("error : gettimeofday failed\n", 2);
-		return (-1);
-	}
-	return (time.tv_usec);
+	number_of_available_forks = 0;
+	
+//		if (all_philos_are_alive() == false)
+//			return (-1);
+
+		pthread_mutex_lock(&philo->data->mutex_for_fork);
+		if (philo->right_fork->fork_is_available == true)
+			number_of_available_forks++;
+		pthread_mutex_unlock(&philo->data->mutex_for_fork);
+
+//		if (all_philos_are_alive() == false)
+//			return (-1);
+
+		pthread_mutex_lock(&philo->data->mutex_for_fork);
+		if (philo->left_fork->fork_is_available == true)
+			number_of_available_forks++;
+		pthread_mutex_unlock(&philo->data->mutex_for_fork);
+	return (number_of_available_forks);	
 }
 
-long int	get_timestamp_ms(long int start_time)
+int	take_forks(t_philo *philo)
 {
-	long int	time;
-	long int	timestamp;
+	while (count_available_forks(philo) < 2)
+		continue;
 
-	time = get_current_time_us();
-	if (time == -1)
-		return (-1);
-	timestamp = (time - start_time) / 1000;
-	return (timestamp);
-}
+	pthread_mutex_lock(&philo->data->mutex_for_fork);
+	philo->right_fork->fork_is_available = false;
+	pthread_mutex_unlock(&philo->data->mutex_for_fork);
 
-int	ft_usleep(long int duration)
-{
-	long int		start_time;
-	int				i;
-//	long int		timestamp;
+	print_message(philo, "has taken a fork");
 
-	i = 0;
-	start_time = get_current_time_us();
-	if (start_time == -1)
-	{
-		return (-1);
-	}
-	while ((get_current_time_us() - start_time) < duration)
-		i++;
+	/*pthread_mutex_lock(&philo->data->mutex_for_print);
+	print_fork_statement(philo->fork, *philo->data);
+	pthread_mutex_unlock(&philo->data->mutex_for_print);*/
+
+//	philos_struct_print (philo, *philo->data);
+
+	pthread_mutex_lock(&philo->data->mutex_for_fork);
+	philo->left_fork->fork_is_available = false;
+	pthread_mutex_unlock(&philo->data->mutex_for_fork);
+	
+	print_message(philo, "has taken a fork");
+
 	return (0);
 }
 
-
-/*int	take_forks(t_philo *philo)
+int	take_meal(t_philo *philo)
 {
-	
-	
-}*/
+	print_message(philo, "is eating");
+
+	pthread_mutex_lock(&philo->data->mutex_for_fork);
+	ft_usleep_ms(philo->data->time_to_eat);
+	pthread_mutex_unlock(&philo->data->mutex_for_fork);
+
+	pthread_mutex_lock(&philo->data->mutex_for_fork);
+	printf("index right_fork : %d\n", philo->right_fork->fork_id);
+	printf("right fork is available : %s\n", philo->right_fork->fork_is_available ? "true" : "false");
+	philo->right_fork->fork_is_available = true;
+	printf("index right_fork : %d\n", philo->right_fork->fork_id);
+	printf("right fork is available : %s\n", philo->right_fork->fork_is_available ? "true" : "false");
+	pthread_mutex_unlock(&philo->data->mutex_for_fork);
+			
+	pthread_mutex_lock(&philo->data->mutex_for_fork);
+	printf("index left_fork : %d\n", philo->left_fork->fork_id);
+	printf("left fork is available : %s\n", philo->left_fork->fork_is_available ? "true" : "false");
+	philo->left_fork->fork_is_available = true;
+	printf("index left_fork : %d\n", philo->left_fork->fork_id);
+	printf("left fork is available : %s\n", philo->left_fork->fork_is_available ? "true" : "false");
+	pthread_mutex_unlock(&philo->data->mutex_for_fork);
+	return (0);
+}
+
+int	take_a_rest(t_philo *philo)
+{
+	print_message(philo, "is sleeping");
+
+	pthread_mutex_lock(&philo->data->mutex_for_fork);
+	ft_usleep_ms(philo->data->time_to_sleep);
+	pthread_mutex_unlock(&philo->data->mutex_for_fork);
+
+	return (0);
+}
 
 
 void	*routine(t_philo *philo)
@@ -68,46 +107,55 @@ void	*routine(t_philo *philo)
 	timestamp = 0;
 
 	if (philo->philo_id % 2 == 0)
-		ft_usleep(50);
+		ft_usleep_ms(50);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->data->mutex_for_fork);
-		philo->number_of_available_forks = 0;
-		pthread_mutex_unlock(&philo->data->mutex_for_fork);
-
-		pthread_mutex_lock(&philo->data->mutex_for_fork);
-		if (philo->right_fork->fork_is_available == true)
-			philo->number_of_available_forks++;
-		pthread_mutex_unlock(&philo->data->mutex_for_fork);
-
-		pthread_mutex_lock(&philo->data->mutex_for_fork);
-		if (philo->left_fork->fork_is_available == true)
-			philo->number_of_available_forks++;
-		pthread_mutex_unlock(&philo->data->mutex_for_fork);
-
-		if (philo->number_of_available_forks == 2)
+//		if (philo->philo_id == 1)
 		{
-			pthread_mutex_lock(&philo->data->mutex_for_print);
-			pthread_mutex_lock(&philo->data->mutex_for_fork);
-			timestamp = get_timestamp_ms(philo->data->start_time);
+			take_forks(philo);
+			take_meal(philo);
+			take_a_rest(philo);
+			print_message(philo, "is thinking");
+		}
+
+		
+
+/*		pthread_mutex_lock(&philo->data->mutex_for_print);
+		printf("number available forks %d\n", philo->number_of_available_forks++);
+		pthread_mutex_unlock(&philo->data->mutex_for_print);
+
+		pthread_mutex_lock(&philo->data->mutex_for_print);
+		pthread_mutex_lock(&philo->data->mutex_for_fork);
+		printf("right fork is available : %s\n", philo->right_fork->fork_is_available ? "true" : "false");
+		pthread_mutex_unlock(&philo->data->mutex_for_print);
+		pthread_mutex_unlock(&philo->data->mutex_for_fork);
+
+		pthread_mutex_lock(&philo->data->mutex_for_print);
+		pthread_mutex_lock(&philo->data->mutex_for_fork);
+		printf("left fork is available : %s\n", philo->left_fork->fork_is_available ? "true" : "false");
+		pthread_mutex_unlock(&philo->data->mutex_for_print);
+		pthread_mutex_unlock(&philo->data->mutex_for_fork);*/
+		
+/*		if (philo->number_of_available_forks == 2)
+		{
+
 			printf("%ld ", timestamp);
 			printf("philo %d ", philo->philo_id);
 			printf("is eating\n");
-			philo->right_fork->fork_is_available = false;
-			philo->left_fork->fork_is_available = false;
-			ft_usleep(philo->data->time_to_eat / 1000);
-//			ft_usleep(1000);
+//			printf("time to eat %d\n", philo->data->time_to_eat);
+//			ft_usleep_ms(philo->data->time_to_eat);
+			ft_usleep_ms(100);
 			pthread_mutex_unlock(&philo->data->mutex_for_print);
-			pthread_mutex_unlock(&philo->data->mutex_for_fork);
+//			pthread_mutex_unlock(&philo->data->mutex_for_fork);
 			
-			pthread_mutex_lock(&philo->data->mutex_for_print);
-			philo->right_fork->fork_is_available = true;
-			pthread_mutex_unlock(&philo->data->mutex_for_fork);
+//			pthread_mutex_lock(&philo->data->mutex_for_fork);
+//			philo->right_fork->fork_is_available = true;
+//			pthread_mutex_unlock(&philo->data->mutex_for_fork);
 			
-			pthread_mutex_lock(&philo->data->mutex_for_print);
-			philo->left_fork->fork_is_available = true;
-			pthread_mutex_unlock(&philo->data->mutex_for_fork);
-		}
+//			pthread_mutex_lock(&philo->data->mutex_for_fork);
+//			philo->left_fork->fork_is_available = true;
+//			pthread_mutex_unlock(&philo->data->mutex_for_fork);
+		}*/
 	}
 	return (NULL);
 }
@@ -177,7 +225,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 //	data_struct_print (*philo->data);
-	philos_struct_print (philo, data);
+//	philos_struct_print (philo, data);
 	if (run_diner(&data, philo) == 1)
 	{
 		free_all(philo, fork);

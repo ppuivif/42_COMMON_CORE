@@ -9,6 +9,8 @@ NAME  = philo
 SOURCES = 	sources/philo.c \
 			sources/parsing.c \
 			sources/structs_init.c \
+			sources/get_time.c \
+			sources/print.c \
 			sources/structs_free.c \
 			sources/utils1.c \
 

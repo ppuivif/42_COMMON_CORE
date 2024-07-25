@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 07:30:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/07/24 15:13:14 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/07/25 08:19:03 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,44 +48,60 @@ typedef struct s_philo
 	int				meals_count;
 	t_fork			*right_fork;		
 	t_fork			*left_fork;
-	int				number_of_available_forks;
+//	int				number_of_available_forks;
 	t_data			*data;
+	t_fork			*fork;
 }	t_philo;
 
 /*
 * Utils
 */
 
-void	ft_putstr_fd(char *s, int fd);
-bool	ft_isspace(int c);
-void	*ft_calloc(size_t nmemb, size_t size);
+void		ft_putstr_fd(char *s, int fd);
+bool		ft_isspace(int c);
+void		*ft_calloc(size_t nmemb, size_t size);
+
+/*
+* Time
+*/
+
+long int	get_current_time_us();
+long int	get_timestamp_ms(long int start_time);
+int			ft_usleep_ms(long int duration);
 
 /*
 * Parsing
 */
 
-int		check_and_convert_arguments(char **argv, t_data *data);
+int			check_and_convert_arguments(char **argv, t_data *data);
 
 /*
 * Initialization
 */
 
-int		init_forks_struct(t_data data, t_fork **fork);
-int		init_philos_struct(t_data data, t_philo **philo, t_fork *fork);
+int			init_forks_struct(t_data data, t_fork **fork);
+int			init_philos_struct(t_data data, t_philo **philo, t_fork *fork);
+
+/*
+* Print
+*/
+
+void		print_message(t_philo *philo, char *message);
 
 /*
 * Free
 */
 
-void    free_all(t_philo *philo, t_fork *fork);
+void 	   free_all(t_philo *philo, t_fork *fork);
 
 
 /*
 * Tests
 */
 
-void	data_struct_print(t_data data);
-void	forks_struct_print(t_fork *fork, t_data data);
-void	philos_struct_print(t_philo *philo, t_data data);
+void		data_struct_print(t_data data);
+void		forks_struct_print(t_fork *fork, t_data data);
+void		philos_struct_print(t_philo *philo, t_data data);
+void		print_fork_statement(t_fork *fork, t_data data);
 
 #endif
