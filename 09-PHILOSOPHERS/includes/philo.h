@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 07:30:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/07/25 08:19:03 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/07/26 11:12:05 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				meals_number;
 	long int		start_time;
+	int				number_of_satieted_philos;
+	pthread_mutex_t	mutex_for_data_access;
 	pthread_mutex_t	mutex_for_print;
-	pthread_mutex_t	mutex_for_fork;
+	
 }	t_data;
 
 typedef struct s_fork	t_fork;
@@ -38,6 +40,7 @@ typedef struct s_fork
 {
 	int				fork_id;
 	bool			fork_is_available;
+	pthread_mutex_t	mutex_for_fork;
 }	t_fork;
 
 typedef struct s_philo	t_philo;
@@ -46,9 +49,8 @@ typedef struct s_philo
 	int				philo_id;
 	pthread_t		philo_thread;
 	int				meals_count;
-	t_fork			*right_fork;		
+	t_fork			*right_fork;	
 	t_fork			*left_fork;
-//	int				number_of_available_forks;
 	t_data			*data;
 	t_fork			*fork;
 }	t_philo;
@@ -65,7 +67,7 @@ void		*ft_calloc(size_t nmemb, size_t size);
 * Time
 */
 
-long int	get_current_time_us();
+long int	get_current_time_ms();
 long int	get_timestamp_ms(long int start_time);
 int			ft_usleep_ms(long int duration);
 

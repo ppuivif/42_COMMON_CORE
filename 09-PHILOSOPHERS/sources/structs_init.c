@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:51:44 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/07/25 07:53:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/07/26 11:12:33 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ int	init_forks_struct(t_data data, t_fork **fork)
 	{
 		(*fork)[i].fork_id = i + 1;
 		(*fork)[i].fork_is_available = true;
+		if (pthread_mutex_init(&(*fork)[i].mutex_for_fork, NULL) != 0)
+		{
+			ft_putstr_fd("error : a mutex creation failed\n", 2);
+			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -53,7 +58,6 @@ int	init_philos_struct(t_data data, t_philo **philo, t_fork *fork)
 			(*philo)[i].left_fork = &fork[i + 1];
 		else
 			(*philo)[i].left_fork = &fork[0];
-//		(*philo)[i].number_of_available_forks = 0;
 		i++;
 	}
 	return (0);

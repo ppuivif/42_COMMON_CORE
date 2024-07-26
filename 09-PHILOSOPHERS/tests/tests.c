@@ -46,7 +46,7 @@ void	print_fork_statement(t_fork *fork, t_data data)
 	i = 0;
 	while (i < data.philo_nmemb)
 	{
-		printf("fork%d is available : %s\n", i + 1, fork->fork_is_available ? "true" : "false");
+		printf("fork%d is available : %s\n", i + 1, (&fork[i])->fork_is_available ? "true" : "false");
 		i++;
 	}
 	printf("\n");
