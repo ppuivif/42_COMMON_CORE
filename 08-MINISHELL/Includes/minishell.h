@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 17:11:42 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/08/22 18:52:10 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/23 15:06:09 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,7 @@ void			expand_redirections(t_substring *substring, t_native_redirection *n_redir
 * expand_arguments.c
 */
 
-void			add_exp_arguments(t_expanded_argument **exp_arguments, \
-				char **definitive_content, t_command_line **command_line);
-int				add_to_definitive_content(char **definitive_content, \
-				char *extracted_line, t_command_line **command_line, \
-				char *str);
-int				expand_arguments(t_substring *substring, \
+void			expand_arguments(t_substring *substring, \
 				t_native_argument *n_argument, t_command_line **command_line);
 
 /*
@@ -153,7 +148,7 @@ int				get_len_and_extract_until_next_quote(char *str, \
 				char **extracted_line, t_command_line **command_line);
 int				get_len_and_extract_until_next_dollar(char *str, \
 				char **extracted_line, t_command_line **command_line);
-int				get_len_and_extract_until_next_dollar_first_dollar_excluded( \
+int				get_len_and_extract_until_next_dollar_first_excluded( \
 				char *str, char **extracted_line);
 /*
 * expand_utils_2.c
@@ -161,10 +156,12 @@ int				get_len_and_extract_until_next_dollar_first_dollar_excluded( \
 
 int				get_len_and_extract_until_next_quote_or_dollar(char *str, \
 				char **extracted_line, t_command_line **command_line);
-int				get_len_and_extract_until_next_separator(char *str, char **extracted_line);
-int				get_len_and_extract_until_next_separator_first_dollar_included( \
-				char *str, char **extracted_line);
-int				get_len_and_extract_until_next_separator_dollar_excluded(char *str, char **extracted_line);
+int				get_len_and_extract_until_next_separator(char *str, \
+				char **extracted_line, t_command_line **command_line);
+int				get_len_and_extract_until_next_separator_st_dollar_included( \
+				char *str, char **extracted_line, t_command_line **command_line);
+int				get_len_and_extract_until_next_separator_dollar_excluded( \
+				char *str, char **extracted_line, t_command_line **command_line);
 int				get_len_and_extract_after_first_dollar(char *str, \
 				char **extracted_line, t_command_line **command_line);
 
@@ -233,15 +230,22 @@ int				handle_special_characters_after_dollar(char *str, \
 				bool flag_keep_dollar);
 int				simple_expand_content_of_redirections(char *str, \
 				char **extracted_line, t_command_line **command_line);
-int				simple_expand_content_of_arguments(char *str, \
+/*int				simple_expand_content_of_arguments(char *str, \
 				t_expanded_argument **exp_arguments, char **definitive_content, \
-				t_command_line **command_line);
+				t_command_line **command_line);*/
 
 /*
 * expand_utils_10.c
 */
 
 void			expand_content_when_heredoc(char **str, t_command_line **command_line, bool flag_for_expand);
+void			add_to_definitive_content(char **definitive_content, \
+				char *extracted_line, t_command_line **command_line, \
+				char *str);
+void			check_ambiguous_redirection(char **extracted_line, \
+				t_native_redirection **n_redirection);
+void			add_exp_arguments(t_expanded_argument **exp_arguments, \
+				char **definitive_content, t_command_line **command_line);
 
 /*
 * free_command_line_1.c

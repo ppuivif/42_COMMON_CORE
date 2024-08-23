@@ -1,5 +1,8 @@
 #include <iostream>
 #include <stdio.h>
+#include <string.h>
+
+using namespace std;
 
 namespace Var1{
 	int		i = 1;
@@ -16,7 +19,8 @@ namespace Var2{
 int main() {
 	char	buff[512];
 
-	std::cout << "Hello World1" << std::endl;
+//	string& buff2(buff);
+	cout << "Hello World1" << endl;
 	printf("%s\n", "Hello World2");
 	std::cout << "Input a word : ";
 	std::cin >> buff;

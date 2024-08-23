@@ -6,28 +6,11 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 06:33:34 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/22 19:38:23 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/23 14:25:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*static void	check_ambiguous_redirection(char **extracted_line, \
-t_native_redirection **n_redirection, t_command_line **command_line)*/
-static void	check_ambiguous_redirection(char **extracted_line, \
-t_native_redirection **n_redirection)
-{
-	size_t	len;
-	size_t	len_to_separator;
-
-	len = ft_strlen(*extracted_line);
-	len_to_separator = ft_strcspn(*extracted_line, " \t\n\v\f\r\0");
-	if (len == 0 || len_to_separator < len)
-	{
-//		(*command_line)->current_exit_code = 1;
-		(*n_redirection)->t_redirection = REDIRECTION_AMBIGUOUS;
-	}
-}
 
 static int	common_extract_and_expand_content_of_redirections( \
 char *content, char **extracted_line, t_native_redirection **n_redirection, \
@@ -42,14 +25,15 @@ t_command_line **command_line)
 		quote_type = content[0];
 		len = get_len_and_extract_between_quotes (&content[1], \
 		extracted_line, command_line, quote_type);
-		if (content[0] == '\"' && (strcspn(*extracted_line, "$") < ft_strlen(*extracted_line)))
-			complete_expand_content_of_redirections(extracted_line, command_line);
-	}	
+		if (content[0] == '\"' && (strcspn(*extracted_line, "$") \
+		< ft_strlen(*extracted_line)))
+			complete_expand_content_of_redirections(extracted_line, \
+			command_line);
+	}
 	else if (content[0] == '$')
 	{
-		len = simple_expand_content_of_redirections(content, extracted_line, command_line);
-/*		check_ambiguous_redirection(extracted_line, n_redirection, \
-			command_line);*/
+		len = simple_expand_content_of_redirections(content, extracted_line, \
+		command_line);
 		check_ambiguous_redirection(extracted_line, n_redirection);
 	}
 	else
@@ -103,20 +87,14 @@ t_command_line **command_line)
 		len = heredoc_extract_and_expand_content_of_redirections \
 		(content, &extracted_line, command_line, \
 		&(*n_redirection)->flag_for_expand);
-	if (!(*definitive_content))
-		*definitive_content = ft_strdup(extracted_line);
-	else
-		*definitive_content = ft_strjoin_freed(*definitive_content, \
-		extracted_line);
-	extracted_line = free_and_null(extracted_line);
-	if (!definitive_content)
-		error_allocation_command_line_and_exit(command_line);
+	add_to_definitive_content(definitive_content, extracted_line, \
+	command_line, NULL);
 	return (len);
 }
 
-static void expanded_redirection_struct_assignment( \
-t_expanded_redirection **exp_redirection, t_native_redirection *n_redirection, \
-char *definitive_content)
+static void	expanded_redirection_struct_assignment( \
+t_expanded_redirection **exp_redirection, \
+t_native_redirection *n_redirection, char *definitive_content)
 {
 	(*exp_redirection)->flag_for_expand = n_redirection->flag_for_expand;
 	(*exp_redirection)->t_redirection = n_redirection->t_redirection;
@@ -143,8 +121,9 @@ t_native_redirection *n_redirection, t_command_line **command_line)
 	definitive_content = NULL;
 	while (n_redirection && n_redirection->content[i])
 	{
-		len = get_definitive_content_of_redirections(&n_redirection->content[i], \
-		&definitive_content, &n_redirection, command_line);
+		len = get_definitive_content_of_redirections \
+		(&n_redirection->content[i], &definitive_content, &n_redirection, \
+		command_line);
 		i += len;
 	}
 	init_expanded_redirection_struct(&exp_redirection, command_line);
