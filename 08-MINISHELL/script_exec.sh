@@ -1446,15 +1446,15 @@ run_test "simple" 1757 "> \"	\$OUTFILE	\"" 1757 0
 run_test "simple" 1758 "> \"		\$OUTFILE		\"" 1758 0
 run_test "simple" 1759 "> \"OUTFILE \$OUTFILE\"" 1759 0
 unset OUTFILE
-rm "\$OUTFILE"
-#rm \$OUTFILE
 
 : <<BLOCK_COMMENT
 
 export LIMITER="limiter"
 
 if (( "$start_index" >= 1780 && "$start_index" <= 1799 && "$end_index" >= 1780 && "$end_index" <= 1799 ))
-then(*command_line)->current_exit_code
+then(*command_line)->curre#444
+run_test "simple" 4934 "echo \$\"42\$'HOME'" 4934 0
+nt_exit_code
 	if [ "$display" == "all" ]
 	then
 		echo ""
@@ -1491,7 +1491,8 @@ TEST2="les"
 TEST3="amis"
 TEST4="     salut     les     amis     "
 \$TEST1
-\$TEST1 \$TEST2
+\$TEST1 \$TEST2rm "\$OUTFILE"
+
 \$TEST1\$TEST2
 \$TEST1 \$TEST2 \$TEST3
 \$TEST1\$TEST2\$TEST3
@@ -1535,8 +1536,6 @@ run_test "simple" 1836 ">> \"\$OUTFILE		\"" 1836 0
 run_test "simple" 1837 ">> \"	\$OUTFILE	\"" 1837 0
 run_test "simple" 1838 ">> \"		\$OUTFILE		\"" 1838 0
 unset OUTFILE
-rm "\$OUTFILE"
-#rm \$OUTFILE
 
 if (( "$start_index" >= 1700 && "$start_index" <= 1850 && "$end_index" >= 1700 && "$end_index" <= 1850 ))
 then
@@ -1807,49 +1806,49 @@ run_test "simple" 2333 "././../../../../../.." 2333 126 "././../../../../../..: 
 
 
 
-run_test "simple" 3000 "<<< infile.txt" 3000 2 "syntax error" "invalid test because bash has a special behaviour"
-run_test "simple" 3001 "<<<< infile.txt" 3001 2 "syntax error"
-run_test "simple" 3002 "<<<<< infile.txt" 3002 2 "syntax error"
-run_test "simple" 3003 "<<> infile.txt" 3003 2 "syntax error"
-run_test "simple" 3004 "<<>> infile.txt" 3004 2 "syntax error"
-run_test "simple" 3005 "<<>>> infile.txt" 3005 2 "syntax error"
-run_test "simple" 3006 "<<>>>> infile.txt" 3006 2 "syntax error"
-run_test "simple" 3007 "<<>< infile.txt" 3007 2 "syntax error"
-run_test "simple" 3008 "<<><< infile.txt" 3008 2 "syntax error"
-run_test "simple" 3009 "<<><<< infile.txt" 3009 2 "syntax error"
-run_test "simple" 3010 "<<><<<< infile.txt" 3010 2 "syntax error"
-run_test "simple" 3011 "<<><> infile.txt" 3011 2 "syntax error"
-run_test "simple" 3012 "<<><>> infile.txt" 3012 2 "syntax error"
-run_test "simple" 3013 "<<><>>> infile.txt" 3013 2 "syntax error"
-run_test "simple" 3014 "<<><>>>> infile.txt" 3014 2 "syntax error"
-run_test "simple" 3015 "<> infile.txt" 3015 2 "syntax error" "invalid test because bash has a special behaviour"
-run_test "simple" 3016 "<>> infile.txt" 3016 2 "syntax error"
-run_test "simple" 3017 "<>>> infile.txt" 3017 2 "syntax error"
-run_test "simple" 3018 "<>>>> infile.txt" 3018 2 "syntax error"
-run_test "simple" 3019 "<>>>>> infile.txt" 3019 2 "syntax error"
-run_test "simple" 3020 "<>< infile.txt" 3020 2 "syntax error"
-run_test "simple" 3021 "<><< infile.txt" 3021 2 "syntax error"
-run_test "simple" 3022 "<><<< infile.txt" 3022 2 "syntax error"
-run_test "simple" 3023 "<><<<< infile.txt" 3023 2 "syntax error"
-run_test "simple" 3024 "<><> infile.txt" 3024 2 "syntax error"
-run_test "simple" 3025 "<><>> infile.txt" 3025 2 "syntax error"
-run_test "simple" 3026 "<><>>> infile.txt" 3026 2 "syntax error"
-run_test "simple" 3027 "<><>>>> infile.txt" 3027 2 "syntax error"
-run_test "simple" 3028 "<><>>>>> infile.txt" 3028 2 "syntax error"
-run_test "simple" 3029 ">>> outfile.txt" 3029 2 "syntax error"
-run_test "simple" 3030 ">>>> outfile.txt" 3030 2 "syntax error"
-run_test "simple" 3031 ">>>>> outfile.txt" 3031 2 "syntax error"
-run_test "simple" 3032 ">>>>>> outfile.txt" 3032 2 "syntax error"
-run_test "simple" 3033 ">>< outfile.txt" 3033 2 "syntax error"
-run_test "simple" 3034 ">><< outfile.txt" 3034 2 "syntax error"
-run_test "simple" 3035 ">><<< outfile.txt" 3035 2 "syntax error"
-run_test "simple" 3036 ">><<<< outfile.txt" 3036 2 "syntax error"
-run_test "simple" 3037 ">><<<<< outfile.txt" 3037 2 "syntax error"
-run_test "simple" 3038 ">><> outfile.txt" 3038 2 "syntax error"
-run_test "simple" 3039 ">><>> outfile.txt" 3039 2 "syntax error"
-run_test "simple" 3040 ">><>>> outfile.txt" 3040 2 "syntax error"
-run_test "simple" 3041 ">><>>>> outfile.txt" 3041 2 "syntax error"
-run_test "simple" 3042 ">><>>>>> outfile.txt" 3042 2 "syntax error"
+run_test "simple" 3000 "<<< infile1.txt" 3000 2 "syntax error" "invalid test because bash has a special behaviour"
+run_test "simple" 3001 "<<<< infile1.txt" 3001 2 "syntax error"
+run_test "simple" 3002 "<<<<< infile1.txt" 3002 2 "syntax error"
+run_test "simple" 3003 "<<> infile1.txt" 3003 2 "syntax error"
+run_test "simple" 3004 "<<>> infile1.txt" 3004 2 "syntax error"
+run_test "simple" 3005 "<<>>> infile1.txt" 3005 2 "syntax error"
+run_test "simple" 3006 "<<>>>> infile1.txt" 3006 2 "syntax error"
+run_test "simple" 3007 "<<>< infile1.txt" 3007 2 "syntax error"
+run_test "simple" 3008 "<<><< infile1.txt" 3008 2 "syntax error"
+run_test "simple" 3009 "<<><<< infile1.txt" 3009 2 "syntax error"
+run_test "simple" 3010 "<<><<<< infile1.txt" 3010 2 "syntax error"
+run_test "simple" 3011 "<<><> infile1.txt" 3011 2 "syntax error"
+run_test "simple" 3012 "<<><>> infile1.txt" 3012 2 "syntax error"
+run_test "simple" 3013 "<<><>>> infile1.txt" 3013 2 "syntax error"
+run_test "simple" 3014 "<<><>>>> infile1.txt" 3014 2 "syntax error"
+run_test "simple" 3015 "<> infile1.txt" 3015 2 "syntax error" "invalid test because bash has a special behaviour"
+run_test "simple" 3016 "<>> infile1.txt" 3016 2 "syntax error"
+run_test "simple" 3017 "<>>> infile1.txt" 3017 2 "syntax error"
+run_test "simple" 3018 "<>>>> infile1.txt" 3018 2 "syntax error"
+run_test "simple" 3019 "<>>>>> infile1.txt" 3019 2 "syntax error"
+run_test "simple" 3020 "<>< infile1.txt" 3020 2 "syntax error"
+run_test "simple" 3021 "<><< infile1.txt" 3021 2 "syntax error"
+run_test "simple" 3022 "<><<< infile1.txt" 3022 2 "syntax error"
+run_test "simple" 3023 "<><<<< infile1.txt" 3023 2 "syntax error"
+run_test "simple" 3024 "<><> infile1.txt" 3024 2 "syntax error"
+run_test "simple" 3025 "<><>> infile1.txt" 3025 2 "syntax error"
+run_test "simple" 3026 "<><>>> infile1.txt" 3026 2 "syntax error"
+run_test "simple" 3027 "<><>>>> infile1.txt" 3027 2 "syntax error"
+run_test "simple" 3028 "<><>>>>> infile1.txt" 3028 2 "syntax error"
+run_test "simple" 3029 ">>> outfile1.txt" 3029 2 "syntax error"
+run_test "simple" 3030 ">>>> outfile1.txt" 3030 2 "syntax error"
+run_test "simple" 3031 ">>>>> outfile1.txt" 3031 2 "syntax error"
+run_test "simple" 3032 ">>>>>> outfile1.txt" 3032 2 "syntax error"
+run_test "simple" 3033 ">>< outfile1.txt" 3033 2 "syntax error"
+run_test "simple" 3034 ">><< outfile1.txt" 3034 2 "syntax error"
+run_test "simple" 3035 ">><<< outfile1.txt" 3035 2 "syntax error"
+run_test "simple" 3036 ">><<<< outfile1.txt" 3036 2 "syntax error"
+run_test "simple" 3037 ">><<<<< outfile1.txt" 3037 2 "syntax error"
+run_test "simple" 3038 ">><> outfile1.txt" 3038 2 "syntax error"
+run_test "simple" 3039 ">><>> outfile1.txt" 3039 2 "syntax error"
+run_test "simple" 3040 ">><>>> outfile1.txt" 3040 2 "syntax error"
+run_test "simple" 3041 ">><>>>> outfile1.txt" 3041 2 "syntax error"
+run_test "simple" 3042 ">><>>>>> outfile1.txt" 3042 2 "syntax error"
 
 if (( "$start_index" >= 3000 && "$start_index" <= 3050 && "$end_index" >= 3000 && "$end_index" <= 3050 ))
 then
@@ -1861,39 +1860,39 @@ then
 	fi
 fi
 
-run_test "simple" 3300 "< 'infile.txt" 3300 2  "syntax error"
-run_test "simple" 3301 "< infile.txt'" 3301 2 "syntax error"
-run_test "simple" 3302 "< \"infile.txt" 3302 2 "syntax error"
-run_test "simple" 3303 "< infile.txt\"" 3303 2 "syntax error"
-run_test "simple" 3304 "< 'infile.txt\"" 3304 2 "syntax error"
-run_test "simple" 3305 "< 'infile.txt'\"" 3305 2 "syntax error"
-#run_test "simple" 3306 "< \"infile.txt'\"" 3306 2 "syntax error"
-run_test "simple" 3307 "< \"infile.txt\"'" 3307 2 "syntax error"
-run_test "simple" 3308 "<< 'infile.txt" 3308 2 "syntax error"
-run_test "simple" 3309 "<< infile.txt'" 3309 2 "syntax error"
-run_test "simple" 3310 "<< \"infile.txt" 3310 2 "syntax error"
-run_test "simple" 3311 "<< infile.txt\"" 3311 2 "syntax error"
-run_test "simple" 3312 "<< 'infile.txt\"" 3312 2 "syntax error"
-run_test "simple" 3313 "<< 'infile.txt'\"" 3313 2 "syntax error"
-#run_test "simple" 3314 "<< \"infile.txt'\"" 3314 2 "syntax error"
-run_test "simple" 3315 "<< \"infile.txt\"'" 3315 2 "syntax error"
+run_test "simple" 3300 "< 'infile1.txt" 3300 2  "syntax error"
+run_test "simple" 3301 "< infile1.txt'" 3301 2 "syntax error"
+run_test "simple" 3302 "< \"infile1.txt" 3302 2 "syntax error"
+run_test "simple" 3303 "< infile1.txt\"" 3303 2 "syntax error"
+run_test "simple" 3304 "< 'infile1.txt\"" 3304 2 "syntax error"
+run_test "simple" 3305 "< 'infile1.txt'\"" 3305 2 "syntax error"
+#run_test "simple" 3306 "< \"infile1.txt'\"" 3306 2 "syntax error"
+run_test "simple" 3307 "< \"infile1.txt\"'" 3307 2 "syntax error"
+run_test "simple" 3308 "<< 'infile1.txt" 3308 2 "syntax error"
+run_test "simple" 3309 "<< infile1.txt'" 3309 2 "syntax error"
+run_test "simple" 3310 "<< \"infile1.txt" 3310 2 "syntax error"
+run_test "simple" 3311 "<< infile1.txt\"" 3311 2 "syntax error"
+run_test "simple" 3312 "<< 'infile1.txt\"" 3312 2 "syntax error"
+run_test "simple" 3313 "<< 'infile1.txt'\"" 3313 2 "syntax error"
+#run_test "simple" 3314 "<< \"infile1.txt'\"" 3314 2 "syntax error"
+run_test "simple" 3315 "<< \"infile1.txt\"'" 3315 2 "syntax error"
 
-run_test "simple" 3400 "> 'outfile.txt" 3400 2 "syntax error"
-run_test "simple" 3401 "> outfile.txt'" 3401 2 "syntax error"
-run_test "simple" 3402 "> \"outfile.txt" 3402 2 "syntax error"
-run_test "simple" 3403 "> outfile.txt\"" 3403 2 "syntax error"
-run_test "simple" 3404 "> 'outfile.txt\"" 3404 2 "syntax error"
-run_test "simple" 3405 "> 'outfile.txt'\"" 3405 2 "syntax error"
-#run_test "simple" 3406 "> \"outfile.txt'\"" 3406 2 "syntax error"
-run_test "simple" 3407 "> \"outfile.txt\"'" 3407 2 "syntax error"
-run_test "simple" 3408 ">> 'outfile.txt" 3408 2 "syntax error"
-run_test "simple" 3409 ">> outfile.txt'" 3409 2 "syntax error"
-run_test "simple" 3410 ">> \"outfile.txt" 3410 2 "syntax error"
-run_test "simple" 3411 ">> outfile.txt\"" 3411 2 "syntax error"
-run_test "simple" 3412 ">> 'outfile.txt\"" 3412 2 "syntax error"
-run_test "simple" 3413 ">> 'outfile.txt'\"" 3413 2 "syntax error"
-#run_test "simple" 3414 ">> \"outfile.txt'\"" 3414 2 "syntax error"
-run_test "simple" 3415 ">> \"outfile.txt\"'" 3415 2 "syntax error"
+run_test "simple" 3400 "> 'outfile1.txt" 3400 2 "syntax error"
+run_test "simple" 3401 "> outfile1.txt'" 3401 2 "syntax error"
+run_test "simple" 3402 "> \"outfile1.txt" 3402 2 "syntax error"
+run_test "simple" 3403 "> outfile1.txt\"" 3403 2 "syntax error"
+run_test "simple" 3404 "> 'outfile1.txt\"" 3404 2 "syntax error"
+run_test "simple" 3405 "> 'outfile1.txt'\"" 3405 2 "syntax error"
+#run_test "simple" 3406 "> \"outfile1.txt'\"" 3406 2 "syntax error"
+run_test "simple" 3407 "> \"outfile1.txt\"'" 3407 2 "syntax error"
+run_test "simple" 3408 ">> 'outfile1.txt" 3408 2 "syntax error"
+run_test "simple" 3409 ">> outfile1.txt'" 3409 2 "syntax error"
+run_test "simple" 3410 ">> \"outfile1.txt" 3410 2 "syntax error"
+run_test "simple" 3411 ">> outfile1.txt\"" 3411 2 "syntax error"
+run_test "simple" 3412 ">> 'outfile1.txt\"" 3412 2 "syntax error"
+run_test "simple" 3413 ">> 'outfile1.txt'\"" 3413 2 "syntax error"
+#run_test "simple" 3414 ">> \"outfile1.txt'\"" 3414 2 "syntax error"
+run_test "simple" 3415 ">> \"outfile1.txt\"'" 3415 2 "syntax error"
 
 if (( "$start_index" >= 3300 && "$start_index" <= 3415 && "$end_index" >= 3300 && "$end_index" <= 3415 ))
 then
@@ -2213,7 +2212,7 @@ run_test "simple" 4874 "cat <\"./test_files/infile1\" | grep hello\" | echo hi" 
 run_test "simple" 4875 "cat <\"./temp/infile_big.txt\" | echo hi" 4875 0
 
 
-
+#366
 run_test "simple" 4933 "\$PWD" 4933 126 ": Is a directory"
 
 mkdir ./temp/no_permission_dir
@@ -2248,6 +2247,8 @@ run_test "simple" 4962 "/nix" 4962 126 "/nix: Is a directory"
 
 run_test "simple" 4970 "temp" 4970 127 "temp: command not found"
 
+#444
+run_test "simple" 4980 "echo \$\"42\$'HOME'" 4980 0
 
 
 if (( "$start_index" >= 4800 && "$start_index" <= 4999 && "$end_index" >= 4800 && "$end_index" <= 4999 ))
@@ -2465,6 +2466,19 @@ then
 else
 	echo -e "${GREEN}no error detected${NC}"
 fi
+
+if [ -f "\$OUTFILE" ]
+then
+	chmod 644 "\$OUTFILE"
+	rm "\$OUTFILE"
+fi
+
+if [ -f "\"\$OUTFILE\"" ]
+then
+	chmod 644 "\"\$OUTFILE\""
+	rm "\"\$OUTFILE\""
+fi
+
 #delete_files
 
 exit

@@ -8,7 +8,7 @@ public:
     int     i;
     char    c;
 
-    Sample(void);
+    Sample(int p1, char p2);
     ~Sample(void);
 
     void    function(void);

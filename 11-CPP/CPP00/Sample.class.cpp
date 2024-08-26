@@ -3,9 +3,14 @@
 
 using namespace std;
 
-Sample::Sample(void){
+// eclaircir declaration et initialisation
+
+Sample::Sample(int p1, char p2) : i(p1), c(p2) {
 
     cout << "constructor called" << endl;
+    cout << "i = " << this->i << endl; 
+    cout << "c = " << this->c << endl;
+
     return;
 
 }
@@ -13,6 +18,7 @@ Sample::Sample(void){
 Sample::~Sample(void){
 
     cout << "destructor called" << endl;
+
     return;
 
 }

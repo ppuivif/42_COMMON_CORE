@@ -5,12 +5,12 @@ using namespace std;
 
 int main(){
 
-	Sample instance;
-	instance.c = 'a';
-	instance.i = 42;
-	cout << "instance.c value is : " << instance.c << endl;
-	cout << "instance.i value is : " << instance.i << endl;
-	instance.function();
+	Sample instance(42, 'a');
+//	instance.c = 'a';
+//	instance.i = 42;
+//	cout << "instance.c value is : " << instance.c << endl;
+//	cout << "instance.i value is : " << instance.i << endl;
+//	instance.function();
 	return (0);
 
 }
