@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 16:33:21 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/08/23 14:41:07 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/28 19:27:21 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ typedef struct s_exec_redirection
 	t_redirection				t_redirection;
 	int							fd_input;
 	int							fd_output;
+	int							fd_in;
+	int							fd_out;
+	int							fd[2];
 	struct s_exec_redirection	*next;
 }	t_exec_redirection;
 
