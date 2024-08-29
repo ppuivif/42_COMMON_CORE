@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 18:10:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/08/28 19:26:58 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:01:26 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_exec_struct **exec_struct)
 		error_allocation_exec_struct_and_exit(exec_struct);
 	(*exec_argument)->argument = NULL;
 	(*exec_argument)->is_argument_valid = true;
-	(*exec_argument)->is_builtin = 0;
+	(*exec_argument)->is_builtin = ISNOT_BUILTIN;
 	(*exec_argument)->next = NULL;
 	return (0);
 }
@@ -48,10 +48,6 @@ t_exec_struct **exec_struct)
 	(*exec_redirection)->t_redirection = 2;
 	(*exec_redirection)->fd_input = -2;
 	(*exec_redirection)->fd_output = -2;
-	(*exec_redirection)->fd_in = STDIN_FILENO;
-	(*exec_redirection)->fd_out = STDOUT_FILENO;
-	(*exec_redirection)->fd[0] = STDIN_FILENO;
-	(*exec_redirection)->fd[1] = STDOUT_FILENO;
 	(*exec_redirection)->next = NULL;
 	return (0);
 }
@@ -68,6 +64,11 @@ t_exec_struct **exec_struct)
 	(*exec_substring)->exec_arguments = NULL;
 	(*exec_substring)->cmd_arr = NULL;
 	(*exec_substring)->path_with_cmd = NULL;
+	(*exec_substring)->pid_arr = NULL;
+	(*exec_substring)->fd_in = STDIN_FILENO;
+	(*exec_substring)->fd_out = STDOUT_FILENO;
+	(*exec_substring)->fd[0] = STDIN_FILENO;
+	(*exec_substring)->fd[1] = STDOUT_FILENO;
 	(*exec_substring)->next = NULL;
 	return (0);
 }
