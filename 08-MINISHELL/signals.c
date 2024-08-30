@@ -6,11 +6,14 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:38:04 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/28 18:31:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/30 17:19:53 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+# include <sys/ioctl.h>
+
 
 static void	ctrl_c(int sign)
 {
@@ -33,22 +36,35 @@ static void	ctrl_c(int sign)
 		return ;
 	}
 	save = data;
-}*/
+}
 
 static void	ctrl_c2(int sign)
+{
+	ft_exit_heredoc(NULL);
+	exit(130);
+}*/
+
+
+/*static void	ctrl_c2(int sign)
 {
 	g_sign = sign;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-}
-
-/*static void	ctrl_c2(int sign)
-{
-	ft_exit_heredoc(NULL);
-	exit();
 }*/
 
+//void    here_doc(int sign)//solution Theau
+static void	ctrl_c2(int sign)
+{
+//  char    c;
+
+    g_sign = sign;
+//  c = '\n';
+    ioctl(0, TIOCSTI, "\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    (void)sign;
+}
 
 static void	ctrl_backslash(int sign)
 {
