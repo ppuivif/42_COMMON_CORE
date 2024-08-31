@@ -10,6 +10,8 @@ cat | true -> ^C -> exit code 130 au lieu du dernier (0)
 ^D dans heredoc doit bash: warning: here-document at line 1 delimited by end-of-file (wanted `delim')
 
 
+cd - to verify
+
 tests :
 
 

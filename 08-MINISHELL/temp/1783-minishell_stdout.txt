@@ -1,4 +1,0 @@
-heredoc : line1
-heredoc : line2
-heredoc : $LIMITER
-heredoc : 

@@ -1,2 +1,0 @@
-Execve failed
-exit

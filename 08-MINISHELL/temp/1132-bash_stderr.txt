@@ -1,2 +1,0 @@
-./script_exec.sh: eval: line 287: syntax error near unexpected token `&&'
-./script_exec.sh: eval: line 287: `&&&'
