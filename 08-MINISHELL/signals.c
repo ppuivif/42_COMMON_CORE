@@ -6,14 +6,13 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:38:04 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/30 17:19:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/31 18:22:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 # include <sys/ioctl.h>
-
 
 static void	ctrl_c(int sign)
 {
@@ -66,6 +65,13 @@ static void	ctrl_c2(int sign)
     (void)sign;
 }
 
+/*static void	ctrl_d2(sign)
+{
+    g_sign = sign;
+	ft_putstr_fd("warning: here-document delimited by end-of-file\n", 1);
+//	signal(SIGQUIT, SIG_IGN);
+}*/
+
 static void	ctrl_backslash(int sign)
 {
 	g_sign = sign;
@@ -82,6 +88,7 @@ void	signals(int sign)
 	}
 	else
 	{
+//		signal(SIGQUIT, ctrl_d2);//do not work
 		signal(SIGQUIT, ctrl_backslash);
 		signal(SIGINT, ctrl_c2);//CTRL C apres readline
 	}

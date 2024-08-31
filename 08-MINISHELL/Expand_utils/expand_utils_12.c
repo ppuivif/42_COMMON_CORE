@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 06:34:06 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/30 18:44:58 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/31 17:00:00 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ char *filename, int fd, t_command_line **command_line)
 	return (0);
 }
 
-static void	heredoc_fork_create(t_exec_struct **exec_struct, \
-t_expanded_redirection *exp_redirection, char *filename, int fd)
+static int	heredoc_fork_create(t_expanded_redirection *exp_redirection, \
+char *filename, int fd, t_exec_struct **exec_struct)
 {
-	pid_t	pid_1;
+/*	pid_t	pid_1;
 
 	pid_1 = fork();
 	if (pid_1 == -1)
@@ -106,17 +106,19 @@ t_expanded_redirection *exp_redirection, char *filename, int fd)
 		error_fork_creation_and_exit(exec_struct);
 	}
 	if (pid_1 == 0)
-	{
+	{*/
 		if (read_and_expand_heredoc(exp_redirection, filename, fd, \
 		&(*exec_struct)->command_line))
 		{
-			free(filename);
+//			free(filename);
 			close(fd);
-//			return (1);
+			return (1);
 		}
-	}
-	free(filename);
-	close(fd);
+//	}
+	return (0);
+	
+//	free(filename);
+//	close(fd);
 }
 
 int	check_heredoc(t_exec_struct **exec_struct, \
@@ -132,8 +134,12 @@ t_exec_redirection **exec_redirection)
 	index = free_and_null(index);
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
+	{
+		perror(filename);
 		return (1);
-	heredoc_fork_create(exec_struct, exp_redirection, filename, fd);
+	}
+	if (heredoc_fork_create(exp_redirection, filename, fd, exec_struct))
+		return (1);
 	close(fd);
 	(*exec_redirection)->file = filename;
 	(*exec_redirection)->t_redirection = REDIRECTION_INFILE;

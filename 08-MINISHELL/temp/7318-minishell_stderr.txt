@@ -1,0 +1,2 @@
+Tests/file_whith_segfault: No such file or directory
+exit

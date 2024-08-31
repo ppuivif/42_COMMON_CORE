@@ -1,0 +1,28 @@
+heredoc : line1
+heredoc : line2
+heredoc : 
+"$OUTFILE"                        expand_arguments.o
+$OUTFILE                          expand_contents.c
+.git/                             expand_contents.o
+.vscode/                          expand_redirections.c
+Builtins/                         expand_redirections.o
+Exec_utils/                       get_and_free_envp.c
+Expand_utils/                     get_and_free_envp.o
+Free_utils/                       heredoc_tmp_0
+GNL/                              infile1.txt
+Includes/                         linked_list_utils_for_print.c
+Lexique minishell __.pdf          linked_list_utils_for_print.o
+Libft_utils/                      ls_copy
+Linked_list_utils/                memo/
+Makefile                          minishell
+Parsing_utils/                    minishell.c
+Script_for_test_others_minishell/ minishell.o
+Tests/                            minishell_tester/
+Tests1_native/                    parsing_arguments.c
+Tests_exec/                       parsing_arguments.o
+a                                 parsing_redirections.c
+a.out                             parsing_redirections.o
+b                                 parsing_substrings.c
+build_execution.c                 parsing_substrings.o
+--More--[Kbuild_execution.o                 parsing_test1.excalidraw
+--More--[C[C[C[C[C[C[C[C[C[C

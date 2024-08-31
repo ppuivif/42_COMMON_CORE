@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 06:32:59 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/30 15:23:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/08/31 12:38:52 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ int	get_exit_code_last_process(int *pid_arr, int i)
 			continue ;
 		i--;
 	}
-	free(pid_arr);
+	//free(pid_arr);
 	return (exit_code_last_process);
 }
