@@ -1,13 +1,13 @@
 //echo "$USER'"
-exit dans un pipe n'affiche pas exit (pas forcement tres important)
+//exit dans un pipe n'affiche pas exit (pas forcement tres important)
 //pipe invalid free
-variable _ n'est visible que dans env
+//variable _ n'est visible que dans env
 
-export a="b    c"
+export a="b    c" voir expand
 export $a=$a ne donne pas c="b"
 
 cat | true -> ^C -> exit code 130 au lieu du dernier (0)
-^D dans heredoc doit bash: warning: here-document at line 1 delimited by end-of-file (wanted `delim')
+//^D dans heredoc doit bash: warning: here-document at line 1 delimited by end-of-file (wanted `delim')
 
 
 cd - to verify

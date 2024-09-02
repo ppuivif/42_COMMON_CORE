@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 06:34:06 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/31 17:00:00 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/01 17:53:17 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,22 @@ char *filename, int fd, t_command_line **command_line)
 	line = NULL;
 	while (1)
 	{
-		line = readline("heredoc : ");
 		signals(1);
 		if (g_sign)
 		{
-//			printf("voici le sign : %d\n", g_sign);//to delete
 			unlink(filename); // Optionally delete the temporary file
 			filename = free_and_null(filename);
-			return (1);
+			close(fd);
+			return (g_sign + 128);
 		}
-		if (!line || ft_strcmp(line, exp_redirection->content) == 0)
+		line = readline("heredoc : ");
+		if (!line)
+		{
+			ft_putstr_fd("warning: here-document at line \
+delimited by end-of-file\n", 2);
+			break ;
+		}
+		if (ft_strcmp(line, exp_redirection->content) == 0)
 			break ;
 		if (line[0])
 			add_history(line);
@@ -93,34 +99,6 @@ char *filename, int fd, t_command_line **command_line)
 	return (0);
 }
 
-static int	heredoc_fork_create(t_expanded_redirection *exp_redirection, \
-char *filename, int fd, t_exec_struct **exec_struct)
-{
-/*	pid_t	pid_1;
-
-	pid_1 = fork();
-	if (pid_1 == -1)
-	{
-		free(filename);
-		perror("error\ncreate fork failed");
-		error_fork_creation_and_exit(exec_struct);
-	}
-	if (pid_1 == 0)
-	{*/
-		if (read_and_expand_heredoc(exp_redirection, filename, fd, \
-		&(*exec_struct)->command_line))
-		{
-//			free(filename);
-			close(fd);
-			return (1);
-		}
-//	}
-	return (0);
-	
-//	free(filename);
-//	close(fd);
-}
-
 int	check_heredoc(t_exec_struct **exec_struct, \
 t_expanded_redirection *exp_redirection, \
 t_exec_redirection **exec_redirection)
@@ -128,18 +106,22 @@ t_exec_redirection **exec_redirection)
 	int		fd;
 	char	*filename;
 	char	*index;
+	int		status_code;
 
 	index = ft_itoa((*exec_redirection)->substring_index);
 	filename = ft_strjoin("heredoc_tmp_", index);
 	index = free_and_null(index);
+	status_code = 0;
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
 	{
 		perror(filename);
 		return (1);
 	}
-	if (heredoc_fork_create(exp_redirection, filename, fd, exec_struct))
-		return (1);
+	status_code = read_and_expand_heredoc(exp_redirection, filename, fd, \
+	&(*exec_struct)->command_line);
+	if (status_code)
+		return (status_code);
 	close(fd);
 	(*exec_redirection)->file = filename;
 	(*exec_redirection)->t_redirection = REDIRECTION_INFILE;

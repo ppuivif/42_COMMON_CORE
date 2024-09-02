@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 06:32:20 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/30 18:23:18 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/01 17:54:20 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ t_exec_struct **exec_struct)
 	if (status_code != 0)
 	{
 		(*exec_substring)->is_previous_file_opened = false;
-		(*exec_struct)->command_line->current_exit_code = 1;
+		(*exec_struct)->command_line->current_exit_code = status_code;
+		g_sign = 0;
 	}
 	else
 		(*exec_struct)->command_line->current_exit_code = 0;
