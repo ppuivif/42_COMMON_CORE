@@ -4,7 +4,7 @@ valgrind --track-fds=yes ./so_long Maps/empty_map.ber
 
 valgrind -q : n'affiche pas de message si pas d'erreur
 
-valgrid -suppression-nom_fichier pour supprimer l'afficher des leak propres a une fonction
+valgrind -suppression-nom_fichier pour supprimer l'afficher des leak propres a une fonction
 
 valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes ./minishell
 
