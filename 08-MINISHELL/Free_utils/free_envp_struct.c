@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   free_envp_struct.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 11:30:07 by drabarza          #+#    #+#             */
-/*   Updated: 2024/09/04 21:47:07 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/07/11 06:34:14 by drabarza          #+#    #+#             */
+/*   Updated: 2024/09/04 09:52:08 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(t_exec_struct *exec_struct, t_exec_argument *exec_arguments)
+void	free_envp_struct(t_envp_struct **envp_struct)
 {
-	char	str[PATH_MAX];
+	t_envp_struct	*tmp;
 
-	if (error_option(exec_struct, exec_arguments, "pwd"))
-		return ;
-	if (getcwd(str, PATH_MAX))
+	while (ft_lst_size6(*envp_struct))
 	{
-		ft_putstr_fd(str, 1);
-		ft_putstr_fd("\n", 1);
-	}
-	else
-	{
-		ft_putstr_fd("An error as detected\n", 2);
+		tmp = (*envp_struct)->next;
+		(*envp_struct)->name = free_and_null((*envp_struct)->name);
+		(*envp_struct)->value = free_and_null((*envp_struct)->value);
+		free(*envp_struct);
+		*envp_struct = tmp;
 	}
 }

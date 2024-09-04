@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:33:32 by drabarza          #+#    #+#             */
-/*   Updated: 2024/08/21 17:14:57 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:05:33 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,18 @@ static void	ft_lst_print(t_envp_struct *envp_struct, int fd)
 	tmp = envp_struct;
 	while (tmp && i < ft_lst_size6(envp_struct))
 	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(tmp->name, fd);
-		if (tmp->value)
+		if (ft_strcmp(tmp->name, "_"))
 		{
-			ft_putstr_fd("=\"", fd);
-			ft_putstr_fd(tmp->value, fd);
-			ft_putstr_fd("\"", fd);
+			ft_putstr_fd("declare -x ", fd);
+			ft_putstr_fd(tmp->name, fd);
+			if (tmp->value && tmp->equal)
+			{
+				ft_putstr_fd("=\"", fd);
+				ft_putstr_fd(tmp->value, fd);
+				ft_putstr_fd("\"", fd);
+			}
+			ft_putstr_fd("\n", fd);
 		}
-		ft_putstr_fd("\n", fd);
 		tmp = tmp->next;
 		i++;
 	}

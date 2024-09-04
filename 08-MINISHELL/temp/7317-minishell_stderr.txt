@@ -1,2 +1,0 @@
-Tests/executable_no_permission: No such file or directory
-exit

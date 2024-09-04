@@ -6,12 +6,11 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:38:04 by drabarza          #+#    #+#             */
-/*   Updated: 2024/09/01 16:38:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/03 17:38:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static void	ctrl_c(int sign)
 {
@@ -19,57 +18,24 @@ static void	ctrl_c(int sign)
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);//remplace le contenu du buffer
-	rl_redisplay();//affiche le contenu courant du buffer
+	rl_redisplay();//affiche le contenu courant du buffer 
 }
 
-static void	ctrl_c2(int sign)
-{
-	g_sign = sign;
-	ft_putstr_fd("\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);//remplace le contenu du buffer
-	//rl_redisplay();//affiche le contenu courant du buffer
-}
-
-/*void ft_exit_heredoc(t_exec_struct *data)
-{
-	static t_exec_struct *save;
-
-	save = NULL;
-	if (!data)
-	{
-		if (save)
-			free(save);
-		return ;
-	}
-	save = data;
-}
-
-static void	ctrl_c2(int sign)
-{
-	ft_exit_heredoc(NULL);
-	exit(130);
-}*/
-
-
-/*static void	ctrl_c2(int sign)
-{
-	g_sign = sign;
-	ft_putstr_fd("\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-}*/
-
-//void    here_doc(int sign)//solution Theau
 static void	ctrl_c1(int sign)
 {
-//  char    c;
-
-    g_sign = sign;
+	g_sign = sign;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	ioctl(0, TIOCSTI, "\n");
-    (void)sign;
+	(void)sign;
+}
+
+static void	ctrl_c2(int sign)
+{
+	g_sign = sign;
+	ft_putstr_fd("\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
 }
 
 static void	ctrl_backslash(int sign)
@@ -88,16 +54,12 @@ void	signals(int sign)
 	}
 	if (sign == 1)
 	{
-//		signal(SIGQUIT, ctrl_d2);//do not work
-		signal(SIGQUIT, ctrl_backslash);
+//		signal(SIGQUIT, ctrl_backslash);
 		signal(SIGINT, ctrl_c1);//CTRL C dans heredoc
 	}
 	if (sign == 2)
 	{
-//		signal(SIGQUIT, ctrl_d2);//do not work
 		signal(SIGQUIT, ctrl_backslash);
-		signal(SIGINT, ctrl_c2);//CTRL C dans heredoc
+		signal(SIGINT, ctrl_c2);//CTRL C dans execution
 	}
 }
-
-// see IOCTL for heredoc with EOF
