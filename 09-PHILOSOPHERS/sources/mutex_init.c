@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs_free.c                                     :+:      :+:    :+:   */
+/*   mutex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 05:56:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/12 09:58:31 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/09/11 09:57:37 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/09/12 10:22:29 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void    mutex_destroy_and_free_all(t_data *data, t_fork *fork, t_philo *philo)
+void    print_mutex_and_data_mutex_init(t_data *data)
 {
-	all_mutex_destroy(data, fork, data->philo_nmemb);
-	if (philo)
-		free(philo);
-	if (fork)
-		free(fork);
+	if (pthread_mutex_init(&data->mutex_for_print, NULL))
+	{
+		ft_putstr_fd("error : a mutex creation failed\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&data->mutex_for_data_access, NULL))
+	{
+		ft_putstr_fd("error : a mutex creation failed\n", 2);
+		pthread_mutex_destroy(&data->mutex_for_print);
+		exit(EXIT_FAILURE);
+	}
 }

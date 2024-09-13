@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 07:30:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/07/26 11:12:05 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/13 16:36:45 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				meals_number;
 	long int		start_time;
-	int				number_of_satieted_philos;
+	int				number_of_satieted_philos;//to delete
 	pthread_mutex_t	mutex_for_data_access;
 	pthread_mutex_t	mutex_for_print;
 	
@@ -48,9 +48,14 @@ typedef struct s_philo
 {
 	int				philo_id;
 	pthread_t		philo_thread;
+	long int		beginning_of_last_meal;
 	int				meals_count;
+	bool			stop_routine;
+	bool			is_dead;
+	pthread_mutex_t	mutex_for_philo;
 	t_fork			*right_fork;	
 	t_fork			*left_fork;
+	t_philo			**philo;
 	t_data			*data;
 	t_fork			*fork;
 }	t_philo;
@@ -63,38 +68,72 @@ void		ft_putstr_fd(char *s, int fd);
 bool		ft_isspace(int c);
 void		*ft_calloc(size_t nmemb, size_t size);
 
+bool		check_stop_routine(t_philo *philo);
+
 /*
 * Time
 */
 
-long int	get_current_time_ms();
-long int	get_timestamp_ms(long int start_time);
-int			ft_usleep_ms(long int duration);
+long int	get_current_time_ms(t_data *data, t_fork *fork, t_philo *philo);
+long int	get_timestamp_ms(t_philo *philo, long int start_time);
+void		ft_usleep_ms(t_philo *philo, long int duration);
 
 /*
-* Parsing
+* parsing.c
 */
 
-int			check_and_convert_arguments(char **argv, t_data *data);
+void		check_arguments_and_fill_data_struct(int argc, char **argv, \
+			t_data *data);
 
 /*
-* Initialization
+* mutex_init.c
 */
 
-int			init_forks_struct(t_data data, t_fork **fork);
-int			init_philos_struct(t_data data, t_philo **philo, t_fork *fork);
+void	    print_mutex_and_data_mutex_init(t_data *data);
+
+
+/*
+* structs_init.c
+*/
+
+void		forks_struct_init(t_data *data, t_fork **fork); 	
+int			philos_struct_init(t_data *data, t_fork *fork, t_philo **philo);
 
 /*
 * Print
 */
 
-void		print_message(t_philo *philo, char *message);
+long int	print_message(t_philo *philo, int philo_id, long int start_time, \
+char *message);
 
 /*
-* Free
+* error_handling.c
 */
 
-void 	   free_all(t_philo *philo, t_fork *fork);
+void		error_allocation_forks_struct_and_exit(t_data *data);
+void		error_fork_mutex_creation_and_exit(t_data *data, t_fork *fork, \
+			int nmemb);
+void		error_allocation_philo_struct_and_exit(t_data *data, \
+			t_fork *fork, int nmemb);
+void		error_philo_thread_creation(t_data *data, t_fork *fork, \
+			t_philo *philo, int nmemb);
+void		error_philo_thread_join(t_data *data, t_fork *fork, \
+			t_philo *philo);
+
+
+/*
+* structs_free.c
+*/
+
+void 		mutex_destroy_and_free_all(t_data *data, t_fork *fork, \
+			t_philo *philo);
+
+/*
+* mutex_destroy.c
+*/
+
+void		all_fork_mutex_destroy(t_fork *fork, int nmemb);
+void		all_mutex_destroy(t_data *data, t_fork *fork, int nmemb);
 
 
 /*

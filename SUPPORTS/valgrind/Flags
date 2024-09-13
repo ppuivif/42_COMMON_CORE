@@ -8,4 +8,6 @@ valgrind -suppression-nom_fichier pour supprimer l'afficher des leak propres a u
 
 valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes ./minishell
 
+segfault malloc 
 
+env -i = seg fault

@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structs_free.c                                     :+:      :+:    :+:   */
+/*   mutex_destroy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 05:56:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/12 09:58:31 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/09/11 15:18:13 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/09/12 13:35:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void    mutex_destroy_and_free_all(t_data *data, t_fork *fork, t_philo *philo)
+void	all_fork_mutex_destroy(t_fork *fork, int nmemb)
 {
-	all_mutex_destroy(data, fork, data->philo_nmemb);
-	if (philo)
-		free(philo);
-	if (fork)
-		free(fork);
+	int	i;
+
+	i = 0;
+	while (i < nmemb)
+	{
+		pthread_mutex_destroy(&(&fork[i])->mutex_for_fork);
+		i++;
+	}
+}
+
+void    all_mutex_destroy(t_data *data, t_fork *fork, int nmemb)
+{
+	pthread_mutex_destroy(&data->mutex_for_print);
+	pthread_mutex_destroy(&data->mutex_for_data_access);
+	all_fork_mutex_destroy(fork, nmemb);
 }

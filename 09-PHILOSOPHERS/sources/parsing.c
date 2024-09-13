@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:09:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/07/23 11:44:48 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/12 10:17:56 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	ft_atoi_long_positive(char *str)
 	return (nb);
 }
 
-int	check_and_convert_arguments(char **argv, t_data *data)
+static void	check_and_convert_arguments(char **argv, t_data *data)
 {
 	int	i;
 	int	tmp;
@@ -70,10 +70,21 @@ int	check_and_convert_arguments(char **argv, t_data *data)
 		else
 		{
 			ft_putstr_fd("Error : the value of at least one argument \
-			is not correct\n", 2);
-			return (1);
+is not correct\n", 2);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (0);
+}
+
+void		check_arguments_and_fill_data_struct(int argc, char **argv, \
+			t_data *data)
+{
+	if (argc < 5 || argc > 6)
+	{
+		ft_putstr_fd("Error : number of arguments provided \
+is not correct\n", 2);
+		exit (EXIT_FAILURE);
+	}
+	check_and_convert_arguments(argv, data);
 }

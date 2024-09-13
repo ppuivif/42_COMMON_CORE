@@ -8,10 +8,13 @@ NAME  = philo
 
 SOURCES = 	sources/philo.c \
 			sources/parsing.c \
+			sources/mutex_init.c \
 			sources/structs_init.c \
 			sources/get_time.c \
 			sources/print.c \
+			sources/error_handling.c \
 			sources/structs_free.c \
+			sources/mutex_destroy.c \
 			sources/utils1.c \
 
 SOURCES += tests/tests.c

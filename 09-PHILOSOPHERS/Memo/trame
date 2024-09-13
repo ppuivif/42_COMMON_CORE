@@ -52,7 +52,7 @@ Chaque changement d'état d'un philosopher dot être formaté de la façon suiva
 	- timestamp_in_ms X est mort.
 X étant l'index du philosopher et timestamp_in_ms étant l'horodatage en cours.
 Un message relatif au changement d'état doit s'afficher, sans se superposer avec un autre.
-L'annonce de la mort d'un philosopher ne doit pas prendre plus de 10 secondes à compter de
+L'annonce de la mort d'un philosopher ne doit pas prendre plus de 10 ms à compter de
 l'évènement.
 
 -----------------------------------------------------------------------------------------------
