@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:09:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/12 10:17:56 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/16 19:02:29 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static void	init_data(int index, int valid_value, t_data *data)
 static int	ft_atoi_long_positive(char *str)
 {
 	int			i;
-	int			sign;
+//	int			sign;
 	long int	nb;
 
 	i = 0;
-	sign = 1;
+//	sign = 1;
 	nb = 0;
 	while (ft_isspace(str[i]) == true)
 		i++;

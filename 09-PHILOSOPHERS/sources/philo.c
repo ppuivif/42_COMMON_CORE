@@ -6,24 +6,27 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 07:35:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/13 16:56:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/16 20:58:02 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
-void	get_time_before_death_and_sleep(t_philo *philo, long int duration)
+void	get_time_before_death_and_run(t_philo *philo, long int duration)
 {
 	long int	remaining_duration_before_death;
-	long int	current_time;
+	long int	completed_duration_until_last_meal;
 
-	current_time = get_current_time_ms(philo->data, philo->fork, philo);
-	
-	remaining_duration_before_death = current_time - \
+	completed_duration_until_last_meal = get_timestamp_ms(philo, philo->data->start_time) - \
 	philo->beginning_of_last_meal;
+//	printf("completed_duration_until_last_meal : %ld\n", completed_duration_until_last_meal);
 	
-	if (remaining_duration_before_death < philo->data->time_to_die)
+	remaining_duration_before_death = philo->data->time_to_die - completed_duration_until_last_meal;
+//	printf("philo %d - remaining_duration_before_death : %ld\n", philo->philo_id, remaining_duration_before_death);
+
+
+	if (remaining_duration_before_death <= 0 || remaining_duration_before_death < duration)
 	{
 		duration = remaining_duration_before_death;
 		ft_usleep_ms(philo, duration);
@@ -31,54 +34,39 @@ void	get_time_before_death_and_sleep(t_philo *philo, long int duration)
 		philo->is_dead = true;
 		pthread_mutex_unlock(&(philo)->mutex_for_philo);		
 	}
-	ft_usleep_ms(philo, duration);
+	else
+		ft_usleep_ms(philo, duration);
 }
 
-
-static int	count_available_forks(t_philo *philo)
+static void	take_forks(t_philo *philo, int philo_id, long int start_time)
 {
 	int	number_of_available_forks;
 
 	number_of_available_forks = 0;
-
-
-
-//		if (all_philos_are_alive() == false)
-//			return (-1);
-
+	while (number_of_available_forks < 2 && philo->stop_routine == false) // si pas cette derniere verif, reste bloqué dans la boucle qd nbre repas atteints
+	{
+		get_time_before_death_and_run(philo, 0);
 		pthread_mutex_lock(&philo->right_fork->mutex_for_fork);
 		if (philo->right_fork->fork_is_available == true)
+		{
+			philo->right_fork->fork_is_available = false;
 			number_of_available_forks++;
+			print_message(philo, philo_id, start_time, "has taken a fork");
+		}
+		get_time_before_death_and_run(philo, 0);
 		pthread_mutex_unlock(&philo->right_fork->mutex_for_fork);
-
-//		if (all_philos_are_alive() == false)
-//			return (-1);
-
-		pthread_mutex_lock(&philo->left_fork->mutex_for_fork);
-		if (philo->left_fork->fork_is_available == true)
-			number_of_available_forks++;
-		pthread_mutex_unlock(&philo->left_fork->mutex_for_fork);
-	return (number_of_available_forks);	
-}
-
-static int	take_forks(t_philo *philo, int philo_id, long int start_time)
-{
-	while (count_available_forks(philo) < 2)
-	{
-//		ft_usleep_ms(philo, 100);
-		continue;
+		if (philo->left_fork)
+		{
+			pthread_mutex_lock(&philo->left_fork->mutex_for_fork);
+			if (philo->left_fork->fork_is_available == true)
+			{
+				philo->left_fork->fork_is_available = false;
+				number_of_available_forks++;
+				print_message(philo, philo_id, start_time, "has taken a fork");
+			}
+			pthread_mutex_unlock(&philo->left_fork->mutex_for_fork);
+		}
 	}
-	pthread_mutex_lock(&philo->right_fork->mutex_for_fork);
-	philo->right_fork->fork_is_available = false;
-	print_message(philo, philo_id, start_time, "has taken a fork");
-	pthread_mutex_unlock(&philo->right_fork->mutex_for_fork);
-
-	pthread_mutex_lock(&philo->left_fork->mutex_for_fork);
-	philo->left_fork->fork_is_available = false;
-	print_message(philo, philo_id, start_time, "has taken a fork");
-	pthread_mutex_unlock(&philo->left_fork->mutex_for_fork);
-
-	return (0);
 }
 
 static void	take_meal(t_philo *philo, int philo_id, long int start_time)
@@ -86,65 +74,57 @@ static void	take_meal(t_philo *philo, int philo_id, long int start_time)
 	philo->beginning_of_last_meal = print_message(philo, philo_id, \
 	start_time, "is eating");
 	
-	get_time_before_death_and_sleep(philo, philo->data->time_to_eat);
+	
+	get_time_before_death_and_run(philo, philo->data->time_to_eat);
 
 	pthread_mutex_lock(&(philo)->mutex_for_philo);
 	philo->meals_count++;
 	pthread_mutex_unlock(&(philo)->mutex_for_philo);
 	
-	get_time_before_death_and_sleep(philo, philo->data->time_to_eat);
-
 	pthread_mutex_lock(&philo->right_fork->mutex_for_fork);
 	philo->right_fork->fork_is_available = true;
 	pthread_mutex_unlock(&philo->right_fork->mutex_for_fork);
 
-	get_time_before_death_and_sleep(philo, philo->data->time_to_eat);
-
 	pthread_mutex_lock(&philo->left_fork->mutex_for_fork);
 	philo->left_fork->fork_is_available = true;
 	pthread_mutex_unlock(&philo->left_fork->mutex_for_fork);
-
-
-
-//	pthread_mutex_lock(&philo->data->mutex_for_data_access);
-
-//	if (philo->meals_count == philo->data->meals_number)
-//		philo->data->number_of_satieted_philos++;
-
-//	pthread_mutex_unlock(&philo->data->mutex_for_data_access);
 }
 
 static void	take_a_rest(t_philo *philo, int philo_id, long int start_time)
 {
 	print_message(philo, philo_id, start_time, "is sleeping");
-	ft_usleep_ms(philo, philo->data->time_to_sleep);
+	get_time_before_death_and_run(philo, philo->data->time_to_sleep);
 }
 
-static bool	check_philos_satieted(t_philo *philo, int philo_nmemb, \
+static bool	check_if_philos_satieted(t_philo *philo, int philo_nmemb, \
 int meals_number_for_satieted)
 {
 	int		i;
-	int		number_of_satieted_philos;
+//	int		number_of_satieted_philos;
 	int		meals_count;
 
 	i = 0;
-	number_of_satieted_philos = 0;
+//	number_of_satieted_philos = 0;
 	meals_count = 0;
 	
 	while (i < philo_nmemb)
 	{
-		pthread_mutex_lock(&(&philo[i])->mutex_for_philo);
-		meals_count = (&philo[i])->meals_count;
-		pthread_mutex_unlock(&(&philo[i])->mutex_for_philo);
+		while (meals_count < meals_number_for_satieted)
+		{
+			pthread_mutex_lock(&(&philo[i])->mutex_for_philo);
+			meals_count = (&philo[i])->meals_count;
+			pthread_mutex_unlock(&(&philo[i])->mutex_for_philo);
+		}
 
-		if (meals_count >= meals_number_for_satieted)
-			number_of_satieted_philos += 1;
+//		if (meals_count >= meals_number_for_satieted)
+//			number_of_satieted_philos += 1;
 		i++;
 	}
+	return (true);
 	
-	if (number_of_satieted_philos == philo_nmemb)
+/*	if (number_of_satieted_philos == philo_nmemb)
 		return (true);
-	return (false);
+	return (false);*/
 }
 
 
@@ -167,6 +147,7 @@ static bool	check_if_one_philo_dead(t_philo *philo, long int start_time)
 			return (true);
 		}
 		i++;
+//		usleep(1000);
 	}
 	return (false);
 }
@@ -175,6 +156,7 @@ void	supervisor(t_philo *philo, int philo_nmemb, long int start_time)
 {
 	int	i;
 	int meals_number_for_satieted;
+	(void)start_time;
 	
 	pthread_mutex_lock(&philo->data->mutex_for_data_access);
 	meals_number_for_satieted = philo->data->meals_number;
@@ -182,7 +164,7 @@ void	supervisor(t_philo *philo, int philo_nmemb, long int start_time)
 	while (1)
 	{
 		i = 0;
-		if ((meals_number_for_satieted && check_philos_satieted(philo, \
+		if ((meals_number_for_satieted && check_if_philos_satieted(philo, \
 		philo_nmemb, meals_number_for_satieted) == true) || \
 		check_if_one_philo_dead(philo, start_time) == true)
 		{
@@ -195,6 +177,8 @@ void	supervisor(t_philo *philo, int philo_nmemb, long int start_time)
 			}
 			return ;
 		}
+		usleep(1000);
+
 	}
 }
 

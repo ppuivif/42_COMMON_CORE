@@ -1,4 +1,4 @@
-CC = cc
+CC = cc -pg
 
 CFLAGS = -Wall -Werror -Wextra -g -Iincludes
 

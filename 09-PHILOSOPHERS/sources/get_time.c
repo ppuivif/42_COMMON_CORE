@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 07:34:26 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/13 16:48:37 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/16 19:55:27 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,20 @@ long int	get_timestamp_ms(t_philo *philo, long int start_time)
 void	ft_usleep_ms(t_philo *philo, long int duration)
 {
 	long int	start_time;
-	
+	long int	stop;
+
+	if (duration == 0)
+		return ;
 	start_time = get_current_time_ms(philo->data, philo->fork, philo);
-	while ((get_current_time_ms(philo->data, philo->fork, philo) \
-	- start_time) < duration)
+	
+
+	stop = duration + start_time;
+	while(duration > 5000)
+	{
+		duration /= 2;
+		usleep(duration*1000);
+		duration = stop - get_current_time_ms(philo->data, philo->fork, philo);
+	}
+	while (get_current_time_ms(philo->data, philo->fork, philo) < stop)
 		usleep(500);
 }

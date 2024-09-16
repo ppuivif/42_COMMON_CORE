@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:51:44 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/13 16:35:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/16 18:08:54 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	philos_struct_init(t_data *data, t_fork *fork, t_philo **philo)
 		(*philo)[i].data = data;
 		(*philo)[i].fork = fork;
 		(*philo)[i].philo_id = i + 1;
-		(*philo)[i].beginning_of_last_meal = data->start_time;
+		(*philo)[i].beginning_of_last_meal = 0;
 		(*philo)[i].meals_count = 0;
 		(*philo)[i].stop_routine = false;
 		(*philo)[i].is_dead = false;
