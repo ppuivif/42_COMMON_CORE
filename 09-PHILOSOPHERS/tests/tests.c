@@ -6,7 +6,7 @@ void	data_struct_print(t_data data)
 	printf("time to die : %d\n", data.time_to_die);
 	printf("time to eat : %d\n", data.time_to_eat);
 	printf("time to sleep : %d\n", data.time_to_sleep);
-	printf("meals number : %d\n", data.meals_number);
+	printf("meals number : %d\n", data.meals_number_for_satieted);
 	printf("\n");
 }
 

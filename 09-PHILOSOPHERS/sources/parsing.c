@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 09:09:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/16 19:02:29 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:39:34 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	init_data(int index, int valid_value, t_data *data)
 {
-	data->meals_number = 0;
+	data->meals_number_for_satieted = 0;
 	if (index == 1)
 		data->philo_nmemb = valid_value;
 	else if (index == 2)
@@ -24,7 +24,7 @@ static void	init_data(int index, int valid_value, t_data *data)
 	else if (index == 4)
 		data->time_to_sleep = valid_value;
 	else if (index == 5)
-		data->meals_number = valid_value;
+		data->meals_number_for_satieted = valid_value;
 }
 
 static int	ft_atoi_long_positive(char *str)

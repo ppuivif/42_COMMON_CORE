@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 07:37:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/13 16:54:18 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:46:54 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,12 @@ char *message)
 //	if (all_philos_are_alive() == false)
 //		return (-1);
 	timestamp = get_timestamp_ms(philo, start_time);
+	if (philo->data->stop_routine == true)
+		return (0);//to modify
 	pthread_mutex_lock(&philo->data->mutex_for_print);
-	if (check_stop_routine(philo) == true)
-	{
-		pthread_mutex_unlock(&philo->data->mutex_for_print);
-		return (start_time);//to modify
-	}	
-	printf("%ld ", timestamp);
-	printf("%d ", philo_id);
-	printf("%s\n", message);
+	printf("%ld %d %s\n", timestamp, philo_id, message);
+//	printf("%d ", philo_id);
+//	printf("%s\n", message);
 	pthread_mutex_unlock(&philo->data->mutex_for_print);
 	return (timestamp);
 }

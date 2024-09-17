@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 07:30:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/13 16:36:45 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:38:26 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				meals_number;
+	int				meals_number_for_satieted;
 	long int		start_time;
 	int				number_of_satieted_philos;//to delete
+	int				one_philo_is_dead;
+	bool			stop_routine;
 	pthread_mutex_t	mutex_for_data_access;
 	pthread_mutex_t	mutex_for_print;
+	pthread_mutex_t	mutex_for_stop;
 	
 }	t_data;
 
@@ -50,9 +53,6 @@ typedef struct s_philo
 	pthread_t		philo_thread;
 	long int		beginning_of_last_meal;
 	int				meals_count;
-	bool			stop_routine;
-	bool			is_dead;
-	pthread_mutex_t	mutex_for_philo;
 	t_fork			*right_fork;	
 	t_fork			*left_fork;
 	t_philo			**philo;
@@ -89,7 +89,7 @@ void		check_arguments_and_fill_data_struct(int argc, char **argv, \
 * mutex_init.c
 */
 
-void	    print_mutex_and_data_mutex_init(t_data *data);
+void	    data_mutex_init(t_data *data);
 
 
 /*

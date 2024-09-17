@@ -1,4 +1,7 @@
-CC = cc -pg
+#CC = cc
+#CC = gcc -fsanitize=thread
+#CC = gcc -fsanitize=address
+CC = gcc -pg
 
 CFLAGS = -Wall -Werror -Wextra -g -Iincludes
 

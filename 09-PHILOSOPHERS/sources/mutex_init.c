@@ -6,13 +6,13 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 09:57:37 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/12 10:22:29 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:13:39 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void    print_mutex_and_data_mutex_init(t_data *data)
+void    data_mutex_init(t_data *data)
 {
 	if (pthread_mutex_init(&data->mutex_for_print, NULL))
 	{
@@ -23,6 +23,13 @@ void    print_mutex_and_data_mutex_init(t_data *data)
 	{
 		ft_putstr_fd("error : a mutex creation failed\n", 2);
 		pthread_mutex_destroy(&data->mutex_for_print);
+		exit(EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&data->mutex_for_stop, NULL))//modify free
+	{
+		ft_putstr_fd("error : a mutex creation failed\n", 2);
+		pthread_mutex_destroy(&data->mutex_for_print);
+		pthread_mutex_destroy(&data->mutex_for_data_access);
 		exit(EXIT_FAILURE);
 	}
 }
