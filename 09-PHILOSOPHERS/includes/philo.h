@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 07:30:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/09/17 18:38:26 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/09/18 09:17:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				meals_number_for_satieted;
 	long int		start_time;
-	int				number_of_satieted_philos;//to delete
+	int				number_of_satieted_philos;
 	int				one_philo_is_dead;
 	bool			stop_routine;
 	pthread_mutex_t	mutex_for_data_access;
 	pthread_mutex_t	mutex_for_print;
 	pthread_mutex_t	mutex_for_stop;
+	pthread_mutex_t	mutex_for_death;
+	pthread_mutex_t	mutex_for_satieted;
 	
 }	t_data;
 
