@@ -239,7 +239,7 @@ public:
 	~Sample(void);
 
 	void	bar(void); // fonction membre
-}:
+};
 
 #endif
 
@@ -309,7 +309,7 @@ public:
 	~Sample(void);
 
 	void	bar(void); //fonction membre
-}:
+};
 
 #endif
 
@@ -376,7 +376,7 @@ public:
 	Sample1(char p1, int p2, float p3); //le constructeur prend 3 paramètres
 	~Sample1(void);
 
-}:
+};
 
 #endif
 
@@ -431,7 +431,7 @@ public:
 	Sample2(char p1, int p2, float p3); //le constructeur prend 3 paramètres
 	~Sample2(void);
 
-}:
+};
 
 #endif
 
@@ -471,3 +471,96 @@ int main(){
 }
 
 -----------------------------------------------------------------------------------------------
+
+Vidéo 42 : Const
+
+Permet de rendre une variable constante. A utiliser dès que possible.
+
+Exemple de header (déclaration de classe) :
+
+#ifndef SAMPLE_CLASS_H
+# define SAMPLE_CLASS_H
+
+class Sample{
+
+public:
+
+	float const	pi; // NB : en C on ne peut pas faire d'assignation sur une constante,
+				il faut l'initialiser à la valeur souhaitée sur la même ligne
+				que la déclaration
+	int		qd; 
+		
+	Sample(float const f);
+	~Sample(void);
+
+	void	bar(void) const; //en rajoutant const après la parenthèse fermante et avant
+				l'accolade on signifie au compilateur que cette fonction
+				membre ne modifiera jamais l'instance courante
+				autrement dit si on écrit this->pi=5 (assignation) au moment de
+				la définition le compilateur refusera de compiler en indiquant
+				une erreur
+	
+};
+
+#endif
+
+Contrairement au C, l'initialisation en CPP permet d'assigner une valeur à une constante.
+
+Exemple de définition de fonction :selon la syntaxe dite liste d'initialisation
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+Sample::Sample(float const f) : pi(f), qd(42) { // il ne s'agit pas ici d'une assignation mais
+						bien d'une initialisation de la variable pi à
+						la valeur f
+
+	std::cout << "Constructeur called" << std::endl;
+	
+	return;
+}
+
+Sample::Sample1(void){
+
+	std::cout << "Destructeur called" << std::endl;
+	return;
+}
+
+void	Sample::bar(void) const{
+
+	std::cout << "this->pi: " << this->pi << std:endl;
+	std::cout << "this->qd: " << this->qd << std:endl;
+
+	return;
+}
+
+Exemple d'instanciation :
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+int main(){
+
+	Sample instance(3, 14f);
+
+	instance.bar();
+		
+	return 0;
+}
+
+
+NB : on ne peut pas definir :
+
+void	Sample::bar(void) const{
+
+	std::cout << "this->pi: " << this->pi << std:endl;
+	std::cout << "this->qd: " << this->qd << std:endl;
+
+	this->qd = 15; //car const a été rajouté à bar 
+
+	return;
+}
+
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 : 
