@@ -563,4 +563,108 @@ void	Sample::bar(void) const{
 
 -----------------------------------------------------------------------------------------------
 
-Vidéo 42 : 
+Vidéo 42 : Visibility
+
+Public et Private vont permettre de contrôler l'encapsulation des membres de la classe
+(attributs et fonctions membre). Les membres seront visibles uniquement de l'intérieur de la
+classe ou bien de l'extérieur.
+
+Les membres déclarés comme public seront accessibles depuis l'intérieur et depuis l'extérieur de
+la classe.
+Au contraire les membres déclarés comme private seront accessibles uniquement depuis l'intérieur.
+Ils ne seront ni visibles, ni accessibles depuis l'extérieur de la classe.
+
+Le constructeur et le destructeur sont nécessairement définis en public.
+
+
+
+Exemple de déclaration :
+
+#ifndef SAMPLE_CLASS_H
+# define SAMPLE_CLASS_H
+
+class Sample{
+
+public:
+
+	int	publicFoo;
+	
+	Sample(void);
+	~Sample(void);
+
+	void	publicBar(void) const;
+
+private:
+
+	int	_privateFoo; // _ pour préfixer les private : convention assez généralisée
+	
+	void	_privateBar(void) const;
+
+};
+
+#endif
+
+
+Exemple de définition de fonction :
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+Sample::Sample(void){
+
+	std::cout << "Constructeur called" << std::endl;
+	
+	this->publicFoo = 0;
+	std::cout << "this->publicFoo: " << this->publicFoo <<std::endl;
+	this->publicFoo = 0;
+	std::cout << "this->_privateFoo: " << this->_privateFoo <<std::endl;	
+
+	this->publicBar();
+	this->_privateBar();
+	
+	return;
+}
+
+Sample::Sample(void){
+
+	std::cout << "Destructeur called" << std::endl;
+	return;
+}
+
+void	Sample::publicBar(void) const{
+
+	std::cout << "Member function publicBar called" << std::endl;
+	return;
+
+}
+
+void	Sample::_privateBar(void) const{
+
+	std::cout << "Member function _privateBar called" << std::endl;
+	return;
+
+}
+
+Exemple d'instanciation
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+int main(){
+
+	Sample instance; //variable instance de type Sample
+
+	instance.publicFoo = 42; //assignation possible car déclaré public
+	std::cout << "instance.publicFoo: " << instance.publicFoo << std::endl;
+	//instance._privateFoo = 42; //assignation impossible car déclaré private
+	//std::cout << "instance._privateFoo: " << instance._privateFoo << std::endl;
+	//appel impossible car déclaré private
+
+	instance.publicBar(); //appel possible car déclaré public
+	//instance._privateBar(); //appel impossible car déclaré private
+
+	return 0;
+}
+
+-----------------------------------------------------------------------------------------------
+
