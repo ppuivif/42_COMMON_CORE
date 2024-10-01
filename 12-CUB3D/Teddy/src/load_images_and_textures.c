@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 12:30:15 by tebandam          #+#    #+#             */
-/*   Updated: 2024/09/25 14:45:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/01 01:38:03 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,16 @@ void	load_image(t_game *game)
 	{
 		ft_putstr_fd("Error loading texture\n", 2);//free des allocations à prévoir
 		exit(1);
+	}
+
+	game->texture->player_image_N = mlx_load_png("textures/player_N.png");
+	game->texture->player_image_E = mlx_load_png("textures/player_E.png");
+	game->texture->player_image_S = mlx_load_png("textures/player_S.png");
+	game->texture->player_image_W = mlx_load_png("textures/player_W.png");
+	if(!game->texture->player_image_N || !game->texture->player_image_E
+		|| !game->texture->player_image_S ||!game->texture->player_image_W)
+	{
+		ft_putstr_fd("Error loading texture\n", 2);//free des allocations à prévoir
+		exit(EXIT_FAILURE);
 	}
 }

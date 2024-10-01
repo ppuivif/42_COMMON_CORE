@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 07:03:02 by tebandam          #+#    #+#             */
-/*   Updated: 2024/09/25 18:53:25 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/01 03:51:29 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,27 @@ static void	get_map_size(t_map_data *map_data)
 	}
 }*/
 
-void	get_player_position_and_facing(t_game *game)
+void	get_initial_orientation_player(t_game *game, char facing)
+{
+	if (facing == 'N')
+	{
+		game->player->angle = 0;
+	}
+	if (facing == 'E')
+	{
+		game->player->angle = M_PI / 2;
+	}
+	if (facing == 'S')
+	{
+		game->player->angle = M_PI;
+	}
+	if (facing == 'W')
+	{
+		game->player->angle = - 1 * M_PI / 2;
+	}
+}
+
+void	get_player_position_and_orientation(t_game *game)
 {
 	int	i;
 	int	j;
@@ -58,9 +78,9 @@ void	get_player_position_and_facing(t_game *game)
 			game->data->map[i][j] == 'S' || \
 			game->data->map[i][j] == 'N')
 			{
-				game->player->player_pos_x = j + 1;
-				game->player->player_pos_y = i + 1;
-				game->player->initial_facing = game->data->map[i][j];
+				game->player->player_pos_x = j;
+				game->player->player_pos_y = i;
+				get_initial_orientation_player (game, game->data->map[i][j]);
 				return ;
 			}
 			j++;
@@ -68,9 +88,6 @@ void	get_player_position_and_facing(t_game *game)
 		i++;
 	}
 }
-
-
-
 
 int	main(int argc, char **argv)
 {
@@ -93,10 +110,9 @@ int	main(int argc, char **argv)
 	game->data->map = &game->data->map[6];
 
 	get_map_size(game->data);
-	get_player_position_and_facing(game);
+	get_player_position_and_orientation(game);
 
 	allocate_textures(texture);
-	
 
 	render_graphics (game);
 	close_and_free(game);

@@ -1,0 +1,28 @@
+
+L'utilisation d'un fork permet au processus enfant d'heriter des variables du processus parent
+et de l'état de ces variables au moment du fork. Ensuite les deux processus évoluent
+indépendamment.
+
+Le pipe permet la communication entre le processus parent et le processus enfant en permettant
+aux flux de données de circuler dans le pipe.
+Le pipe est créé avant le fork, ce qui permet au processus enfant d'hériter des file
+descriptors correspondant à l'entrée et à la sortie du pipe, respectivement fd[0] et fd[1].
+Le parent peut donc lire en fd[0] ce que l'enfant aura écrit en fd[1], et inversement.
+Dans ce cas, il conviendra de rediriger préalablement la sortie standard STDOUT vers la sortie
+(extrémité d'écriture) du pipe (fd[1]) et de rediriger l'entrée standard STDIN vers l'entrée
+(extrémité de lecture) du pipe (fd[0]) dans le processus parent.
+Le redirection se fait grâce à la fonction dup2(fd[1], STDOUT_FILENO).
+Tous ce qui est envoyé à STDOUT sera redirigé vers la sortie du pipe. La sortie du pipe peut
+désormais être fermée (et doit l'être) puisque c'est désormais STDOUT qui "pointe" vers la
+sortie du pipe.
+
+Il faut ensuite fermer les fd[0] et fd[1] dans le processus parent, mais aussi dans le
+processus enfant.
+
+Une fois les redirections effectuées, elles restent actives :
+	- tant que les fd restent ouverts, // pas clair car cela fonctionne dans microshell !!!
+	- tant qu'une nouvelle redirection n'est pas appliquée,
+	- tant le programme n'est pas terminé.
+
+-----------------------------------------------------------------------------------------------
+

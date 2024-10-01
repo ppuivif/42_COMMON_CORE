@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 07:41:32 by tebandam          #+#    #+#             */
-/*   Updated: 2024/09/26 18:37:04 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/01 01:35:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ typedef struct s_player
 {
 	float	player_pos_x;
 	float	player_pos_y;
-	
-	char	initial_facing;
-	
 	float	dir_x;
 	float	dir_y;
 	float	fov;
@@ -78,6 +75,7 @@ typedef struct s_texture
 	mlx_texture_t	*walls_image;
 	mlx_texture_t	*floor_image;
 	mlx_texture_t	*player_image;
+	
 	mlx_texture_t	*player_image_N;
 	mlx_texture_t	*player_image_E;
 	mlx_texture_t	*player_image_S;

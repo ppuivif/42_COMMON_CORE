@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 12:25:34 by tebandam          #+#    #+#             */
-/*   Updated: 2024/09/25 16:40:59 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/01 03:06:14 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ void	initialization_of_values(t_game *game)
 	game->player->pitch = 0.0;
 	game->player->player_pos_x = 1;// 6 si map plus petite ?
 	game->player->player_pos_y = 1;// 4 si map plus petite ?
-	
-	game->player->initial_facing = 'N';
-	
-	game->player->dir_x = -1.0;
-	game->player->dir_y = 0.0;
+	game->player->dir_x = -1.0; //non utilisé ?
+	game->player->dir_y = 0.0; //non utilisé ?
 	game->player->fov = 1.221;
 	game->data->height = 300;//pourquoi 300 ?
 	

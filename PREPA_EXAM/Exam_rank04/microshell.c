@@ -5,6 +5,26 @@
 #include <sys/wait.h>
 #include <stdio.h>//to delete
 
+void	builtin_cd(char **argv, int i)
+{
+	if (i != 2)
+	{
+		write(2, "error: cd: bad arguments\n", 25);
+		exit(EXIT_FAILURE);
+	}
+	if (chdir(argv[1]) == -1)
+	{
+		write(2, "error: cd: cannot change directory to ", 38);
+		while (*argv[1])
+		{
+			write(2, argv[1], 1);
+			(argv[1])++;
+		}
+		write(2, "\n", 1);
+		exit(EXIT_FAILURE);
+	}
+}
+
 
 void fatal_error_handling()
 {
@@ -45,7 +65,7 @@ void	child_execution(char **argv, int i, int *fd, int has_pipe, char **envp)
 	}
 	if (!strcmp(argv[0], "cd"))
 	{
-//		buitin_cd(argv);
+		builtin_cd(argv, i);
 		return;
 	}
 	execve(argv[0], argv, envp);
@@ -59,7 +79,7 @@ void	execution(char **argv, int i, int has_pipe, char **envp)
 
 	if (!strcmp(argv[0], "cd"))
 	{
-//		buitin_cd(argv);
+		builtin_cd(argv, i);
 		return;
 	}
 	if (has_pipe && pipe(fd) == -1)
@@ -71,7 +91,6 @@ void	execution(char **argv, int i, int has_pipe, char **envp)
 		child_execution(argv, i, fd, has_pipe, envp);
 	while (waitpid(-1, NULL, 0) != -1)
 		continue ;
-//	write(2, "here\n", 5);
 	if (has_pipe)
 	{
 		if (dup2(fd[0], STDIN_FILENO) == -1)
@@ -88,11 +107,11 @@ int main(int argc, char **argv, char **envp)
 
     (void)argc;
 	i = 0;
-	has_pipe = 0;
     while (argv[i])
     {
 		argv += i + 1;
 		i = 0;
+		has_pipe = 0;
 		while (argv[i] && strcmp(argv[i], "|") && strcmp(argv[i], ";"))
 			i++;
 		if (argv[i] && !strcmp(argv[i], "|"))
