@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 07:41:32 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/01 01:35:04 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/02 00:35:25 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # include <stdio.h> //to delete
 
-#define windows_width 1064
+#define windows_width 1040
 #define windows_height 720
 
 
@@ -59,8 +59,8 @@ typedef struct s_player
 {
 	float	player_pos_x;
 	float	player_pos_y;
-	float	dir_x;
-	float	dir_y;
+	float	dir_x; //non utilisé
+	float	dir_y; //non utilisé
 	float	fov;
 	float	angle;
 	float	pitch;
@@ -76,10 +76,10 @@ typedef struct s_texture
 	mlx_texture_t	*floor_image;
 	mlx_texture_t	*player_image;
 	
-	mlx_texture_t	*player_image_N;
-	mlx_texture_t	*player_image_E;
-	mlx_texture_t	*player_image_S;
-	mlx_texture_t	*player_image_W;
+	mlx_texture_t	*player_image_N; //pour minimap
+	mlx_texture_t	*player_image_E; //pour minimap
+	mlx_texture_t	*player_image_S; //pour minimap
+	mlx_texture_t	*player_image_W; //pour minimap
 	
 	mlx_texture_t	*north_texture;
 	mlx_texture_t	*west_texture;

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:07:21 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/01 04:59:46 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/02 00:11:57 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	raycast(void *param)
 	int				i;
 
 	game = (t_game*)param;
-	rays = 1039; // definie le nombre de rayon a tirer
+//	rays = 1039; // definie le nombre de rayon a tirer
+	rays = windows_width - 1 ; // definie le nombre de rayon a tirer
 	angle_step = game->player->fov / rays; // calcul de l'angle entre les rayons qui permettra de creer une image fluide 
 	i = 0;
 	while (i < rays) // Elle parcours tous les rayons

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 07:03:02 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/01 03:51:29 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/02 03:03:16 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	get_map_size(t_map_data *map_data)
 		while(map_data->map[i][j])
 			j++;
 		if(map_data->nb_columns <= j)
-			map_data->nb_columns = j + 1;
+			map_data->nb_columns = j;
 		i++;
 	}
 	map_data->nb_lines = i;

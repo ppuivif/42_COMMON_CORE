@@ -54,8 +54,8 @@ uint32_t	get_pixel_color_from_image(mlx_image_t *player_image, uint32_t x_image,
 
 void	put_player_on_map(t_game *game, int square_width, int square_height)
 {
-	int x;
-	int y;
+	float x;
+	float y;
 	mlx_image_t	*player_image;
 	uint32_t	color;
 
@@ -69,13 +69,13 @@ void	put_player_on_map(t_game *game, int square_width, int square_height)
 	y_ratio = 1;
 
 	x_image = 0;
-	printf("game->player->angle : %f\n", game->player->angle);
-	if ((game->player->angle < 0 && \
-	game->player->angle > -1 * M_PI / 4) || \
+//	printf("game->player->angle : %f\n", game->player->angle);
+	if ((game->player->angle > 7 * M_PI / 4 && \
+	game->player->angle < 2 * M_PI) || \
 	(game->player->angle >= 0 && \
 	game->player->angle <= M_PI / 4 ))
 	{
-		printf("orientation Nord\n");
+//		printf("orientation Nord\n");
 		player_image = mlx_texture_to_image(game->mlx, game->texture->player_image_N);
 		if (!player_image)
 			exit(EXIT_FAILURE);
@@ -83,7 +83,7 @@ void	put_player_on_map(t_game *game, int square_width, int square_height)
 	if (game->player->angle > M_PI / 4 && \
 	game->player->angle <= 3 * M_PI / 4 )
 	{
-		printf("orientation Est\n");
+//		printf("orientation Est\n");
 		player_image = mlx_texture_to_image(game->mlx, game->texture->player_image_E);
 		if (!player_image)
 			exit(EXIT_FAILURE);
@@ -91,21 +91,19 @@ void	put_player_on_map(t_game *game, int square_width, int square_height)
 	if (game->player->angle > 3 * M_PI / 4 && \
 	game->player->angle <= 5 * M_PI / 4 )
 	{
-		printf("orientation Sud\n");
+//		printf("orientation Sud\n");
 		player_image = mlx_texture_to_image(game->mlx, game->texture->player_image_S);
 		if (!player_image)
 			exit(EXIT_FAILURE);
 	}
-	if (game->player->angle > - 3 * M_PI / 4 && \
-	game->player->angle <= - 1 * M_PI / 4 )
+	if (game->player->angle > 5 * M_PI / 4 && \
+	game->player->angle <= 7 * M_PI / 4 )
 	{
-		printf("orientation Ouest\n");
+//		printf("orientation Ouest\n");
 		player_image = mlx_texture_to_image(game->mlx, game->texture->player_image_W);
 		if (!player_image)
 			exit(EXIT_FAILURE);
 	}
-/*	else
-		player_image = mlx_texture_to_image(game->mlx, game->texture->player_image_W);*/
 
 	x_ratio = player_image->width / square_width;
 	y_ratio = player_image->height / square_height;
@@ -142,9 +140,13 @@ void    display_minimap(t_game *game)
 
 	i = 0;
 	minimap_width = windows_width / 5;
+//	printf("minimap_width %d\n", minimap_width);
 	minimap_height = windows_height / 5;
+//	printf("minimap_height %d\n", minimap_height);
 	square_width = minimap_width / game->data->nb_columns;
+//	printf("square_width %d\n", square_width);
 	square_height = minimap_height / game->data->nb_lines;
+//	printf("square_height %d\n", square_height);
 
 	while (game->data->map[i])
 	{
