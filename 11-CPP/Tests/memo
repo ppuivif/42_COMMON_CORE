@@ -668,3 +668,152 @@ int main(){
 
 -----------------------------------------------------------------------------------------------
 
+Vidéo 42 : Class vs struct
+
+Le principe de structures a été étendu en CPP.
+
+La syntaxe est la suivante (elle est identique à celle d'une classe)
+
+#ifndef SAMPLE1_CLASS_H
+# define SAMPLE1_CLASS_H
+
+struct Sample1{
+
+	int	foo;
+	
+	Sample(void);
+	~Sample(void);
+
+	void	bar(void) const;
+
+};
+
+#endif
+
+Une structure fonctionne de façon rigoureusement identique à une classe. 
+
+Il existe néanmoins une différence : il n'est pas fait référence à la notion de visibilité
+(public ou private).
+
+Exemple d'instanciation :
+
+#include <iostream>
+#include "Sample1.class.hpp"
+#include "Sample2.class.hpp"
+
+int main(){
+
+	Sample1 instance1; //instanciation d'une instance de sructure
+	Sample2 instance2; //instanciation d'une instance de classe
+	
+	return 0;
+}
+
+Sans préciser de visibilité sur la structure, la compilation fonctionne, ce qui n'est pas
+le cas avec les classes.
+Par défaut, une structure a un scope public. En revanche, une classe a un scope privé par
+défaut.
+
+L'utilisation des structures n'a donc que peu d'intérêt en CPP. Tout ce qu'il est possible de
+faire avec une structure en C est faisable en CPP avec une classe. Avec une classe, il est en
+plus possible d'utiliser des fonctions membres, un contrôle plus fin des attributs et de
+rajouter des constructeurs et des destructeurs.
+
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 : Accessors
+
+Dans les classes, on a souvent des attributs privés (voire toujours).
+Toutefois, il peut être intéressant d'influer sur les valeurs des attributs (lire et écrire).
+Pour cela, on va utiliser de petites fonctions proxy (les accesseurs) qui vont faire l'interface
+entre l'utilisateur et l'attribut privé, notamment pour contrôler la validité des valeurs qui
+vont être fournies.
+
+Généralement, en terme de syntaxe, on va préfixer ces fonctions avec get (pour récupérer la
+valeur d'un attribut) et set (pour modifier la valeur).
+
+Exemple de déclaration :
+
+#ifndef SAMPLE_CLASS_H
+# define SAMPLE_CLASS_H
+
+class Sample{
+
+public:
+
+	Sample(void);
+	~Sample(void);
+
+	int	getFoo(void) const; //const car pas de modification possible à la lecture
+	void	setFoo(int v);
+	
+private:
+
+	int	_privateFoo;
+
+};
+
+#endif
+
+
+Exemple de définition de fonction :
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+Sample::Sample(void){
+
+	std::cout << "Constructeur called" << std::endl;
+	
+	this->setFoo(0);
+	std::cout << "this->getFoo(): " << this->getFoo() <<std::endl;
+	
+	return;
+}
+
+Sample::Sample(void){
+
+	std::cout << "Destructeur called" << std::endl;
+	return;
+}
+
+int	Sample::getFoo(void) const{
+
+	return this->_privateFoo;
+
+}
+
+void	Sample::setFoo(void) const{ //il peut être intéressant de renvoyer une valeur
+					(un booléen par exemple pour informer l'utilisateur
+					de la modification ou non)
+
+	if (v >= 0)
+		this->_privateFoo = v;
+	return;
+
+}
+
+Exemple d'instanciation :
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+int main(){
+
+	Sample instance;
+	
+	instance.setFoo(42);
+	std::cout << "instance.getFoo(): " << instance.getFoo() << std::endl; //la valeur
+										est modifiée 
+	instance.setFoo(-42);
+	std::cout << "instance.getFoo(): " << instance.getFoo() << std::endl; //la valeur
+										n'est pas
+										modifiée 
+	
+	return 0;
+}
+
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 : Comparisons
+
