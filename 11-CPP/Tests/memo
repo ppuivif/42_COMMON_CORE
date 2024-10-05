@@ -177,7 +177,7 @@ Sample::Sample(void){ //définition du constructeur sample de la classe sample q
 	return;
 }
 
-Sample::Sample(void){ //définition du destructeur sample de la classe sample qui ne prend
+Sample::~Sample(void){ //définition du destructeur sample de la classe sample qui ne prend
 			aucun paramètre et n'a aucun type de retour (on peut considérer le
 			destructeur comme une procédure)
 	std::cout << "Destructeur called" << std::endl;
@@ -254,7 +254,7 @@ Sample::Sample(void){
 	return;
 }
 
-Sample::Sample(void){
+Sample::~Sample(void){
 
 	std::cout << "Destructeur called" << std::endl;
 	return;
@@ -331,7 +331,7 @@ Sample::Sample(void){
 	return;
 }
 
-Sample::Sample(void){
+Sample::~Sample(void){
 
 	std::cout << "Destructeur called" << std::endl;
 	return;
@@ -506,7 +506,7 @@ public:
 
 Contrairement au C, l'initialisation en CPP permet d'assigner une valeur à une constante.
 
-Exemple de définition de fonction :selon la syntaxe dite liste d'initialisation
+Exemple de définition de fonction : (selon la syntaxe dite liste d'initialisation)
 
 #include <iostream>
 #include "Sample.class.hpp"
@@ -816,4 +816,117 @@ int main(){
 -----------------------------------------------------------------------------------------------
 
 Vidéo 42 : Comparisons
+
+Deux structures sont elles equivalentes (==) d'un point de vue physique et structurel.
+Physique ie les adresses des structures sont elles égales.
+Structurel ie les valeurs prises par les attributs sont elles égales.
+
+En CPP on peut utiliser les fonctions membre pour ajouter à nos structures (classes) une fonction
+compare qui va permettre d'effectuer une comparaison structurelle entre deux instances et ainsi
+vérifier une égalité ou non.
+
+
+Exemple de déclaration :
+
+#ifndef SAMPLE_CLASS_H
+# define SAMPLE_CLASS_H
+
+class Sample{
+
+public:
+
+	Sample(int v);
+	~Sample(void);
+
+	int	getFoo(void) const; //accesseur
+	int	compare(Sample *other) const; //comparaison entre l'instance courante et
+						l'instance passée en paramètre
+	
+private:
+
+	int	_privateFoo;
+
+};
+
+#endif
+
+
+Exemple de définition de fonction :
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+Sample::Sample(int v) : _privatefoo(v){
+
+	std::cout << "Constructeur called" << std::endl;
+	
+	return;
+}
+
+Sample::~Sample(void){
+
+	std::cout << "Destructeur called" << std::endl;
+	return;
+}
+
+int	Sample::getFoo(void) const{
+
+	return this->_privateFoo;
+
+}
+
+void	Sample::compare(Sample *other) const{
+
+	if (this->_privateFoo < other->getFoo())
+		return -1;
+	else if (this->_privateFoo > other->getFoo());
+		return 1;
+	return 0;
+
+}
+
+
+Exemple d'instanciation :
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+int main(){
+
+	Sample instance1(42); //2 instances physiquement différentes (2 adresses différentes)
+	Sample instance2(42); //2 instances structurellement équivalentes (2 contenus équivalents)
+		
+
+	if(&instance1 == &instance1)
+		std::cout << "instance1 and instance1 are physically equal" << std::endl;
+	else
+		std::cout << "instance1 and instance1 are not physically equal" << std::endl;	
+
+	if(&instance1 == &instance2)
+		std::cout << "instance1 and instance2 are physically equal" << std::endl;
+	else
+		std::cout << "instance1 and instance2 are not physically equal" << std::endl;	
+
+
+	if(instance1.compare(&instance1) == 0)
+		std::cout << "instance1 and instance1 are structurally equal" << std::endl;
+	else
+		std::cout << "instance1 and instance1 are not structurally equal" << std::end
+
+
+	if(instance1.compare(&instance2) == 0)
+		std::cout << "instance1 and instance2 are structurally equal" << std::endl;
+	else
+		std::cout << "instance1 and instance2 are not structurally equal" << std::end
+
+	return 0;
+}
+
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
 

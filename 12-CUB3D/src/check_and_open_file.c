@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 01:49:06 by tebandam          #+#    #+#             */
-/*   Updated: 2024/09/23 15:29:00 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/05 16:43:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_and_open_file(t_game *game, char **argv)
 {
-	game->data->fd = open(argv[1], O_DIRECTORY);//utiliser fstat?
+	game->data->fd = open(argv[1], O_DIRECTORY);
 	if (game->data->fd > 0)
 	{
 		close(game->data->fd);

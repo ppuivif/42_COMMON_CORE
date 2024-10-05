@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tebandam <tebandam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 07:03:02 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/02 03:03:16 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/05 18:28:14 by tebandam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,19 @@ void	get_initial_orientation_player(t_game *game, char facing)
 {
 	if (facing == 'N')
 	{
-		game->player->angle = 0;
+		game->player->angle = 3 * M_PI / 2;
 	}
 	if (facing == 'E')
 	{
-		game->player->angle = M_PI / 2;
+		game->player->angle = 0;
 	}
 	if (facing == 'S')
 	{
-		game->player->angle = M_PI;
+		game->player->angle = M_PI / 2;
 	}
 	if (facing == 'W')
 	{
-		game->player->angle = - 1 * M_PI / 2;
+		game->player->angle = M_PI;
 	}
 }
 
@@ -91,6 +91,7 @@ void	get_player_position_and_orientation(t_game *game)
 
 int	main(int argc, char **argv)
 {
+	// test modif for check branch
 	t_game	*game;
 	Uint32	*texture[8];
 
@@ -103,7 +104,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	game->data->map = get_map(game->data->fd);
 	if (!game->data->map)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE);//verifier si GNL renvoie NULL en dehors d'une erreur d'allocation
 	parsing_map_elements(game);
 	if (parse_map(game->data) == 1)
 		exit(1);//free des allocations

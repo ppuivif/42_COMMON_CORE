@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:19:55 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/01 01:00:07 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/05 17:35:37 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	render_graphics(t_game *game)
 {
-	game->mlx = mlx_init(1040, 720, "cub3d", false);
+	game->mlx = mlx_init(WINDOWS_WIDTH, WINDOWS_HEIGHT, "cub3d", false);
 	if (!game->mlx)
-		exit(1);
+		exit(1); //gerer les free
 	game->texture->image = mlx_new_image(game->mlx, \
-	windows_width, windows_height);
+	WINDOWS_WIDTH, WINDOWS_HEIGHT);
 	if (mlx_image_to_window(game->mlx, game->texture->image, 0, 0) < 0) // affiche l'image
 		exit(1);
 	load_image(game);

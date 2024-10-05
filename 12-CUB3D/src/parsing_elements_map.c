@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 11:19:52 by tebandam          #+#    #+#             */
-/*   Updated: 2024/09/23 15:40:35 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/05 17:41:29 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ int	ft_parse_map_path_texture(t_map_data *map, t_texture *texture)
 		{
 			if (load_north_south_textures(map, texture, i) != 0)
 				return (message_error_return_1(
-						"Error loading north or south texture\n"));
+						"Error loading north or south texture\n"));  //free supplemetaires a prevoir
 		}
 		else if (ft_strncmp(map->map[i], "WE ", 3) == 0
 			|| ft_strncmp(map->map[i], "EA ", 3) == 0)
 		{
 			if (load_west_east_textures(map, texture, i) != 0)
 				return (message_error_return_1(
-						"Error loading west or east texture\n"));
+						"Error loading west or east texture\n")); //free supplemetaires a prevoir
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:04:10 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/02 00:58:47 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/05 17:45:34 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,10 @@ static t_ray_result	perform_dda(t_ray_result ray_result, char **map)
 
 static void	initialize_ray(t_ray_result *ray_result, t_game *game, float ray_angle)
 {
-//	printf("game->player->player_pos_x : %f\n", game->player->player_pos_x);
-//	printf("game->player->player_pos_y : %f\n\n", game->player->player_pos_y);
 	ray_result->map_pos_x = game->player->player_pos_x; // Défini la position actuel du rayon horizontal
 	ray_result->map_pos_y = game->player->player_pos_y; // Défini la position actuel du rayon vertical
 	ray_result->ray_dist_x = cos(ray_angle); // On definie la direction horizontal du rayon où il sera envoyé plus tard
 	ray_result->ray_dist_y = sin(ray_angle); // On definie la direction vertical du rayon où il sera envoyé plus tard
-//	printf("ray_result->ray_dist_x : %f\n", ray_result->ray_dist_x);
-//	printf("ray_result->ray_dist_y : %f\n\n", ray_result->ray_dist_y);
 
 }
 

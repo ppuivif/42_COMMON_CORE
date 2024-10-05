@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 07:41:32 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/02 00:35:25 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/05 17:35:37 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 # include <stdio.h> //to delete
 
-#define windows_width 1040
-#define windows_height 720
+#define WINDOWS_WIDTH 1040
+#define WINDOWS_HEIGHT 720
 
 
 
@@ -59,8 +59,6 @@ typedef struct s_player
 {
 	float	player_pos_x;
 	float	player_pos_y;
-	float	dir_x; //non utilisé
-	float	dir_y; //non utilisé
 	float	fov;
 	float	angle;
 	float	pitch;
@@ -69,22 +67,24 @@ typedef struct s_player
 typedef struct s_texture
 {
 	mlx_image_t		*image;
+	mlx_image_t		*player_position_image; //pour minimap
 	
-	mlx_image_t		*minimap;
+	mlx_image_t		*minimap; //pour minimap
 	
 	mlx_texture_t	*walls_image;
 	mlx_texture_t	*floor_image;
-	mlx_texture_t	*player_image;
+	mlx_texture_t	*player_image; //pour minimap
 	
+	mlx_texture_t	*north_texture;
+	mlx_texture_t	*east_texture;
+	mlx_texture_t	*south_texture;
+	mlx_texture_t	*west_texture;
+
 	mlx_texture_t	*player_image_N; //pour minimap
 	mlx_texture_t	*player_image_E; //pour minimap
 	mlx_texture_t	*player_image_S; //pour minimap
 	mlx_texture_t	*player_image_W; //pour minimap
 	
-	mlx_texture_t	*north_texture;
-	mlx_texture_t	*west_texture;
-	mlx_texture_t	*south_texture;
-	mlx_texture_t	*east_texture;
 }	t_texture;
 
 typedef struct s_counter_parameter
@@ -102,15 +102,12 @@ typedef struct s_map_data
 	int				save;
 	int				fd;
 	char			**map;
-	
-	int				nb_lines;
-	int				nb_columns;
-	
 	int				weight;
 	int				height;
+	int				nb_lines;
+	int				nb_columns;
 	int				floor_color[4];
 	int				ceiling_color[4];
-	char			**map_after_color;
 	float			direction;
 }	t_map_data;
 
