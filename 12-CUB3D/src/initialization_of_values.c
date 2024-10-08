@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 12:25:34 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/06 19:27:57 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/08 09:47:32 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	initialization_of_values(t_game *game, int fd, char **map)
 	game->player->player_pos_y = 1;
 	game->player->fov = 1.221;
 	game->player->angle = 0.0;
-	game->player->pitch = 0.0;
+	//game->player->pitch = 0.0;
 
 	game->data->save = 0;
 	game->data->fd = fd;
@@ -27,7 +27,6 @@ void	initialization_of_values(t_game *game, int fd, char **map)
 	game->data->height = 300;//pourquoi 300 ?
 	game->data->nb_lines = 0;
 	game->data->nb_columns = 0;
-	game->data->map = NULL;
 	game->data->direction = 0;
 
 	game->texture->image = NULL;

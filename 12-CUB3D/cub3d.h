@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 07:41:32 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/06 19:29:44 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/08 08:53:08 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 #define WINDOWS_WIDTH 1040
 #define WINDOWS_HEIGHT 720
 #define TEX_WIDTH 64 // largeur de texture
-
+#define TEX_HEIGHT 64 // hauteur de texture
+#define LINE_HEIGHT 64 // test 
 
 typedef unsigned int Uint32;
-
 
 /*
 * Struct
@@ -40,6 +40,7 @@ typedef unsigned int Uint32;
 
 typedef struct s_ray_result
 {
+	float	angle; // non initialiser 
 	float	distance;
 	float	ray_dist_x; // distance du rayon en x
 	float	ray_dist_y; // distance du rayon en y
@@ -53,6 +54,9 @@ typedef struct s_ray_result
 	int		side; // test a-t-il touché un mur NS ou EW?
 	int		map_pos_x; // test
 	int		map_pos_y; // test
+	float	wall_pos_hit; // l'endroit ou le rayon touche le mur
+	int		draw_end; // ATTENTION VALEUR NON INITIALISER
+	int		draw_start; // ATTENTION VALEUR NON INITIALISER
 }	t_ray_result;
 
 typedef struct s_player
@@ -61,7 +65,7 @@ typedef struct s_player
 	float	player_pos_y;
 	float	fov;
 	float	angle;
-	float	pitch;
+	// float	pitch; 
 }	t_player;
 
 typedef struct s_texture
@@ -79,6 +83,7 @@ typedef struct s_texture
 	mlx_texture_t	*east_texture;
 	mlx_texture_t	*south_texture;
 	mlx_texture_t	*west_texture;
+	mlx_texture_t	*texture; // pas encore initialiser attention conditionnal jump
 
 	mlx_texture_t	*player_image_N; //pour minimap
 	mlx_texture_t	*player_image_E; //pour minimap
@@ -118,9 +123,16 @@ typedef struct s_game
 	t_map_data			*data;
 	t_counter_parameter	*counter_parameter;
 	t_texture			*texture;
-	t_ray_result		*ray_result;
+	t_ray_result		ray_result;
 }	t_game;
 
+
+void	texture_choice(t_game *game);
+void	pos_texture(t_game *game);
+int32_t	ft_pixel(int32_t r, int32_t g, int32_t b);
+void	draw_wall_texture(t_game *game, int x);
+void	draw_elements(mlx_image_t *image,
+	int x, t_game *game, float wall_height);
 /*
 * Parsing arguments
 */
@@ -152,8 +164,9 @@ void	load_image(t_game *game);
 * Draw
 */
 
-void	 draw_elements(mlx_image_t* image, int x, float wall_height, t_game *game);
-
+//void	 draw_elements(mlx_image_t* image, int x, float wall_height, t_game *game);
+// void	draw_elements(mlx_image_t *image,
+// 	int x, t_game *game);
 /*
 * Textures
 */
@@ -214,6 +227,8 @@ int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		is_full_whitespaces(char *str);
 float	clamp(float num, float min, float max);
+char	*ft_strchr(const char *s, int c);
+
 
 /*
 * ft_split
@@ -225,6 +240,7 @@ char	**ft_split(char const *s, char c);
 * Error
 */
 
+void	allocation_failed();
 int		message_error_for_missing_elements(
 			t_counter_parameter counter_parameter);
 int		message_error_return_1(char *error_message);
@@ -248,14 +264,14 @@ void	initialization_of_values(t_game *game, int fd, char **map);
 * Free
 */
 
-void	free_array(char **arr);
+void	*free_array(char **arr);
 void	close_and_free(t_game *game);
 
 /*
 * Divers help
 */
 
-void	ft_print_value_map(t_map_data *map);
+void	ft_print_value_map(char **map);
 int		ft_parse_map_elements_wall(t_map_data *map);
 
 /*
