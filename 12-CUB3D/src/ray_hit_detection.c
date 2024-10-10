@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 17:04:10 by tebandam          #+#    #+#             */
-/*   Updated: 2024/10/09 19:18:30 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/10/10 08:36:08 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	initialize_ray_step_and_distance(t_ray_result *ray_result,
 	{
 		ray_result->step_x = -1; // Si la direction est négative, on va verifier la case vers la gauche dans la carte
 		ray_result->ray_dist_x = (game->player->player_pos_x - ray_result->map_pos_x) * ray_result->delta_dist_x; // Calcule la distance à la prochaine ligne de la carte sur l'axe X
+//		ray_result->ray_dist_x = ray_result->delta_dist_x; // Calcule la distance à la prochaine ligne de la carte sur l'axe X
 	}
 	else
 	{
