@@ -13,6 +13,7 @@ https://reactive.so/post/42-a-comprehensive-guide-to-cub3d/
 Les vecteurs :
 https://youtu.be/aSSDBNn_rRI?feature=shared
 
+-----------------------------------------------------------------------------------------------
 
 delta_x et delta_y sont les distances à parcourir pour atteindre la prochaine intersection avec une
 ligne de la grille
@@ -28,6 +29,7 @@ Hauteur de la fenêtre : détermine la résolution verticale, c'est-à-dire comb
 
 La largeur de la fenêtre est donc utilisée pour définir le nombre de rayons à lancer car le raycasting vise à couvrir l'ensemble du champ de vision horizontal, qui est représenté par la largeur de l'écran.
 
+-----------------------------------------------------------------------------------------------
 
 delta_dist_x et delta_dist_y, sont utilisées pour calculer combien de distance le rayon doit parcourir en X et en Y avant de franchir la prochaine ligne de la grille dans ces directions respectives.
 
@@ -82,82 +84,10 @@ _
 1
 ​
  .
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+----------------------------------------------------------------------------------------------- 
  
  in a raycasting method, to determinate how many rays I must launch in the fov, why do I take window's width minus one ? 
-ChatGPT said:
-ChatGPT
-In raycasting, the number of rays you launch corresponds to the number of vertical slices or columns of the 3D projection on the screen. The basic idea is that each ray represents one vertical line on the screen, and by casting rays from the player's point of view, you determine what part of the environment is visible in each column of the screen.
-
-You typically take the window's width minus one for a few reasons:
-
-1. Pixel alignment:
-If the screen has a width of 
-𝑊
-W pixels, the rays you cast are aligned to these pixel columns. The number of rays determines the horizontal resolution of the 3D scene. The reason for subtracting one from the total width is to ensure you don't cast more rays than necessary. For instance:
-
-If you cast W rays from column 0 to column 
-𝑊
-−
-1
-W−1, you'll cover every pixel from the leftmost pixel (0) to the rightmost pixel (
-𝑊
-−
-1
-W−1).
-So, with a window width of 
-𝑊
-W, you cast rays from 0 to 
-𝑊
-−
-1
-W−1, ensuring that the number of rays corresponds to the number of columns.
-
-2. Off-by-one error prevention:
-Subtracting 1 from the window width prevents an off-by-one error that could result from casting one extra ray, which would go beyond the intended width of the window. For example:
-
-If you cast 
-𝑊
-W rays, the final ray would target column 
-𝑊
-W, which doesn’t exist since pixel columns range from 0 to 
-𝑊
-−
-1
-W−1. Thus, subtracting 1 ensures you stay within bounds.
-3. Correct field of view (FOV) coverage:
-Raycasting simulates the FOV of the player in a 3D environment. The idea is to split the screen horizontally into W-1 intervals (with 
-𝑊
-−
-1
-W−1 rays), so that the player's FOV is evenly sampled and accurately projected across the width of the screen. This gives a more continuous and smoother rendering, preventing issues like skipping or aliasing.
-
-Example:
-If the window's width is 640 pixels, the rays are cast from column 0 to 639. You would cast 639 rays because this covers the screen from left to right, ensuring every pixel column has a corresponding ray.
-
-In summary, subtracting one from the width ensures you:
-
-Cover every column of the window from left to right (without going beyond the window's bounds).
-Avoid rendering an extra unnecessary ray that would go beyond the screen width.
-
-
-
-
-
-You said:
-in french please
 ChatGPT said:
 ChatGPT
 En méthode de raycasting, le nombre de rayons lancés correspond au nombre de tranches verticales ou colonnes de la projection 3D sur l'écran. L'idée est que chaque rayon représente une ligne verticale sur l'écran, et en lançant des rayons depuis le point de vue du joueur, on détermine quelle partie de l'environnement est visible pour chaque colonne de l'écran.
@@ -169,41 +99,16 @@ Si l'écran a une largeur de
 𝑊
 W pixels, les rayons lancés sont alignés sur les colonnes de pixels. Le nombre de rayons détermine la résolution horizontale de la scène 3D. On soustrait souvent un pixel à la largeur totale pour s'assurer de ne pas lancer plus de rayons que nécessaire. Par exemple :
 
-Si vous lancez W rayons, vous couvrez chaque colonne de pixel de 0 à 
-𝑊
-−
-1
-W−1, ce qui correspond exactement à la largeur de l'écran.
-Avec une largeur d'écran de 
-𝑊
-W, vous lancez donc des rayons de la colonne 0 à la colonne 
-𝑊
-−
-1
-W−1, assurant ainsi que le nombre de rayons correspond au nombre de colonnes.
+Si vous lancez W rayons, vous couvrez chaque colonne de pixel de 0 à W−1, ce qui correspond exactement à la largeur de l'écran.
+Avec une largeur d'écran de W, vous lancez donc des rayons de la colonne 0 à la colonne W−1, assurant ainsi que le nombre de rayons correspond au nombre de colonnes.
 
 2. Éviter les erreurs de dépassement (off-by-one) :
 Soustraire 1 de la largeur de la fenêtre évite une erreur de dépassement ("off-by-one") qui pourrait survenir si vous lanciez un rayon supplémentaire qui dépasserait la largeur de la fenêtre. Par exemple :
 
-Si vous lancez 
-𝑊
-W rayons, le dernier rayon ciblerait la colonne 
-𝑊
-W, qui n'existe pas (puisque les colonnes de pixels vont de 0 à 
-𝑊
-−
-1
-W−1). En soustrayant 1, vous vous assurez de rester dans les limites de la fenêtre.
+Si vous lancez W rayons, le dernier rayon ciblerait la colonne W, qui n'existe pas (puisque les colonnes de pixels vont de 0 à W-1). En soustrayant 1, vous vous assurez de rester dans les limites de la fenêtre.
+
 3. Couverture correcte du champ de vision (FOV) :
-Le raycasting simule le champ de vision du joueur (FOV) dans un environnement 3D. En divisant l'écran horizontalement en 
-𝑊
-−
-1
-W−1 intervalles (avec 
-𝑊
-−
-1
-W−1 rayons), on garantit un échantillonnage uniforme du FOV du joueur, ce qui permet une projection correcte sur toute la largeur de l'écran. Cela permet aussi de rendre l'image plus continue et d'éviter des artefacts comme le "saut" ou l'aliasing.
+Le raycasting simule le champ de vision du joueur (FOV) dans un environnement 3D. En divisant l'écran horizontalement en W−1 intervalles (avec W−1 rayons), on garantit un échantillonnage uniforme du FOV du joueur, ce qui permet une projection correcte sur toute la largeur de l'écran. Cela permet aussi de rendre l'image plus continue et d'éviter des artefacts comme le "saut" ou l'aliasing.
 
 Exemple :
 Si la largeur de la fenêtre est de 640 pixels, les rayons sont lancés de la colonne 0 à la colonne 639. Vous lanceriez donc 639 rayons, ce qui couvre l'écran de gauche à droite, chaque colonne de pixel ayant un rayon correspondant.
@@ -213,9 +118,7 @@ En résumé, soustraire 1 de la largeur permet de :
 Couvrir toutes les colonnes de l'écran sans dépasser les limites.
 Éviter de lancer un rayon en trop qui dépasserait la largeur de l'écran.
 
-
-
-
+----------------------------------------------------------------------------------------------- 
 
 You said:
 Pourquoi la largeur de la window et pas la hauteur ?
@@ -248,10 +151,7 @@ Largeur de la fenêtre : détermine combien de rayons sont lancés, car chaque r
 Hauteur de la fenêtre : détermine la résolution verticale, c'est-à-dire combien de pixels seront utilisés pour afficher chaque tranche verticale de l’objet, en fonction de sa distance au joueur.
 La largeur de la fenêtre est donc utilisée pour définir le nombre de rayons à lancer car le raycasting vise à couvrir l'ensemble du champ de vision horizontal, qui est représenté par la largeur de l'écran.
 
-
-
-
-
+----------------------------------------------------------------------------------------------- 
 
 You said:
 Pourquoi prendre la largeur totale de la fenetre alors que la fov n'en couvre qu'une partie ?
@@ -290,21 +190,7 @@ Enfin, utiliser la largeur totale de la fenêtre permet d'optimiser l'expérienc
 En résumé :
 On utilise la largeur totale de la fenêtre car le FOV est projeté sur toute la largeur de celle-ci. Cela permet d’afficher l’ensemble de la scène visible de manière continue et fluide, tout en utilisant toute la résolution horizontale de l’écran. Même si le FOV ne couvre qu’une partie de l’espace de jeu, il est étiré pour s’ajuster à toute la largeur de la fenêtre, assurant une projection correcte et immersive du monde 3D.
 
-
-
-
-
-
-You said:
-ok
-ChatGPT said:
-ChatGPT
-Content que cela ait clarifié ta question ! Si tu as d'autres interrogations sur le raycasting ou un autre sujet, n'hésite pas à me demander. 😊
-
-
-
-
-
+----------------------------------------------------------------------------------------------- 
 
 You said:
 J'ai du mal a comprendre ce qu'est delta_dist_x dans le raycasting , notamment dans la fonction suivante. Peux-tu me l'expliquer simplement ?
@@ -382,6 +268,8 @@ _
 1
 ​
  .
+ 
+ 
 Pourquoi utiliser ces valeurs ?
 Les valeurs delta_dist_x et delta_dist_y sont cruciales dans l'algorithme de DDA car elles permettent de savoir quand le rayon va franchir la prochaine ligne de la grille en X ou en Y. À chaque étape, on compare ces valeurs pour déterminer si le rayon franchit d'abord une ligne verticale ou une ligne horizontale (c'est-à-dire si le rayon traverse une case dans la direction X ou Y), et cela permet de détecter le premier mur touché par le rayon.
 
@@ -393,10 +281,7 @@ Si le rayon est presque vertical, c'est l'inverse : delta_dist_x sera petit (il 
 Conclusion
 delta_dist_x et delta_dist_y sont des distances de pas dans le raycasting. Ils permettent de déterminer à quel moment le rayon va franchir une nouvelle ligne de la grille en X ou en Y. Ils sont calculés en fonction de la direction du rayon, et ces valeurs sont essentielles pour l'algorithme DDA qui décide si le rayon traverse d’abord une case en X ou en Y.
 
-
-
-
-
+----------------------------------------------------------------------------------------------- 
 
 You said:
 J'ai cru comprendre que 1/dist_x correspondait a un calcul de tangente ?
@@ -530,7 +415,7 @@ C'est un calcul qui te donne l'intervalle en X nécessaire pour que le rayon tra
 La tangente te donne une idée du rapport entre les déplacements en X et en Y, ce qui est essentiel pour le calcul de la progression des rayons dans la grille 2D.
 
 
-
+----------------------------------------------------------------------------------------------- 
 
 
 You said:
@@ -651,10 +536,7 @@ ray_dist_x et ray_dist_y : Donnent la distance initiale que le rayon doit parcou
 Le calcul prend en compte la position du joueur et la position actuelle du rayon dans la grille pour savoir si le rayon doit avancer ou reculer et pour calculer la distance jusqu'à la prochaine intersection avec une ligne de la grille.
 Cette fonction prépare donc toutes les données nécessaires pour que l'algorithme de DDA puisse ensuite déterminer, à chaque étape, si le rayon traverse une nouvelle ligne de grille en X ou en Y, et ainsi trouver où le rayon touche un mur.
 
-
-
-
-
+----------------------------------------------------------------------------------------------- 
 
 You said:
 Peux-tu m'expliquer dans le detail la ligne suivante ?
@@ -697,22 +579,7 @@ Le rayon se trouve actuellement dans la case 3 de la grille (ray_result->map_pos
 delta_dist_x = 0.5 (le rayon doit parcourir 0.5 unités de distance pour franchir une ligne verticale de la grille).
 Le calcul devient :
 
-ray_dist_x
-=
-(
-3.7
-−
-3
-)
-×
-0.5
-=
-0.7
-×
-0.5
-=
-0.35
-ray_dist_x=(3.7−3)×0.5=0.7×0.5=0.35
+ray_dist_x = (3.7 − 3) × 0.5 = 0.7 × 0.5 = 0.35
 Cela signifie que le rayon doit encore parcourir 0.35 unités dans la direction X pour atteindre la prochaine ligne verticale de la grille.
 
 Pourquoi ce calcul ?
@@ -729,10 +596,7 @@ Cette distance est ensuite utilisée pour savoir à quel moment le rayon travers
 Le produit par delta_dist_x sert à convertir la distance relative entre le joueur et la ligne de grille en une distance "réelle" à parcourir, en tenant compte de l'angle du rayon.
 Cela fait partie de l'algorithme de DDA (Digital Differential Analyzer) utilisé dans le raycasting pour déterminer l'endroit où le rayon touche un mur.
 
-
-
-
-
+----------------------------------------------------------------------------------------------- 
 
 You said:
 Delta_dist_x est-elle une distance dans la direction du rayon ou la composante horizontale de cette distance (en projection sur l'axe des x) ? 
@@ -816,6 +680,8 @@ delta_dist_x est la composante horizontale (projetée sur l'axe des X) de la dis
 Elle représente la distance que le rayon doit parcourir en X pour franchir une ligne verticale dans la grille, et est utilisée pour déterminer à quelle distance le rayon va toucher la prochaine colonne.
 Ce n'est pas la distance totale dans la direction du rayon (hypoténuse), mais uniquement la partie horizontale de cette distance.
 
+----------------------------------------------------------------------------------------------- 
+
 Pourquoi la valeur game->data->height est elle initialisee a 300 ?
 	ray_result.wall_height = (int)((float)game->data->height / (floor(ray_result.ray_dist_perpendicular_to_wall * cos(clamp(game->player->angle - ray_angle, 0, 2 * M_PI)) * 1000) / 1000)); 
 ChatGPT said:
@@ -857,6 +723,7 @@ Facilité de calcul : Les moteurs de raycasting des jeux classiques utilisaient 
 En résumé
 La valeur 300 pour game->data->height est probablement une échelle par défaut ou un paramètre de taille standard pour la fenêtre de rendu. Elle est utilisée ici pour déterminer la hauteur des murs projetés à l'écran en fonction de la distance entre le joueur et le mur. Le calcul de wall_height divise cette hauteur par la distance perpendiculaire corrigée du mur, ce qui permet de donner un effet de perspective où les murs lointains paraissent plus petits et les murs proches plus grands.
 
+----------------------------------------------------------------------------------------------- 
 
 Peux-tu m'expliquer cette fonction ?
 void	pos_texture(t_game *game)
@@ -949,7 +816,7 @@ Convertir cette position relative en une coordonnée de texture, afin de savoir 
 Apporter des corrections pour traiter les cas où le rayon frappe le mur à l'envers, en ajustant la coordonnée de texture si nécessaire.
 En gros, cette fonction est essentielle pour correctement mapper une texture sur un mur en fonction de l'endroit précis où le rayon l'a frappé dans un contexte de raycasting.
 
-
+----------------------------------------------------------------------------------------------- 
 
 Peux-tu m'expliquer la fonction suivante ?
 void	draw_wall_texture(t_game *game, int x)

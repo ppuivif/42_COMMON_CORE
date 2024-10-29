@@ -406,7 +406,7 @@ Sample::Sample1(char p1, int p2, float p3){ //paramètres de constructeur
 	return;
 }
 
-Sample::Sample1(void){
+Sample::~Sample1(void){
 
 	std::cout << "Destructeur called" << std::endl;
 	return;
@@ -450,7 +450,7 @@ Sample::Sample2(char p1, int p2, float p3) : a1(p1), a2(p2), a3(p3) {
 	return;
 }
 
-Sample::Sample1(void){
+Sample::~Sample1(void){
 
 	std::cout << "Destructeur called" << std::endl;
 	return;
