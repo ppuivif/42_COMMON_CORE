@@ -1,6 +1,8 @@
+#pragma once
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <limits>
 #include "Contact.Class.hpp"
 
 #ifndef PHONEBOOK_CLASS_H
@@ -13,15 +15,19 @@ public:
 	~PhoneBook(void);
 
 private:
-	static const int	_privateMaxContacts = 8;
-    Contact 			_privateContacts[_privateMaxContacts];
-    unsigned int		_privateNmemb = 0;
+	static const int	_MaxContacts = 8;
+    Contact 			_Contacts[_MaxContacts];
+    unsigned int		_Nmemb;
+	unsigned int		_CurrentIndex;
 
-	void	_privateRequest(void);
-	void	_privateAddContact(void);
-	void	_privateSearchContact(void);
-	void	_privateDisplayAllContacts(void);
-	void	_privateDisplaySelectedContact(std::string index);
+	void		_Request(void);
+	void		_AddContact(void);
+	void		_SearchContact(void);
+	void		_DisplayAllContacts(void);
+	void		_DisplaySelectedContact(std::string index);
+	std::string	_WhitespaceHandler(std::string input);
+	std::string	_HandlePhoneNumber(void);
+
 };
 
 #endif
