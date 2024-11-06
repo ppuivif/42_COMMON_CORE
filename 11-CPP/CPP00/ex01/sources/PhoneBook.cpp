@@ -1,4 +1,16 @@
-#include "PhoneBook.class.hpp"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   PhoneBook.cpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 16:35:53 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/06 18:22:49 by ppuivif          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/PhoneBook.hpp"
 
 PhoneBook::PhoneBook(void){
 	_Nmemb = 0;
@@ -32,61 +44,60 @@ std::string	PhoneBook::_WhitespaceHandler(std::string input){
 
 std::string	PhoneBook::_HandlePhoneNumber(void){
 	std::string	input;
-	char		c;
 
-	while (input.length() != 14 && std::cin.get(c) && c != '\n'){
-		if (input.length() % 3 == 0 && c != ' ')
-			return ("");
-		input += c;
-	}
-	if (c != '\n')
+	std::getline(std::cin, input);
+	if (input.length() != 14)
 		return ("");
+	for (size_t i = 1; i <= input.length(); i++){
+		if ((i % 3 == 0 && input[i - 1] != ' ' ) || (i % 3 != 0 && !isdigit(input[i - 1])))
+			return (" ");
+	}
+	return (input);
+}
+
+std::string	PhoneBook::_GetValidInput(const std::string message){
+	std::string input = "";
+	
+	while (input.empty()){
+		std::getline(std::cin, input);
+		if (input.empty())
+			std::cout << RED << message << WHITE;
+	}
 	return (input);
 }
 
 void	PhoneBook::_AddContact(void){
 	Contact		newContact;
+	std::string error_message = "Enter a valid input (non empty) : ";
 	std::string input = "";
 
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	while (input == ""){
-		std::cout << "Enter contact first name : ";
-		std::getline(std::cin, input);
-		newContact.set_ContactFirstName(input);
-	}
+	
+	std::cout << "Enter contact first name : ";
+	newContact.set_ContactFirstName(_GetValidInput(error_message));
 
-	input = "";
-	while (input == ""){
-		std::cout << "Enter contact last name : ";
-		std::getline(std::cin, input);
-		newContact.set_ContactLastName(input);
-	}
-
-	input = "";
-	while (input == ""){
-		std::cout << "Enter contact nickname : ";
-		std::getline(std::cin, input);
-		newContact.set_ContactNickname(input);
-	}
-
-	input = "";
-	while (input == ""){
-		std::cout << "Enter contact phone number according to format \"00 00 00 00 00\" : ";
+	std::cout << "Enter contact last name : ";
+	newContact.set_ContactLastName(_GetValidInput(error_message));
+	
+	std::cout << "Enter contact nickname : ";
+	newContact.set_ContactNickname(_GetValidInput(error_message));
+	
+	std::cout << "Enter contact phone number according to format \"00 00 00 00 00\" : ";
+	while (input.empty()){
 		input = _HandlePhoneNumber();
 		newContact.set_ContactPhoneNumber(input);
+		if (input.empty())
+			std::cout << RED << "Enter a valid input (according to format \"00 00 00 00 00\" : " << WHITE;
+		
 	}
 
-	input = "";
-	while (input == ""){
-		std::cout << "Enter contact darkest secret : ";
-		std::getline(std::cin, input);
-		newContact.set_ContactDarkestSecret(input);
-	}
-
+	std::cout << "Enter contact darkest secret : ";
+	newContact.set_ContactDarkestSecret(_GetValidInput(error_message));
+	
 	newContact.set_ContactIndex(_CurrentIndex);
 	_Contacts[_CurrentIndex] = newContact;
 	_Nmemb++;
-	if (_CurrentIndex < 8)
+	if (_CurrentIndex < _MaxContacts)
 		_CurrentIndex++;
 	else
 		_CurrentIndex = 0;
