@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Contact.Class.hpp                                  :+:      :+:    :+:   */
+/*   Contact.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:36:16 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/06 16:36:17 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/07 16:41:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,26 @@ class Contact {
 public:
 	Contact(void);
 	~Contact(void);
-	void			set_ContactIndex(unsigned int index);
-	void			set_ContactFirstName(const std::string firstName);
-	void			set_ContactLastName(const std::string lastName);
-	void			set_ContactNickname(const std::string nickname);
-	void			set_ContactPhoneNumber(const std::string phoneNumber);
-	void			set_ContactDarkestSecret(const std::string darkestSecret);
-	unsigned int	get_ContactIndex(void)const;
-	std::string		get_ContactFirstName(void)const;
-	std::string		get_ContactLastName(void)const;
-	std::string		get_ContactNickname(void)const;
-	std::string		get_ContactPhoneNumber(void)const;
-	std::string		get_ContactDarkestSecret(void)const;
+	void			setContactIndex(unsigned int index);
+	void			setContactFirstName(const std::string firstName);
+	void			setContactLastName(const std::string lastName);
+	void			setContactNickname(const std::string nickname);
+	void			setContactPhoneNumber(const std::string phoneNumber);
+	void			setContactDarkestSecret(const std::string darkestSecret);
+	unsigned int	getContactIndex(void)const;
+	std::string		getContactFirstName(void)const;
+	std::string		getContactLastName(void)const;
+	std::string		getContactNickname(void)const;
+	std::string		getContactPhoneNumber(void)const;
+	std::string		getContactDarkestSecret(void)const;
 
 private:
-	unsigned int	_ContactIndex;
-	std::string		_ContactFirstName;
-	std::string		_ContactLastName;
-	std::string		_ContactNickname;
-	std::string		_ContactPhoneNumber;
-	std::string		_ContactDarkestSecret;
+	unsigned int	_contactIndex = 0;
+	std::string		_contactFirstName;
+	std::string		_contactLastName;
+	std::string		_contactNickname;
+	std::string		_contactPhoneNumber;
+	std::string		_contactDarkestSecret;
 };
 
 #endif

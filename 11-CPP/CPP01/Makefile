@@ -6,13 +6,13 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/07 14:48:55 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/11/07 18:13:03 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #=================== NAME ===================#
 
-NAME = phonebook
+NAME = zombie
 
 #================ COMPILATOR ================#
 
@@ -24,9 +24,10 @@ CFLAGS = -Wall -Wextra -Werror -Iincludes -g
 
 #============= MANDATORY SOURCES ============#
 
-SRCS =  sources/phonebook.cpp \
-		sources/Contact.cpp \
-		sources/PhoneBook.cpp \
+SRCS =  sources/main.cpp \
+		sources/Zombie.cpp \
+		sources/newZombie.cpp \
+		sources/randomChump.cpp \
 
 #============ TRANSFORM .c TO .o ============#
 

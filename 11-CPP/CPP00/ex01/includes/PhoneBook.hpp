@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:36:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/06 18:21:34 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/07 17:10:09 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
 #ifndef RED
 # define RED "\033[31m"
 # endif
-#ifndef WHITE
-# define WHITE "\033[0m"
+#ifndef BOLD
+# define BOLD "\033[1m"
+# endif
+#ifndef NORMAL
+# define NORMAL "\033[0m"
 # endif
 
 class PhoneBook {
@@ -32,21 +35,22 @@ class PhoneBook {
 public:
 	PhoneBook(void);
 	~PhoneBook(void);
+	void				request(void);
 
 private:
-	static const int	_MaxContacts = 3;
-    Contact 			_Contacts[_MaxContacts];
-    unsigned int		_Nmemb;
-	unsigned int		_CurrentIndex;
+	static const int	_maxContacts = 8;
+    Contact 			_contacts[_maxContacts];
+    unsigned int		_nmemb = 0;
+	unsigned int		_currentIndex = 0;
 
-	void		_Request(void);
-	void		_AddContact(void);
-	void		_SearchContact(void);
-	void		_DisplayAllContacts(void);
-	void		_DisplaySelectedContact(std::string index);
-	std::string	_WhitespaceHandler(std::string input);
-	std::string	_GetValidInput(const std::string error_message);
-	std::string	_HandlePhoneNumber(void);
+	int					_addContact(void);
+	int					_searchContact(void);
+	void				_displayAllContacts(void);
+	void				_displaySelectedContact(std::string index);
+	std::string			_whitespaceHandler(std::string input);
+	std::string			_getValidInput(void);
+	std::string			_handlePhoneNumber(void);
+	int					_checkSpacesAndDigits(std::string input);
 
 };
 

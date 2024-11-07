@@ -6,34 +6,40 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:35:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/06 18:22:49 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/07 17:09:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/PhoneBook.hpp"
 
 PhoneBook::PhoneBook(void){
-	_Nmemb = 0;
-	_CurrentIndex = 0;
-	_Request();
 	return;
 }
 
-void	PhoneBook::_Request(void){
-	std::string buff;
+void	PhoneBook::request(void){
+	std::string input;
 
-	while (buff.compare("EXIT") && buff.compare("exit")){
-		std::cout << "Enter a command (ADD (or add), SEARCH (or search) or EXIT (or exit)) : ";
-		std::cin >> buff;
-		if (!buff.compare("ADD") || !buff.compare("add"))
-			PhoneBook::_AddContact();
-		if (!buff.compare("SEARCH") || !buff.compare("search"))
-			PhoneBook::_SearchContact();
+	while (input.compare("EXIT")){
+		std::cout << BOLD << "Enter a command (ADD, SEARCH or EXIT) : " << NORMAL;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			break ;
+		if (input.compare("EXIT") && input.compare("ADD") && input.compare("SEARCH"))
+			std::cout << RED << "Command invalid" << NORMAL << std::endl;
+		if (!input.compare("ADD")){
+			std::cout << std::endl;	
+			if (PhoneBook::_addContact())
+				break ;
+		}
+		if (!input.compare("SEARCH")){
+			if (PhoneBook::_searchContact())
+				break ;
+		}
 	}
 	return;
 }
 
-std::string	PhoneBook::_WhitespaceHandler(std::string input){
+std::string	PhoneBook::_whitespaceHandler(std::string input){
 	std::size_t index = input.find_first_of("\t");
 	while (index != std::string::npos){
 		input[index] = ' ';
@@ -42,124 +48,153 @@ std::string	PhoneBook::_WhitespaceHandler(std::string input){
 	return (input);
 }
 
-std::string	PhoneBook::_HandlePhoneNumber(void){
-	std::string	input;
-
-	std::getline(std::cin, input);
-	if (input.length() != 14)
-		return ("");
+int PhoneBook::_checkSpacesAndDigits(std::string input){
 	for (size_t i = 1; i <= input.length(); i++){
 		if ((i % 3 == 0 && input[i - 1] != ' ' ) || (i % 3 != 0 && !isdigit(input[i - 1])))
-			return (" ");
+			return (1);
 	}
-	return (input);
+	return (0);
 }
 
-std::string	PhoneBook::_GetValidInput(const std::string message){
-	std::string input = "";
+std::string	PhoneBook::_handlePhoneNumber(void){
+	std::string	input;
+
+	while (1){
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (input);
+		if (input.empty() || input.length() != 14 || _checkSpacesAndDigits(input))
+			std::cout << RED << "Enter a valid input (according to format \"00 00 00 00 00\" : " << NORMAL;
+		else
+			return (input);
+	}
+}
+
+std::string	PhoneBook::_getValidInput(void){
+	std::string input;
 	
 	while (input.empty()){
 		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (input);
 		if (input.empty())
-			std::cout << RED << message << WHITE;
+			std::cout << RED << "Enter a valid input (non empty) : " << NORMAL;
 	}
 	return (input);
 }
 
-void	PhoneBook::_AddContact(void){
+int	PhoneBook::_addContact(void){
 	Contact		newContact;
-	std::string error_message = "Enter a valid input (non empty) : ";
-	std::string input = "";
+	std::string tmp;
 
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	
-	std::cout << "Enter contact first name : ";
-	newContact.set_ContactFirstName(_GetValidInput(error_message));
+	std::cout << BOLD << "Enter contact first name : " << NORMAL;
+	tmp = _getValidInput();
+	if (tmp.empty())
+		return (1);
+	newContact.setContactFirstName(tmp);
 
-	std::cout << "Enter contact last name : ";
-	newContact.set_ContactLastName(_GetValidInput(error_message));
+	std::cout << BOLD << "Enter contact last name : " << NORMAL;
+	tmp = _getValidInput();
+	if (tmp.empty())
+		return (1);
+	newContact.setContactLastName(tmp);
 	
-	std::cout << "Enter contact nickname : ";
-	newContact.set_ContactNickname(_GetValidInput(error_message));
+	std::cout << BOLD << "Enter contact nickname : " << NORMAL;
+	tmp = _getValidInput();
+	if (tmp.empty())
+		return (1);
+	newContact.setContactNickname(tmp);
 	
-	std::cout << "Enter contact phone number according to format \"00 00 00 00 00\" : ";
-	while (input.empty()){
-		input = _HandlePhoneNumber();
-		newContact.set_ContactPhoneNumber(input);
-		if (input.empty())
-			std::cout << RED << "Enter a valid input (according to format \"00 00 00 00 00\" : " << WHITE;
-		
-	}
+	std::cout << BOLD << "Enter contact phone number according to format \"00 00 00 00 00\" : " << NORMAL;
+	tmp = _handlePhoneNumber();
+	if (tmp.empty())
+		return (1);
+	newContact.setContactPhoneNumber(tmp);
 
-	std::cout << "Enter contact darkest secret : ";
-	newContact.set_ContactDarkestSecret(_GetValidInput(error_message));
+	std::cout << BOLD << "Enter contact darkest secret : " << NORMAL;
+	tmp = _getValidInput();
+	if (tmp.empty())
+		return (1);
+	newContact.setContactDarkestSecret(tmp);
 	
-	newContact.set_ContactIndex(_CurrentIndex);
-	_Contacts[_CurrentIndex] = newContact;
-	_Nmemb++;
-	if (_CurrentIndex < _MaxContacts)
-		_CurrentIndex++;
+	newContact.setContactIndex(_currentIndex);
+	_contacts[_currentIndex] = newContact;
+	
+	if (_nmemb != _maxContacts)
+		_nmemb++;
+	if (_currentIndex != _maxContacts - 1)
+		_currentIndex++;
 	else
-		_CurrentIndex = 0;
+		_currentIndex = 0;
+
+	std::cout << std::endl;	
+	return (0);
 }
 
-void PhoneBook::_SearchContact(void){
-	std::string buff;
-	
-	if (PhoneBook::_Nmemb == 0){
-		std::cout << "Phonebook is empty." << std::endl;
-	}
-	else{
-		PhoneBook::_DisplayAllContacts();
-		std::cout << "Chose your index : ";
-		std::cin >> buff;
-		PhoneBook::_DisplaySelectedContact(buff);
-	}
-}
+void PhoneBook::_displayAllContacts(void){
 
-void PhoneBook::_DisplayAllContacts(void){
 	std::cout << std::setw(10) << "index" << '|';
 	std::cout << std::setw(10) << "first name" << '|';
 	std::cout << std::setw(10) << "last name" << '|';
 	std::cout << std::setw(10) << "nickname" << std::endl;
 
-	for(unsigned int i = 0; i < _Nmemb; i++){
-		std::cout << std::setw(10) << _Contacts[i].get_ContactIndex() << '|';
+	for(unsigned int i = 0; i < _nmemb; i++){
+		std::cout << std::setw(10) << _contacts[i].getContactIndex() << '|';
 	
-		std::string	contactFirstName = _WhitespaceHandler(_Contacts[i].get_ContactFirstName());
+		std::string	contactFirstName = _whitespaceHandler(_contacts[i].getContactFirstName());
 		if (contactFirstName.size() > 10)
-			contactFirstName.replace(contactFirstName.begin()+9, contactFirstName.end(),".");
+			contactFirstName.replace(contactFirstName.begin() + 9, contactFirstName.end(), ".");
 		std::cout << std::setw(10) << contactFirstName << '|';
 
-		std::string	contactLastName = _WhitespaceHandler(_Contacts[i].get_ContactLastName());
+		std::string	contactLastName = _whitespaceHandler(_contacts[i].getContactLastName());
 		if (contactLastName.size() > 10)
-			contactLastName.replace(contactLastName.begin()+9, \
-				contactLastName.end(),".");
+			contactLastName.replace(contactLastName.begin() + 9, \
+				contactLastName.end(), ".");
 		std::cout << std::setw(10) << contactLastName << '|';
 
-		std::string	contactNickname = _WhitespaceHandler(_Contacts[i].get_ContactNickname());
+		std::string	contactNickname = _whitespaceHandler(_contacts[i].getContactNickname());
 		if (contactNickname.size() > 10)
-			contactNickname.replace(contactNickname.begin()+9, contactNickname.end(),".");
+			contactNickname.replace(contactNickname.begin() + 9, contactNickname.end(), ".");
 		std::cout << std::setw(10) << contactNickname;
 		std::cout << std::endl;
 	}
 }
 
-void PhoneBook::_DisplaySelectedContact(std::string index){
-	unsigned int num = 1;
+int	PhoneBook::_searchContact(void){
+	std::string input;
+	
+	if (PhoneBook::_nmemb == 0){
+		std::cout << RED << "Phonebook is empty." << NORMAL << std::endl;
+	}
+	else{
+		PhoneBook::_displayAllContacts();
+		std::cout << std::endl;
+		std::cout << BOLD << "Chose your index : " << NORMAL;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			return (1);
+		std::cout << std::endl;	
+		PhoneBook::_displaySelectedContact(input);
+	}
+	return (0);
+}
+
+void PhoneBook::_displaySelectedContact(std::string contactIndex){
+	unsigned int index = 1;
     
-	std::stringstream ss(index);
-    ss >> num;
-	if (ss.fail() || num > PhoneBook::_Nmemb || num == 0){
-        std::cout << "\033[31m" << "Invalid input, chose a valid index" << "\033[0m" << std::endl;
-		PhoneBook::_SearchContact();
+	std::stringstream ss(contactIndex);
+    ss >> index;
+	if (ss.fail() || index > _nmemb || index == 0){
+        std::cout << RED << "Invalid input, chose a valid index" << NORMAL << std::endl;
+		PhoneBook::_searchContact();
     }
 	else {
-		std::cout << "First name : " << _Contacts[num - 1].get_ContactFirstName() << std::endl;
-		std::cout << "Last name : " << _Contacts[num - 1].get_ContactLastName() << std::endl;
-		std::cout << "Nickname : " << _Contacts[num - 1].get_ContactNickname() << std::endl;
-		std::cout << "Phone number : " << _Contacts[num - 1].get_ContactPhoneNumber() << std::endl;
-		std::cout << "Darkests secret : " << _Contacts[num - 1].get_ContactDarkestSecret() << std::endl;
+		std::cout << BOLD << "First name : " << NORMAL << _contacts[index - 1].getContactFirstName() << std::endl;
+		std::cout << BOLD << "Last name : " << NORMAL << _contacts[index - 1].getContactLastName() << std::endl;
+		std::cout << BOLD << "Nickname : " << NORMAL << _contacts[index - 1].getContactNickname() << std::endl;
+		std::cout << BOLD << "Phone number : " << NORMAL << _contacts[index - 1].getContactPhoneNumber() << std::endl;
+		std::cout << BOLD << "Darkest secret : " << NORMAL << _contacts[index - 1].getContactDarkestSecret() << std::endl;
+		std::cout << std::endl;	
 	}
 
 }

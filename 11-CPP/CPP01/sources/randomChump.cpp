@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phonebook.cpp                                      :+:      :+:    :+:   */
+/*   randomChump.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 09:29:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 17:11:07 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/07 17:43:24 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/07 18:24:29 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/PhoneBook.hpp"
+#include "../includes/Zombie.hpp"
 
-int main(){
-	PhoneBook	instance;
-	
-	instance.request();
-	return (0);
+void    Zombie::randomChump(std::string name)
+{
+	Zombie	newZombie;
+
+	newZombie.newZombie(name);
+	_announce();
 }

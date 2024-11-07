@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phonebook.cpp                                      :+:      :+:    :+:   */
+/*   newZombie.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 09:29:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 17:11:07 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/07 17:39:47 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/07 18:00:19 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/PhoneBook.hpp"
+#include "../includes/Zombie.hpp"
 
-int main(){
-	PhoneBook	instance;
-	
-	instance.request();
-	return (0);
+void	*Zombie::newZombie(std::string name)
+{
+	Zombie	*newZombie;
+
+	(*newZombie).setZombieName(name);
+	return (newZombie);
 }

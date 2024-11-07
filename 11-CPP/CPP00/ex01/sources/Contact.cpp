@@ -6,65 +6,64 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:35:49 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/06 16:46:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/07 17:12:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Contact.hpp"
 
 Contact::Contact(void){
-	_ContactIndex = 0;
-	return;
+	return ;
 }
 
-void	Contact::set_ContactIndex(unsigned int index){
-	_ContactIndex = index + 1;
+void	Contact::setContactIndex(unsigned int index){
+	_contactIndex = index + 1;
 }
 
-void	Contact::set_ContactFirstName(std::string contactFirstName){
-	_ContactFirstName = contactFirstName;
+void	Contact::setContactFirstName(std::string contactFirstName){
+	_contactFirstName = contactFirstName;
 }
 
-void	Contact::set_ContactLastName(std::string contactLastName){
-	_ContactLastName = contactLastName;
+void	Contact::setContactLastName(std::string contactLastName){
+	_contactLastName = contactLastName;
 }
 
-void	Contact::set_ContactNickname(std::string contactNickname){
-	_ContactNickname = contactNickname;
+void	Contact::setContactNickname(std::string contactNickname){
+	_contactNickname = contactNickname;
 }
 
-void	Contact::set_ContactPhoneNumber(std::string contactPhoneNumber){
-	_ContactPhoneNumber = contactPhoneNumber;
+void	Contact::setContactPhoneNumber(std::string contactPhoneNumber){
+	_contactPhoneNumber = contactPhoneNumber;
 }
 
-void	Contact::set_ContactDarkestSecret(std::string contactDarkestSecret){
-	_ContactDarkestSecret = contactDarkestSecret;
+void	Contact::setContactDarkestSecret(std::string contactDarkestSecret){
+	_contactDarkestSecret = contactDarkestSecret;
 }
 
-unsigned int	Contact::get_ContactIndex(void)const{
-	return(Contact::_ContactIndex);
+unsigned int	Contact::getContactIndex(void)const{
+	return (Contact::_contactIndex);
 }
 
-std::string Contact::get_ContactFirstName(void)const{
-	return(Contact::_ContactFirstName);
+std::string Contact::getContactFirstName(void)const{
+	return (Contact::_contactFirstName);
 }
 
-std::string Contact::get_ContactLastName(void)const{
-	return(Contact::_ContactLastName);
+std::string Contact::getContactLastName(void)const{
+	return (Contact::_contactLastName);
 }
 
-std::string Contact::get_ContactNickname(void)const{
-	return(Contact::_ContactNickname);
+std::string Contact::getContactNickname(void)const{
+	return (Contact::_contactNickname);
 }
 
-std::string Contact::get_ContactPhoneNumber(void)const{
-	return(Contact::_ContactPhoneNumber);
+std::string Contact::getContactPhoneNumber(void)const{
+	return (Contact::_contactPhoneNumber);
 }
 
-std::string Contact::get_ContactDarkestSecret(void)const{
-	return(Contact::_ContactDarkestSecret);
+std::string Contact::getContactDarkestSecret(void)const{
+	return (Contact::_contactDarkestSecret);
 }
 
 Contact::~Contact(void){
-	return;
+	return ;
 }

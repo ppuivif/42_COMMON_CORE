@@ -1,20 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phonebook.cpp                                      :+:      :+:    :+:   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 09:29:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 17:11:07 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/07 17:15:06 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/07 17:57:52 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/PhoneBook.hpp"
+#include <iostream>
+#include <string>
 
-int main(){
-	PhoneBook	instance;
+#ifndef ZOMBIE_CLASS_H
+# define ZOMBIE_CLASS_H
+
+class Zombie{
+
+public:
+	Zombie(void);
+	~Zombie(void);
+	void			*newZombie(std::string name);
+	void			randomChump(std::string name);
+	void			setZombieName(std::string name);
+	std::string		getZombieName(void)const;
+
+private:
+	void		_announce(void);
 	
-	instance.request();
-	return (0);
-}
+	std::string	_name;
+
+};
+
+
+#endif
