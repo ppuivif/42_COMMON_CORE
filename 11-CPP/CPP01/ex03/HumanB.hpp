@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   newZombie.cpp                                      :+:      :+:    :+:   */
+/*   HumanB.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 17:39:47 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 18:00:19 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/08 16:52:01 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/08 17:01:26 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Zombie.hpp"
+#include <iostream>
+#include <string>
+#include "../includes/Weapon.hpp"
 
-void	*Zombie::newZombie(std::string name)
-{
-	Zombie	*newZombie;
-
-	(*newZombie).setZombieName(name);
-	return (newZombie);
-}

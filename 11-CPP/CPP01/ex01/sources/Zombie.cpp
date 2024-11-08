@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:28:12 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 18:14:00 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/08 14:58:25 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Zombie::Zombie(void)
 	return ;
 }
 
-void	Zombie::_announce(void)
+void	Zombie::announce(void)const
 {
 	std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
 }
@@ -34,6 +34,5 @@ std::string	Zombie::getZombieName(void)const
 
 Zombie::~Zombie(void)
 {
-	std::cout << this->getZombieName() << " has been destroyed" << std::endl;
 	return ;
 }

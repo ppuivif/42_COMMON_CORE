@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:35:49 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 17:12:28 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/08 10:15:38 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,27 @@ void	Contact::setContactDarkestSecret(std::string contactDarkestSecret){
 }
 
 unsigned int	Contact::getContactIndex(void)const{
-	return (Contact::_contactIndex);
+	return (_contactIndex);
 }
 
 std::string Contact::getContactFirstName(void)const{
-	return (Contact::_contactFirstName);
+	return (_contactFirstName);
 }
 
 std::string Contact::getContactLastName(void)const{
-	return (Contact::_contactLastName);
+	return (_contactLastName);
 }
 
 std::string Contact::getContactNickname(void)const{
-	return (Contact::_contactNickname);
+	return (_contactNickname);
 }
 
 std::string Contact::getContactPhoneNumber(void)const{
-	return (Contact::_contactPhoneNumber);
+	return (_contactPhoneNumber);
 }
 
 std::string Contact::getContactDarkestSecret(void)const{
-	return (Contact::_contactDarkestSecret);
+	return (_contactDarkestSecret);
 }
 
 Contact::~Contact(void){

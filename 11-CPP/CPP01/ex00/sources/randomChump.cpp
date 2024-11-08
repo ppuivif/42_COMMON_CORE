@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   randomChump.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 17:25:27 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 18:08:55 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/07 17:43:24 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/08 11:57:11 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Zombie.hpp"
 
-int    main(int argc, char **argv)
+void	randomChump(std::string name)
 {
-    Zombie  instance;
+	Zombie	newZombie;
 
-    if (argc == 2)
-    {
-        instance.randomChump(argv[1]);
-        return (0);
-    }
-    else
-        return (1);
+	newZombie.setZombieName(name);
+	std::cout << name << " has been created" << std::endl;
+	newZombie.announce();
+	std::cout << std::endl;
 }

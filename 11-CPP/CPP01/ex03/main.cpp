@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   randomChump.cpp                                    :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 17:43:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 18:24:29 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/08 16:47:56 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/08 16:49:16 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Zombie.hpp"
+#include "../includes/Weapon.hpp"
+#include "../includes/HumanA.hpp"
+#include "../includes/HumanB.hpp"
 
-void    Zombie::randomChump(std::string name)
+int main()
 {
-	Zombie	newZombie;
 
-	newZombie.newZombie(name);
-	_announce();
+
+
+    
 }
