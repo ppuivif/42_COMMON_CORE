@@ -1,16 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanB.hpp                                         :+:      :+:    :+:   */
+/*   Weapon.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 16:52:01 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/08 17:01:26 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/08 16:49:44 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/11 19:10:39 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
 #include "../includes/Weapon.hpp"
+
+Weapon::Weapon(std::string	weapon) : _type(weapon)
+{
+	return ;
+}
+
+void	Weapon::setType(std::string newWeaponType)
+{
+	this->_type = newWeaponType;
+}
+
+std::string const Weapon::getType(void)const
+{
+	return (this->_type);
+}
+
+Weapon::~Weapon(void)
+{
+    return ;
+}
 

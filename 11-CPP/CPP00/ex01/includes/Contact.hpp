@@ -14,8 +14,8 @@
 #include <iostream>
 #include <iomanip>
 
-#ifndef CONTACT_CLASS_H
-# define CONTACT_CLASS_H
+#ifndef CONTACT_HPP
+# define CONTACT_HPP
 
 class Contact {
 

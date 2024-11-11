@@ -17,8 +17,8 @@
 #include <limits>
 #include "Contact.hpp"
 
-#ifndef PHONEBOOK_CLASS_H
-# define PHONEBOOK_CLASS_H
+#ifndef PHONEBOOK_HPP
+# define PHONEBOOK_HPP
 
 #ifndef RED
 # define RED "\033[31m"

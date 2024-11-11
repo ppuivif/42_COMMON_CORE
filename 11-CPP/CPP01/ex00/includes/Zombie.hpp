@@ -13,8 +13,8 @@
 #include <iostream>
 #include <string>
 
-#ifndef ZOMBIE_CLASS_H
-# define ZOMBIE_CLASS_H
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
 
 class Zombie{
 
