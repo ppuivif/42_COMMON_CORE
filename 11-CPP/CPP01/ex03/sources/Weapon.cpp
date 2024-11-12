@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 16:49:44 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/11 19:10:39 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/12 08:43:27 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 Weapon::Weapon(std::string	weapon) : _type(weapon)
 {
-	return ;
+
 }
 
 void	Weapon::setType(std::string newWeaponType)
@@ -29,6 +29,6 @@ std::string const Weapon::getType(void)const
 
 Weapon::~Weapon(void)
 {
-    return ;
+
 }
 
