@@ -6,13 +6,13 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/07 18:13:03 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/11/13 17:02:49 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #=================== NAME ===================#
 
-NAME = zombie
+NAME = replace
 
 #================ COMPILATOR ================#
 
@@ -20,15 +20,12 @@ CC = c++
 
 #=================== FLAGS ==================#
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 \
-	 -Iincludes
+CFLAGS = -Wall -Wextra -Werror -Iincludes
 
 #============= MANDATORY SOURCES ============#
 
 SRCS =  sources/main.cpp \
-		sources/Zombie.cpp \
-		sources/newZombie.cpp \
-		sources/randomChump.cpp \
+		sources/Replace.cpp \
 
 #============ TRANSFORM .c TO .o ============#
 

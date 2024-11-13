@@ -16,11 +16,11 @@ NAME = brain
 
 #================ COMPILATOR ================#
 
-CC = g++
+CC = c++
 
 #=================== FLAGS ==================#
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -g
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 #============= MANDATORY SOURCES ============#
 
@@ -28,7 +28,10 @@ SRCS =  main.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
-OBJS=$(SRCS:.cpp=.o)
+OBJS=$(SRCS:%.cpp=%.o)
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
 #============ Colors ========================#
 

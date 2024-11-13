@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Weapon.hpp"
+#include "Weapon.hpp"
 
 Weapon::Weapon(std::string	weapon) : _type(weapon)
 {

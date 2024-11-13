@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/HumanB.hpp"
+#include "HumanB.hpp"
 
 HumanB::HumanB(std::string name) : _name(name)
 {
