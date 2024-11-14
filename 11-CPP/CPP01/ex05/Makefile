@@ -6,13 +6,13 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/14 14:45:12 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/11/14 11:37:00 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #=================== NAME ===================#
 
-NAME = phonebook
+NAME = harl
 
 #================ COMPILATOR ================#
 
@@ -20,14 +20,12 @@ CC = c++
 
 #=================== FLAGS ==================#
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 \
-		 -Iincludes
+CFLAGS = -Wall -Wextra -Werror -Iincludes
 
 #============= MANDATORY SOURCES ============#
 
-SRCS =  sources/phonebook.cpp \
-		sources/Contact.cpp \
-		sources/PhoneBook.cpp \
+SRCS =  sources/main.cpp \
+		sources/Harl.cpp \
 
 #============ TRANSFORM .c TO .o ============#
 

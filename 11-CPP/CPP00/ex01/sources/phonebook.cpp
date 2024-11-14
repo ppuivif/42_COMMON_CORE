@@ -6,13 +6,14 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 09:29:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 17:11:07 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/14 14:53:48 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/PhoneBook.hpp"
+#include "PhoneBook.hpp"
 
-int main(){
+int main()
+{
 	PhoneBook	instance;
 	
 	instance.request();

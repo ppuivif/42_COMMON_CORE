@@ -6,11 +6,10 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:36:16 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 16:41:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/14 17:20:59 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
 #include <iostream>
 #include <iomanip>
 
@@ -36,7 +35,7 @@ public:
 	std::string		getContactDarkestSecret(void)const;
 
 private:
-	unsigned int	_contactIndex = 0;
+	unsigned int	_contactIndex;
 	std::string		_contactFirstName;
 	std::string		_contactLastName;
 	std::string		_contactNickname;

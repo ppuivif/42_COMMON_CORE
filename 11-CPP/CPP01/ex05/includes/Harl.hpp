@@ -1,32 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megaphone.cpp                                      :+:      :+:    :+:   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 09:29:30 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/14 14:36:52 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/14 10:48:44 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/14 14:08:33 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 
-int main(int argc, char **argv)
+#ifndef HARL_HPP
+#define HARL_HPP
+
+#ifndef RED
+# define RED "\033[31m"
+# endif
+#ifndef BOLD
+# define BOLD "\033[1m"
+# endif
+#ifndef NORMAL
+# define NORMAL "\033[0m"
+# endif
+
+class Harl
 {
-	if (argc == 1)
-		std::cout << "* LOUD AND UNBEARABLEFEEDBACK NOISE *";
-	else
-	{
-		std::string str;
-		for (int i = 1; argv[i]; i++)
-		{
-			str = static_cast<std::string>(argv[i]);
-			for (std::string::iterator it=str.begin(); it!=str.end(); ++it)
-    			std::cout << static_cast<char>(std::toupper(*it));
-		}
-	}
-	std::cout << std::endl;
-	return (0);
-}
+public:	
+	Harl(void);
+	~Harl(void);
+
+	void	complain(std::string level);
+
+private:
+	void	debug(void);
+	void	info(void);
+	void	warning(void);
+	void	error(void);
+
+};
+
+#endif

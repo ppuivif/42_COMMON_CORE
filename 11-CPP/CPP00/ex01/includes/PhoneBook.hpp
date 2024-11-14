@@ -6,13 +6,13 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 16:36:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/07 17:10:09 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/14 17:20:55 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include <sstream>
 #include <limits>
 #include "Contact.hpp"
@@ -30,7 +30,8 @@
 # define NORMAL "\033[0m"
 # endif
 
-class PhoneBook {
+class PhoneBook
+{
 
 public:
 	PhoneBook(void);
@@ -38,10 +39,10 @@ public:
 	void				request(void);
 
 private:
-	static const int	_maxContacts = 8;
-    Contact 			_contacts[_maxContacts];
-    unsigned int		_nmemb = 0;
-	unsigned int		_currentIndex = 0;
+    Contact 			_contacts[8];
+    unsigned int		_nmemb;
+	unsigned int		_currentIndex;
+	unsigned int		_eof;
 
 	int					_addContact(void);
 	int					_searchContact(void);

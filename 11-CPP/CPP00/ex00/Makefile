@@ -1,28 +1,59 @@
-CC = c++
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
+#    Updated: 2024/11/14 14:41:16 by ppuivif          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CFLAGS = -Wall -Werror -Wextra
+#=================== NAME ===================#
 
 NAME = megaphone
 
-SOURCES = 	sources/megaphone.cpp
+#================ COMPILATOR ================#
 
-OBJECTS = $(SOURCES:.cpp=.o)
+CC = c++
 
-all : $(NAME)
+#=================== FLAGS ==================#
 
-$(NAME) : $(OBJECTS)
-		$(CC) $(CFLAGS) $(OBJECTS) -o $@ $(LDFLAGS)
-		@clear
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-%.o : %.c
-		$(CC) $(CFLAGS) -c $< -o $@
+#============= MANDATORY SOURCES ============#
 
-clean :
-		rm -rf $(OBJECTS)
+SRCS =  sources/megaphone.cpp
 
-fclean : clean
-		rm -rf $(NAME)
+#============ TRANSFORM .c TO .o ============#
 
-re : fclean all
+OBJS=$(SRCS:%.cpp=%.o)
 
-.PHONY: all clean fclean re
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
+#============ Colors ========================#
+
+white='\033[1;37m'
+dark_green='\033[0;32m'
+
+#================ UTILS PART ================#
+
+RM = rm -rf
+
+all: $(NAME)
+
+$(NAME) : $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo $(dark_green)"Executable is ready"
+
+clean: 
+	@$(RM) $(OBJS)
+
+fclean: clean
+	@$(RM) $(NAME) 
+
+re: fclean all
+
+.PHONY: all clean fclean re 

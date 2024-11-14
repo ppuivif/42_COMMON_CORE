@@ -20,7 +20,8 @@ CC = c++
 
 #=================== FLAGS ==================#
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+CFLAGS = -Wall -Wextra -Werror -std=c++98 \
+	 -Iincludes
 
 #============= MANDATORY SOURCES ============#
 

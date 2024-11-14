@@ -5,33 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 09:00:16 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/14 09:31:53 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/14 09:39:17 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/14 12:29:29 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Replace.hpp"
+#include "Harl.hpp"
 
-int	main(int argc, char **argv)
+int	main()
 {
-	Replace 		replace;
-	
-	if (replace.parsing(argc, argv))
-		return (1);
+	Harl		instance;
+	std::string	input;
 
-	const std::string	infile = static_cast<std::string>(argv[1]);
-	const std::string	s1 = static_cast<std::string>(argv[2]);
-	const std::string	s2 = static_cast<std::string>(argv[3]);
-	
-	if (replace.getInfileStream(infile))
-		return (1);
-	
-	if (replace.createOutfileStream(infile))
-		return (1);
-	
-	replace.replaceStringsAndCopyContent(s1, s2);
-	
-	replace.closeStreams();
-
+	while (!std::cin.eof())
+	{
+		std::cout << BOLD << "Chose a level (DEBUG, INFO, WARNING, ERROR) : "<< NORMAL;
+		std::getline(std::cin, input);
+		if (!std::cin.eof() && input.compare("DEBUG") && input.compare("INFO") && \
+		input.compare("WARNING") && input.compare("ERROR"))
+			std::cout << RED << "Enter a valid level" << NORMAL << std::endl;
+		else
+			instance.complain(input);
+	}
 	return (0);
 }
