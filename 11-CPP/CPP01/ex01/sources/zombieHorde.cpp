@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Zombie.hpp"
+#include "Zombie.hpp"
 
 Zombie	*zombieHorde(int N, std::string name)
 {

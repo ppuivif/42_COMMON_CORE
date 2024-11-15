@@ -6,13 +6,13 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/08 14:53:13 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/11/15 08:38:43 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #=================== NAME ===================#
 
-NAME = horde
+NAME = fixed
 
 #================ COMPILATOR ================#
 
@@ -26,8 +26,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 \
 #============= MANDATORY SOURCES ============#
 
 SRCS =  sources/main.cpp \
-		sources/Zombie.cpp \
-		sources/zombieHorde.cpp \
+		sources/Fixed.cpp \
 
 #============ TRANSFORM .c TO .o ============#
 

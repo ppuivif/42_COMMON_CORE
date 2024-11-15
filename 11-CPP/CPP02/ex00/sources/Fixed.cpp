@@ -1,23 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Fixed.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 17:25:27 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/08 12:01:14 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/15 08:38:20 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
-
-int    main()
-{
-    Zombie	*heapZombie;
-
-	heapZombie = newZombie("Heap Zombie (new)");
-	randomChump("Stack Zombie (chump)");
-	delete heapZombie;
-	return (0);
-}
+#include "Fixed.hpp"

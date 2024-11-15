@@ -162,7 +162,7 @@ NB : lorsque la classe est instanciée, la fonction de construction est appelée
 lorsque l'instance est détruite, la fonction de destruction est appelée.
 
 
-Définir les fonctions contenues dans la classe :
+Définir les fonctions contenues dans la classe (implémentation) :
 
 Exemple de contenu du fichier Sample.class.cpp :
 
