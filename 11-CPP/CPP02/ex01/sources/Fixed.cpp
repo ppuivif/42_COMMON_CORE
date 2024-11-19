@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/19 14:55:31 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/19 19:33:23 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,22 @@
 Fixed::Fixed(void) : _value(0)
 {
 	std::cout << "Default constructor called" << std::endl;
+	return;
+}
+
+Fixed::Fixed(const int i)
+{
+	std::cout << "Int constructor called" << std::endl;
+	int scale = 1 << this->_bit;
+	this->_value = i * scale;
+	return;
+}
+
+Fixed::Fixed(const float f)
+{
+	std::cout << "Float constructor called" << std::endl;
+	int scale = 1 << this->_bit;
+	this->_value = roundf(f * scale);
 	return;
 }
 
@@ -29,19 +45,29 @@ Fixed &Fixed::operator=(const Fixed &src)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &src)
-		this->_value = src.getRawBits();
+		this->_value = src._value;
 	return (*this);
 }
+//	a = 1234.4321f;
 
-int	Fixed::getRawBits(void) const
 {
-	std::cout << "getRawBits function called" << std::endl;
-	return (this->_value);
+	float result = 0;
+	int scale = 1 << this->_bit;
+	result = (float)this->_value / scale; 
+	return (result);
 }
 
-void	Fixed::setRawBits(int const raw)
+int		Fixed::toInt(void) const
 {
-	this->_value = raw;
+	int result = 0;
+	result = (int)toFloat();
+	return (result);
+}
+
+std::ostream &operator << (std::ostream &out, Fixed const &fx)
+{
+	out << fx.toFloat();
+	return (out);
 }
 
 Fixed::~Fixed(void)
