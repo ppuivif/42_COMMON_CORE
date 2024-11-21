@@ -1,0 +1,216 @@
+https://modern.ircdocs.horse/
+
+Modern IRC Client Protocol
+
+Intro
+Le protocole IRC (Internet Relay Chat) est un protocole de chat basé sur le texte.
+Il est adapté (well-suited) pour fonctionner sur plusieurs machines de manière distribuée (par
+opposition à une organisation centralisée) (1).
+Une configuration typique implique plusieurs serveur connectés dans un réseau distribué.
+Les messages sont délivrés à travers ce réseau et l'état des clients connectés et des canaux
+actifs y est maintenu.
+
+-----------------------------------------------------------------------------------------------
+
+IRC concepts
+
+Cette section décrit les concepts derrière la mise en oeuvre et l'organisation du protocole IRC.
+
+	1-Architecture :
+	Un reseau IRC typique comprend des serveurs et des clients connectés à ces serveurs,
+	avec un bon mélange d'opérateurs IRC et de canaux. Cette section décrit succintement
+	ce qu'ils sont.
+
+-----------------------------------------------------------------------------------------------
+	
+		1-Les serveurs :
+		
+		Les serveurs constituent la colonne vertébrale (backbone) d'IRC, fournissant
+		un point à partir duquel les clients peuvent se connecter et se parler aux uns
+		les autres, et un point auquel les autres serveurs peuvent se connecter,
+		formant un réseau IRC.
+		
+		La configuration la plus commune pour le réseau de serveurs IRC est celle du
+		spanning (enchevêtrement) tree (racine d'arbre ?), dans laquelle chaque serveur
+		agit comme un noeud central pour le reste du réseau qu'il voit (voir figure 1).
+		NB : d'autres configurations ont été experimentées, mais à ce jour, aucune n'a
+		été utilisée largement en production.
+		
+		Plusieurs termes ont été créés au fil du temps pour décrire les rôles des
+		différents serveurs sur un réseau IRC. Les plus communs sont les suivants :
+		
+			- Hub : un hub est un serveur qui est relié à plusieurs autres
+			serveurs. C'est le cas des serveurs 2, 3 et 4 dans la figure 1.
+
+			- Core Hub : un "Core Hub" est typiquement un serveur hub qui relie
+			entre elles des parties relativement importantes du réseau IRC. La
+			notion d'importance dépendra de la taille du réseau et de
+			l'appréciation de l'administrateur. Ce pourrait être le cas pour les
+			serveurs 1, 2, 3 dans la figure 1.
+			
+			- Leaf : un leaf (feuille) est un serveur qui est connecté à un seul
+			serveur sur le réseau. Ce serait le cas, entre autres, pour les
+			serveurs 7, 8, 10, 13, 14 dans la figure 1.
+			
+			- Services : un serveur "services" est un serveur spécial qui étend
+			les capacités du logiciel (software) serveur sur le réseau
+			(ie, il fournit des services au réseau). Les services ne sont pas
+			utilisés sur tous les réseaux et les services qu'ils sont susceptibles
+			de fournir sont plutôt inclus dans les logiciels réseau grâce à des
+			paquets séparés.
+			Les fonctionnalités (features) généralement gérées par les services
+			incluent :
+				- l'enregistrement des comptes client (voir SASL
+				authentication),
+				- l'enregistrement des canaux (permettant aux comptes clients
+				de posséder leurs propres canaux,
+				- la possibilité de modifications ultérieures et d'extensions
+				du protocole IRC. 
+			Ces services sont différents des services définis par le RFCs (Requests
+			for Comments = documentation technique associés à internet  et au
+			protocole IRC).
+		Une tendance (trend) actuelle est de cacher la structure du réseau aux
+		utilisateurs "standards" (regular). Les réseaux qui sont ainsi mis en oeuvre
+		peuvent restreindre ou modifier les commandes telles que 'MAP' de telle façon
+		que les utilisateurs "standards" voient tous les autres serveurs sur le réseau
+		comme s'ils étaient connectés directement au serveur courant. Ainsi, les
+		serveurs qui ne gèrent pas les connections client sont susceptibles d'être
+		cachés (dans ce cas les serveurs hub peuvent être appelés 'hidden hubs'). En
+		général les opérateurs IRC peuvent toujours voir la structure en arbre du
+		réseau.
+		
+		En genéral, ces termes n'apparaissent pas dans la documentation IRC, mais sont
+		susceptibles d'être utilisés pas les administrateurs réseau pour différencier
+		le rôle des serveurs qu'ils gèrent.
+		
+		Le nom des serveurs devraient contenir un point (".").
+
+-----------------------------------------------------------------------------------------------
+
+		2-Les clients :
+
+		Un client est tout ce qui est connecté à un serveur et qui n'est pas un autre
+		serveur.
+		Chaque client se distingue d'un autre client pas un surnom (nickname) unique.
+		En plus	du surnom, tous les serveurs doivent diposer d'informations
+		complémentaires à propos de tous les clients :
+			- le nom réel,
+			- l'adresse de l'hôte auquel le client est connecté,
+			- le nom d'utilisateur du client sur l'hôte,
+			- le serveur auquel le client est connecté.
+		Les surnoms sont des chaînes de caractères non vides avec les restrictions
+		suivantes :
+			- ils ne doivent contenir aucun des caractères suivants :
+				- space ' ',
+				- comma ',',
+				- asterisk '*',
+				- question mark '?',
+				- exclamation mark '!',
+				- at sign '@'.
+			- ils ne doivent pas commencer par les caractères suivants :
+				- dollar '$',
+				- colon ':'.
+			- ils ne doivent pas commencer par un caractère définis comme un
+			"channel type", un "channel membership prefix", ou par un prefix
+			définis dans la liste.
+			- ils ne doivent contenir aucun dot character '.'.
+		Les serveurs peuvent ajouter des restrictions supplémentaires sur les surnoms
+		et doivent éviter l'utilisation de surnoms qui pourraient porter à confusion
+		vis à vis de commandes ou de paramètres de commande. 
+
+-----------------------------------------------------------------------------------------------
+
+		3-Les services :
+		
+		Ils ne sont plus utilisés à ce jour. (???)
+
+-----------------------------------------------------------------------------------------------
+
+		4-Les opérateurs :
+		
+		Afin de maintenir un ordre raisonnable au sein du réseau IRC, une catégorie
+		spéciale de clients (opérateurs) est autorisée à effectuer (perform) des tâches
+		de maintenance générale sur le réseau.
+		Bien que les pouvoirs accordés à un opérateur puissent être considérés comme
+		"dangereux", ils sont néanmoins nécessaires.
+		
+		Les tâches que les opérateurs peuvent effectuer varient en fonction des
+		logiciels serveur et des privilèges accordés (granted) à chaque opérateur.
+		Certains peuvent effectuer des tâches de maintenance sur le réseau, tel que
+		déconnecter et reconnecter des serveurs comme cela peut être nécessaire pour
+		prévenir l'utilisation à long terme d'un mauvais routage de réseau.
+		Certains opérateurs peuvent également forcer la suppression d'un utilisateur
+		de leur serveur	ou du réseau, autrement dit un opérateur est capable de fermer
+		la connection entre un client et son serveur.
+		
+		NB : La justification de la possibilité pour les opérateurs de retirer des
+		utilisateurs du réseau est délicate, car l'abus est à la fois destructeur et
+		ennuyeux.
+		Cependant, les politiques et les administrateurs des réseaux IRC gèrent les
+		opérateurs qui abusent de leurs privilèges, et ce qui est considéré comme un
+		abus par ce réseau.
+
+-----------------------------------------------------------------------------------------------
+
+		5-Les canaux (channels) :
+		
+		Un canal est un groupe identifié de un ou plusieurs clients.
+		Tous les clients dans un canal vont recevoir tous les messages adressés à ce
+		canal.
+		Le canal est implicitement créé quand le premier client le rejoint, et le canal
+		cesse (ceases) d'exister quand le dernier client le quitte. Tant que le canal
+		existe,	tout client peut y faire référence en utilisant le nom du canal.
+		Les réseaux qui prennent en charge le concept de propriété des canaux (channel
+		ownership) peuvent maintenir des canaux spécifiques d'une certaine manière
+		alors qu'aucun client n'y est connecté.
+
+		Les noms des canaux sont des chaînes de caractères (qui commencent par des
+		caractères spécifiques en préfixe). Mis à part cette exigence, la seule
+		restriction concernant le nom du canal est qu'il ne peut pas contenir :
+			- de space ' ',
+			- de control G / BELL '^G',
+			- de comma ',' (qui sont utilisé comme séparateurs dans une liste
+			d'items).
+		
+		Il existe plusieurs types de canaux utilisés par le protocole IRC.
+		Le premier type de canal est le canal ordinaire (regular channel) qui est connu
+		par tous les serveurs qui sont connectés au réseau. Le préfixe de ce canal est
+		le #.
+		Le deuxième
+		
+-----------------------------------------------------------------------------------------------
+
+(1)CHATGPT :
+
+How could you explain what is a distributed fashion in IT ?
+
+ChatGPT said:
+
+In IT, a distributed fashion refers to the way a system, application, or process is designed
+to operate across multiple locations, computers, or nodes, rather than being centralized on a
+single machine or site. This concept is foundational in distributed computing and systems,
+allowing for scalability, fault tolerance, and optimized performance.
+
+Key Characteristics of a Distributed Fashion:
+	1.Decentralization: Instead of relying on one central server, tasks and data are shared
+	across multiple nodes in the system.
+	2.Parallelism: Tasks can be processed simultaneously across multiple locations,
+	increasing speed and efficiency.
+	3.Redundancy: Data and services are often replicated across nodes, improving
+	reliability and fault tolerance.
+	4.Communication: Nodes interact and communicate with each other, often over a network,
+	to ensure coordination and consistency.
+
+Examples of Distributed Fashion in IT:
+	1.Cloud Computing: Services like Amazon Web Services (AWS) or Microsoft Azure
+	distribute resources and workloads across global data centers.
+	2.Content Delivery Networks (CDNs): Systems like Akamai or Cloudflare distribute web
+	content across servers worldwide to improve access speed.
+	3.Blockchain: A distributed ledger system where transactions are recorded across
+	multiple nodes, ensuring transparency and decentralization.
+	4.Distributed Databases: Databases like Cassandra or MongoDB store data across multiple
+	servers, enabling scalability and high availability.
+
+In short, working in a distributed fashion allows IT systems to be more scalable, reliable,
+and efficient by leveraging the power of multiple interconnected resources.
+

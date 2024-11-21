@@ -6,12 +6,14 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:48:44 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/14 14:08:33 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/21 11:42:48 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <csignal> //for signal handling
+#include <cstdlib> //for exit
 
 #ifndef HARL_HPP
 #define HARL_HPP
@@ -41,5 +43,7 @@ private:
 	void	error(void);
 
 };
+
+void	signalHandler(int signal);
 
 #endif

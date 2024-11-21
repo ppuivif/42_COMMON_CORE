@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   ClapTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 17:25:27 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/21 19:29:50 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/20 17:05:50 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/20 17:20:01 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include <iostream>
 
-int    main()
+#ifndef CLAPTRAP_H
+# define CLAPTRAP_H
+
+class ClapTrap
 {
-	std::signal(SIGINT, signalHandler);	
-	Zombie		*horde = NULL;
-	int			N = 0;
-	std::string	zombieName;
-	
-	N = getZombiesNumber();
-	if (N == 0)
-		std::cout << "No member in horde" << std::endl;
-	else
-	{
-		zombieName = getName();
-		horde = zombieHorde(N, zombieName);
-		delete [] horde;
-		std::cout << "horde has been destroyed" << std::endl;
-	}
-	return (0);
-}
+	public:
+		ClapTrap(std::string name);
+		~ClapTrap(void);
+
+		void		attack(const std::string &target);
+		void		takeDamage(unsigned int amount);
+		void		beRepaired(unsigned int amount);
+
+	private:
+		std::string _name;
+		int			_hitPoints = 10;
+		int			_energyPoints = 10;
+		int			_attackDamage = 0;
+
+};
+
+#endif

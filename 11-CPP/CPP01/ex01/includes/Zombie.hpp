@@ -6,30 +6,50 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:15:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/08 12:16:36 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/21 19:33:31 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <sstream> //for ostringstream and istringstream to convert toString and toNumber
+#include <cstdlib> //for exit
+#include <csignal> //for signal handling
 
 #ifndef ZOMBIE_HPP
 # define ZOMBIE_HPP
 
-class Zombie{
+#ifndef RED
+# define RED "\033[31m"
+# endif
+#ifndef BOLD
+# define BOLD "\033[1m"
+# endif
+#ifndef NORMAL
+# define NORMAL "\033[0m"
+# endif
 
-public:
-	Zombie(void);
-	~Zombie(void);
+class Zombie
+{
 
-	void			setZombieName(std::string name);
-	std::string		getZombieName(void)const;
-	void			announce(void)const;
+	public:
+		Zombie(void);
+		~Zombie(void);
 
-private:
-	std::string		_name;
+		void			setZombieName(std::string name);
+		std::string		getZombieName(void)const;
+		void			announce(void)const;
+
+	private:
+		std::string		_name;
 };
 
-Zombie	*zombieHorde(int N, std::string name);
+Zombie		*zombieHorde(int N, std::string name);
+int			getZombiesNumber(void);
+std::string getName(void);
+
+void		signalHandler(int signal);
+int			toNumber(std::string str);
+std::string	toString(int nb);
 
 #endif

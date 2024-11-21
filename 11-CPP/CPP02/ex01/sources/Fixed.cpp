@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/19 19:33:23 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/20 11:02:44 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ Fixed::Fixed(const Fixed &src)
 {
 	std::cout << "Copy constructor called" << std::endl;
 	*this = src;
-//	this->_value = src._value; // alternative solution where assignment operator not called
 }
 
 Fixed &Fixed::operator=(const Fixed &src)
@@ -48,20 +47,31 @@ Fixed &Fixed::operator=(const Fixed &src)
 		this->_value = src._value;
 	return (*this);
 }
-//	a = 1234.4321f;
 
+float		Fixed::toFloat(void) const
 {
 	float result = 0;
 	int scale = 1 << this->_bit;
-	result = (float)this->_value / scale; 
+	result = static_cast<float>(this->_value) / scale;
 	return (result);
 }
 
 int		Fixed::toInt(void) const
 {
 	int result = 0;
-	result = (int)toFloat();
+	result = static_cast<int>(toFloat());
 	return (result);
+}
+
+int	Fixed::getRawBits(void) const
+{
+	std::cout << "getRawBits function called" << std::endl;
+	return (this->_value);
+}
+
+void	Fixed::setRawBits(int const raw)
+{
+	this->_value = raw;
 }
 
 std::ostream &operator << (std::ostream &out, Fixed const &fx)

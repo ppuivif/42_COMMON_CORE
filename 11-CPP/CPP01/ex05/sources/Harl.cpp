@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:44:27 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/14 14:08:40 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/21 11:15:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,13 @@ void	Harl::error(void)
 Harl::~Harl(void)
 {
 
+}
+
+void	signalHandler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		std::cerr << std::endl << RED << "Warning : program interrupted by CTRL C" << NORMAL << std::endl;
+		exit (EXIT_FAILURE);
+	}
 }
