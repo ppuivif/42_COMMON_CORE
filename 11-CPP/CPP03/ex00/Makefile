@@ -6,13 +6,13 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/13 17:02:49 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/11/22 18:13:13 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #=================== NAME ===================#
 
-NAME = replace
+NAME = claptrap
 
 #================ COMPILATOR ================#
 
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 \
 #============= MANDATORY SOURCES ============#
 
 SRCS =  sources/main.cpp \
-		sources/Replace.cpp \
+		sources/ClapTrap.cpp \
 
 #============ TRANSFORM .c TO .o ============#
 

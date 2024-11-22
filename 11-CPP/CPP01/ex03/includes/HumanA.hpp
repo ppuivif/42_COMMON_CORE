@@ -6,13 +6,13 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 16:52:01 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/11 20:28:35 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/22 09:39:45 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
-#include "../includes/Weapon.hpp"
+#include "Weapon.hpp"
 
 #ifndef	HUMANA_HPP
 # define HUMANA_HPP

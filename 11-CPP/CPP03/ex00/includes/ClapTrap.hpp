@@ -6,14 +6,28 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:05:50 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/20 17:20:01 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/22 18:44:40 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <iomanip> // for setw
 
 #ifndef CLAPTRAP_H
 # define CLAPTRAP_H
+
+#ifndef RED
+# define RED "\033[31m"
+# endif
+#ifndef GREEN
+# define GREEN "\033[32m"
+# endif
+#ifndef BOLD
+# define BOLD "\033[1m"
+# endif
+#ifndef NORMAL
+# define NORMAL "\033[0m"
+# endif
 
 class ClapTrap
 {
@@ -25,11 +39,14 @@ class ClapTrap
 		void		takeDamage(unsigned int amount);
 		void		beRepaired(unsigned int amount);
 
+		std::string	getName(void) const;
+		void		displayPoints(void) const;
+
 	private:
 		std::string _name;
-		int			_hitPoints = 10;
-		int			_energyPoints = 10;
-		int			_attackDamage = 0;
+		int			_hitPoints;
+		int			_energyPoints;
+		int			_attackDamage;
 
 };
 

@@ -1,35 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanB.hpp                                         :+:      :+:    :+:   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 16:52:01 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/22 09:39:53 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/14 10:48:44 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/22 17:27:55 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
-#include "Weapon.hpp"
+#include <csignal> //for signal handling
+#include <cstdlib> //for exit
 
-#ifndef HUMANB_HPP
-# define HUMANB_HPP
+#ifndef HARL_HPP
+#define HARL_HPP
 
-class   HumanB
+#ifndef RED
+# define RED "\033[31m"
+# endif
+#ifndef BOLD
+# define BOLD "\033[1m"
+# endif
+#ifndef NORMAL
+# define NORMAL "\033[0m"
+# endif
+
+class Harl
 {
-	public:	
-		HumanB(std::string name);
-		~HumanB(void);
+public:	
+	Harl(void);
+	~Harl(void);
 
-		void		attack(void)const;
-		void		setWeapon(Weapon &weapon);
+	void	complain(std::string level);
 
-	private:
-		Weapon		*_weapon;
-		std::string	_name;
-		
+private:
+	void	debug(void);
+	void	info(void);
+	void	warning(void);
+	void	error(void);
+
 };
+
+void	signalHandler(int signal);
 
 #endif

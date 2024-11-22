@@ -23,7 +23,7 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 
 -----------------------------------------------------------------------------------------------
 	
-		1-Les serveurs :
+		1.1-Les serveurs :
 		
 		Les serveurs constituent la colonne vertébrale (backbone) d'IRC, fournissant
 		un point à partir duquel les clients peuvent se connecter et se parler aux uns
@@ -87,7 +87,7 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 
 -----------------------------------------------------------------------------------------------
 
-		2-Les clients :
+		1.2-Les clients :
 
 		Un client est tout ce qui est connecté à un serveur et qui n'est pas un autre
 		serveur.
@@ -120,13 +120,13 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 
 -----------------------------------------------------------------------------------------------
 
-		3-Les services :
+		1.3-Les services :
 		
 		Ils ne sont plus utilisés à ce jour. (???)
 
 -----------------------------------------------------------------------------------------------
 
-		4-Les opérateurs :
+		1.4-Les opérateurs :
 		
 		Afin de maintenir un ordre raisonnable au sein du réseau IRC, une catégorie
 		spéciale de clients (opérateurs) est autorisée à effectuer (perform) des tâches
@@ -152,7 +152,7 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 
 -----------------------------------------------------------------------------------------------
 
-		5-Les canaux (channels) :
+		1.5-Les canaux (channels) :
 		
 		Un canal est un groupe identifié de un ou plusieurs clients.
 		Tous les clients dans un canal vont recevoir tous les messages adressés à ce
@@ -169,15 +169,111 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 		restriction concernant le nom du canal est qu'il ne peut pas contenir :
 			- de space ' ',
 			- de control G / BELL '^G',
-			- de comma ',' (qui sont utilisé comme séparateurs dans une liste
+			- de comma ',' (qui sont utilisés comme séparateurs dans une liste
 			d'items).
 		
 		Il existe plusieurs types de canaux utilisés par le protocole IRC.
 		Le premier type de canal est le canal ordinaire (regular channel) qui est connu
 		par tous les serveurs qui sont connectés au réseau. Le préfixe de ce canal est
 		le #.
-		Le deuxième
+		Le deuxième type est un serveur specifique ou canal local (local channel), dans
+		lequel les clients connectés peuvent uniquement voir et parler aux autres
+		clients sur le même serveur. Le préfixe de ce canal est le &.
+		Les autres types de canaux seront décrits ultérieurement dans la section
+		"Channel Types".
 		
+		Outre les différents types de canaux, il existe également des modes de canaux
+		qui peuvent modifier les caractéristiques et le comportement des canaux
+		individuels. Se référer à la section "Channel Modes" pour plus d'informations
+		sur ceux-ci.
+		
+		Pour créer un nouveau canal ou rejoindre un canal existant, l'utilisateur doit
+		utiliser la commande JOIN.
+		Si le canal n'existe pas préalablement, le canal est créé et l'utilisateur créé
+		devient un opérateur de canal (channel operator).
+		Si le canal existe déjà, le fait que le client réussisse ou non à rejoindre ce
+		canal dépend des modes actuellement définis sur le canal. Par exemple, si le
+		canal est défini (set) dans une mode "invite-only", le client ne pourra
+		rejoindre le canal que si il a été invité par un autre utilisateur ou si il a
+		été dispensé d'une invitation par les opérateurs (channel operators).
+		
+		Les canaux peuvent également contenir un thème (topic). Le thème est une ligne
+		visible par tous les utilisateurs quand ils rejoignent le canal et tous les
+		utilsateurs sont informés lors d'un changement de thème sur un canal.
+		Les thèmes de canaux énoncent généralement les règles du canal, les liens, les
+		citations des membres du canal, ou tout ce que les opérateurs du canal
+		souhaitent partager (share) avec les clients de leur canal.
+		
+		Un utilisateur peut faire partie de plusieurs canaux simultanément, mais une
+		limite peut être imposée par le serveur.
+		Cette limite est spécifiée par le paramètre CHANLIMIT RPL_ISUPPORT. Se reporter
+		à la section "Feature Advertisement" pour plus de détails.
+		
+		Si le réseau IRC devient disjoint en raison d'une scission entre serveurs, le
+		canal de chaque côté est composé uniquement des clients qui sont connectés aux
+		serveurs des côtés respectifs de la scission, et peut cesser d'exister d'un
+		côté.
+		Lorsque la séparation est réparée, les serveurs connectés s'assurent que
+		l'état du réseau est cohérent entre eux.
+		
+-----------------------------------------------------------------------------------------------
+		
+		1.6-Les opérateurs de canaux (channels operators or chanops) :
+
+		Les "chanops" d'un canal donné sont considérés comme gérant ou propriétaire de
+		ce canal. 
+		En reconnaissance (in recognition of) de ce statut, les "chanops" sont dotés de
+		(are enowed with) certains pouvoirs qui leur permettent de modérer (moderate)
+		et de garder le contrôle de leur canal.
+
+		La plupart des opérateurs IRC ne se préoccupent pas de la "politique des
+		canaux".
+		En outre, un grand nombre de réseaux laisse la gestion des canaux spécifiques
+		aux "chanops" dans les cas où cela est possible, et essaient de ne pas
+		interférer eux-même.
+		Toutefois, il s'agit d'une question de politique de réseau, et il est préférable
+		de consulter le message du jour (Message Of The Day = MOTD command) lorsqu'on
+		s'intéresse à la gestion des canaux.
+		
+		Les serveurs IRC peuvent aussi définir d'autres niveaux de modération de canal.
+		Il peut s'agir :
+			- de "halfop" (half operator),
+			- de "protected" (protected user/operator),
+			- de "founder" (channel founder),
+			- de toute autre position que le serveur souhaite définir.
+		Ces niveaux de modération ont des privilèges variés et peuvent exécuter, ou
+		non, de nombreuses commandes de gestion de canal basés sur les choix du serveur.
+		
+		Les commandes qui ne peuvent être utilisées que par les modérateurs de canal
+		sont les suivantes :
+			- KICK : éjecter un client du canal,
+			- MODE : changer les modes du canal,
+			- INVITE : inviter un client sur un canal "invite-only" (mode +i),
+			- TOPIC : modifier le thème du canal (mode +t).
+		
+		Les modérateurs de canal sont identifiés par le préfixe de membre du canal
+		('@' pour les opérateurs de canaux standards, '%' pour les "halfops") suivi
+		de leur "nickname" à chaque fois qu'il est associé à un canal (voir les
+		commandes NAMES, WHO, WHOIS).
+		
+		Les préfixes spécifiques et les niveaux de modération sont décrits dans la
+		section "Channel Membership Prefixes".
+		
+		
+-----------------------------------------------------------------------------------------------
+
+	2-Types de communication :
+	
+	Cette section décrit comment les implémentations actuelles délivrent différentes
+	classes de message (de façon non normative).
+	
+	Cette section traite UNIQUEMENT de la topologie spanning-tree (voir figure 2).
+	
+-----------------------------------------------------------------------------------------------
+
+		2.1-Communication "one-to-one" :
+		
+
 -----------------------------------------------------------------------------------------------
 
 (1)CHATGPT :

@@ -28,15 +28,15 @@ SRCS =  main.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
-OBJS=$(SRCS:%.cpp=%.o)
+OBJS = $(SRCS:%.cpp=%.o)
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 #============ Colors ========================#
 
-white='\033[1;37m'
-dark_green='\033[0;32m'
+white = '\033[1;37m'
+dark_green = '\033[0;32m'
 
 #================ UTILS PART ================#
 
