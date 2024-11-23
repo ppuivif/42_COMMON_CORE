@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:05:50 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/22 18:44:40 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/23 17:57:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ class ClapTrap
 
 		std::string	getName(void) const;
 		void		displayPoints(void) const;
+		void		checkHitsAndEnergyPoints(void) const;
 
 	private:
 		std::string _name;

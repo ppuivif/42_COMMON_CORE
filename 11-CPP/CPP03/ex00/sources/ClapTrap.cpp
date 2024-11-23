@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:07:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/22 18:43:35 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/23 18:44:25 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,32 +23,54 @@ ClapTrap::ClapTrap(std::string name) : _name(name)
 
 void	ClapTrap::attack(const std::string &target)
 {
-	std::cout << RED << "ClapTrap " << this->_name << " attacks " << target << ", causing " \
-	<< "damage" << " points of damage" << NORMAL << std::endl;
+	if (this->_energyPoints > 0 && this->_hitPoints > 0)
+	{
+		std::cout << RED << "ClapTrap " << this->_name << " attacks " << target << ", causing " \
+		<< "1" << " point of damage" << NORMAL << std::endl;
 
-	this->_energyPoints -= 1;
-	this->displayPoints();
-//	target._hitPoints -= 1;
-//	target.displayPoints();
-
+		this->_energyPoints -= 1;
+		this->checkHitsAndEnergyPoints();
+	}
 }
 
 void	ClapTrap::takeDamage(unsigned int amount)
 {
-	std::cout << RED << "ClapTrap" << this->_name << "was attacked and lost " \
-	<< amount << " energy points" << NORMAL << std::endl;
+	int	count = 0;
 
-	this->_hitPoints -= amount;
-	this->_attackDamage += amount;
+	while (this->_energyPoints > 0 && this->_hitPoints > 0 && amount > 0)
+	{
+		this->_hitPoints -= 1;
+		this->_attackDamage += 1;
+		amount--;
+		count++;
+	}
+	if (count > 0)
+	{
+		std::cout << RED << "ClapTrap " << this->_name << " was attacked and lost " \
+			<< count << " hits" << NORMAL << std::endl;
+		this->checkHitsAndEnergyPoints();
+	}
+
 }
 
 void	ClapTrap::beRepaired(unsigned int amount)
 {
-	std::cout << GREEN << "ClapTrap" << this->_name << "is repaired spending " \
-	<< amount << " energy points" << NORMAL << std::endl;
+	int	count = 0;
 
-	this->_energyPoints -= amount;
-	this->_hitPoints += amount;
+	while (this->_energyPoints > 0 && this->_hitPoints > 0 && amount > 0)
+	{
+		this->_hitPoints += 1;
+		this->_energyPoints -= 1;
+		amount--;
+		count++;
+	}
+	if (count > 0)
+	{
+		std::cout << RED << "ClapTrap " << this->_name << " has been repaired spending " \
+			<< count << " energy points" << NORMAL << std::endl;
+		this->checkHitsAndEnergyPoints();
+	}
+	
 }
 
 std::string	ClapTrap::getName(void) const
@@ -56,19 +78,31 @@ std::string	ClapTrap::getName(void) const
 	return(this->_name);
 }
 
-
-void	ClapTrap::displayPoints() const
+void	ClapTrap::displayPoints(void) const
 {
-	std::cout << std::endl;
-	std::cout << "state of "<< this->_name << std::endl;
-	std::cout << std::setw(10) << "hit points" << '|';
+	std::cout << "state of "<< this->_name << " : " << std::endl;
+	std::cout << std::setw(20) << "hit points" << '|';
 	std::cout << std::setw(13) << "energy points" << '|';
 	std::cout << std::setw(13) << "attack damage" << std::endl;
-	std::cout << std::setw(10) << this->_hitPoints << '|';
+	std::cout << std::setw(20) << this->_hitPoints << '|';
 	std::cout << std::setw(13) << this->_energyPoints << '|';
 	std::cout << std::setw(13) << this->_attackDamage << std::endl;
-	std::cout << std::endl;
 }
+
+void ClapTrap::checkHitsAndEnergyPoints(void) const
+{
+	if (this->_hitPoints <= 0)
+	{
+		std::cout << RED << BOLD << "ClapTrap " << this->_name << " is dead !" \
+		<< NORMAL << std::endl;
+	}
+	if (this->_energyPoints <= 0)
+	{
+		std::cout << RED << BOLD << "ClapTrap " << this->_name << " has no more energy !" \
+		<< NORMAL << std::endl;
+	}
+}
+
 
 ClapTrap::~ClapTrap(void)
 {

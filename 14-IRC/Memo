@@ -193,7 +193,7 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 		devient un opérateur de canal (channel operator).
 		Si le canal existe déjà, le fait que le client réussisse ou non à rejoindre ce
 		canal dépend des modes actuellement définis sur le canal. Par exemple, si le
-		canal est défini (set) dans une mode "invite-only", le client ne pourra
+		canal est défini (set) dans une mode invite-only (+i), le client ne pourra
 		rejoindre le canal que si il a été invité par un autre utilisateur ou si il a
 		été dispensé d'une invitation par les opérateurs (channel operators).
 		
@@ -273,6 +273,121 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 
 		2.1-Communication "one-to-one" :
 		
+		La communication sur la base one-to-one La communication individuelle n'est
+		généralement effectuée que par les clients, car la majeure partie du trafic
+		serveur-serveur ne résulte pas du fait que les serveurs ne parlent qu'entre
+		eux (???).
+		
+		Les serveurs devraient être capable d'envoyer un message de n'importe quel
+		client à un autre. Les serveurs envoient un message dans exactement une
+		direction le long du "spanning tree" pour atteindre n'importe quel client.
+		Toutefois, le chemin emprunté par le message qui doit être déivré est le plus
+		court chemin entre deux point du "spanning tree".
+		
+		Les examples suivants suivent le schéma de la figure 2 :
+			- un message entre les clients 1 et 2 n'est vu que par le serveur A,
+			qui l'envoie directement au client 2.
+			- un message entre les clients 1 et 3 est vu par les serveurs A et B,
+			et par le client 3. Aucun autre client ou serveur n'est autorisé à voir
+			le message.
+			- un message entre les clients 2 et 4 est vu par les serveurs A, B, C
+			et D, et par le client 4 seulement.
+			 
+-----------------------------------------------------------------------------------------------
+
+		2.2-Communication "one-to-many" :
+
+		Le but principal d'IRC est de fournir un forum qui permet des conférences
+		(conferencing) faciles et efficaces (conversations entre plusieurs personnes
+		"one-to-many).
+		IRC offre plusieurs moyens (means) pour y arriver, chacun servant son propre
+		but.
+		
+		2.2.1-To A Channel :
+		
+		Dans IRC, le canal joue un rôle equivalent à celui d'un groupe multicast ;
+		leur existence est dynamique et la conversation proprement dite sur un canal
+		est généralement envoyée seulement aux serveurs qui supportent les utilisateurs
+		sur un canal donné, et une seule fois à chaque lien local, car chaque serveur
+		est chargé de diffuser (fanning) le message original pour s'assurer qu'il
+		atteindra tous les destinataires (recipients).
+
+		Les examples suivants suivent le schéma de la figure 2 :
+			- pour tout canal ne contenant aucun client, les messages à destination
+			de ce canal vont au serveur puis nulle part ailleurs.
+			- deux clients dans un canal : tous les messages traversent un chemin
+			comme s'il s'agissait de messages privés entre les deux clients en
+			dehors d'un canal (???).
+			- les clients 1, 2 et 3 sont dans un canal. Tous les messages destinés
+			à ce canal sont envoyés à tous les clients et uniquement aux serveurs
+			qui doivent être traversés par le message s'il s'agit d'un message
+			privé destiné à un seul client. Si le client 1 envoie un message, il
+			retourne au client 2 et ensuite au client 3 via le serveur B.
+		
+		2.2.2-To A Host / Server Mask :
+		
+		Pour disposer (to provide with) d'un mécanisme permettant d'envoyer des
+		messages à un grand nombre d'utilisateurs apparentés (related users), il existe
+		des messages de masque d'hôte et de serveur.
+		Ces messages sont envoyés aux utilisateurs dont l'information d'hôte ou de
+		serveur correspond au masque donné.
+		Les messages ne sont envoyés qu'aux endroits où se trouvent les utilisateurs,
+		d'une manière similaire à celle des canaux.
+		
+		2.2.3-To A List :
+		
+		La type le moins efficace de communication one-to-many se fait au travers de
+		clients s'adressant à une liste de cibles (clients, canal, requête).
+		La façon de procéder est presque explicite : le client donne une liste de 
+		destinataires auxquels le message doit être délivré, le serveur le décompose
+		(breaks it up) et répartit une copie séparée du message à chaque destinatation
+		donnée.
+		
+		Ce n'est pas aussi efficace que d'utiliser un canal car la liste de destination
+		peut être fragmentée (broken up) et la répartition peut être faite sans
+		vérfication pour s'assurer que les doublons ne sont pas envoyés par chaque
+		chemin.
+
+-----------------------------------------------------------------------------------------------
+
+		2.2-Communication "One-To-All" :
+		
+		Le type de message "one-to-all" est mieux décrit comme un message de diffusion
+		(broadcast message), envoyé à tous les clients ou serveurs ou les deux.
+		Sur un large réseau d'utilisateurs et de serveurs, un seul message peut
+		entraîner l'envoi d'une grande quantité de trafic sur le réseau pour tenter
+		d'atteindre toutes les destinations souhaitées.
+		
+		Pour certaines catégories de messages, il n'existe pas d'autre choix que de les
+		diffuser à tous les serveurs afin que les informations d'état détenues par
+		chaque serveur soient cohérentes (consistent) entre elles.
+		
+		2.2.1-Client-to-Client :
+		
+		Les opérateurs IRC peuvent être capables d'envoyer un message à tous les client
+		actuellement connectés au réseau. Cela dépend des fonctions (features) et des
+		commandes spécifiques implémentées dans le logiciel du serveur.
+		
+		2.2.2-Client-to-Serveur :
+		
+		La plupart des commandes qui entraînent (result) un changement d'état des
+		informations (tel que l'appartenance à un canal (channel membership), le mode
+		de fonctionnement des canaux (channel modes), le statut des utilisateurs (user
+		status), etc ...) doivent être envoyées à tous les serveurs par défaut, et
+		cette distribution ne doit pas être modifiée par le client.
+		
+		2.2.3-Server-to-Server :
+
+		Alors que la plupart des messages entre les serveurs sont distribués à tous les
+		autres serveurs, cela n'est nécessaire que pour tout message affectant un
+		utilisateur, un canal ou un serveur.
+		Comme il s'agit des éléments de base de l'IRC, presque tous les messages
+		provenant d'un serveur sont diffusés à tous les autres serveurs connectés.
+		
+-----------------------------------------------------------------------------------------------
+
+Connection Setup
+
 
 -----------------------------------------------------------------------------------------------
 
@@ -309,4 +424,4 @@ Examples of Distributed Fashion in IT:
 
 In short, working in a distributed fashion allows IT systems to be more scalable, reliable,
 and efficient by leveraging the power of multiple interconnected resources.
-
+purpose
