@@ -1,0 +1,125 @@
+CPP
+
+-----------------------------------------------------------------------------------------------
+Vidéo 42 : Inheritance C++
+
+L'héritage est un moyen de factoriser des comportements d'une série de classes différentes qui
+ont des comportements très similaires et de les rassembler dans une même classe pour ensuite
+permettre aux objets dérivés d'utiliser ces comportements.
+
+Exemple d'implémentation (définition) : heritage.cpp
+
+#include <string>
+
+class Cat
+{
+	private:
+		int	_numberOfLegs;
+	
+	public
+		Cat();
+		Cat(Cat const &);
+		Cat& operator-(Cat const &);
+		~Cat();
+		
+		void	run(int distance);
+		
+		void	scornSomeone(std::string const & target);
+};
+
+class Pony
+{
+	private:
+		int	_numberOfLegs();
+
+	public:
+		Pony();
+		Pony(Pony const &);
+		Pony& operator-(Pony const &);
+		~Pony();
+		
+		void	run(int distance);
+		
+		void	doMagic(std::string const & target);
+};
+
+A chaque création d'un animal, on voit dans cet exemple qu'il faut ré-implémenter le nombre de
+pattes, le fait que l'animal court, ...
+
+L'héritage permet de dire que le poney et le chat sont tous les 2 des animaux avec l'intérêt
+de créer une classe animal avec des caracteristiques communes. Le chat et le poney peuvent
+alors "hériter" de ces caractéristiques communes.
+
+Exemple d'implémentation (définition) : heritage2.cpp
+
+#include <string>
+
+class Animal
+{
+	private:
+		int	_numberOfLegs;
+	
+	public
+		Animal();
+		Animal(Animal const &);
+		Animal& operator-(Animal const &);
+		~Animal();
+		
+		void	run(int distance);
+		void	call(); //ces fonctions membres qui ont été rajoutées sont
+				  transmises à ceux qui en héritent (dérivés)
+		void 	eat(std::srting const & what);
+		void	walk(int distance);
+};
+
+Class Cat : public Animal //le chat hérite publiquement de l'animal
+{
+	public:
+		Cat();
+		Cat(Cat const &);
+		Cat& operator-(Cat const &);
+		~Cat();
+		
+		void	scornSomeone(std::string const & target); // le chat est un animal
+								     qui a des comportements
+								     propres
+};
+
+Class Pony : public Animal //le poney hérite publiquement de l'animal
+{
+	public:
+		Pony();
+		Pony(Cat const &);
+		Pony& operator-(Pony const &);
+		~Pony();
+		
+		void	doMagic(std::string const & target); // le poney est un animal
+								qui a des comportements
+								propres
+		void	run(int distance); // le poney a une façon spécifique de courir et
+					      cette nouvelle implémentation remplace celle
+					      héritée de la classe Animal 
+};
+
+Attention :
+	- voir comment appeler le constructeur du parent,
+	- voir comment s'assurer que les destructeurs sont appelés pour les 2.
+Dire qu'un chat hérite d'un animal signifie que le chat a une partie animal. Le chat est un
+animal, mais pas seulement. Quand j'instancie un chat, il faut instancier avant cela un
+animal puis instancier ce qui est spécifique au chat pour faire un chat et pas seulement un
+animal.
+
+5'53
+
+Protected est un nouveau niveau d'encapsulation utilisé dans le cas de l'héritage.
+
+
+
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+

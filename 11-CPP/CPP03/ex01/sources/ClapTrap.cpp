@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:07:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/24 14:38:18 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/24 16:08:48 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 ClapTrap::ClapTrap(std::string name) : _name(name)
 {
-	std::cout << "Constructor called" << std::endl;
+	std::cout << "Constructor ClapTrap called" << std::endl;
 	this->_hitPoints = 10;
 	this->_energyPoints = 10;
 	this->_attackDamage = 0;
@@ -105,6 +105,6 @@ void ClapTrap::checkHitsAndEnergyPoints(void) const
 
 ClapTrap::~ClapTrap(void)
 {
-	std::cout << "Destructor called" << std::endl;
+	std::cout << "Destructor ClapTrap called" << std::endl;
 	return;
 }
