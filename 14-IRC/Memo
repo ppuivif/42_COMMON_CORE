@@ -386,7 +386,89 @@ Cette section décrit les concepts derrière la mise en oeuvre et l'organisation
 		
 -----------------------------------------------------------------------------------------------
 
-Connection Setup
+Connection Setup :
+
+Les connexions client-server fonctionnent sur un protocole TCP/IP.
+Les ports standards utilisés pour les connectons client-serveur sont le port TCP/6667 pour le
+texte (plaintext), et le port TCP/6697 pour les connexions TLS.
+
+-----------------------------------------------------------------------------------------------
+
+Structure du protocole server-to-server (S2S) :
+
+Les référentiels RFC1459 et RFC2813 définissent un protocole server-to-server. Mais depuis une
+dizaine d'années, les implémentations ont étendu ce protocole et ont divergé, et les serveurs
+ont entièrement créé de nouveaux protocoles.
+
+Toutefois, les différentes implémentations d'IRC n'ont pas besoin d'interagir les unes avec les
+autres.
+En général, les réseaux utilisent un logiciel serveur sur la totalité de leur réseau, et ils
+utilisent le protocole S2S implémenté par ce serveur. Le protocole client est important, mais
+la façon dont les serveurs communiquent entre eux sur le réseau est considéré comme un détail
+d'implémentation. 
+
+-----------------------------------------------------------------------------------------------
+
+Structure du protocole client-to-serveur :
+
+Lorsqu'un client est connecté à un serveur, ils s'envoient un flux d'octets l'un à l'autre.
+Ces flux contiennent des messages séparés par un retour chariot (CR) ('\r') et fin de ligne
+(LF) ('\n').
+Ces messages peuvent être envoyés à n'importe quel moment depuis l'autre côté, et peuvent
+générer un zero ou d'autres messages en réponse.
+
+Le logiciel doit utiliser l'encodage de caractère UTF-8 pour encoder et décoder les messages,
+avec des solutions de repli (fallbacks) telles que décrites dans l'annexe sur les considérations relatives à la mise en œuvre des encodages de caractères.
+
+Les noms des entités IRC (clients, serveurs, canaux) sont "casemapped" (???).
+Ceci évite, par exemple, que quelqu'un porte le nom 'Dan' et que quelqu'un d'autre porte le
+surnom 'dan', ce qui porterait à confusion.
+Les serveurs doivent annoncer (advertise) le "casemapping" qu'ils utilisent dans le
+RPL_ISUPPORT (support (documentation ?) numerique) qui est envoyé lorsque l'enregistrement de
+la connexion est terminé (has completed).
+
+-----------------------------------------------------------------------------------------------
+	
+	1-Le format du message :
+	
+	Un message IRC est une simple ligne, délimitée par une paire de caractères ('\r', '\n').
+
+		- le lecture des données entrantes se fait dans un buffer.
+		La parsing et l'analyse d'un message ne se font qu'une fois la paire de
+		caractéres rencontrée à la fin du message. Si un message vide est rencontré,
+		il est ignoré, sans produire de message spécifique.
+		- à l'envoi des messages, il faut s'assurer de la présence de la paire de
+		caractères suivant chaque simple message.
+	
+		Exemple de message (conforme à la grammaire ABNF (2)) :
+
+message         ::= ['@' <tags> SPACE] [':' <source> SPACE] <command> <parameters> <crlf>
+SPACE           ::=  %x20 *( %x20 )   ; space character(s)
+crlf            ::=  %x0D %x0A        ; "carriage return" "linefeed"
+
+		Dans le message, plusieurs parties spécifiques se distinguent :
+			- tags : ce sont des métadonnées optionnelles, qui commencent
+			par '@',
+			- source : note optionnelle qui définit la provenance du message, qui
+			commence par ':',
+			 - command : la commande spécifique que le message représente,
+			 - parameters : si il existe, les données relatives (relevant) à cette
+			 commande spécifique.
+		Ces parties du message, et les paramètres eux-mêmes, sont séparés par un ou
+		plusieurs espaces (' ').
+		
+		La plupart des serveurs IRC limitent les message à une longueur de 512 octets,
+		ce qui inclue la paire de caractères de fin.
+		Les implémentations qui incluent des tags ont besoin d'allouer des octets
+		supplémentaires pour la partie tags d'un message ; les clients doivent allouer
+		8191 octets supplémentaires et les serveurs 4096 octets supplémentaires.
+
+-----------------------------------------------------------------------------------------------
+
+Les sections suivantes décrivent comment traiter chaque partie, mais voici quelques exemples
+de messages complets :
+
+:irc.example.com CAP LS * :multi-prefix extended-join sasl
 
 
 -----------------------------------------------------------------------------------------------
@@ -425,3 +507,50 @@ Examples of Distributed Fashion in IT:
 In short, working in a distributed fashion allows IT systems to be more scalable, reliable,
 and efficient by leveraging the power of multiple interconnected resources.
 purpose
+
+-----------------------------------------------------------------------------------------------
+
+(2)CHATGPT :
+
+What's ABNF grammar in an IRC protocol ?
+
+ChatGPT said:
+
+ABNF (Augmented Backus-Naur Form) is a formal syntax notation used to describe the grammar of communication protocols and data formats. In the context of the IRC (Internet Relay Chat) protocol, ABNF grammar defines the structure of messages exchanged between IRC clients and servers, as specified in RFC 1459 and subsequent related documents.
+
+Key Points About ABNF in IRC
+Structure of IRC Messages: An IRC message generally consists of:
+
+An optional prefix.
+A command.
+Zero or more parameters.
+Example ABNF representation:
+
+abnf
+Copy code
+message   = [ ":" prefix SPACE ] command [ params ] crlf
+prefix    = servername / ( nickname [ "!" user ] [ "@" host ] )
+command   = 1*letter / 3digit
+params    = *14( SPACE middle ) [ SPACE ":" trailing ]
+crlf      = CR LF
+Common Components:
+
+prefix: Identifies the source of the message (e.g., a nickname, server, or user).
+command: Specifies the action, such as PRIVMSG (send a private message) or JOIN (join a channel).
+params: Includes arguments for the command, separated by spaces. If the parameter starts with :, it can include spaces as part of the argument.
+Examples: Using the ABNF definitions:
+
+Message from a user to join a channel:
+ruby
+Copy code
+:nickname!user@host JOIN #channel
+Private message:
+ruby
+Copy code
+:nickname!user@host PRIVMSG #channel :Hello, world!
+Why ABNF?
+
+ABNF is machine-readable and precise, making it ideal for protocol specifications.
+It provides a consistent way to define complex message formats.
+If you'd like to dive deeper into specific ABNF definitions in the IRC protocol or examples of how commands are structured, let me know!
+

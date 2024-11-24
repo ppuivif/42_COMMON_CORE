@@ -6,12 +6,14 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:05:50 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/23 17:57:43 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/23 19:16:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <iomanip> // for setw
+#include <unistd.h> // for usleep() function
+#include <string.h> // for strcat & strcpy
 
 #ifndef CLAPTRAP_H
 # define CLAPTRAP_H
@@ -50,5 +52,7 @@ class ClapTrap
 		int			_attackDamage;
 
 };
+
+void	blinkEffect(char *str);
 
 #endif

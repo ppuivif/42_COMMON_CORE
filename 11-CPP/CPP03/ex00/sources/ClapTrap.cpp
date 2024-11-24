@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:07:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/23 18:44:25 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/23 19:18:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,17 @@ void	ClapTrap::displayPoints(void) const
 
 void ClapTrap::checkHitsAndEnergyPoints(void) const
 {
+	char	str[80];
+	strcpy(str, "ClapTrap ");
+	const char* name = this->_name.c_str();
+	strcat(str, name);
+
 	if (this->_hitPoints <= 0)
 	{
-		std::cout << RED << BOLD << "ClapTrap " << this->_name << " is dead !" \
-		<< NORMAL << std::endl;
+		strcat(str, " is dead !");
+		blinkEffect(str);
+/*		std::cout << RED << BOLD << "ClapTrap " << this->_name << " is dead !" \
+		<< NORMAL << std::endl;*/
 	}
 	if (this->_energyPoints <= 0)
 	{
@@ -103,6 +110,21 @@ void ClapTrap::checkHitsAndEnergyPoints(void) const
 	}
 }
 
+void	blinkEffect(char *str)
+{
+    const	std::string BLINK = "\033[5m";
+
+    while (true)
+	{
+        std::cout << BLINK << RED << BOLD << str << NORMAL << "\r";
+        std::cout.flush();
+        usleep(500000);
+
+        std::cout << "                                        \r";
+        std::cout.flush();
+        usleep(500000);
+    }
+}
 
 ClapTrap::~ClapTrap(void)
 {
