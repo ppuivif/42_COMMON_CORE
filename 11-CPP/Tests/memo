@@ -1,0 +1,146 @@
+CPP
+
+-----------------------------------------------------------------------------------------------
+
+Pour initialiser une variable dans le constructeur :
+
+déclaration dans header .hpp
+	Zombie(std::string name);
+
+implémentation dans .cpp
+
+	Zombie::Zombie(std::string name) : _name(name)
+	{
+		return ;
+	}
+	
+-----------------------------------------------------------------------------------------------
+
+Définition d'une macro de mise en forme du texte du terminal
+
+#ifndef RED //header guard
+		Ensures that RED is only defined once, preventing redefinition errors
+		if this code is included multiple times in a project
+# define RED "\033[31m" //ANSI escape code for red text
+# endif
+#ifndef BOLD
+# define BOLD "\033[1m"
+# endif
+#ifndef NORMAL
+# define NORMAL "\033[0m"
+# endif
+
+-----------------------------------------------------------------------------------------------
+
+Protection d'allocation dynamique (à priori pas nécessaire)
+
+	Zombie		*horde;
+	
+	zombieHorde = new(std::nothrow) Zombie[5];
+	if (!zombieHorde)
+		std::cout << "Error : allocation failed" << std::endl;
+	
+-----------------------------------------------------------------------------------------------
+
+Atoi :
+
+int	toNumber(std::string str)
+{
+	int					num;
+	std::istringstream	iss(str);
+
+	if (!(iss >> num) || num < 0)
+		return (-1);
+	else
+		return (num);
+}
+
+std::istringstream est une classe. Elle fait partie de la bibliothèque standard C++ (dans
+l'en-tête <sstream>). Cette classe permet de traiter une chaîne de caractères comme si elle
+était un flux d'entrée, ce qui est utile pour extraire des données d'une chaîne, un peu comme
+on le ferait avec std::cin pour la console.
+
+iss est une instance de la classe std::istringstream. On appelle aussi cela un objet. Cet objet
+est initialisé avec le contenu de la chaîne str, ce qui permet de lire et d'extraire des
+données à partir de cette chaîne.
+
+-----------------------------------------------------------------------------------------------
+
+Itoa
+
+std::string	toString(int nb)
+{
+	std::ostringstream	oss;
+
+	oss << nb;
+	return (oss.str());
+}
+
+Pas de protections à prévoir.
+
+-----------------------------------------------------------------------------------------------
+
+Fonction de gestion de signal CTRL C pour sortir proprement :
+
+void	signalHandler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		std::cerr << std::endl << RED << "Warning : program interrupted by CTRL C" \
+		<< NORMAL << std::endl;
+		exit (EXIT_FAILURE);
+	}		
+}
+
+-----------------------------------------------------------------------------------------------
+
+Fonction de gestion de l'input de l'utilisateur et gestion de CRL D (EOF) : permet d'éviter une
+boucle infiniie d'affichage
+
+std::string getName(void)
+{
+	std::string	input;
+	
+	std::cout << BOLD << "Enter \'zombieName\' : " << NORMAL;
+	std::cin >> input;
+	if (std::cin.eof())
+		exit(EXIT_FAILURE);
+	std::cout << std::endl;
+	return (input);
+}
+
+-----------------------------------------------------------------------------------------------
+
+Fonction d'invite à la saisie et de récupération de l'input :
+
+#include <limits> //to use numeric_limits
+
+std::string getName(void)
+{
+	std::string	input;
+
+/*	std::cin.clear(); //Resets the state of std::cin, clearing any error flags that may
+				have been set.
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');*/Discards any
+		characters currently in the input buffer up to the next newline (\n).
+		This ensures that no leftover characters interfere with your input.
+		Necessary if previous input with cin
+		Not necessary if previous input with getline
+	while (input.empty())
+	{
+		std::cout << BOLD << "Enter \'zombieName\' : " << NORMAL;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			exit(EXIT_FAILURE); // or return a value for example to return in the
+						main function
+		if (input.empty())
+			std::cout << RED << "Enter a valid input (non empty) : " << NORMAL \
+			<< std::endl;
+	}
+	std::cout << std::endl;
+	return (input);
+}
+
+-----------------------------------------------------------------------------------------------
+
+

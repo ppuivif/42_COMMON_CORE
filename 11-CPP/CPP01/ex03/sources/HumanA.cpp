@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 16:49:44 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/12 08:42:42 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/25 12:18:01 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 HumanA::HumanA(std::string name, Weapon &weapon) : _name(name), _weapon(weapon)
 {
-
+	return;
 }
 
 void	HumanA::attack()const
@@ -24,5 +24,5 @@ void	HumanA::attack()const
 
 HumanA::~HumanA(void)
 {
-
+	return;
 }

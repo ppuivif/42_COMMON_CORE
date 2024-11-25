@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:15:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/21 17:21:16 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/25 09:48:07 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@
 
 class Zombie
 {
-
 	public:
-		Zombie(void);
+		Zombie(std::string name);
 		~Zombie(void);
 
-		void			setZombieName(std::string name);
 		std::string		getZombieName(void)const;
 		void			announce(void)const;
 

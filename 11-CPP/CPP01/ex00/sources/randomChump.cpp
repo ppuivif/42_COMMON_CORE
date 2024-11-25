@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:43:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/08 11:57:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/25 09:49:39 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 void	randomChump(std::string name)
 {
-	Zombie	newZombie;
+	Zombie	newZombie(name);
 
-	newZombie.setZombieName(name);
-	std::cout << name << " has been created" << std::endl;
+	std::cout << newZombie.getZombieName() << " has been created" << std::endl;
 	newZombie.announce();
 	std::cout << std::endl;
 }

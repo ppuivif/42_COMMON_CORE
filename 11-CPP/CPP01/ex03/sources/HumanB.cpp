@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 16:49:44 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/22 09:54:33 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/25 12:17:57 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	HumanB::setWeapon(Weapon &weapon)
 
 HumanB::~HumanB()
 {
-
+	return;
 }

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 16:52:01 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/22 09:39:45 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/25 12:08:48 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ class   HumanA
 		void		attack(void)const;
 
 	private:
-		std::string	_name;
 		Weapon		&_weapon;
+		std::string	_name;
 };
 
 #endif

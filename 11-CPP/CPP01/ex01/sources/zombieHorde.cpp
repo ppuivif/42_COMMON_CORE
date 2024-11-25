@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:39:47 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/21 19:37:23 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/25 19:01:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ Zombie	*zombieHorde(int N, std::string name)
 	Zombie		*horde;
 	std::string	zombieName;
 
-/*		zombieHorde = new(std::nothrow) Zombie[5];
-		if (!zombieHorde)
-			std::cout << "Error : allocation failed" << std::endl;*/
 	horde = new Zombie[N];
 	for(int i = 0; i < N; i++)
 	{
@@ -39,7 +36,7 @@ int	getZombiesNumber(void)
 	while (1)
 	{
 		std::cout << BOLD << "Enter the number of zombies you want in your horde (N) : " << NORMAL;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (std::cin.eof())
 			exit(EXIT_FAILURE);
 		zombiesNumber = toNumber(input);
@@ -55,11 +52,16 @@ int	getZombiesNumber(void)
 std::string getName(void)
 {
 	std::string	input;
-	
-	std::cout << BOLD << "Enter \'zombieName\' : " << NORMAL;
-	std::cin >> input;
-	if (std::cin.eof())
-		exit(EXIT_FAILURE);
+
+	while (input.empty())
+	{
+		std::cout << BOLD << "Enter \'zombieName\' : " << NORMAL;
+		std::getline(std::cin, input);
+		if (std::cin.eof())
+			exit(EXIT_FAILURE);
+		if (input.empty())
+			std::cout << RED << "Enter a valid input (non empty) : " << NORMAL << std::endl;
+	}
 	std::cout << std::endl;
 	return (input);
 }

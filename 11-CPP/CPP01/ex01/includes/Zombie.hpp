@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:15:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/21 19:33:31 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/25 11:59:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 class Zombie
 {
-
 	public:
 		Zombie(void);
 		~Zombie(void);

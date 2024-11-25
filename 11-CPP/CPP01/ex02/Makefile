@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/08 15:37:58 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/11/25 12:01:39 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 #============= MANDATORY SOURCES ============#
 
-SRCS =  main.cpp
+SRCS = main.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
