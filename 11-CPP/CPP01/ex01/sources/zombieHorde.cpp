@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:39:47 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/25 19:01:28 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/26 09:04:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,3 @@ int	toNumber(std::string str)
 	else
 		return (num);
 }
-
-void	signalHandler(int signal)
-{
-	if (signal == SIGINT)
-	{
-		std::cerr << std::endl << RED << "Warning : program interrupted by CTRL C" << NORMAL << std::endl;
-		exit (EXIT_FAILURE);
-	}		
-}
-
-

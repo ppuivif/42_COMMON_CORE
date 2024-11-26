@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:15:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/25 11:59:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/26 09:04:27 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ Zombie		*zombieHorde(int N, std::string name);
 int			getZombiesNumber(void);
 std::string getName(void);
 
-void		signalHandler(int signal);
 int			toNumber(std::string str);
 std::string	toString(int nb);
 

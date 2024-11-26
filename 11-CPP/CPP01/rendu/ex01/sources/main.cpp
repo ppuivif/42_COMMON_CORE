@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:25:27 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/21 19:29:50 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/26 09:04:15 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int    main()
 {
-	std::signal(SIGINT, signalHandler);	
 	Zombie		*horde = NULL;
 	int			N = 0;
 	std::string	zombieName;
