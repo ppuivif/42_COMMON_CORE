@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanB.hpp                                         :+:      :+:    :+:   */
+/*   HumanA.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 16:52:01 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/27 11:22:15 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/08 16:49:44 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/27 11:00:50 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
-#include "Weapon.hpp"
+#include "HumanA.hpp"
 
-#ifndef HUMANB_HPP
-# define HUMANB_HPP
-
-class   HumanB
+HumanA::HumanA(std::string name, Weapon &weapon) : _name(name), _weapon(weapon)
 {
-	public:	
-		HumanB(std::string name);
-		~HumanB(void);
+	return;
+}
 
-		void		attack(void)const;
-		void		setWeapon(Weapon &weapon);
+void	HumanA::attack()const
+{
+		if (this->_weapon->getType().empty())
+			std::cout << this->_name << " doesn't have any weapon" << std::endl;
+		else
+			std::cout << this->_name << " attacks with their " << this->_weapon.getType() << std::endl;
+}
 
-	private:
-		Weapon		*_weapon;
-		std::string	_name;
-		
-};
-
-#endif
+HumanA::~HumanA(void)
+{
+	return;
+}

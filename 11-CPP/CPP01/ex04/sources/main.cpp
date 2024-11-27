@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:00:16 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/14 09:31:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/27 14:53:23 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	main(int argc, char **argv)
 	if (replace.parsing(argc, argv))
 		return (1);
 
-	const std::string	infile = static_cast<std::string>(argv[1]);
-	const std::string	s1 = static_cast<std::string>(argv[2]);
-	const std::string	s2 = static_cast<std::string>(argv[3]);
+	const std::string	infile(argv[1]);
+	const std::string	s1(argv[2]);
+	const std::string	s2(argv[3]);
 	
 	if (replace.getInfileStream(infile))
 		return (1);

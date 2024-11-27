@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:15:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/26 09:04:27 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/27 11:22:08 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <string>
 #include <sstream> //for ostringstream and istringstream to convert toString and toNumber
 #include <cstdlib> //for exit
-#include <csignal> //for signal handling
 
 #ifndef ZOMBIE_HPP
 # define ZOMBIE_HPP
