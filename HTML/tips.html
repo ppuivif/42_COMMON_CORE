@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expandable Paragraph</title>
+  <style>
+    /* Initially hide the expanded paragraph */
+    #expandable-paragraph {
+      display: none;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    label {
+      cursor: pointer;
+      color: #007BFF;
+      text-decoration: underline;
+    }
+    input[type="checkbox"]:checked + #expandable-paragraph {
+      display: block; /* Show the paragraph when checkbox is checked */
+    }
+  </style>
+</head>
+<body>
+  <label for="toggle">Click to expand the paragraph</label>
+  <input type="checkbox" id="toggle" style="display:none;">
+  <p id="expandable-paragraph">
+    This is the expandable paragraph. It can be hidden or shown depending on the state of the checkbox.
+  </p>
+</body>
+</html>

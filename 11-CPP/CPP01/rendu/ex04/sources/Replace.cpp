@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:20:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/28 09:35:31 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/11/28 08:27:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	Replace::parsing(int argc, char **argv)
 
 int Replace::getInfileStream(std::string infile)
 {
-	this->infileStream.open(infile.c_str(), std::ifstream::in);//open the file specified in argv[2] in read mode
-	if (!this->infileStream.is_open())//true if the file specified in argv[2] is not open (file associated with the stream object infile)
+	this->infileStream.open(infile.c_str(), std::ifstream::in);
+	if (!this->infileStream.is_open())
 	{
 		std::cerr << "infile couldn't be opened or do not exist" << std:: endl;
 		return (1);
@@ -54,7 +54,7 @@ int	Replace::createOutfileStream(std::string infile)
 
 	outfile = infile + ".replace";
 	this->outfileStream.open(outfile.c_str(), std::ifstream::out);
-	if (!this->outfileStream.is_open())//true if the file specified in argv[1] is not open (file associated with the stream object outfile)
+	if (!this->outfileStream.is_open())
 	{
 		std::cerr << outfile << " couldn't be created" << std:: endl;
 		return (1);
@@ -69,15 +69,12 @@ void	Replace::replaceStringsAndCopyContent(std::string s1, std::string s2)
 	while (std::getline(this->infileStream, line))
 	{
 		this->replaceStrings(&line, s1, s2);
-		this->outfileStream << line << std::endl;//copy the line in the outfileStream
+		this->outfileStream << line << std::endl;
 	}
 }
 
 void	Replace::replaceStrings(std::string *line, std::string s1, std::string s2)
 {
-	
-/*When find() (or similar functions) cannot find the specified substring or character, it returns std::string::npos to signal that the search was unsuccessful.
-std::string::npos is typically a very large unsigned integer value, and it’s guaranteed to be a value that no valid string position could take.*/	
 	std::size_t pos = 0;
 	
 	while ((pos = (*line).find(s1, pos)) != std::string::npos)

@@ -6,13 +6,13 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/28 08:10:34 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/11/22 15:58:48 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #=================== NAME ===================#
 
-NAME = harl
+NAME = harlFilter
 
 #================ COMPILATOR ================#
 
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 \
 #============= MANDATORY SOURCES ============#
 
 SRCS =  sources/main.cpp \
-		sources/Harl.cpp
+		sources/Harl.cpp \
 
 #============ TRANSFORM .c TO .o ============#
 

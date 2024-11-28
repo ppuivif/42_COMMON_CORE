@@ -5,29 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 09:39:17 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/28 08:22:35 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/11/12 09:00:16 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/11/27 14:53:23 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Harl.hpp"
+#include "Replace.hpp"
 
-int	main()
+int	main(int argc, char **argv)
 {
-	Harl		instance;
-	std::string	input;
+	Replace 		replace;
+	
+	if (replace.parsing(argc, argv))
+		return (1);
 
-	while (!std::cin.eof())
-	{
-		std::cout << BOLD << "Chose a level (DEBUG, INFO, WARNING, ERROR) : "<< NORMAL;
-		std::getline(std::cin, input);
-		if (std::cin.eof())
-			return (1);
-		else if  (input.compare("DEBUG") && input.compare("INFO") && \
-		input.compare("WARNING") && input.compare("ERROR"))
-			std::cout << RED << "Enter a valid level" << NORMAL << std::endl;
-		else
-			instance.complain(input);
-	}
+	const std::string	infile(argv[1]);
+	const std::string	s1(argv[2]);
+	const std::string	s2(argv[3]);
+	
+	if (replace.getInfileStream(infile))
+		return (1);
+	
+	if (replace.createOutfileStream(infile))
+		return (1);
+	
+	replace.replaceStringsAndCopyContent(s1, s2);
+	
+	replace.closeStreams();
+
 	return (0);
 }

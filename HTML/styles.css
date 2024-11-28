@@ -1,0 +1,32 @@
+.highlight {
+	background-color: yellow;
+/*	font-weight: bold;*/
+}
+
+/* Initially hide the expanded paragraph */
+#expandable-paragraph {
+	display: none;
+	font-size: 16px;
+	line-height: 1.5;
+	max-width: 600px;
+  }
+  
+  /* When the checkbox is checked, show the paragraph */
+  #toggle:checked + #expandable-paragraph {
+	display: block;
+  }
+  
+  /* Style for the label (acts as a clickable button) */
+  label {
+	cursor: pointer;
+	color: #007BFF;
+	text-decoration: underline;
+	display: inline-block;
+	margin-bottom: 10px;
+  }
+  
+  /* Optional: Add some style for the checkbox to hide it */
+  input[type="checkbox"] {
+	display: none;
+  }
+  
