@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/20 15:40:57 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/02 10:01:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ Fixed::Fixed(const int i)
 //	std::cout << "Int constructor called" << std::endl;
 	int scale = 1 << this->_bit;
 	this->_value = i * scale;
-	return;
 }
 
 Fixed::Fixed(const float f)
@@ -31,7 +30,6 @@ Fixed::Fixed(const float f)
 //	std::cout << "Float constructor called" << std::endl;
 	int scale = 1 << this->_bit;
 	this->_value = roundf(f * scale);
-	return;
 }
 
 Fixed::Fixed(const Fixed &src)

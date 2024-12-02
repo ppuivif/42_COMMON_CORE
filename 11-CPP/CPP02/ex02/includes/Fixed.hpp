@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:12 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/20 15:36:18 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/02 10:00:40 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,4 @@ class Fixed
 };
 
 	std::ostream &operator << (std::ostream &out, const Fixed &fx);
-
-
-
 #endif

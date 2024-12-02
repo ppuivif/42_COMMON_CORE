@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:12 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/19 14:55:08 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/02 09:58:17 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 class Fixed
 {
-
 	public:
 		Fixed(void);
 		Fixed(const Fixed &src);

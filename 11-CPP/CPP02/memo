@@ -1,0 +1,42 @@
+Float et double
+
+-----------------------------------------------------------------------------------------------
+
+En programmation, les "float" et les "double" sont deux types de données utilisés pour
+représenter les nombres décimaux, mais ils diffèrent en premier lieu en terme de précision et
+d'utilisation de la mémoire.
+
+In programming, float and double are both data types used to represent decimal numbers, but
+they differ primarily in terms of precision (the number of significant digits they can store)
+and memory usage.
+
+-----------------------------------------------------------------------------------------------
+
+Précision (precision) et exactitude (accuracy)
+
+L'exactitude (ou justesse) fait référence à la proximité d'une mesure (ou d'un calcul) avec la
+valeur réelle.
+e.g. : 
+Imaginons que vous mesurez la longueur d'un objet qui mesure précisément 10 cm. Si votre mesure
+indique 9,98 cm, elle est assez exacte car elle est proche de la vraie valeur de 10 cm.
+
+La précision fait référence à la quantité d'informations dont on dispose sur une quantité.
+La précision se réfère à la consistance ou répétabilité des mesures, ou à quel point une
+valeur est exprimée de manière détaillée, indépendamment de sa proximité avec la valeur réelle.
+Une haute précision ne signifie pas forcément exactitude ; cela signifie simplement que les
+valeurs sont étroitement regroupées ou très spécifiques.
+
+Supposons que vous mesurez le même objet plusieurs fois et que vous obtenez des valeurs comme
+9,01 cm, 9,02 cm, et 9,00 cm. Ces valeurs sont précises parce qu'elles sont proches les unes
+des autres, mais elles ne sont pas exactes car elles sont éloignées de la vraie longueur de
+10 cm.
+
+Precision and accuracy
+
+sources : https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point.html
+-----------------------------------------------------------------------------------------------
+
+
+
+
+

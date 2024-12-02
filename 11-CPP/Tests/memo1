@@ -783,7 +783,7 @@ int	Sample::getFoo(void) const{
 
 }
 
-void	Sample::setFoo(void) const{ //il peut être intéressant de renvoyer une valeur
+void	Sample::setFoo(int v){ //il peut être intéressant de renvoyer une valeur
 					(un booléen par exemple pour informer l'utilisateur
 					de la modification ou non)
 

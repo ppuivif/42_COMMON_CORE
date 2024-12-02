@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/15 08:38:43 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/12/02 09:55:58 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,24 +21,24 @@ CC = c++
 #=================== FLAGS ==================#
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98 \
-	 -Iincludes
+		 -Iincludes
 
 #============= MANDATORY SOURCES ============#
 
 SRCS =  sources/main.cpp \
-		sources/Fixed.cpp \
+		sources/Fixed.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
-OBJS=$(SRCS:%.cpp=%.o)
+OBJS = $(SRCS:%.cpp=%.o)
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 #============ Colors ========================#
 
-white='\033[1;37m'
-dark_green='\033[0;32m'
+white = '\033[1;37m'
+dark_green = '\033[0;32m'
 
 #================ UTILS PART ================#
 

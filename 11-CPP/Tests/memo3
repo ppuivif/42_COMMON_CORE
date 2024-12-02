@@ -1,0 +1,241 @@
+CPP
+
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 - Days02 - Intro
+
+Le polymorphisme ad-hoc ou surcharge de fonction : particularité de CPP permettant d'avoir
+plusieurs définitions de fonction ayant le même nom et prenant des paramètres différents.
+
+La surcharge d'opérateur : cette notion découle directement de la précédente qui permettra
+d'étendre la syntaxe et la sémantique de CPP en définissant de nouveaux opérateurs. En pratique
+cela permet de surcharger la fonction qui correspond à un opérateur, en tout cas la plupart des
+opérateurs de CPP, pour rajoutter un "sucre" syntaxique facilitant la lecture.
+
+La forme canonique d'une classe : principe qui permet de déclarer des classes toujours de la
+même façon avec des fonctions membres, de constructeurs, ... qui sont toujours présents et qui
+permettent une utilisation unifiée de toutes les classes.
+	
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 - Days02 - ad-hoc polymorphism
+
+Principe en CPP permettant de définir plusieurs fonctions ayant le même nom mais prenant des
+paramètres différents (inexistant en C).
+
+Exemple de déclaration de classe :
+
+#ifndef SAMPLE_CLASS_H
+# define SAMPLE_CLASS_H
+
+class Sample{
+
+public:
+
+	Sample(void);
+	~Sample(void);
+
+//4 surcharges de fonction bar
+	void	bar(char const c)const;
+	void	bar(int const n)const;
+	void	bar(float const z)const;
+	void	bar(Sample const & i)const;
+};
+
+#endif;
+
+NB : la surcharge fonctionne sur n'importe quelle fonction (pas seulement les fonctions
+membres)
+
+La surcharge permet de spécialiser une fonction en fonction de ses entrées.
+
+Exemple d'implémentation :
+
+#include <iostream>
+#include "Sample.class.hpp"
+
+Sample::Sample(void){
+
+	std::cout << "Constructeur called" << std::endl;
+	return ;
+}
+
+Sample::bar(char const c)const{
+
+	std::cout << "Member function bar called with char overload : " << c << std::endl;
+	return ;
+} 
+
+Sample::bar(int const n)const{
+
+	std::cout << "Member function bar called with int overload : " << n << std::endl;
+	return ;
+}
+
+Sample::bar(float const z)const{
+
+	std::cout << "Member function bar called with float overload : " << z << std::endl;
+	return ;
+} 
+
+Sample::bar(Sample const & i)const{
+
+	std::cout << "Member function bar called with Sample class overload : " << std::endl;
+	return ;
+} 
+
+Sample::~Sample(void){
+
+	std::cout << "Destructeur called" << std::endl;
+	return ;
+}
+
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 - Days02 - Operator overload
+
+CPP est un language qui propose une syntaxe afin de pouvoir étendre les opérateurs de CPP,
+pouvoir ajouter de la sémantique et de la syntaxe au language pour pouvoir l'adapter aux
+besoins.
+
+Vocabulaire :
+
+"1 + 1" : notation infixe car l'opérateur '+' se situe entre les 2 opérandes
+
+Mais il existe d'autres notations :
+
+"+ 1 1" : notation préfixe (ou notation fonctionnelle) car si on l'écrit "+ (1, 1)", cela
+ressemble beaucoup à la définition d'une fonction. Cette notation est celle qui devra permettre
+de comprendre la surcharge d'opérateur en CPP. 
+
+"1 1 +" : notation postfixe
+Cette notation est en particulier celle que l'on pourra utiliser dans le cadre de calculs sur
+piles (je push un 1, je push un 1, puis j'additionne).
+
+La notation fonctionnelle :
+C'est une notation qui pourrait être utilisés dans le cadre de la définition d'une fonction
+membre.
+On pourrait imaginer la notation suivante :
+1.+(1)
+1 : on aurait dans ce cas une instance quelconque (ici 1) sur laquelle on ferait appel à la
+fonction membre '+' et à laquelle on ferait passer un paramètre 1.
+
+Exemple de déclaration :
+
+#include <iostream>
+
+#ifndef INTEGER_CLASS_H
+# define INTEGER_CLASS_H
+
+class Integer{
+
+public:
+
+	Integer(int const n);
+	~Sample(void);
+
+	int	getValue(void) const;
+	
+//2 surcharges d'opérateur :
+	Integer & operator=(Integer const & rhs);//operator est un mot clé spécial qui va
+		permettre de faire d'une simple déclaration de fonction membre de la classe
+		une surcharge d'opérateur. Il suffit ensuite de spécifier de quel opérateur
+		on parle entre le mot clé operator et la parenthèse ouvrante des paramètres.
+	Integer & operator+(Integer const & rhs) const;
+	
+private:
+	int	_n;
+};
+
+#endif;
+
+Les opérateurs : on peut avoir des opérateurs unaires, binaires, ternaires (ces derniers ne
+sont pas surchargeables). Le nombre de paramètres va être fonction du type d'opérateur
+(un pour unaire, deux pour binaire).
+L'opérateur d'assignation '=' est un opérateur binaire car à sa droite, il y a ce que je
+souhaite assigner, et à sa gauche ce dans quoi je veux assigner.
+L'opérateur d'assignation '+' est lui aussi un opérateur binaire car à sa droite et à sa
+gauche, il y a deux opérandes.
+
+En terme de notation, on a deux notations possibles (préfixe classique (fonctionnelle)
+et notation type fonction membre).
+
+La notation de déclaration d'une fonction membre laisse penser qu'on lui envoie un seul
+paramètre : Integer & operator=(Integer const & rhs);
+En réalité, il y en a bien deux car il y a aussi le paramètre caché qui représente
+l'instance courante.
+
+NB : la pré et la post-incrémentation sont des opérateurs unaires. Avec ce type de surcharge,
+il n'y a aucun paramètre visible car seul paramètre caché (le this) suffit.
+
+NB : rhs signifie Right-Hand Side (le paramètre caché This est le Left-Hand Side).
+
+L'opérateur d'assignation :
+Il a pour sémantique de mettre à jour la valeur de l'entier qui est dans
+l'instance courante à la valeur de l'entier qui est passé en paramètre. Donc l'instance
+courante va être modifiée. La fonction membre d'assignation n'est donc pas const.
+
+La surcharge de l'opérateur '+' :
+Même principe, mais la fonction ne modifie ni l'instance courante ni l'autre opérande (la
+valeur passée en paramètre). Donc cette fonction est const.
+
+Les valeurs retournées :
+Dans le cas de la fonction d'assignation, le retour de la fonction est une référence sur une
+classe Integer. C'est tout simplement l'instance courante qui sera renvoyée.
+Pourquoi ?
+En C et CPP, il est possible de chaîner des assignations : a = b = c = d;
+Un renvoi de type void ne permettrait pas cet chaînage d'assignation. Le chaînage s'arrêterait
+à la première assignation.
+
+Pour l'opérateur '+', l'instance courante n'est pas modifiée.
+Le fait d'écrire 1 + 2 + 3 + 4; ne nécessite pas de calculer 3 + 4 pour calculer 1 + 2 (le
+parenthésage importe peu). On va donc se contenter de renvoyer une copie du résultat.
+
+Exemple d'implémentation :
+
+#include <iostream>
+#include "Integer.class.hpp"
+
+Integer::Integer(int const n) : -_n(n){
+
+	std::cout << "Constructor called with value" << n << std::endl;
+	return ;
+}
+
+
+Integer::getValue(void)const{//getter renvoie une copie de la valeur
+	return (this->_n);
+}
+
+Integer	& Integer::operator=(Integer const & rhs){
+
+	std::cout << "Assignation operator called from " << this->_n;
+	std::cout << " to " << rhs.getValue() << std:: endl;
+
+	return *this;
+}
+
+Integer	Integer::operator+(Integer const & rhs)const{
+	std::cout << "Assignation operator called with " << this->_n;
+	std::cout << " and " << rhs.getValue() << std:: endl;
+	
+	return Integer(this->_n + rhs.getValue());
+}
+
+
+10'05"
+
+
+
+Integer::~Integer(void){
+
+	std::cout << "Destructor called << std::endl;
+	return ;
+
+
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
