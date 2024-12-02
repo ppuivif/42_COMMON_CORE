@@ -17,10 +17,10 @@ int	main()
 	Harl		instance;
 	std::string	input;
 	std::string	levelList[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
-	int			level = 4;
 
 	while (!std::cin.eof())
 	{
+		int	level = 4;
 		std::cout << BOLD << "Chose a level (DEBUG, INFO, WARNING, ERROR) : "<< NORMAL;
 		std::getline(std::cin, input);
 		for (int i = 0; i < 4; i++)

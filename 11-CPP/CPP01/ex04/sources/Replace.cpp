@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:20:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/28 09:35:31 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/02 09:47:47 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	Replace::createOutfileStream(std::string infile)
 	std::string outfile;
 
 	outfile = infile + ".replace";
-	this->outfileStream.open(outfile.c_str(), std::ifstream::out);
+	this->outfileStream.open(outfile.c_str(), std::ofstream::out);
 	if (!this->outfileStream.is_open())//true if the file specified in argv[1] is not open (file associated with the stream object outfile)
 	{
 		std::cerr << outfile << " couldn't be created" << std:: endl;
