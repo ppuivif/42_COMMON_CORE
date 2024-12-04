@@ -1,0 +1,21 @@
+Définir les premières variables :
+
+Découvrir les variables :
+Fondamentalement, un programme traite des données :
+    - un programme implique donc des données,
+    - il implique également des traitements.
+
+Les programmes manipulent des données grâce aux variables.
+Une variable est un espace mémoire du système d'explpoitation qui contient une information.
+Une variable est une boîte avec une étiquette.
+Java étant un langage typé, il va falloir également définir le type de donnée stockée.
+Une variable se définit donc par un nom et un type.
+
+3 actions sont possibles sur une variable :
+    - sa déclaration qui consiste à indiquer le nom et le type de la variable (on choisit la forme de la boîte et on y colle l'étiquette avec le nom),
+    - l'initialisation de la variable qui est la première affectation,
+    - l'affectation d'une donnée à la variable (mettre un objet dans la boîte). On utilise l'opérateur d'affectation '=',
+
+Une variable possêde une portée, ce qui signifie qu'elle sera utilisable uniquement dans une certaine zone de code (la boîte étant rangée dans une pièce, elle n'est accessible que dans cette pièce).
+
+Comprendre les type primitifs :
