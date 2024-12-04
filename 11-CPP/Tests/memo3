@@ -147,6 +147,8 @@ private:
 	int	_n;
 };
 
+std::ostream & operator<<(std::ostream & o, Integer const & rhs);
+
 #endif;
 
 Les opérateurs : on peut avoir des opérateurs unaires, binaires, ternaires (ces derniers ne
@@ -211,31 +213,208 @@ Integer	& Integer::operator=(Integer const & rhs){
 
 	std::cout << "Assignation operator called from " << this->_n;
 	std::cout << " to " << rhs.getValue() << std:: endl;
+	
+	this->_n = rhs.getValue();
 
-	return *this;
+	return *this;//déréfenrecement du pointeur this
 }
 
 Integer	Integer::operator+(Integer const & rhs)const{
-	std::cout << "Assignation operator called with " << this->_n;
+	std::cout << "Addition operator called with " << this->_n;
 	std::cout << " and " << rhs.getValue() << std:: endl;
 	
-	return Integer(this->_n + rhs.getValue());
+	return Integer(this->_n + rhs.getValue());//le résultat de l'addition est utilisé
+		pour créer une nouvelle instance de la classe Integer. Une copie de cette
+		instance est renvoyée, ce qui mobilise un peu plus la mémoire, mais sans
+		autre possibilité de faire plus proprement.
 }
-
-
-10'05"
-
-
 
 Integer::~Integer(void){
 
 	std::cout << "Destructor called << std::endl;
 	return ;
 
+10'05"
+
+Jusqu'à présent, les cas présentés reposaient sur une instance courante qui permettait de
+faire l'opération.
+Le dernier cas est un peu plus compliqué : la surcharge d'un opérateur de redirection de flux
+(vers la gauche : <<).
+Ostream est une classe qui a été codée sans tenir compte d'une possibilité de surcharge. Elle
+ne peut être modifiée/remplacée par une classe Integer (ou autre). On ne peut pas utiliser la
+syntaxe des fonctions membres pour faire une surcharge de "<<".
+On ne pas va donc pas faire une surcharge de fonction membre, mais une simple surcharge de
+fonction.
+
+La fonction prend en premier paramètre une instance de classe ostream (en particulier une
+référence sur l'instance, par exemple cout) et en deuxième paramètre une instance de la
+classe Integer pour pouvoir faire l'affichage. On renvoie une référence sur une instance de
+classe ostream pour pouvoir chaîner les redirections et faire plusieurs affichages.
+
+std::ostream & operator<<(std::ostream & o, Integer const & rhs){
+
+	o << rhs.getValue();// on va utiliser le flux de sortie 'o' vers lequel on va
+		rediriger quelques chose, à savoir un entier (_n).
+	return o;
+}
+
+Un exemple de main :
+
+#include <iostream>
+#include "Integer.class.hpp"
+
+int main(){
+
+	Integer	x(30);
+	Integer	y(10);
+	Integer	z(0);
+	
+	std::cout << "Value of x : " << x << std::endl;
+	std::cout << "Value of y : " << y << std::endl;
+	y = Integer(12);
+	std::cout << "Value of y : " << y << std::endl;
+	
+	std::cout << "Value of z : " << z << std::endl;
+	z = x + y;
+	std::cout << "Value of z : " << z << std::endl;
+	
+	return 0;
+}	
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 - Days02 - Canonical form
+
+La forme canonique (de Coplien) est plutôt une bonne pratique qu'un véritable notion de CPP.
+C'est une façon de construire des classes de base afin de s'assurer une interface raisonnable
+et surtout identique sur tout son travail.
+
+Exemple de déclaration :
+
+#ifndef SAMPLE_CLASS_H
+#define SAMPLE_CLASS_H
+
+#include <iostream>
+
+class	Sample{
+
+public:
+	Sample(void);//constructeur
+	Sample(int const n);//constructeur par paramètre
+	Sample(Sample const & src);//constructeur par copie
+	~Sample(void);//destructeur
+	
+	Sample & operator=(Sample const & rhs);//surcharge d'opérateur
+	
+	int	getFoo(void) const;//accesseur
+
+private:
+
+	int _foo;
+};
+
+std::ostream & operator<<(std::ostream & o, Sample const & t);
+
+#endif
+
+Une classe est sous forme canonique lorsqu'elle contiendra au moins :
+ - un constructeur par défaut,
+ - un constructeur par copie, i.e. un constructeur prenant en paramètre une instance de la
+ classe qui est en train d'être déclarée afin de pouvoir réaliser une copie de cette classe.
+ - un opérateur d'assignation '=' qui permettra de faire une autre assignation à partir d'une
+ instance cette classe. On voit que le comportement est assez proche de celui du constructeur
+ par copie sachant qu'avec le constructeur par copie une nouvelle instance est créée, alors
+ qu'avec l'opérateur d'assignation, on a une mise à jour de l'instance courante.
+ - un destructeur (éventuellement virtuel).
+ 
+Exemple d'implémentation :
+
+#include <iostream>
+#include "SampleClass.hpp"
+
+Sample::Sample(void) : _foo(0){
+
+	std::cout << "Default constructor called" << std::endl;
+	
+	return;
+}
+
+Sample::Sample(int const n) : _foo(n){
+
+	std::cout << "Parametric constructor called" << std::endl;
+
+	return;
+}
+
+Sample::Sample(Sample const & src){
+
+	std::cout << "Copy constructor called" << std::endl;
+	*this = src;
+	
+	return;
+}
+
+Sample::~Sample(void){
+
+	std::cout << "Destructor called" << std::endl;
+	
+	return;
+}
+
+int	Sample::getFoo(void) const{//accesseur non requis par la forme canonique mais
+					souhaitable
+
+	return this->_foo;
+}
+
+Sample&	Sample::operator=(Sample const &rhs){
+
+	std::cout << "Assignment operator called" << std::endl;
+	
+	if(this != &rhs)
+		this->_foo = rhs.getFoo();
+
+	return *this;
+}
+
+std::ostream &	operator<<(std::ostream & o, Sample const & t){//surcharge de redirection
+							non requise pour la forme canonique
+							mais assez pratique
+
+	o << "The value of _foo is : " << t.getFoo();
+
+	return o;
+}
+
+NB : il peut être intéressant d'avoir une fonction de "serialisation" vers une string pour le
+débuguage
+
+Exemple de main :
+
+#include <iostream>
+#include "SampleClass.hpp"
+
+int main(){
+
+	Sample	instance1;//appel du constructeur par défaut
+	Sample	instance2(42);//appel du constructeur par paramètre
+	Sample	instance3(instance1);//appel du constructeur par copie
+	
+	std::cout << instance1 << std::endl;
+	std::cout << instance2 << std::endl;
+	std::cout << instance3 << std::endl;
+	
+	instance3 = instance2;//assignation
+	std::cout << instance3 << std::endl;
+	
+	return 0;	
+}
+
+NB : un constructeur par défaut peut ne pas être utile, et dans ce cas, il peut être possible
+de le déclarer en private.
 
 -----------------------------------------------------------------------------------------------
 
+Vidéo 42 - Days02 - Conclusion
 
-
-
+-----------------------------------------------------------------------------------------------
 

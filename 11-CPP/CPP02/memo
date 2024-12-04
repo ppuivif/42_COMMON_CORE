@@ -26,17 +26,318 @@ valeur est exprimée de manière détaillée, indépendamment de sa proximité a
 Une haute précision ne signifie pas forcément exactitude ; cela signifie simplement que les
 valeurs sont étroitement regroupées ou très spécifiques.
 
+e.g. :
 Supposons que vous mesurez le même objet plusieurs fois et que vous obtenez des valeurs comme
 9,01 cm, 9,02 cm, et 9,00 cm. Ces valeurs sont précises parce qu'elles sont proches les unes
 des autres, mais elles ne sont pas exactes car elles sont éloignées de la vraie longueur de
 10 cm.
 
-Precision and accuracy
+En résumé :
 
-sources : https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point.html
+Haute Exactitude et Haute Précision : Les valeurs sont proches de la valeur réelle et entre
+elles (cas idéal).
+Haute Exactitude, Basse Précision : Les valeurs sont proches de la valeur réelle mais
+dispersées et peu cohérentes.
+Basse Exactitude, Haute Précision : Les valeurs sont éloignées de la valeur réelle mais proches
+les unes des autres (erreur systématique).
+Basse Exactitude et Basse Précision : Les valeurs sont éloignées de la valeur réelle et entre
+elles (erreur aléatoire).
+
+Exemple de Visualisation
+Imaginez que vous lancez des fléchettes sur une cible :
+
+Exactes et Précises : Toutes les fléchettes atterrissent près du centre de la cible.
+Exactes mais Non Précises : Les fléchettes sont dispersées autour du centre mais pas proches
+les unes des autres.
+Précises mais Non Exactes : Les fléchettes atterrissent proches les unes des autres, mais loin
+du centre.
+Ni Exactes Ni Précises : Les fléchettes sont dispersées au hasard sur la cible, loin du centre
+et les unes des autres.
+
+Conclusion :
+En informatique, la précision est souvent déterminée par le type de données (par exemple,
+float ou double), qui limite le nombre de chiffres significatifs qu’une valeur peut
+représenter, tandis que l’exactitude dépend de la proximité entre la valeur calculée ou
+mesurée et la valeur réelle ou attendue.
+
 -----------------------------------------------------------------------------------------------
 
+Precision and accuracy
+
+Accuracy refers to how close a measured or computed value is to the true or actual value.
+If a value is accurate, it means it represents the correct or intended answer, with minimal
+error.
+e.g. : Imagine you’re measuring the length of an object that is exactly 10 cm. If your
+measurement reads 9.98 cm, it is fairly accurate because it’s close to the true value of 10 cm.
+
+Precision refers to the consistency or repeatability of measurements, or how finely a value is
+expressed, regardless of how close it is to the true value.
+Precision is about how detailed or exact the value is, measured in significant digits. High
+precision doesn’t necessarily mean accuracy—it just means the values are closely grouped
+together or very specific.
+e.g. : Suppose you measure the same object multiple times and get values like 9.01 cm, 9.02 cm,
+and 9.00 cm. These values are precise because they are close to each other, but they are not
+accurate because they are far from the true length of 10 cm.
+
+Putting It Together :
+High Accuracy, High Precision: Values are both close to the true value and to each other (ideal
+case).
+High Accuracy, Low Precision: Values are close to the true value but are spread out and
+inconsistent.
+Low Accuracy, High Precision: Values are far from the true value but are close to each other
+(systematic error).
+Low Accuracy, Low Precision: Values are neither close to the true value nor to each other
+(random error).
+
+Conclusion :
+In computing, precision is often controlled by the data type (e.g., float or double), which
+limits the number of significant digits a value can represent, while accuracy depends on how
+close a computed or measured value is to the real or intended value.
+
+sources : https://www.cprogramming.com/tutorial/floating_point/understanding_floating_point.html
+	  Chatgpt
+-----------------------------------------------------------------------------------------------
+
+Question :
+Un float est il plus ou moins precis ou exact qu'un double ?
+
+ChatGPT said:
+Un float est moins précis qu'un double mais cela n’affecte pas l'exactitude de la valeur
+en elle-même.
+
+Explication
+
+Précision :
+Un float a une précision simple (32 bits), capable de représenter environ 6 à 7 chiffres
+significatifs.
+Un double, en revanche, a une précision double (64 bits), permettant de représenter environ
+15 à 16 chiffres significatifs.
+En raison de ce nombre de chiffres significatifs plus élevé, un double est plus précis qu'un
+float. Il peut représenter les nombres avec plus de détail et moins d'erreurs d'arrondi.
+
+Exactitude :
+L'exactitude dépend de la proximité entre la valeur représentée et la valeur réelle ou
+attendue.
+Tant que la valeur d'origine est correcte et sans erreur, float et double peuvent être tout
+aussi exacts.
+Cependant, dans des calculs complexes, un manque de précision peut introduire des erreurs
+d'arrondi cumulatives, ce qui affecte l'exactitude du résultat final. Un double réduit le
+risque de ces erreurs d'arrondi, ce qui permet de conserver une exactitude plus élevée dans
+les calculs.
+
+En Résumé
+Un double est plus précis qu'un float car il peut représenter des nombres avec plus de
+chiffres significatifs.
+En termes d'exactitude, les deux types peuvent être exacts, mais un double est moins
+susceptible de perdre en exactitude dans des calculs nécessitant une grande précision.
+En général, pour des applications nécessitant une grande précision numérique (par exemple,
+des calculs scientifiques), on préfère utiliser double pour minimiser les erreurs d'arrondi
+et préserver l'exactitude.
+
+-----------------------------------------------------------------------------------------------
+
+Représentation d'un float en système binaire (sur 32 bits) :
+
+Un float en binaire suit la norme IEEE 754 pour les nombres à virgule flottante en précision
+simple. Cette norme divise les 32 bits en trois parties : signe, exposant et mantisse (ou
+significande).
+
+Bit de Signe (1 bit)	Exposant (8 bits)		Mantisse (23 bits)
+Détermine le signe	Encode l’échelle (avec biais)	Encode la précision
+
+Le signe (1 bit) :
+	- 0 pour un nombre positif,
+	- 1 pour un nombre négatif.
+
+L'exposant (8 bits) :
+	- l'exposant détermine l'échelle du nombre (la position de la virgule) : il encode
+	la puissance de 2,
+	- il est stocké avec un biais de 127 soit : exposant réel + exposant stocké - 127.
+	
+La mantisse (23 bits) :
+	- la mantisse stocke uniquement la partie fractionnaire (le 1 initial est implicite
+	pour les nombres normalisés),
+	- elle encode la précision du nombre sous forme fractionnaire.
+
+La formule suivante permet de représenter un float sur 32 bits :
+	(−1)exposant Signe × (1.Mantisse) × 2 Exposant−127
+
+-----------------------------------------------------------------------------------------------
+
+comment effectuer la conversion en nombre a virgule fixe ?
+
+ChatGPT said:
+
+La conversion en nombre à virgule fixe (ou fixed-point) est une technique utilisée pour représenter des nombres réels sans utiliser le format flottant, en séparant implicitement les parties entière et fractionnaire. Voici comment cela fonctionne et comment effectuer la conversion.
+
+1. Structure d’un Nombre à Virgule Fixe
+Un nombre à virgule fixe utilise un entier pour représenter le nombre, mais avec une position de la virgule (fixe) décidée à l’avance. Par exemple :
+
+Partie entière : bits les plus à gauche.
+Partie fractionnaire : bits les plus à droite.
+Exemples de représentation :
+16 bits (Q8.8) :
+8 bits pour la partie entière.
+8 bits pour la partie fractionnaire.
+32 bits (Q16.16) :
+16 bits pour la partie entière.
+16 bits pour la partie fractionnaire.
+2. Étapes pour la Conversion
+Conversion d’un nombre réel en virgule fixe :
+Définir l’échelle (scale) :
+
+Choisissez un facteur d’échelle (2𝑛) pour convertir la partie fractionnaire en entier.
+
+Par exemple, pour un format Q8.8, l’échelle est 
+2 exposant 8 = 256
+
+Multiplier par l’échelle :
+
+Multipliez le nombre réel par l’échelle pour décaler la virgule vers la droite.
+Arrondir (si nécessaire) :
+
+Arrondissez le résultat pour obtenir un entier.
+Stocker sous forme d’entier :
+
+Le résultat est stocké comme un entier en mémoire.
+Exemple :
+Convertissons 
+12.34
+12.34 en virgule fixe au format Q8.8.
+
+Échelle : 
+2 exposant 8 = 256
+
+Multiplier : 
+12.34 × 256 = 3162.24
+
+Arrondir : 
+3162.
+
+Résultat : 
+3162 est stocké comme un entier.
+En mémoire, 
+3162
+3162 correspond à 
+11000101101
+0
+2
+110001011010 
+2
+​
+  en binaire.
+
+Conversion d’un virgule fixe en nombre réel :
+
+Lire l’entier stocké.
+
+Diviser par l’échelle pour ramener la virgule à sa place d’origine.
+
+Exemple :
+Convertissons 3162 (Q8.8) en nombre réel.
+
+Diviser : 3162 / 256 = 12.34
+
+3. Utilisation de la Virgule Fixe
+La virgule fixe est souvent utilisée dans des systèmes embarqués ou pour des applications où les calculs doivent être rapides et prévisibles, car :
+
+Pas de coût lié à la gestion de l’exposant (comme dans les nombres flottants).
+Moins d'erreurs d’arrondi dans certains cas.
+Compatible avec le matériel sans unité de calcul en virgule flottante (FPU).
+4. Avantages et Inconvénients
+Avantages :
+Rapidité : Calculs plus rapides que les nombres flottants.
+Facilité d’implémentation : Repose sur des entiers simples.
+Précision contrôlée : La précision dépend de l’échelle choisie.
+Inconvénients :
+Plage limitée : La plage des valeurs est fixée par la taille des bits.
+Risque d’overflow : Les grandes valeurs peuvent dépasser la capacité de l’entier.
+Complexité dans certains cas : Requiert un bon choix d’échelle pour éviter la perte de précision.
+
+Résumé
+La conversion en virgule fixe consiste à décaler et stocker la valeur réelle comme un entier en fonction d’une échelle donnée. Cette technique est pratique dans les environnements nécessitant une gestion efficace des ressources.
+
+-----------------------------------------------------------------------------------------------
+
+Peux-tu m'expliquer dans le detail la ligne :
+
+	int scale = 1 << 16;
+
+ChatGPT said:
+
+Cette ligne effectue une opération simple mais importante. Détaillons-la étape par étape :
+
+1- Signification de l'expression 1 << 16
+
+1 est l'entier 1 en binaire.
+Sa représentation en 32 bits est  : 0000 0000 0000 0000 0000 0000 0000 0001
+
+L'opérateur << est un décalage binaire à gauche (left shift operator).
+
+16 indique de combien de positions on décale les bits vers la gauche.
+
+En décalant 1 de 16 positions vers la gauche, les bits se déplacent, ajoutant des zéros
+à droite. Cela revient à multiplier 1 par 2 exposant 16.
+
+En binaire :
+
+Avant décalage : 
+0000 0000 0000 0000 0000 0000 0000 0001
+
+Après décalage : 
+0000 0000 0000 0001 0000 0000 0000 0000 (en binaire, cela correspond à 2 exposant 16).
+
+2- Résultat numérique
+2 exposant 16 = 65 536
+
+Donc, après l'opération, scale contient la valeur entière 65536.
+
+3. Pourquoi utiliser 1 << 16 plutôt que directement écrire 65536 ?
+
+Lisibilité et clarté :
+
+Cette notation indique clairement qu’on travaille avec une échelle basée sur des puissances
+de deux.
+Cela est souvent utilisé dans des contextes impliquant des calculs binaires (comme les
+nombres à virgule fixe).
+
+Portabilité :
+
+Cette approche fonctionne indépendamment de la représentation numérique des entiers, assurant
+une meilleure compatibilité entre plateformes.
+
+4. Contexte dans le code
+Dans ton exemple, scale est utilisé comme un facteur d'échelle pour convertir des nombres
+réels en virgule fixe au format Q16.16 :
+
+La partie entière et la partie fractionnaire du nombre réel sont encodées sur 16 bits chacune.
+L'échelle 2 exposant 16 = 65536 sert à déplacer la virgule de 16 positions vers la droite
+pour que la partie fractionnaire soit stockée en tant qu'entier.
 
 
+Résumé
+La ligne int scale = 1 << 16; :
 
+Calcule la valeur 
+2 exposant 16, soit 65536, en effectuant un décalage binaire à gauche.
+Elle est utilisée comme facteur d’échelle pour manipuler des nombres en virgule fixe
+(format Q16.16).
+
+-----------------------------------------------------------------------------------------------
+
+L'encodage en binaire d'un nombre à virgule flottante :
+
+1- déterminer le format d'encodage* (le nombre de bits utilisés pour l'encodage)
+	- exemple : encodage sur 8 bits,
+2- déterminer le mode d'encodage* (la répartition des bits utilisés pour la partie entière et
+ceux utilisés pour la partie fractionnaire)
+	- exemples des 3 modes couramment utilisés en encodage 8 bits :
+	  - mode 6.2 (6 bits pour la partie entière et 2 bits pour la partie fractionnaire),
+	  - mode 5.3 (5 bits pour la partie entière et 3 bits pour la partie fractionnaire),
+	  - mode 4.4 (4 bits pour la partie entière et 4 bits pour la partie fractionnaire),
+Dans ces 3 modes, on a bien 8 bits au total.
+Le nombre de bits utilisés pour la partie fractionnaire va déterminer la précision de l'encodage.
+
+
+* les termes utilisés peuvent être sujets à discussion 
 
