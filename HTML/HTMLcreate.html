@@ -6,73 +6,111 @@
     <title>Mémo portant sur la création d'une page HTML</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<!--<style>
 
-</style> -->
 <body>
-
-
 
 <h1>Mémo portant sur la création d'une page HTML</h1>
 
 <h2>Créer un fichier .html :</h2>
-<p>Pour créer un fichier html dans VSCODE, il suffit de créer un nouveau fichier portant l'extension ".html".<br>
-<!--To create an html file in VSCODE, just name the file with an .html extension, e.g., test.html.-->
+
+	<p>
+		<div class="spaced50">
+			Pour créer un fichier html dans VSCODE, il suffit de créer un nouveau fichier portant l'extension ".html".
+			<!--To create an html file in VSCODE, just name the file with an .html extension, e.g., test.html.-->
+		</div>
+	</p>
 
 <h2>Créer une structure HTML basique :</h2>
-<p>Suivre la procédure suivante :</p>
-<!--Type the following lines :-->
 
-<p>Déclaration du type de document à savoir HTML5 (Document Type Declaration) :<br>
-<!--Declares the document type as HTML5 :-->
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;!DOCTYPE html&gt;</code><br>
-Cette première ligne permet au navigateur d'afficher correctement la page en lui indiquant qu'il s'agit d'un document HTML5.<br>
-En l'absence de cette ligne, le navigateur est susceptible de prendre en charge le document dans une version plus ancienne de HTML.<br>
-NB : cette déclaration n'est pas un tag.<br>
+	<p>
+		<div class="spaced50">
+			Suivre la procédure suivante :
+			<!--Type the following lines :-->
+		</div>
+	</p>
 
-<!--Helps the browser render the page correctly by telling it that this is an HTML5 document.Helps the browser render the page correctly by telling it that this is an HTML5 document.
-Without this line, browsers might assume older versions of HTML, which could lead to rendering issues.
-NB : this is not an HTML tag; it’s a declaration.--></p>
+	<p>
+		<div class="spaced100">
+			- déclaration du type de document à savoir HTML5 (Document Type Declaration) :
+			<!--Declares the document type as HTML5 :-->
+		</div>
+		<div class="spaced250">
+			<code>&lt;!DOCTYPE html&gt;</code>
+		</div>
+		<div class="toggle-container">
+			<div class="spaced150">
+				<input type="checkbox" id="toggle1">
+				<label for="toggle1">Read more...</label>
+				<div class="content">
+					Cette première ligne permet au navigateur d'afficher correctement la page en lui indiquant qu'il s'agit d'un document HTML5.<br>
+					En l'absence de cette ligne, le navigateur est susceptible de prendre en charge le document dans une version plus ancienne de HTML.<br>
+					NB : cette déclaraion n'est pas un balise.<br>
+					<!--Helps the browser render the page correctly by telling it that this is an HTML5 document.Helps the browser render the page correctly by telling it that this is an HTML5 document.
+					Without this line, browsers might assume older versions of HTML, which could lead to rendering issues.
+					NB : this is not an HTML tag; it’s a declaration.-->
+				</div>
+			</div>
+		</div>
+	</p>
 
-<p>Qu'est-ce qu'un tag ?</p>
-    <input type="checkbox" id="toggle">
-    <label for="toggle">Read more...</label>
-    <div class="content"> 
-    <p>A compléter. Balise</p>
-    </div>
-<p>Insertion d'un tag d'ouverture du document HTML, avec la spécification de la langue utilisée  dans le contenu du document :<br>
-<!--Open tag to start the HTML document with the specification of the language of the document's content :-->
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;html lang="en"&gt;</code><br>
-lang="en" spécifie la langue utilisée (e.g., en pour English, fr pour French).</p>
+	<p>
+		<div class="spaced100">
+			- insertion d'une balise d'ouverture du document HTML, avec la spécification de la langue utilisée  dans le contenu du document :<br>
+			<!--Open tag to start the HTML document with the specification of the language of the document's content :-->
+		</div>
+		<div class="spaced250">
+			<code>&lt;html lang="en"&gt;</code>
+		</div>
+		<div class="spaced150">
+			lang="en" spécifie la langue utilisée (e.g., en pour English, fr pour French).
+			<!--lang="en": Specifies the language of the document's content (e.g., en for English, fr for French). This helps search engines and accessibility tools like screen readers understand the content's language.-->
+		</div>
+		<div class="toggle-container">
+			<div class="spaced150">
+				<input type="checkbox" id="toggle2">
+				<label for="toggle2">Read more...</label>
+				<div class="content">
+					La spécification de la langue principale ne peut être défini que dans cette ligne.<br>
+					En son absence, les navigateurs pourront chercher à déterminer la langue en fonction des paramètres de l'utilisateur ou du contenu, mais cela n'est pas toujours fiable.<br>
+					Par ailleurs les technologies d'assistance peuvent utiliser par défaut une langue erronée ou non souhaitée.<br>
+					Enfin la page risque de ne pas bénéficier des avantages du référencement (SEO).<br>
+					En revanche, il est possible de définir des langues additionnelles de façon ponctuelle dans le fichier.
+					<!--Always define the primary language for your document at the <html> level.
+					Browsers might guess the language based on the user's settings or the content, but this can be unreliable.
+					Assistive technologies might default to a wrong or unintended language.
+					Your page might miss out on SEO benefits.
+					For multilingual sections, override the language locally on specific elements.-->
+				</div>
+			</div>
+		</div>
+		<div class="spaced150">
+			NB : une balise de fermeture marquera la fin du document (<code>&lt;/html&gt;</code>).
+			<!--NB : Closing Tag: The </html> tag marks the end of the HTML document.-->
+		</div>
+	</p>
 
-    <!-- Checkbox to toggle the paragraph -->
-    <input type="checkbox" id="toggle">
-    <label for="toggle">Read more...</label>
-   <!-- Collapsible paragraph -->
-   <div class="content">
-<!--<label for="toggle">Click to expand/collapse the paragraph</label>-->
-<p>La spécification de la langue principale ne peut être défini que dans cette ligne.<br>
-En son absence, les navigateurs pourront chercher à déterminer la langue en fonction des paramètres de l'utilisateur ou du contenu, mais cela n'est pas toujours fiable.<br>
-Par ailleurs les technologies d'assistance peuvent utiliser par défaut une langue erronée ou non souhaitée.<br>
-Enfin la page risque de ne pas bénéficier des avantages du référencement (SEO).<br>
-En revanche, il est possible de définir des langues additionnelles de façon ponctuelle dans le fichier.</p>
-</div>
-NB : un tag de fermeture marquera la fin du document (<code>&lt;/html&gt;</code>).
 
-<!--lang="en": Specifies the language of the document's content (e.g., en for English, fr for French). This helps search engines and accessibility tools like screen readers understand the content's language.
-Always define the primary language for your document at the <html> level.
-Browsers might guess the language based on the user's settings or the content, but this can be unreliable.
-Assistive technologies might default to a wrong or unintended language.
-Your page might miss out on SEO benefits.
-For multilingual sections, override the language locally on specific elements.
-NB : Closing Tag: The </html> tag marks the end of the HTML document.--></p>
-
-<p>Insertion d'un elément &lt;head&gt; :<br>
-Cet élément est un container pour les métadonnées, à savoir des données concernant le document mais qui ne sont pas affichées.<br>
-Cet élément commence par le tag :<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;head&gt;</code><br>
-et se termine par le tag :<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;/head&gt;</code><br>
+	<p>
+		<div class="spaced100">
+			- insertion d'un élément &lt;head&gt; :<br>
+		</div>
+		<div class="spaced150">
+			<input type="checkbox" id="toggle3">
+			<label for="toggle3">Read more...</label>
+			<div class="content">
+				Cet élément est un container pour les métadonnées, à savoir des données concernant le document mais qui ne sont pas affichées.<br>
+			</div>
+		Cet élément commence par le tag :
+		</div>
+		<div class="spaced250">
+   			<code>&lt;head&gt;</code>
+	    </div>
+		<div class="spaced150">
+			et se termine par le tag :
+		</div>
+		<div class="spaced250">
+			<code>&lt;/head&gt;</code><br>
+		</div>
 Il contient une ligne permettant de définir l'encodage des caractères :<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;meta charset="UTF-8"&gt;</code><br>
 L'encodage retenu est conforme à l'UTF-8, qui supporte presque tous les caractères et symboles, ce qui garantit un affichage correct du texte.<br>
@@ -92,18 +130,36 @@ et se termine par le tag :<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;/body&gt;</code></p>
 
 <p>En conclusion, le bloc de code HTML à créer est le suivant :<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;!DOCTYPE html&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;html lang="en"&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;head&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Your Page Title&lt;/title&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/head&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;body&gt;</code><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contenu de la page.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;/body&gt;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/html&gt;</code></p>
-    
+    <div class="spaced150">
+    <code>
+	&lt;!DOCTYPE html&gt;<br>
+    &lt;html lang="en"&gt;<br>
+    &lt;head&gt;
+	</code>
+	</div>
+    <div class="spaced200">
+	<code>
+	&lt;meta charset="UTF-8"&gt;<br>
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;<br>
+    &lt;title&gt;Your Page Title&lt;/title&gt;
+	</code>
+	</div>
+	<div class="spaced150">
+	<code>
+	&lt;/head&gt;<br>
+	&lt;body&gt;
+	</code>
+	</div>
+	<div class="spaced200">
+	Contenu de la page.<br>
+	</div>
+	<div class="spaced150">
+	<code>
+	&lt;/body&gt;<br>
+	&lt;/html&gt;
+	</code>
+</p>
+</div>
 <!-- <head> is a tag in HTML. More specifically:
 
     <head> is an HTML element that represents a container for metadata and resources related to the webpage.
@@ -220,10 +276,21 @@ padding: 20px; ajoute de l'espace interne
 background-color: lightblue; définit la couleur de fond
 border: 1px solid black; définit une bordure noire
 -->
-<!--
-Pourquoi utiliser "ligne" pour HTML et non ligne de code ?
-Bien qu'HTML soit un langage de markup (balisage) plutôt qu'un langage de programmation, on peut néanmoins considérer que chaque élément HTML dans le fichier représente une "ligne de code" car il définit une action ou une structure qui sera rendue dans le navigateur. En d'autres termes, chaque balise HTML ou attribut peut être vu comme une "instruction"-->
 
+
+
+<!-- The <span> tag in HTML is an inline container used to apply styles, attributes, or scripts to a specific part of a text or inline content. It does not inherently affect the content's appearance or behavior; instead, it is a generic container that you can customize with CSS or JavaScript.-->
+
+	<p>Qu'est-ce qu'un tag ?</p>
+		<div class="toggle-container">
+			<input type="checkbox" id="toggle1">
+			<label for="toggle1">Read more...</label>
+				<div class="content"> 
+					<p>
+						A compléter. Balise
+					</p>
+				</div>
+		</div>
 </p>
 </body>
 </html>

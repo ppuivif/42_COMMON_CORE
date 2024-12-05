@@ -1,39 +1,55 @@
 body {
 	font-family: Arial, sans-serif;
+	font-size: 16px;
 }
 
+.spaced50 {
+	margin-left: 50px;
+}
+
+.spaced100 {
+	margin-left: 100px;
+}
+
+.spaced150 {
+	margin-left: 150px;
+}
+
+.spaced200 {
+	margin-left: 200px;
+}
+
+.spaced250 {
+	margin-left: 250px;
+}
+
+code {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 14px;
+	color: #2d2d2d;
+	background-color: #f4f4f4;
+	padding: 2px 4px;
+	border-radius: 3px;
+}
 
 .highlight {
 	background-color: yellow;
 /*	font-weight: bold;*/
 }
 
-/* Initially hide the expanded paragraph */
-#expandable-paragraph {
-	display: none;
-	font-size: 16px;
-	line-height: 1.5;
-	max-width: 600px;
-  }
-  
-  /* When the checkbox is checked, show the paragraph */
-  #toggle:checked + #expandable-paragraph {
-	display: block;
-  }
-  
   /* Style for the label (acts as a clickable button) */
-  label {
+/*  label {
 	cursor: pointer;
 	color: #007BFF;
 	text-decoration: underline;
 	display: inline-block;
 	margin-bottom: 10px;
-  }
+  }*/
   
   /* Optional: Add some style for the checkbox to hide it */
-  input[type="checkbox"] {
+/*  input[type="checkbox"] {
 	display: none;
-  }
+  }*/
 
 
 
@@ -41,6 +57,7 @@ body {
 
 /*Style the container*/
   .content {
+	color: blue;
 	max-height: 0;
 	overflow: hidden;
 	transition: max-height 0.3s ease;
@@ -131,23 +148,7 @@ En revanche, il est possible de définir des langues additionnelles de façon po
 	- sélection par 
 */
 
-/* Le CSS est un langage descriptif (ou de style), conçu pour le design et la mise en page.
-Il n'a pas les caractéristiques d'un code :
-	- il n'a pas de logique complexe : pas de boucles (for, while), ni de conditions complexes (if, else), ni de fonctions ou de structures dynamiques.
-	- il ne permet pas d'écrire des algorithmes ou de résoudre des problémes complexes,
-	- il ne peut pas effectuer des opérations logiques, ni manipuler des données.
-Le CSS est uniquement déclaratif car il décrit comment les éléments HTML douvent être affichés sans "calculer" ou "décider".
-
-Une règle CSS est un ensemble de styles appliqué à un ou plusieurs éléments HTML.
-Une déclaration CSS correspond à une propriété et une valeur (par exemple, color: red;).
-Les propriétés CSS sont les éléments spécifiques que tu modifies (comme color, margin, etc.).
-
-Une règle :
-h1 {
-    color: red; Une déclaration
-    font-size: 24px; Une autre déclaration
-}
-color est une propriété CSS.
+/* 
 
 */
 

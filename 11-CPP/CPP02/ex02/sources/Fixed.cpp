@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/02 10:01:04 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/05 17:41:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,16 +141,20 @@ Fixed	Fixed::operator * (const Fixed &nb) const
 	Fixed	result;
 	int scale = 1 << this->_bit;
 	
-	result._value = (this->_value * nb._value) / scale;
+	result._value = ((long int)(this->_value * nb._value)) / scale;
 	return (result);
 }
 
+/**
+ * ab|cdef.vdsfsf|safsd
+ */
 Fixed	Fixed::operator / (const Fixed &nb) const
 {
 	Fixed	result;
 	int scale = 1 << this->_bit;
 	
-	result._value = (this->_value / nb._value) * scale;
+	// result._value = (this->_value / nb._value) * scale;
+	result._value = ( ((long int) this->_value) * scale ) / nb._value;//pour conserver de la précision
 	return (result);
 }
 

@@ -325,10 +325,11 @@ Elle est utilisée comme facteur d’échelle pour manipuler des nombres en virg
 
 -----------------------------------------------------------------------------------------------
 
-L'encodage en binaire d'un nombre à virgule flottante :
+L'encodage en binaire d'un nombre à virgule fixe :
 
 1- déterminer le format d'encodage* (le nombre de bits utilisés pour l'encodage)
 	- exemple : encodage sur 8 bits,
+
 2- déterminer le mode d'encodage* (la répartition des bits utilisés pour la partie entière et
 ceux utilisés pour la partie fractionnaire)
 	- exemples des 3 modes couramment utilisés en encodage 8 bits :
@@ -336,8 +337,138 @@ ceux utilisés pour la partie fractionnaire)
 	  - mode 5.3 (5 bits pour la partie entière et 3 bits pour la partie fractionnaire),
 	  - mode 4.4 (4 bits pour la partie entière et 4 bits pour la partie fractionnaire),
 Dans ces 3 modes, on a bien 8 bits au total.
-Le nombre de bits utilisés pour la partie fractionnaire va déterminer la précision de l'encodage.
+
+Le nombre de bits utilisés pour la partie fractionnaire va déterminer la précision de
+l'encodage.
+Exemples :
+	- en retenant 2 bits pour la partie fractionnaire (mode 6.2), la précision est de :
+		2 exp (-2) = 0.25
+	Cela revient à incrémenter la partie fractionnaire de 0.25 en 0.25, donc d'un multiple
+	de 0.25.
+	Si la partie fractionnaire à encoder est 0.1795, elle est comprise entre 0 x 0.25
+	et 1 x 0.25.
+	Etant plus proche de 0.25, elle sera arrondie à 0.25.
+	A partir de là, on peut calculer la perte de précision (ou erreur d'approximation)
+	de la façon suivante :
+		erreur = 0.1795 - 0.25 = - 0.0705
+
+	- en retenant 3 bits pour la partie fractionnaire (mode 5.3), la précision est de :
+		2 exp (-3) = 0.125
+	Cela revient à incrémenter la partie fractionnaire de 0.125 en 0.125, donc d'un
+	multiple de 0.125.
+	Si la partie fractionnaire à encoder est 0.1795, elle est comprise entre 1 x 0.125
+	et 2 x 0.125 soit 0.25.
+	Etant plus proche de 0.125, elle sera arrondie à 0.125.
+	A partir de là, on peut calculer la perte de précision (ou erreur d'approximation)
+	de la façon suivante :
+		erreur = 0.1795 - 0.125 = 0.0545
+
+	- en retenant 4 bits pour la partie fractionnaire (mode 4.4), la précision est de :
+		2 exp (-4) = 0.0625
+	Cela revient à incrémenter la partie fractionnaire de 0.0625 en 0.0625, donc d'un
+	multiple de 0.0625.
+	Si la partie fractionnaire à encoder est 0.1795, elle est comprise entre 2 x 0.0625
+	soit 0.125 et 3 x 0.625 soit 0.1875.
+	Etant plus proche de 0.1875, elle sera arrondie à 0.1875.
+	A partir de là, on peut calculer la perte de précision (ou erreur d'approximation)
+	de la façon suivante :
+		erreur = 0.1795 - 0.1875 = - 0.008
+		
+Il apparait donc que l'encodage sur 4 bits est plus précis que l'encodage sur 3 et 2 bits.
+NB : Dans le cas de l'encodage d'une partie fractionnaire égale à 0.2344321 par exemple,
+le calcul montre que l'erreur d'approximation est la même quelle que soit le mode d'encodage.
+En effet 0.2344321 étant assez proche de 0.25, c'est cette même valeur qui sera retenue pour
+dans les 3 modes d'encodage sur 2, 3 et 4 bits.
+
+
+
+Le nombre de bits utilisés pour la partie entière va déterminer la plage (range) de
+l'encodage de la partie entière.
+Exemples :
+	- en retenant 6 bits pour la partie entière (mode 6.2), on peut représenter des entiers
+jusqu'à :
+		2 exp (6) - 1 = 63
+En effet :
+		000000 est l'encodage binaire de 0
+		111111 est l'encodage binaire de 63
+	- en retenant 5 bits pour la partie entière (mode 5.3), on peut représenter des entiers
+jusqu'à :
+		2 exp (5) - 1 = 31
+En effet :
+		00000 est l'encodage binaire de 0
+		11111 est l'encodage binaire de 31
+	- en retenant 4 bits pour la partie entière (mode 4.4), on peut représenter des entiers
+jusqu'à :
+		2 exp (4) - 1 = 15
+En effet :
+		0000 est l'encodage binaire de 0
+		1111 est l'encodage binaire de 15
+		
+Dans tous les cas, il est possible de redimensionner (scaling) le nombre en le divisant par une
+puissance de 10 (ou une puissance de 2, ...).
+Exemples :
+		1234.4321 peut être redimensionné en le divisant par 10 exp (1) soit un scaling
+		de 10.
+		On obtient 123.44321, ce qui est insuffisant pour encoder la partie entière sur
+		4, 5 ou 6 bits. 
+
+		1234.4321 peut être redimensionné en le divisant par 10 exp (2) soit un scaling
+		de 100.
+		On obtient 12.344321, ce qui est suffisant pour encoder la partie entière sur
+		4, 5 ou 6 bits puisque la partie entière est inférieure à 63, 31 et même 15.
+
+		1234.4321 peut être redimensionné en le divisant par 10 exp (3) soit un scaling
+		de 1000.
+		On obtient 1.2344321, ce qui est plus que suffisant pour encoder la partie
+		entière sur 4, 5 ou 6 bits.
+
+Toutefois, le redimensionnement peut affecter la précision de l'encodage de la partie
+fractionnaire.
+
+En effet, un scaling de 10 sur un float égal à 1234.4321 donne une valeur de 12.344321.
+La partie fractionnaire encodée sur 3 bits va générer une erreur d'approximation de -0.030679.
+
+
+
+En effet, un scaling de 100 sur un float égal à 1234.4321 donne une valeur de 1.2344321.
+La partie fractionnaire encodée sur 3 bits va donner une
+
+
+Le redimensionnement utilisant un facteur pour réduire la plage, il faut conserver et stocker
+ce facteur pour ensuite procéder au décodage. Il peut être stocké dans un champ fixe (par
+exemple sur 4 bits) ou dans des métadonnées associées.
+
+
+
+
+
+
+
+
+
+
+
 
 
 * les termes utilisés peuvent être sujets à discussion 
+
+
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

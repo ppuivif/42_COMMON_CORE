@@ -6,18 +6,21 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/20 15:44:51 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/05 16:42:12 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
+	#include <cstring>
 
 int	main(void)
 {
 	Fixed		a;
 	Fixed const	b(Fixed(5.05f) * Fixed(2));
 
-//	a = 11.4f;
+	// int		all_ones;
+	// std::memset(&all_ones, 0xFF, sizeof (int));
+	a.setRawBits(838285);
 	Fixed		c(49.5f);
 	Fixed		d(50.5f);
 
