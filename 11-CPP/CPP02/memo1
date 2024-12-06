@@ -1,0 +1,114 @@
+Fixed
+
+-----------------------------------------------------------------------------------------------
+
+Pour la représentation d'un nombre en virgule fixe (ou mobile et non flottante), il faut
+distinguer la façon dont la machine stocke les informations, de l'affichage du nombre dans et
+hors de la fonction. 
+
+-----------------------------------------------------------------------------------------------
+
+Prenons un nombre entier stocké en mémoire (ne pas considérer son encodage binaire mais une
+représentation simplifiée destinée à faciliter la compréhension).
+
+Chaque chiffre composant le nombre est stocké dans une case mémoire :
+
+	|0|0|0|0|0|0|0|0|1|2|3|4|
+
+Un nombre à virgule fixe sera lui aussi stocké dans une zone mémoire, et sera caractérisé par
+une information complémentaire qui va stocker la position de la virgule.
+
+	|1|2|3|4|0|0|0|0|0|0|0|0|
+		,
+
+Dans le cas présent de la représentation de l'entier en nombre à virgule fixe, l'entier initial
+a été multiplié par 100 000 000 soit 10 exp(8). La position de la virgule (située entre le 8e
+et le 9e chiffre en partant de la droite) est l'information complémentaire stockée.
+Cette représentation est la représentation interne à la fonction.
+
+Toutefois, il s'agit toujours du même nombre, et son affichage en dehors de la fonction donne
+toujours une valeur de 1234, aux approximations près éventuelles et liées aux calculs.
+
+Par ailleurs, la représentation interne à la fonction, telle que présentée dans l'exemple,
+repose sur une conversion en base 10. L'exercice repose sur une conversion sur une base 2
+(binaire) avec une virgule positionnée entre le 8e et le 9e bit, d'où un décalage de 8bits
+(et non plus de 10 cases) dans la mémoire. Le facteur multiplicatif (scale) est non plus de
+10 exp(8) mais de 2 exp(8) soit 256.
+
+-----------------------------------------------------------------------------------------------
+
+Le constructeur Fixed::Fixed(const int i) prend en paramètre un entier et affecte le résultat
+de sa conversion à la variable privée _value appartenant à la classe Fixed.
+Comme vu précédemment, _value prend la valeur de i x scale.
+Le programme garde en mémoire la position de la virgule par le biais de l'exposant stocké dans
+la variable statique constante _bit avec _bit = 8.
+Le scale a la valeur de 2 exp(_bit) soit 256 et sert donc de facteur de conversion.
+
+-----------------------------------------------------------------------------------------------
+
+Prenons maintenant le cas d'un nombre à virgule flottante stocké en mémoire.
+
+Un nombre à virgule flottante se présente sous la forme : 1234,4321
+On peut aussi l'écrire : 0,12344321 x 10 exp(4)
+
+Du fait de sa forme, le stockage d'un nombre à virgule flottante n'est pas stocké en mémoire
+de la même façon qu'un entier.
+La partie entière ayant été ramenée à zéro, elle n'a pas besoin d'être stockée.
+Le nombre est représenté par une case pour le signe, une série de cases pour la partie
+fractionnaire (la mantisse), et une série de cases pour stocker l'exposant.
+
+Considérons la représentation simplifiée précédente.
+
+Chaque chiffre composant le nombre est stocké dans une case mémoire :
+
+	|0|0|0|0|1|2|3|4|4|3|2|1|
+
+Un nombre à virgule fixe sera lui aussi stocké dans une zone mémoire, et sera caractérisé par
+une information complémentaire qui va stocker la position de la virgule.
+
+	|1|2|3|4|4|3|2|1|0|0|0|0|
+		,
+
+Le nombre initial a été multiplié par 100 000 000 soit 10 exp(8).
+La position de la virgule (située entre le 8e et le 9e chiffre en partant de la droite) est l'information complémentaire stockée.
+
+-----------------------------------------------------------------------------------------------
+
+Le constructeur Fixed::Fixed(const float f) prend en paramètre un nombre à virgule flottante
+et affecte le résultat de sa conversion à la variable privée _value appartenant à la classe
+Fixed.
+_value prend la valeur de i x scale.
+Le programme garde en mémoire la position de la virgule par le biais de l'exposant stocké dans
+la variable statique constante _bit avec _bit = 8.
+Le scale a la valeur de 2 exp(_bit) soit 256 et sert donc de facteur de conversion.
+
+L'exercice reposant là-aussi sur une conversion sur une base 2, le facteur multiplicatif (scale)
+est non plus de 10 exp(8) mais de 2 exp(8) soit 256.
+
+
+-----------------------------------------------------------------------------------------------
+
+/*Avant la représentation en virgule fixe, le nombre à virgule flottante va être représenté sous
+la forme d'un entier :  
+ 
+	0,12344321 x 10 exp(4) s'écrit aussi 0,12344321 x 10 exp(8)*/
+
+
+-----------------------------------------------------------------------------------------------
+
+Le constructeur Fixed::Fixed(const float f) prend en paramètre un nombre à virgule flottante
+et affecte le résultat de sa conversion à la variable privée _value appartenant à la classe
+Fixed.
+
+
+
+
+
+
+Comme vu précédemment, _value prend la valeur de i x scale.
+Le programme garde en mémoire la position de la virgule par le biais de l'exposant stocké dans
+la variable statique constante _bit avec _bit = 8.
+Le scale a la valeur de 2 exp(_bit) soit 256 et sert donc de facteur de conversion.
+
+
+

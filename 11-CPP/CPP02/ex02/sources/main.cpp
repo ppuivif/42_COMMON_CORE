@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/05 16:42:12 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/06 19:55:08 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,14 @@ int	main(void)
 	
 	std::cout << "b is " << b << std::endl;
 
-	std::cout << "lesser is : " << Fixed::min(a, b) << std::endl;
+	std::cout << "c is " << c << std::endl;
+	std::cout << "d is " << d << std::endl;
+
+	Fixed::min(c, d)++;
+	std::cout << "c is " << c << std::endl;
+	std::cout << "d is " << d << std::endl;
+
+//	std::cout << "lesser is : " << Fixed::min(a, b) << std::endl;
 	std::cout << "greater is : " << Fixed::max(a, b) << std::endl;
 
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/05 17:41:04 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/06 20:00:44 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,6 @@ Fixed	Fixed::operator * (const Fixed &nb) const
 	return (result);
 }
 
-/**
- * ab|cdef.vdsfsf|safsd
- */
 Fixed	Fixed::operator / (const Fixed &nb) const
 {
 	Fixed	result;
