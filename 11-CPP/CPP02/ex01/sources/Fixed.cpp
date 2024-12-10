@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/06 19:32:45 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/10 11:15:03 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ Fixed::Fixed(const int i)
 {
 	std::cout << "Int constructor called" << std::endl;
 	int scale = 1 << this->_bit;
-	//this->setRawBits(i * scale);
 	this->_value = i * scale;
 }
 
@@ -29,9 +28,7 @@ Fixed::Fixed(const float f)
 {
 	std::cout << "Float constructor called" << std::endl;
 	int scale = 1 << this->_bit;
-
 	this->_value = roundf(f * scale);// roundf from cmath library
-//	this->_value = (f * scale);// roundf from cmath library
 }
 
 Fixed::Fixed(const Fixed &src)
@@ -50,18 +47,11 @@ Fixed &Fixed::operator=(const Fixed &src)
 
 float		Fixed::toFloat(void) const
 {
-	float result = 0;
-
-	float    tmp_float;
-
+	float	result = 0;
+	float	tmp_float;
 	int scale = 1 << this->_bit;
-
-//	result = static_cast<float>(this->_value) / scale;//perte de précision
-	
-	tmp_float = (float)this->_value;//passer de Fixed en "faux" float
-	result = tmp_float / scale;//passer du "faux" float au "vrai" float 
-//	result = tmp_float;
-
+	tmp_float = (float)this->_value;//convert Fixed to "fake" float
+	result = tmp_float / scale;//convert "fake" float to "real" float 
 	return (result);
 }
 
