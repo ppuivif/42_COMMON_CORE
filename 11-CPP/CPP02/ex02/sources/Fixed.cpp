@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/10 11:18:25 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/10 11:20:35 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ float	Fixed::toFloat(void) const
 {
 	float result = 0;
 	int scale = 1 << this->_bit;
-	result = (float)this->_value / scale
+	result = (float)this->_value / scale;
 	return (result);
 }
 
@@ -58,7 +58,7 @@ int	Fixed::toInt(void) const
 {
 	int result = 0;
 	int scale = 1 << this->_bit;
-	result = this->value / scale;
+	result = this->_value / scale;
 	return (result);
 }
 
