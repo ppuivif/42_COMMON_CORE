@@ -62,13 +62,13 @@ class Animal
 	public
 		Animal();
 		Animal(Animal const &);
-		Animal& operator-(Animal const &);
+		Animal& operator=(Animal const &);
 		~Animal();
 		
 		void	run(int distance);
 		void	call(); //ces fonctions membres qui ont été rajoutées sont
 				  transmises à ceux qui en héritent (dérivés)
-		void 	eat(std::srting const & what);
+		void 	eat(std::string const & what);
 		void	walk(int distance);
 };
 
@@ -77,7 +77,7 @@ Class Cat : public Animal //le chat hérite publiquement de l'animal
 	public:
 		Cat();
 		Cat(Cat const &);
-		Cat& operator-(Cat const &);
+		Cat& operator=(Cat const &);
 		~Cat();
 		
 		void	scornSomeone(std::string const & target); // le chat est un animal
@@ -90,7 +90,7 @@ Class Pony : public Animal //le poney hérite publiquement de l'animal
 	public:
 		Pony();
 		Pony(Cat const &);
-		Pony& operator-(Pony const &);
+		Pony& operator=(Pony const &);
 		~Pony();
 		
 		void	doMagic(std::string const & target); // le poney est un animal

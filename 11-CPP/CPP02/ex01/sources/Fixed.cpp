@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/10 11:15:03 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:43:42 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ Fixed::Fixed(const float f)
 {
 	std::cout << "Float constructor called" << std::endl;
 	int scale = 1 << this->_bit;
-	this->_value = roundf(f * scale);// roundf from cmath library
+	this->_value = roundf(f * scale);//roundf from cmath library : f rounded to the nearest integral (as a floating-point value)
 }
 
 Fixed::Fixed(const Fixed &src)
@@ -59,10 +59,6 @@ int		Fixed::toInt(void) const
 {
 	int result = 0;
 	int scale = 1 << this->_bit;
-
-
-//	result = this->_value >> this->_bit;//fonctionne
-
 	result = this->_value / scale;
 	return (result);
 }

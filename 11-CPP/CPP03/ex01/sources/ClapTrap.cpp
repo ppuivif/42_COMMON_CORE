@@ -6,19 +6,44 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:07:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/24 16:08:48 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:14:21 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
+ClapTrap::ClapTrap(void) : _name("unknown")
+{
+	std::cout << "Default constructor ClapTrap called" << std::endl;
+	this->_hitPoints = 100;
+	this->_energyPoints = 100;
+	this->_attackDamage = 30;
+}
+
 ClapTrap::ClapTrap(std::string name) : _name(name)
 {
 	std::cout << "Constructor ClapTrap called" << std::endl;
-	this->_hitPoints = 10;
-	this->_energyPoints = 10;
-	this->_attackDamage = 0;
-	return;
+	this->_hitPoints = 100;
+	this->_energyPoints = 100;
+	this->_attackDamage = 30;
+}
+
+ClapTrap::ClapTrap(const ClapTrap &src)
+{
+	std::cout << "Copy constructor ClapTrap called" << std::endl;
+	*this = src;
+}
+
+ClapTrap &ClapTrap::operator=(const ClapTrap &src)
+{
+	std::cout << "Copy assignment operator ClapTrap called" << std::endl;
+	if (this != &src)
+	{
+		this->_hitPoints = src._hitPoints;
+		this->_energyPoints = src._energyPoints;
+		this->_attackDamage = src._attackDamage;
+	}
+	return (*this);
 }
 
 void	ClapTrap::attack(const std::string &target)
@@ -106,5 +131,4 @@ void ClapTrap::checkHitsAndEnergyPoints(void) const
 ClapTrap::~ClapTrap(void)
 {
 	std::cout << "Destructor ClapTrap called" << std::endl;
-	return;
 }

@@ -6,12 +6,11 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:06 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/10 11:23:13 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:47:54 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Fixed.hpp"
-	#include <cstring>
 
 int	main(void)
 {
@@ -26,8 +25,13 @@ int	main(void)
 	
 	std::cout << "b is " << b << std::endl;
 
+//	std::cout << "lesser between a(" << a << ") and b(" << b << ") is : " << Fixed::min(a, b) << std::endl;
+	std::cout << "greater between a(" << a << ") and b(" << b << ") is : " << Fixed::max(a, b) << std::endl;
+
 /*	Fixed		c(49.5f);
 	Fixed		d(50.5f);
+	std::cout << "c is " << c << std::endl;
+	std::cout << "d is " << d << std::endl;
 	if (c < d)
 		std::cout << "c (" << c << ") < d (" << d << ") : true" << std::endl;
 	if (c > d)
@@ -39,26 +43,17 @@ int	main(void)
 	if (c == d)
 		std::cout << "c (" << c << ") == d (" << d << ") : true" << std::endl;
 	if (c != d)
-		std::cout << "c (" << c << ") != d (" << d << ") : true" << std::endl;*/
+		std::cout << "c (" << c << ") != d (" << d << ") : true" << std::endl;
 
-/*	std::cout << "c is " << c << std::endl;
-	std::cout << "d is " << d << std::endl;
-
-	Fixed::min(c, d)++;
-	std::cout << "c is " << c << std::endl;
-	std::cout << "d is " << d << std::endl;*/
-
-//	std::cout << "lesser is : " << Fixed::min(a, b) << std::endl;
-	std::cout << "greater between a(" << a << ") and b(" << b << ") is : " << Fixed::max(a, b) << std::endl;
-
-/*	a.setRawBits(42.5f);
-	Fixed	d(10);
+	a = Fixed(42.55448f);
+	d = Fixed(10);
 	std::cout << "a is " << a << std::endl;
+	std::cout << "d is " << d << std::endl;
 	
 	c = a + d;
 	std::cout << "a + d = " << c << std::endl;
 	
-	c = a - df;
+	c = a - d;
 	std::cout << "a - d = " << c << std::endl;
 
 	c = a * d;

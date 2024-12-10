@@ -143,4 +143,61 @@ std::string getName(void)
 
 -----------------------------------------------------------------------------------------------
 
+Pourquoi créer une fonction membre statique : 
+
+	- une fonction membre statique n'opère pas sur une instance spécifique de la classe car
+	elle appartient directement à la classe :
+		- elles n'ont pas de pointeur this,
+		- elles ne peuvent accéder qu'aux variables et fonctions membre statiques, qui
+		sont elles aussi partagés entre toutes les instances de la classe,
+		- elle peut être appelée en utilisant le nom de la classe, sans avoir besoin
+		d'une instance.
+
+	- ce type de fonction est donc souvent utilisé pour implémenter des fonctions
+	utilitaires liées à la classe mais qui ne nécessitent pas de données spécifiques à une
+	instance.
+		e.g. :
+			- déclaration :
+				static Fixed	min(Fixed &f1, Fixed &f2);
+			- définition :
+				Fixed	Fixed::min(Fixed &f1, Fixed &f2)
+				{
+					if (f1 <= f2)
+						return (f1);
+					return (f2);
+				}
+			- appel de fonction :
+				Fixed f1(10.1f); 
+				Fixed f2(10.5f);
+				Fixed result = Fixed::min(f1, f2);
+				
+	- ce type de fonction est utilisé pour des fonctions qui ont un fonctionnement global
+	tout een étant associée à une classe.
+		e.g. : afficher un message associé à une fonction de log. Dans ce cas,
+		l'affichage du message est logiquement associé à la classe mais ne dépend pas
+		d'une instance.
+
+	- les fonctions statiques sont idéales pour fonctionner avec des variables / fonctions
+	membres	statiques.
+	
+	- les fonctions statiques sont souvent utilisées pour implémenter le design pattern
+	factory method afin de créer des objets. A développer.
+	
+	- en terme de peformance, les fonctions statiques offrent un léger avantage car elles
+	n'ont pas besoin de pointeur this (ni de virtual dispatch, à développer).
+
+Remarques :
+	- les fonctions  statiques n'ont pas accès aux variables d'instance ni aux fonctions
+	membres non-statiques.
+	- les fonctions statiques ne peuvent pas être virtuelles, car elles ne sont pas liées
+	à un objet spécifique et ne supportent donc pas le polymorphisme (??? à confirmer car
+	polymorphisme utilisé pour les fonctions min et max appliquées aux Fixed).
+
+En résumé :
+	L'intérêt principal de créer une fonction membre statique est d'encapsuler une logique
+	pertinente pour la classe dans son ensemble, plutôt que pour une instance spécifique.
+	Cela permet une meilleure organisation, un meilleur regroupement logique, et parfois
+	une meilleure efficacité.
+	
+-----------------------------------------------------------------------------------------------
 

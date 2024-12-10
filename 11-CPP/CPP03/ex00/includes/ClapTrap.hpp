@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:05:50 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/11/23 19:16:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/10 19:16:02 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,10 @@
 class ClapTrap
 {
 	public:
+		ClapTrap(void);
 		ClapTrap(std::string name);
-		
-		//
-		ClapTrap(ClapTrap const &);
-		ClapTrap& operator-(ClapTrap const &);
-		//
-		
-		
+		ClapTrap(const ClapTrap &src);
+		ClapTrap &operator=(const ClapTrap &src);
 		~ClapTrap(void);
 
 		void		attack(const std::string &target);

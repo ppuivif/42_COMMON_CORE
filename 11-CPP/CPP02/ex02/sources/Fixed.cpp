@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:37:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/10 11:20:35 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/10 16:38:45 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,7 @@ Fixed	Fixed::operator / (const Fixed &nb) const
 	Fixed	result;
 	int scale = 1 << this->_bit;
 	
-	// result._value = (this->_value / nb._value) * scale;
-	result._value = ( ((long int) this->_value) * scale ) / nb._value;//pour conserver de la précision
+	result._value = (((long int)this->_value) * scale) / nb._value;
 	return (result);
 }
 

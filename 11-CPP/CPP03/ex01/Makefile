@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/11/24 15:54:40 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/12/10 18:48:51 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 \
 
 SRCS =  sources/main.cpp \
 		sources/ClapTrap.cpp \
-		sources/Scavtrap.cpp
+		sources/ScavTrap.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
