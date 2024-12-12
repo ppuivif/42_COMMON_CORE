@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 16:04:27 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/11 16:53:58 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/11 16:52:46 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ void	ScavTrap::attack(const std::string &target)
 {
 	if (this->_energyPoints > 0 && this->_hitPoints > 0)
 	{
-		std::cout << RED << this->_name << " attacks in a new mode" << target << ", causing " \
-		<< "1" << " point of damage" << NORMAL << std::endl;
-
 		this->_energyPoints -= 1;
 		this->checkHitsAndEnergyPoints();
 	}
+	std::cout << RED << this->_name << " attacks " << target << ", causing " \
+	<< "1" << " point of damage" << NORMAL << std::endl;
 }
 

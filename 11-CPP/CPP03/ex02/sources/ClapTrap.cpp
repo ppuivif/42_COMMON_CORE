@@ -6,26 +6,25 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:07:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/11 17:04:46 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/11 17:05:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
-//ClapTrap::ClapTrap(void) : _name("default"), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 ClapTrap::ClapTrap(void)
 {
-	std::cout << "Default constructor ClapTrap called" << std::endl;
 	this->_name = "default";
 	this->_hitPoints = 10;
 	this->_energyPoints = 10;
 	this->_attackDamage = 0;	
+	std::cout << "Default constructor ClapTrap called" << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &src)
 {
-	std::cout << "Copy constructor ClapTrap called" << std::endl;
 	*this = src;	
+	std::cout << "Copy constructor ClapTrap called" << std::endl;
 }
 
 ClapTrap &ClapTrap::operator=(const ClapTrap &src)
@@ -64,8 +63,7 @@ void	ClapTrap::attack(const std::string &target)
 	if (this->_energyPoints > 0 && this->_hitPoints > 0)
 	{
 		std::cout << RED << this->_name << " attacks " << target << ", causing " \
-		<< "1" << " point of damage" << NORMAL << std::endl;
-		this->_energyPoints -= 1;
+		<< "1" << " point of damage" << NORMAL << std::endl;		this->_energyPoints -= 1;
 		this->checkHitsAndEnergyPoints();
 	}
 }

@@ -72,7 +72,7 @@ class Animal
 		void	walk(int distance);
 };
 
-Class Cat : public Animal //le chat hérite publiquement de l'animal
+class Cat : public Animal //le chat hérite publiquement de l'animal
 {
 	public:
 		Cat();
@@ -85,7 +85,7 @@ Class Cat : public Animal //le chat hérite publiquement de l'animal
 								     propres
 };
 
-Class Pony : public Animal //le poney hérite publiquement de l'animal
+class Pony : public Animal //le poney hérite publiquement de l'animal
 {
 	public:
 		Pony();
@@ -111,15 +111,64 @@ animal.
 
 5'53
 
-Protected est un nouveau niveau d'encapsulation utilisé dans le cas de l'héritage.
+Protected est un nouveau niveau d'encapsulation utilisé seulement dans le cas de l'héritage.
+Il va se rajoutter public et private.
+Public est accessible de n'importe où.
+Protected est accessible uniquement par une instance de la classe ou une instance de la
+classe dérivée.
+Private est accessible uniquement depuis une instance de la classe seulement et non pas des
+classes dérivées.
 
+Exemple de déclaration :
 
+class Quadruped //can access name, run() ans logs
+{
+	private:
+		std::string	name; //only accessible froma Quadruped object
+
+	protected:
+		Leg		legs[4]; //accessible from a Quadruped object or derivated
+					object
+	
+	public:
+		void		run(); //accessible from wherever
+};
+
+class Dog : public Quadruped //can access run() and legs
+{
+
+};
+
+Exemple de main :
+int main() //can only access run()
+{
+
+{
+
+7'50"
+
+Les niveaux d'encapsulation d'héritage
+
+Pour hériter, on a vu précédemment que l'on indiquait le niveau d'encapsulation d'héritage
+à savoir public jusqu'à présent.
+
+Exemple de déclaration :
+
+class Pony : public Animal
+
+Mais on peut aussi utiliser les niveaux d'encapsulation d'héritage protected et private.
+Cela a pour conséquence de modifier les niveaux d'encapsulation des attributs de la classe
+mère.
+
+8'30"
+
+L'héritage multiple
+
+Jusqu'à présent la classe fille héritait d'une classe à la fois.
+Elle peut aussi hériter de plusieurs classes pour avoir les comportements de ces classes.
+La difficulté intervient dès lors que chacune des classes mère définit des fonctions ou
+variables identiques avec des comportements différents.
+Voir jusqu'à un héritage en diamant.
 
 -----------------------------------------------------------------------------------------------
-
-
-
-
-
-
 

@@ -198,7 +198,7 @@ Exemple d'implémentation :
 #include <iostream>
 #include "Integer.class.hpp"
 
-Integer::Integer(int const n) : -_n(n){
+Integer::Integer(int const n) : _n(n){
 
 	std::cout << "Constructor called with value" << n << std::endl;
 	return ;
@@ -216,7 +216,7 @@ Integer	& Integer::operator=(Integer const & rhs){
 	
 	this->_n = rhs.getValue();
 
-	return *this;//déréfenrecement du pointeur this
+	return *this;//déréférencement du pointeur this
 }
 
 Integer	Integer::operator+(Integer const & rhs)const{
