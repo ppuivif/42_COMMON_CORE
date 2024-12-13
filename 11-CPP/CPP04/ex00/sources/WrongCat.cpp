@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:50:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 09:27:50 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/13 10:38:05 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,7 @@ WrongCat::~WrongCat(void)
 	std::cout << "Destructor WrongCat called" << std::endl;
 }
 
-WrongCat::WrongCat(std::string type) : WrongAnimal(type)
-{
-	std::cout << "Simple constructor WrongCat called" << std::endl;
-}
-
 void WrongCat::makeSound(void) const
 {
-	std::cout << this->getType() << " is meowing" << std::endl;
+	std::cout << this->getType() << " is wrong meowing" << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:04:28 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 09:33:40 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/13 17:40:34 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,19 @@
 #ifndef ANIMAL_HPP
 # define ANIMAL_HPP
 
+#ifndef GREEN
+# define GREEN "\033[32m"
+# endif
+#ifndef RED
+# define RED "\033[31m"
+# endif
+#ifndef BOLD
+# define BOLD "\033[1m"
+# endif
+#ifndef NORMAL
+# define NORMAL "\033[0m"
+# endif
+
 class Animal
 {
 	public:
@@ -24,7 +37,7 @@ class Animal
 		Animal &operator=(const Animal &rhs);
 		virtual ~Animal(void);
 
-		Animal(std::string type);
+		Animal(std::string _type);
 		std::string getType(void) const;
 
 		virtual void makeSound(void) const;

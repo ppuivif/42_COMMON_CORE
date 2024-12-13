@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:51:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 09:26:52 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/13 10:37:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ class WrongCat : public WrongAnimal
 		WrongCat(const WrongCat &rhs);
 		WrongCat &operator=(const WrongCat &rhs);
 		~WrongCat(void);
-
-		WrongCat(std::string type);
 
 		void makeSound(void) const;
 };

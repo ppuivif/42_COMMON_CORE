@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.hpp                                            :+:      :+:    :+:   */
+/*   Materia.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 08:51:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 17:42:22 by ppuivif          ###   ########.fr       */
+/*   Created: 2024/12/13 18:50:05 by ppuivif           #+#    #+#             */
+/*   Updated: 2024/12/13 19:04:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
-#include "Animal.hpp"
 
-#ifndef CAT_HPP
-# define CAT_HPP
+#ifndef MATERIA_HPP
+# define MATERIA_HPP
 
-class Cat : public Animal
+class AMateria
 {
 	public:
-		Cat(void);
-		Cat(const Cat &rhs);
-		Cat &operator=(const Cat &rhs);
-		~Cat(void);
+		AMateria(void);
+		AMateria(const Materia &rhs);
+		AMateria & operator=(const Materia & rhs);
+		~Virtual AMateria(void);
 
-		Cat(std::string _type);
-		void makeSound(void) const;
+		AMateria(std::string const & type);
+
+		std::string const & getType() const; //returns the materia type
+		virtual AMateria *clone() const = 0; //clone an instance and create an instance of same type
+		virtual void use(ICharacter & target); //display a message
+
+	protected:
+		
 };
 
 #endif

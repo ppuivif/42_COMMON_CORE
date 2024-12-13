@@ -6,38 +6,48 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:34:02 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 09:39:15 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/13 18:04:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Animal.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
-#include "WrongCat.hpp"
 
 int main(void)
 {
-	const Animal		*meta = new Animal();
-	const WrongAnimal	*wrong = new WrongAnimal();
-	const Animal		*j = new Dog();
-	const Animal		*i = new Cat();
-	const WrongAnimal	*h = new WrongCat();
+	int		nb_animal = 10;
+	
+	if (nb_animal % 2)
+		return (1);
+	
+	AAnimal	**meta = new AAnimal*[nb_animal];  // Allocate space for 5 Animal* pointers
 
-	std::cout << meta->getType() << " " << std::endl;
-	meta->makeSound();
-	std::cout << wrong->getType() << " " << std::endl;
-	wrong->makeSound();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	std::cout << h->getType() << " " << std::endl;
-	i->makeSound(); //output the cat sound
-	j->makeSound(); //output the dog sound
-	h->makeSound(); //output the wrongcat sound
+	for (int h = 0; h < nb_animal ; h++)
+	{
+		if (h < nb_animal / 2)
+		{
+			std::string name = "cat_" + toString(h + 1);
+			meta[h] = new Cat(name);
+		}
+		else
+		{
+			std::string name = "dog_" + toString(h - nb_animal / 2 + 1);
+			meta[h] = new Dog(name);
+		}
+		std::cout << GREEN;
+		meta[h]->makeSound();
+		std::cout << NORMAL;
+		std::cout << std::endl;
+	}
 
-	delete meta;
-	delete wrong;
-	delete j;
-	delete i;
-	delete h;
+	for (int h = 0; h < nb_animal; h++)
+	{
+		std::string name = meta[h]->getType();
+		delete meta[h];
+		std::cout << RED << name << " has been destroyed" << NORMAL << std::endl << std::endl;
+	}
+
+	delete [] meta;
 	return (0);
 }

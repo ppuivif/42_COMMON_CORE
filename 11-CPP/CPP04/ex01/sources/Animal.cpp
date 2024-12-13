@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:12:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 17:41:21 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/13 15:06:42 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,12 @@ void Animal::makeSound(void) const
 std::string Animal::getType(void) const
 {
 	return (this->_type);
+}
+
+std::string	toString(int nb)
+{
+	std::ostringstream	oss;
+
+	oss << nb;
+	return (oss.str());
 }
