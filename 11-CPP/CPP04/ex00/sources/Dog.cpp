@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:41:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/12 19:14:20 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/13 09:14:13 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ Dog::~Dog(void)
 
 Dog::Dog(std::string type) : Animal(type)
 {
-	this->_type = type;
 	std::cout << "Simple constructor Dog called" << std::endl;
 }
 

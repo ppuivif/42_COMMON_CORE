@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/12/12 19:05:04 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/12/13 09:23:01 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,10 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 \
 
 SRCS =  sources/main.cpp \
 		sources/Animal.cpp \
-		sources/Dog.cpp
+		sources/Dog.cpp \
+		sources/Cat.cpp \
+		sources/WrongAnimal.cpp \
+		sources/WrongCat.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
