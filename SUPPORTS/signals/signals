@@ -59,9 +59,9 @@ Les signaux courants et les actions par défaut comprennent :
 	- SIGALARM (14) : signal d'alarme d'horloge (utilisé pour les timers). L'action par
 	défaut est de terminer le processus.
 	- SIGCHLD (17) : stop ou termine l'enfant. L'action par défaut est d'ignorer.
-	
-	
-	
+
+
+
 	
 	
 
