@@ -1,0 +1,57 @@
+Sur un même sous-réseau, les masques définis pour chacun des hôtes doivent être identiques.
+
+Le type de masque détermine l'adresse réseau :
+ex :
+	si Mask : 255.255.255.0  (3 nombres différents de 0)
+	alors adresse réseau : 192.168.95.0
+	et adresse hôte : 0.0.0.1
+	
+	si Mask : 255.255.0.0 (2 nombres différents de 0)
+	alors adresse réseau : 192.168.0.0
+	et adresse hôte : 0.0.1.1
+
+
+
+Si le masque crée un sous-réseau :
+ex : Mask 255.255.255.224 (dernier nombre différent de 0)
+
+alors l'adresse hôte devra tenir compte du dernier nombre :
+
+	+ si Mask 255.255.255.128
+		- alors premier nombre de l'adresse réseau compris entre 1 et 126 inclus ??
+		- alors tous les hôtes devront appartenir au même sous réseau,
+		autrement dit l'adresse hôte devra se terminer par un nombre :
+			* compris dans la plage 1 et 126 inclus,
+			* ou compris dans la plage 128 à 254 inclus,
+			
+			
+		soit (2 exp 7) - 2 = 126 possibilités
+
+	- si Mask 255.255.255.192
+	alors dernier nombre de l'adresse hôte compris entre 193 et 254 inclus soit (2 exp 6) - 2 possibilités
+
+	+ si Mask 255.255.255.224
+	alors dernier nombre de l'adresse hôte compris entre 193 et 222 inclus
+	soit (2 exp 5) - 2 = 30 possibilités
+
+	- si Mask 255.255.255.240
+	alors dernier nombre de l'adresse hôte compris entre 241 et 254 inclus soit (2 exp 4) - 2 possibilités
+	- si Mask 255.255.255.248
+	alors dernier nombre de l'adresse hôte compris entre 249 et 254 inclus soit (2 exp 3) - 2 possibilités
+	
+	+ si Mask 255.255.255.252
+		- alors premier nombre de l'adresse réseau compris entre 1 et 126 inclus
+		- alors dernier nombre de l'adresse hôte compris entre 129 et 130 inclus
+		soit (2 exp 2) - 2 = 2 possibilités
+	
+	- si Mask 255.255.255.254
+	alors dernier nombre de l'adresse hôte compris entre 254 et 254 inclus soit 1 possibilité
+	- si Mask 255.255.255.255
+	aucune adresse hôte
+
+
+
+
+11111111 11111111 111111111 10000000
+
+255.255.255.128 /25 1 127      128 255
