@@ -1,5 +1,6 @@
 https://www.youtube.com/watch?app=desktop&v=HQUw0CfQWAM&t=0s
 
+(another https://www.youtube.com/watch?v=BWZ-MHIhqjM)
 -----------------------------------------------------------------------------------------------
 
 TCP (transmission Control Protocol) is a communication protocol to ensure data is sent and
@@ -46,11 +47,11 @@ and the IPv6 which looks like this :
 2001:0db8:85a3:0000:0000:8a2e:0370:7334
 We don't really need to worry about the IPv6 for net practice because we only need IPv4.
 An IP address has four octets separated by dots :
-192.  168.  1.  1
+	192.  168.  1.  1
 in which :
-192.  168.  1. is called the network portion
+	192.  168.  1. is called the network portion
 and in which the fourth octet :
-1  is called the host portion
+	1  is called the host portion
 A host just means a device like a phone or a computer, etc.
 
 A host will be assigned a usable address so this means within a network there will always be 2 IP
@@ -71,21 +72,23 @@ The subnet is used to identify the network from its outside.
 Basically, the subnet is defined by address of the network (untouchable address) : 192.168.1.0,
 (the first IP address in the range).
 To represent subnet in a CIDR notation we use /24 (specifically for the case 192.168.1.0).
-The CIDR notation specifies the subnet mask in a shortened format indicating how many bits are used
-for the network portion.
-If we take a subnet mask /24 (in CIDER notation), it match with the decimal notation : 255.255.255.0
+The CIDR notation specifies the subnet mask in a shortened format indicating how many bits are
+used for the network portion.
+If we take a subnet mask /24 (in CIDER notation), it match with the decimal notation :
+255.255.255.0
 In binary, it's a bunch (grappe) of ones and zeros.
-In a subnet masks, all the ones indicate how many bits are taken for the network portion making it
+In a subnet masks, all the ones indicate how many bits are taken for the network portion making
+it
 fixed. And the zeros indicate how many addresses are possible.
 Summary : 
 	- a subnet is a sub network of a larger network,
 	- it defines a range of IP addresses in a network,
 	- it helps us to determine whether a machine or device belongs to a particular network,
-	- a subnet is essentially the network address with the CIDR notation representing a subnet
-	mask,
+	- a subnet is essentially the network address with the CIDR notation representing a
+	subnet mask,
 		e.g. : subnet 192.163.1.0 /24
-	- a subnet mask tells us how many bits is used for the network (fixed) and how many hosts
-	a network can have (variable)
+	- a subnet mask tells us how many bits is used for the network (fixed) and how many
+	hosts a network can have (variable)
 		e.g. : subnet mask /24 or 255.255.255.0
 
 Method to determinate the first and last addresses and to determinate the range or CIDR notation
@@ -95,8 +98,8 @@ Method to determinate the first and last addresses and to determinate the range 
 		- the ones tell us the network bits,
 		- the zeros tell us the host bits,
 		- each bit represents a power of 2,
-		- we begin from the right and the first bit indicate the power 0, the second the
-		power 1, etc, ...
+		- we begin from the right and the first bit indicate the power 0, the second
+		the power 1, etc, ...
 
 e.g. :
 	2^7	2^6	2^5	2^4	2^3	2^2	2^1	2^0
@@ -109,7 +112,7 @@ e.g. :
 1 x 2^0 + 1 x 2^1 + ... + 1 x 2^7 = 1 + 2 + 4 + 8 + 16 + 32 + 64 + 128 = 255
 
 e.g. :
-If we have a subnet mask : 255.255.255.240, we take the fourth octet (240)
+If we have a subnet mask : 255.255.255.240, and if we take the fourth octet (240)
 In binary we have :
 
 	2^7	2^6	2^5	2^4	2^3	2^2	2^1	2^0
@@ -117,10 +120,10 @@ In binary we have :
 	 1	 1	 1	 1	 0	 0	 0	 0
 
 0 x 2^0 + 0 x 2^1 + ... + 1 x 2^7 = 0 + 0 + 0 + 0 + 16 + 32 + 64 + 128 = 240
-We can see that 4 bits are taken for network adress, and it left 4 bits for host adresses
+We can see that 4 bits are taken for network adress, and 4 bits left for host adresses
 
 e.g. :
-If we have a subnet mask : 255.255.255.128, we take the fourth octet (192)
+If we have a subnet mask : 255.255.255.128, we take the fourth octet (128)
 In binary we have :
 
 	2^7	2^6	2^5	2^4	2^3	2^2	2^1	2^0
@@ -128,7 +131,7 @@ In binary we have :
 	 1	 0	 0	 0	 0	 0	 0	 0
 
 0 x 2^0 + 0 x 2^1 + ... + 1 x 2^7 = 0 + 0 + 0 + 0 + 0 + 0 + 0 + 128 = 128
-We can see that 1 bit is taken for network adress, and it left 7 bits for host adresses
+We can see that 1 bit is taken for network adress, and 7 bits left for host adresses
 
 	2-find the CIDR notation :
 We just count all the network bits out of the total 32 bits.
@@ -139,7 +142,7 @@ If we want to have more than one network :
 	- to have 2 networks :
 
 	if we have a subnet : 192.168.42.128 /25
-	the subnet mask will be 255.255.128
+	the subnet mask will be 255.255.255.128
 
 	the first network address will be 192.168.42.0
 	the broadcast address will be 192.168.42.127
@@ -149,13 +152,14 @@ If we want to have more than one network :
 	the broadcast address will be 192.168.42.255
 	the usable IP address range will be 192.168.42.129 to 192.168.42.254
 
-	- to have more than 2 networks (subnetting), you have to hack host bits
+	- to have more than 2 networks (subnetting), you have to hack more host bits
 	
 	we could start off with a single network defined by subnet 192.168.1.0 /24
-	the IP address range will be 192.168.1.0 to 192.168.1.255 (0 and 255 not usable)
+	the IP address range will be 192.168.1.0 to 192.168.1.255 (0 and 255 not usable for
+	hosts)
 
 	if we want 4 networks instead of one, we need to work out how many bits we need to
-	hack.
+	hack (nous devons déterminer le nombre de bits à pirater).
 		- if we hack 0 bit, we would create 2^0 = 1 network (no change),
 		- if we hack 1 bit, we would create 2^1 = 2 networks,
 		- if we hack 2 bits, we would create 2^2 = 4 networks.
@@ -166,7 +170,7 @@ If we want to have more than one network :
 	In CIDR notation : /26
 	The first network address is : 192.162.1.0
 	To determine the first network broadcast address we need to find the size of each
-	Network (how many hosts can we have in each Network) we need to find the increment of
+	Network (how many hosts can we have in each network) we need to find the increment of
 	the last network bit referring to the power of two's chart.
 	In the present case 255.255.255.192, each chunk counts :
 		2^7	2^6	2^5	2^4	2^3	2^2	2^1	2^0
@@ -211,7 +215,7 @@ It connects multiple devices within the local area network.
 It help these devices talk to each other. It allows simultaneous communication.
 It manages where data is sent and receives (it manages traffic, forwarding data to intended
 recipient).
-A switch can also be connected to a router
+A switch can also be connected to a router.
 
 -----------------------------------------------------------------------------------------------
 
@@ -270,3 +274,34 @@ IP ranges : 	x.x.0.1 to x.x.127.254
 21'09"
 
 Exercises
+
+-----------------------------------------------------------------------------------------------
+
+Could a router be used as a switch ?  
+
+ChatGPT said:
+Yes, a router can often be used as a switch, but only under certain conditions. Here’s how and why this works:
+
+Key Points
+Switch Functionality in Routers:
+
+Most modern routers have built-in Ethernet ports designed for connecting multiple devices. These ports act as a simple switch when devices are connected to them.
+Traffic between devices on these ports does not need to go through the router's core routing functions, so the devices can communicate as if they were connected to a standalone switch.
+Disabling DHCP for Pure Switch Use:
+
+To use a router purely as a switch, the DHCP server on the router needs to be disabled.
+When DHCP is disabled, the router will no longer assign IP addresses, and an existing DHCP server (usually on your main router) will handle that task.
+Connection Setup:
+
+Connect one of the LAN ports of the router (not the WAN port) to your main network or modem.
+Use the other LAN ports to connect your devices. This bypasses the router's NAT (Network Address Translation) and routing functions.
+IP Configuration:
+
+Assign a static IP address to the router within the subnet of your main network to avoid conflicts (e.g., if your main router's IP is 192.168.1.1, set this one to 192.168.1.2).
+Wireless Access Point (Optional):
+
+If the router has Wi-Fi, it can also serve as a wireless access point while functioning as a switch.
+Limitations
+Performance: Routers generally have fewer LAN ports compared to dedicated switches, so they may not scale well for large networks.
+Advanced Features: Dedicated switches often provide advanced features like VLANs, which most consumer-grade routers do not support.
+Configuration Effort: Setting up a router as a switch requires some manual configuration, while a standalone switch works out of the box.
