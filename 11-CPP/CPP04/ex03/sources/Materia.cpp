@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:00:51 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/16 18:16:12 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/20 17:59:53 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,4 @@ AMateria::AMateria(const std::string & type) : _type(type)
 const std::string & AMateria::getType() const
 {
 	return (this->_type);
-}
-
-AMateria *AMateria::clone() const
-{
-	AMateria *clone;
-
-	clone = new AMateria(*this);
-	return (clone);
-}
-
-//void AMateria::use(ICharacter & target)
-void AMateria::use(std::string target)
-{
-	if (!this->_type.compare("ice"))
-		std::cout << "* shoots an ice bolt at " << target << " *" << std::endl;
-	if (!this->_type.compare("cure"))
-		std::cout << "* heals " << target << "'s wounds *" << std::endl;
 }

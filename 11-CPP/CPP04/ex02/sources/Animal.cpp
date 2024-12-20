@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:12:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 18:03:44 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/20 18:02:49 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ AAnimal::AAnimal(std::string type) : _type(type)
 	std::cout << "Simple constructor AAnimal called" << std::endl;
 }
 
-void AAnimal::makeSound(void) const
+/*void AAnimal::makeSound(void) const
 {
 	std::cout << this->getType() << " is speaking out" << std::endl;
-}
+}*/
 
 std::string AAnimal::getType(void) const
 {

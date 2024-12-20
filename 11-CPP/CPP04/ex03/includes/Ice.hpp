@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:06:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/16 18:24:42 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/20 18:26:56 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #ifndef ICE_HPP
 # define ICE_HPP
 
-class Ice
+class Ice : public AMateria
 {
 	public:
 		Ice(void);
@@ -25,8 +25,10 @@ class Ice
 		Ice & operator=(const Ice &rhs);
 		~Ice(void);
 	
-		Ice *clone() const; //clone an instance and create an instance of same type
-		void use(ICharacter & target); //display a message
+//		Ice	*clone(void) const; //clone an instance and create an instance of same type
+		void	use(ICharacter & target); //display a message
+
+
 };
 
 #endif
