@@ -6,15 +6,16 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:50:05 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/20 17:59:34 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/21 17:35:02 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
 
 #ifndef MATERIA_HPP
 # define MATERIA_HPP
+
+#include <iostream>
+#include <string>
 
 class AMateria
 {
@@ -28,7 +29,8 @@ class AMateria
 
 		const std::string & getType() const; //returns the materia type
 		virtual AMateria *clone() const = 0; //clone an instance and create an instance of same type
-		virtual void use(ICharacter & target); //display a message
+		void use(std::string target);
+//		virtual void use(ICharacter & target); //display a message
 
 	protected:
 		std::string	_type;

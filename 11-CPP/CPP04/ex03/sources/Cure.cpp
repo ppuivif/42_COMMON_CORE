@@ -1,55 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Ice.cpp                                            :+:      :+:    :+:   */
+/*   Cure.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:24:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/21 17:51:43 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/21 17:51:53 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Ice.hpp"
+#include "Cure.hpp"
 
-Ice::Ice(void) : AMateria("ice")
+Cure::Cure(void) : AMateria("cure")
 {
-//	this->_type = "ice";
-	std::cout << "Default constructor Ice called" << std::endl;
+//	this->_type = "cure";
+	std::cout << "Default constructor Cure called" << std::endl;
 }
 
-Ice::Ice(const Ice &rhs) : AMateria(rhs)
+Cure::Cure(const Cure &rhs) : AMateria(rhs)
 {
 //	*this = rhs;
-	std::cout << "Copy constructor Ice called" << std::endl;
+	std::cout << "Copy constructor Cure called" << std::endl;
 }
 
-Ice &Ice::operator=(const Ice &rhs)
+Cure &Cure::operator=(const Cure &rhs)
 {
 	if (this != &rhs)
 //		this->_type = rhs._type;
 	 	this->AMateria::operator=(rhs);
- 	std::cout << "Assignment operator Ice called" << std::endl;
+ 	std::cout << "Assignment operator Cure called" << std::endl;
 	return (*this);
 }
 
-Ice::~Ice(void)
+Cure::~Cure(void)
 {
-	std::cout << "Destructor Ice called" << std::endl;
+	std::cout << "Destructor Cure called" << std::endl;
 }
 
-Ice *Ice::clone(void) const
+Cure *Cure::clone(void) const
 {
-	Ice	*clone;
+	Cure	*clone;
 
-	clone = new Ice(*this);
+	clone = new Cure(*this);
 	return (clone);
 }
 
-//void Ice::use(ICharacter& target)
-void Ice::use(std::string target)
+//void Cure::use(ICharacter& target)
+void Cure::use(std::string target)
 {
-	if (!this->_type.compare("ice"))
-		std::cout << "* shoots an ice bolt at " << target << " *" << std::endl;
+	if (!this->_type.compare("cure"))
+		std::cout << "* heals " << target << "'s wounds *" << std::endl;
 }
 

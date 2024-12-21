@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2024/12/16 12:08:04 by ppuivif          ###   ########.fr        #
+#    Updated: 2024/12/21 17:25:19 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 \
 
 SRCS =  sources/main.cpp \
 		sources/Materia.cpp \
-#		sources/Ice.cpp \
-#		sources/Cure.cpp \
+		sources/Ice.cpp \
+		sources/Cure.cpp \
 #		sources/Character.cpp \
 #		sources/MateriaSource.cpp 
 

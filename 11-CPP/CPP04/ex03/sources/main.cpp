@@ -6,18 +6,32 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:06:11 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/16 15:13:29 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/21 17:50:23 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Materia.hpp"
+#include "Ice.hpp"
+#include "Cure.hpp"
 
 int main()
 {
-	AMateria test("Ice");
+//	AMateria materiatest2("ice");
+	Ice icetest;
+	Cure curetest;
 
-	AMateria *test2;
-	test2 = test.clone();
-	test2->use("target");
-	delete test2;
+//	AMateria *materiatest2;
+//	materiatest2 = materiatest.clone();
+//	materiatest2->use("materia_target");
+
+	Ice *icetest2;
+	icetest2 = icetest.clone();
+	icetest2->use("ice_target");
+
+	Cure *curetest2;
+	curetest2 = curetest.clone();
+	curetest2->use("cure_target");
+	
+	delete icetest2;
+	delete curetest2;
 }
