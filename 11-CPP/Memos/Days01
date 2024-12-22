@@ -1,0 +1,205 @@
+CPP - Days01
+
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 : New and delete
+
+0'0"
+
+Les opérateur new et delete : remplacent malloc et free 
+
+Malloc et free fonctionnent en CPP pour des int, des float, des double.
+Par contre, pour allouer des objets qui reposent sur des classes créées ou existantes
+(librairies standards), cela ne fonctionnera pas car cela n'appelle pas le constructeur de
+l'objet.
+De la même façon, free n'appellera pas le destructeur.
+
+Donc pour allouer proprement de la mémoire, on utilise new et delete en CPP (qui appellent
+malloc et free).
+
+Exemple de définition :
+
+#include <iostream>
+#include <string>
+
+class Student
+{
+	private:
+		std::string _login;
+	
+	public:
+		Student(std::string login);
+		~Student();
+};
+
+Exemple d'implémentation :
+
+Student::Student(std::string login) : _login(login)
+{
+	std::cout << "Student " << this->_login << " is born" << std::endl;
+}
+
+Student::~Student()
+{
+	std::cout << "Student " << this->_login << " died" << std::endl;
+}
+
+Exemple d'instanciation :
+
+int main()
+{
+	Student	bob = Student("bfubar"); // alloué sur la stack(pile)
+	Student	*jim = new Student("jfubar"); // alloué sur la heap
+	
+	//Do some stuff (trucs) here
+	
+	delete jim; // jim is destroyed
+	return (0); // bob is destroyed
+}
+
+3'45"
+
+Pour allouer des tableaux :
+
+En C pour allouer un tableau de 10 int, on malloc de 10 x sizeof(int).
+
+En CPP :
+
+Exemple de définition :
+
+#include <iostream>
+#include <string>
+
+class Student
+{
+	private:
+		std::string _login;
+	
+	public:
+		Student();
+		~Student();
+};
+
+Exemple d'implémentation :
+
+Student::Student() : _login("default")
+{
+	std::cout << "Student " << this->_login << " is born" << std::endl;
+}
+
+Student::~Student()
+{
+	std::cout << "Student " << this->_login << " died" << std::endl;
+}
+
+Exemple d'instanciation :
+
+int main()
+{
+	Student	*students = new Student[42]; //allocation de 42 student contigus en mémoire,
+			appel des constructeurs pour chacun des 42 student,
+			l'opérateur new ne prend en revanche aucun paramètre tel que le nom
+			par exemple
+	
+	//Do some stuff (trucs) here
+	
+	delete [] students;
+}
+
+-----------------------------------------------------------------------------------------------
+
+Vidéo 42 : Les réferences
+
+0'0"
+
+NB : un nouveau concept sur lequel on peut faire un parallèle avec les pointeurs, mais les
+références ne remplacent pas les pointeurs.
+
+En C, on utilise les pointeurs pour manipuler une variable en dehors de notre scope, ou pour
+allouer une variable sur la heap et non pas sur la stack, pour manipuler une variable avec son
+adresse, ...
+
+Une référence peut être comprise comme un alias vers une variable existante.
+Elle peut également être comprise comme un pointeur constant, toujours déréférencé, qui n'est
+jamais null.
+
+Exemple d'implémentation :
+
+#include <iostream>
+
+int main()
+{
+	int numberOfBalls = 42;
+	
+	int*	ballsPtr = &numberOfBalls;
+	int&	ballsRef = numberOfBalls; //après cette affectation, il n'est plus possible
+					de modifier cette référence
+	int&	ballsRef2; //impossible de définir une référence sans l'initialiser,
+			et comme elle est constante, il sera impossible de la faire pointer
+			sur une variable plus tard
+	
+	std::cout << numberOfBalls << " " << *ballsPtr << " " << ballsRef << std::endl;
+	
+	*ballsPtr = 21;
+	std::cout << numberOfBalls << std::endl;
+	ballsRef = 84;
+	std::cout << numberOfBalls << std::endl;
+	
+	return (0);
+}
+
+5'54"
+
+Le passage des paramètres par référence :
+
+Exemple d'implémentation :
+
+#include <string>
+
+void	byPtr(std::string* str)
+{
+	*str += " and ponies";
+}
+
+void	byConstPtr(std::string const * str)
+{
+	std::cout << *str << std::endl;
+}
+
+void	byRef(std::string& str)
+{
+	str += " and ponies";
+}
+
+void	byConstRef(std::string const & str)
+{
+	std::cout << str << std::endl;
+}
+
+Exemple d'instanciation :
+
+int main()
+{
+	std::string str = "I like butterflies";
+	
+	std::cout << str << std::endl;
+	byPtr(&str);
+	byConstPtr(&str);
+
+	std::string str = "I like otters";
+	
+	std::cout << str << std::endl;
+	byRef(str);
+	byConstRef(str);
+
+	return (0);
+}
+
+-----------------------------------------------------------------------------------------------
+
+8'08"
+
+Les retours par référence :
+
+
+

@@ -22,10 +22,11 @@ example of definition :
 
 std::string MyClass::getname(void) const
 {
-        return _name; // This method doesn't modify `name`.
+        return this->_name; // this function doesn't modify `name`.
 }
 
-In this case, if I want to modify a variable inside getName(), the compiler will give an error.
+In this case, if I want to modify an attribut of the class inside getName(), the compiler will
+give an error.
 
 -----------------------------------------------------------------------------------------------
 
@@ -33,8 +34,18 @@ If I declare :
 
 	std::string const getName(void);
 
-It means that the return value of the function is a const std::string, and that the caller
-cannot modify the returned string.
+It means that the return value of the function is a const std::string, but only in the context
+of the function.
+Indeed (en effet), the caller will receive a copy of the string because it is returned as value
+and not as reference.
+Thus (ainsi/donc), in this case, the const qualifier on the return type won't be propagated to
+the caller, and the caller will be able to modify the value of the variable which will store
+the return of the function.
+So, once assigned to a variable, the const qualifier on the function's return type is
+irrelevant (non pertinent) unless I explicitly use const in my variable declaration.
+However, even if I use const in my variable declaration, the compilation and the execution
+will work with a non const return :
+	std::string getName(void);
 
 example of declaration :
 
@@ -47,20 +58,26 @@ example of definition :
 
 std::string const getName(void)
 {
-    return "Immutable Name"; // The returned string cannot be modified by the caller.
+    return "Immutable Name";
 }
 
 example of instantiation :
 
 MyClass obj;
-const std::string name = obj.getname();
-name = "New Name"; // Compiler error because 'name' is const.
+std::string name = obj.getname();
+name = "New Name"; // valid
+
+another example of instantiation :
+
+MyClass obj;
+std::string const name = obj.getname();
+name = "New Name"; // Compiler will give an error because the variable name is const.
 
 -----------------------------------------------------------------------------------------------
 
 If I declare :
 
-	std::string const getName(std::string const name);
+	std::string getName(std::string const name);
 
 It means that the parameter 'name' cannot be modified inside the function (it is treated as
 read-only).
@@ -71,7 +88,7 @@ example of declaration :
 
 class MyClass {
 	public:
-	    std::string const getName(std::string const name);
+	    std::string getName(std::string const name);
 };
 
 example of definition :
@@ -92,7 +109,7 @@ getName(constName); // Valid, even with a const string.
 
 When Would You Use This?
 
-Using const for parameters like std::string const name is a good practice if:
+Using const for parameters like std::string const name is a good practice if :
 
 	- You do not want to accidentally modify the parameter inside the function.
 	- It ensures clarity that this parameter is read-only for the function implementation.
@@ -104,7 +121,7 @@ If I instantiate :
 
 int main()
 {
-    const std::string constName = "Read-Only Name";
+    std::string const constName = "Read-Only Name";
     display(constName); // Valid, no issue here.
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:00:51 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/21 17:51:30 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/22 18:00:57 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,16 @@ AMateria::AMateria(const std::string & type) : _type(type)
 	std::cout << "Simple constructor AMateria called" << std::endl;
 }
 
-const std::string & AMateria::getType() const
+//const std::string & AMateria::getType() const
+std::string AMateria::getType() const
 {
 	return (this->_type);
+}
+
+std::string & modifyType(std::string type)
+{
+	std::string newType = type + "new";
+	return (newType);
 }
 
 //void AMateria::use(ICharacter& target)
