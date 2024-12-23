@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:06:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/21 17:27:25 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:10:05 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ class Ice : public AMateria
 {
 	public:
 		Ice(void);
-		Ice(const Ice &rhs);
-		Ice & operator=(const Ice &rhs);
+		Ice(Ice const & rhs);
+		Ice & operator=(Ice const & rhs);
 		~Ice(void);
 	
 		Ice	*clone(void) const; //clone an instance and create an instance of same type

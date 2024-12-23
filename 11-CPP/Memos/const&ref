@@ -77,6 +77,18 @@ name = "New Name"; // Compiler will give an error because the variable name is c
 
 If I declare :
 
+	std::string const & getName(void);
+	
+The function does not create a copy but use reference, which makes it efficient for large
+strings.
+
+The caller can not modify the original object through the returned reference because it has
+been declared as const.
+
+-----------------------------------------------------------------------------------------------
+
+If I declare :
+
 	std::string getName(std::string const name);
 
 It means that the parameter 'name' cannot be modified inside the function (it is treated as
@@ -117,6 +129,10 @@ Using const for parameters like std::string const name is a good practice if :
 
 -----------------------------------------------------------------------------------------------
 
+But know, if name is passed by reference, const becomes important.
+
+-----------------------------------------------------------------------------------------------
+
 If I instantiate :
 
 int main()
@@ -139,6 +155,6 @@ function as a copy without affecting the original variable.
 
 -----------------------------------------------------------------------------------------------
 
-But know, if name is passed by reference, const becomes important.
+
  
 

@@ -201,5 +201,84 @@ int main()
 
 Les retours par référence :
 
+Exemple de définition :
 
+#include <iostream>
+#include <string>
 
+class Student
+{
+	private:
+		std::string _login;
+	
+	public:
+		Student();
+		~Student();
+		std::string& getLoginRef();
+		std::string const & getLoginRefConst() const;
+		std::string* getLoginPtr();
+		std::string const* getLoginPtrConst() const;
+};
+
+Exemple d'implémentation :
+
+Student::Student() : _login("default")
+{
+	std::cout << "Student " << this->_login << " is born" << std::endl;
+}
+
+Student::~Student()
+{
+	std::cout << "Student " << this->_login << " died" << std::endl;
+}
+
+std::string& Student::getLoginRef()
+{
+	return (this->_login);
+}
+
+std::string const & Student::getLoginRefConst() const
+{
+	return (this->_login);
+}
+
+std::string* Student::getLoginPtr()
+{
+	return &(this->_login);
+}
+
+std::string const* Student::getLoginPtrConst() const
+{
+	return &(this->_login);
+{
+
+Exemple d'instanciation :
+
+int main()
+{
+	Student	bob = Student("bfubar");
+	Student	const jim = Student("jfubar");
+	
+	std::cout << bob.getLoginRefConst() << " " << jim.getLoginRefConst() << std::endl;
+	std::cout << *(bob.getLoginPtrConst()) << " " << *(jim.getLoginPtrConst()) << std::endl;
+
+	bob.getLoginRef() = "bobfubar";
+	std::cout << bob.getLoginRefConst() << std::endl;
+
+	*(bob.getLoginRef()) = "bobbyfubar";
+	std::cout << bob.getLoginRefConst() << std::endl;
+}
+
+Important :
+
+Les références complètent les pointeurs mais ne les remplacent pas, même si c'est plus simple
+d'un point de vue syntaxique.
+
+Comme vu précédemment, on ne peut pas déclarer une référence sans l'initialiser.
+Donc, si on a un objet, avec une référence sur un autre objet, qui n'est pas initialisé à sa
+construction, on ne peut pas uiliser une référence et on aura besoin d'un pointeur.
+L'utilisation d'un pointeur permettra en outre de modifier l'objet à postériori.
+
+Si l'objet existe et n'est pas amené à changer, on peut utiliser une référence.
+
+-----------------------------------------------------------------------------------------------

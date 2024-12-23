@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:24:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/21 17:51:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:15:27 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ Cure::Cure(void) : AMateria("cure")
 	std::cout << "Default constructor Cure called" << std::endl;
 }
 
-Cure::Cure(const Cure &rhs) : AMateria(rhs)
+Cure::Cure(Cure const &rhs) : AMateria(rhs)
 {
 //	*this = rhs;
 	std::cout << "Copy constructor Cure called" << std::endl;
 }
 
-Cure &Cure::operator=(const Cure &rhs)
+Cure &Cure::operator=(Cure const & rhs)
 {
 	if (this != &rhs)
 //		this->_type = rhs._type;

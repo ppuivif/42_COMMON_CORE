@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:24:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/21 17:51:43 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:10:40 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ Ice::Ice(void) : AMateria("ice")
 	std::cout << "Default constructor Ice called" << std::endl;
 }
 
-Ice::Ice(const Ice &rhs) : AMateria(rhs)
+Ice::Ice(Ice const & rhs) : AMateria(rhs)
 {
 //	*this = rhs;
 	std::cout << "Copy constructor Ice called" << std::endl;
 }
 
-Ice &Ice::operator=(const Ice &rhs)
+Ice & Ice::operator=(Ice const & rhs)
 {
 	if (this != &rhs)
 //		this->_type = rhs._type;

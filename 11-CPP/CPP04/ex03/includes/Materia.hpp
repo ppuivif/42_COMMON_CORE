@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:50:05 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/22 17:43:00 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:11:12 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ class AMateria
 {
 	public:
 		AMateria(void);
-		AMateria(const AMateria &rhs);
-		AMateria & operator=(const AMateria & rhs);
+		AMateria(AMateria const & rhs);
+		AMateria & operator=(AMateria const & rhs);
 		virtual ~AMateria(void);
 
-		AMateria(const std::string & type);
+		AMateria(std::string const & type);
 
 		//const std::string & getType() const; //returns the materia type
 		std::string getType() const; //returns the materia type
@@ -37,7 +37,7 @@ class AMateria
 		std::string _type;
 };
 
-	std::string & modifyType(std::string type);
+
 
 
 #endif

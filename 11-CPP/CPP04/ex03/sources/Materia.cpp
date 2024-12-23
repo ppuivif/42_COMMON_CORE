@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:00:51 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/22 18:00:57 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/23 11:22:40 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ AMateria::AMateria()
 	std::cout << "Default constructor AMateria called" << std::endl;
 }
 
-AMateria::AMateria(const AMateria &rhs)
+AMateria::AMateria(AMateria const &rhs)
 {
 	*this = rhs;
 	std::cout << "Copy constructor AMateria called" << std::endl;
 }
 
-AMateria & AMateria::operator=(const AMateria & rhs)
+AMateria & AMateria::operator=(AMateria const & rhs)
 {
 	if (this != &rhs)
 		this->_type = rhs._type;
@@ -36,21 +36,14 @@ AMateria::~AMateria()
 	std::cout << "Destructor AMateria called" << std::endl;
 }
 
-AMateria::AMateria(const std::string & type) : _type(type)
+AMateria::AMateria(std::string const & type) : _type(type)
 {
 	std::cout << "Simple constructor AMateria called" << std::endl;
 }
 
-//const std::string & AMateria::getType() const
-std::string AMateria::getType() const
+const std::string & AMateria::getType() const
 {
 	return (this->_type);
-}
-
-std::string & modifyType(std::string type)
-{
-	std::string newType = type + "new";
-	return (newType);
 }
 
 //void AMateria::use(ICharacter& target)

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:06:11 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/22 17:44:08 by ppuivif          ###   ########.fr       */
+/*   Updated: 2024/12/23 09:36:13 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int main()
 //	std::string type = materiatest2.getType();
 //	type = "cure";
 	//std::cout << "type is : " << type <<std::endl;
-	std::string type = "old_type";
-	std::cout << "new type is : " << modifyType(type) <<std::endl;
+
 	
 	
 //	AMateria *materiatest2;
