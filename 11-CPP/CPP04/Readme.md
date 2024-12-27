@@ -26,3 +26,11 @@ class IMateria
 }
 ```
 
+To understand the subject :<br>
+A materia could be compared to a container in which we would have a special power (throw a fireball, throw an ice ball, cure, ...).<br>
+Now imagine a belt on which we could hang up a single or several materia (containing a special power or not).<br>
+We could take an available materia (leaving on the floor) and equip it on the belt.<br>
+If there are 4 locations on the belt, we could equip it with 4 materia maximum.<br>
+If there are only one available location, only one materia could be taken and equiped.<br>
+If there is any available location left, a materia should be unequiped to equip a new one.<br>
+
