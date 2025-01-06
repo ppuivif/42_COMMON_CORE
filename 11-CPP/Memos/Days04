@@ -45,7 +45,7 @@ void	Warrior::sayHello(std::string const & target)
 	std::cout << "Fuck off " << target << ", I don't like you !" << std::endl;	
 }
 
-On va utiliser le fait qu'un Warrior soit un Chconst Ice &rhsaracter pour écrire les choses suivantes :
+On va utiliser le fait qu'un Warrior soit un Character pour écrire les choses suivantes :
 
 Exemple d'instanciation :
 

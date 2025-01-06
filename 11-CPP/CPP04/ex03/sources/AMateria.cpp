@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Materia.cpp                                        :+:      :+:    :+:   */
+/*   AMateria.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:00:51 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/23 11:22:40 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:43:45 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Materia.hpp"
+#include "AMateria.hpp"
 
 AMateria::AMateria()
 {
@@ -41,13 +41,13 @@ AMateria::AMateria(std::string const & type) : _type(type)
 	std::cout << "Simple constructor AMateria called" << std::endl;
 }
 
-const std::string & AMateria::getType() const
+std::string const & AMateria::getType() const
 {
 	return (this->_type);
 }
 
-//void AMateria::use(ICharacter& target)
-void use(std::string target)
+//void AMateria::use(std::string target)
+void AMateria::use(ICharacter& target)
 {
-	std::cout << "* no action on " << target << " *" << std::endl;
+	std::cout << "* no action on " << target.getName() << " *" << std::endl;
 }

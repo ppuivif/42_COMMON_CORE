@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:24:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/23 11:15:27 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:44:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ Cure::~Cure(void)
 	std::cout << "Destructor Cure called" << std::endl;
 }
 
-Cure *Cure::clone(void) const
+AMateria *Cure::clone(void) const
 {
 	Cure	*clone;
 
@@ -46,10 +46,10 @@ Cure *Cure::clone(void) const
 	return (clone);
 }
 
-//void Cure::use(ICharacter& target)
-void Cure::use(std::string target)
+//void Cure::use(std::string target)
+void Cure::use(ICharacter& target)
 {
 	if (!this->_type.compare("cure"))
-		std::cout << "* heals " << target << "'s wounds *" << std::endl;
+		std::cout << "* heals " << target.getName() << "'s wounds *" << std::endl;
 }
 

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:06:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/23 11:10:05 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:33:00 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include <string>
-#include "Materia.hpp"
+#include "AMateria.hpp"
 
 class Ice : public AMateria
 {
@@ -25,9 +25,9 @@ class Ice : public AMateria
 		Ice & operator=(Ice const & rhs);
 		~Ice(void);
 	
-		Ice	*clone(void) const; //clone an instance and create an instance of same type
-		void use(std::string target);
-		//void	use(ICharacter & target); //display a message
+		AMateria	*clone(void) const; //clone an instance and create an instance of same type
+		void use(std::string target); //to delete
+		void	use(ICharacter & target); //display a message
 
 
 };
