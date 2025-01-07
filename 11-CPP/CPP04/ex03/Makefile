@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2025/01/06 17:41:32 by ppuivif          ###   ########.fr        #
+#    Updated: 2025/01/07 15:13:16 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRCS =  sources/main.cpp \
 		sources/Ice.cpp \
 		sources/Cure.cpp \
 		sources/Character.cpp \
-#		sources/MateriaSource.cpp 
+		sources/MateriaSource.cpp 
 
 #============ TRANSFORM .c TO .o ============#
 
