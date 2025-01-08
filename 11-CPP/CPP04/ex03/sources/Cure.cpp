@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:24:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/07 11:55:27 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/08 18:11:18 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 Cure::Cure(void) : AMateria("cure")
 {
 //	this->_type = "cure";
-	std::cout << "Default constructor Cure called" << std::endl;
+//	std::cout << "Default constructor Cure called" << std::endl;
 }
 
 Cure::Cure(Cure const &rhs) : AMateria(rhs)
 {
 //	*this = rhs;
-	std::cout << "Copy constructor Cure called" << std::endl;
+//	std::cout << "Copy constructor Cure called" << std::endl;
 }
 
 Cure &Cure::operator=(Cure const & rhs)
@@ -29,13 +29,13 @@ Cure &Cure::operator=(Cure const & rhs)
 	if (this != &rhs)
 //		this->_type = rhs._type;
 	 	this->AMateria::operator=(rhs);
- 	std::cout << "Assignment operator Cure called" << std::endl;
+ //	std::cout << "Assignment operator Cure called" << std::endl;
 	return (*this);
 }
 
 Cure::~Cure(void)
 {
-	std::cout << "Destructor Cure called" << std::endl;
+//	std::cout << "Destructor Cure called" << std::endl;
 }
 
 AMateria *Cure::clone(void) const
@@ -46,7 +46,6 @@ AMateria *Cure::clone(void) const
 	return (clone);
 }
 
-//void Cure::use(std::string target)
 void Cure::use(ICharacter& target)
 {
 	if (!this->_type.compare("cure"))

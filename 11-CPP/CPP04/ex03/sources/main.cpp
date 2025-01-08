@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:06:11 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/07 17:29:56 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/08 19:59:36 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,42 @@
 
 int main()
 {
-	IMateriaSource* src = new MateriaSource();
-	src->learnMateria(new Ice());
-	src->learnMateria(new Cure());
+//	AMateria materiatest2("ice"); // not possible because AMateria is an abstract class and we can't instanciate an object
+	Ice icetest;
+	Cure curetest;
+	Character test("test");
+
+	ICharacter *me = new Character("me_name");
+	ICharacter *you = new Character("you_name");
+
+	AMateria *icetest2 = NULL;
+	icetest2 = icetest.clone();
+	AMateria *curetest2 = NULL;
+	curetest2 = curetest.clone();
+
+	me->equip(icetest2->clone());
+	me->equip(curetest2->clone());
+	me->equip(icetest2->clone());
+	me->use(1, test);
+	me->use(1, *you);
+	me->unequip(1);
+	me->use(1, test);
 	
-	ICharacter* me = new Character("me");
-	AMateria* tmp;
+	IMateriaSource *materiaSource1 = new MateriaSource();
+	materiaSource1->learnMateria(icetest2);
+	materiaSource1->learnMateria(curetest2);
+	me->equip(materiaSource1->createMateria("cure"));
+	me->equip(materiaSource1->createMateria("ice"));
+	me->use(1, test);
+	me->unequip(1);
+	me->unequip(0);
+	me->equip(materiaSource1->createMateria("cure"));
+	me->equip(materiaSource1->createMateria("ice"));
+	me->unequip(1);
+	me->unequip(0);
 	
-	tmp = src->createMateria("ice");
-	me->equip(tmp);
-	tmp = src->createMateria("cure");
-	me->equip(tmp);
-	
-	ICharacter* bob = new Character("bob");
-	
-	me->use(0, *bob);
-	me->use(1, *bob);
-	
-	delete bob;
 	delete me;
-	delete src;
+	delete you;
+	delete materiaSource1;
 }
+

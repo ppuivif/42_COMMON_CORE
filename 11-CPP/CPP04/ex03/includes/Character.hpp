@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 15:59:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/06 18:02:50 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/08 19:54:40 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <string>
 #include "AMateria.hpp"
 #include "ICharacter.hpp"
+
+#define TRASH_SIZE 100
 
 class Character : public ICharacter
 {
@@ -33,8 +35,13 @@ class Character : public ICharacter
 		void use(int idx, ICharacter & target);
 		
 	private:
+		int unequipedMateriaStoring(AMateria *m);
+
 		std::string _name;
 		AMateria	*_inventory[4];
+		int			_indexInTrash;
+		AMateria	*_materiaListForTrash[TRASH_SIZE];
+		
 };
 
 #endif
