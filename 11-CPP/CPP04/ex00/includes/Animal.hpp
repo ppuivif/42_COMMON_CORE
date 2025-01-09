@@ -6,35 +6,27 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:04:28 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 17:40:34 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 08:57:01 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <iostream>
-#include <string>
 
 #ifndef ANIMAL_HPP
 # define ANIMAL_HPP
 
-#ifndef GREEN
+#include <iostream>
+#include <string>
+
 # define GREEN "\033[32m"
-# endif
-#ifndef RED
 # define RED "\033[31m"
-# endif
-#ifndef BOLD
 # define BOLD "\033[1m"
-# endif
-#ifndef NORMAL
 # define NORMAL "\033[0m"
-# endif
 
 class Animal
 {
 	public:
 		Animal(void);
-		Animal(const Animal &rhs);
-		Animal &operator=(const Animal &rhs);
+		Animal(Animal const &rhs);
+		Animal &operator=(Animal const &rhs);
 		virtual ~Animal(void);
 
 		Animal(std::string _type);

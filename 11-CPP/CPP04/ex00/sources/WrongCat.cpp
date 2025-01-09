@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:50:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 10:38:05 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 11:11:08 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ WrongCat::WrongCat(void) : WrongAnimal()
 	std::cout << "Default constructor WrongCat called" << std::endl;
 }
 
-WrongCat::WrongCat(const WrongCat &rhs)
+WrongCat::WrongCat(WrongCat const &rhs) : WrongAnimal()
 {
 	*this = rhs;
 	std::cout << "Copy constructor WrongCat called" << std::endl;
 }
 
-WrongCat &WrongCat::operator=(const WrongCat &rhs)
+WrongCat &WrongCat::operator=(WrongCat const &rhs)
 {
 	if (this != &rhs)
 		this->_type = rhs.getType();

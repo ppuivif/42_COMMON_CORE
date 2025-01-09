@@ -6,23 +6,23 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:51:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 10:37:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 08:32:11 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef WRONGCAT_HPP
+# define WRONGCAT_HPP
 
 #include <iostream>
 #include <string>
 #include "WrongAnimal.hpp"
 
-#ifndef WRONGCAT_HPP
-# define WRONGCAT_HPP
-
 class WrongCat : public WrongAnimal
 {
 	public:
 		WrongCat(void);
-		WrongCat(const WrongCat &rhs);
-		WrongCat &operator=(const WrongCat &rhs);
+		WrongCat(WrongCat const &rhs);
+		WrongCat &operator=(WrongCat const &rhs);
 		~WrongCat(void);
 
 		void makeSound(void) const;

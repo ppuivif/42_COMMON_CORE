@@ -6,22 +6,22 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:04:28 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 10:37:19 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 08:32:03 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
-
 #ifndef WRONGANIMAL_HPP
 # define WRONGANIMAL_HPP
+
+#include <iostream>
+#include <string>
 
 class WrongAnimal
 {
 	public:
 		WrongAnimal(void);
-		WrongAnimal(const WrongAnimal &rhs);
-		WrongAnimal &operator=(const WrongAnimal &rhs);
+		WrongAnimal(WrongAnimal const &rhs);
+		WrongAnimal &operator=(WrongAnimal const &rhs);
 		~WrongAnimal(void);
 
 		std::string getType(void) const;

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:50:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 17:44:18 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 15:06:25 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ Cat::Cat(void) : Animal()
 	std::cout << "Default constructor Cat called" << std::endl;
 }
 
-Cat::Cat(const Cat &rhs)
+Cat::Cat(Cat const &rhs) : Animal()
 {
 	*this = rhs;
 	std::cout << "Copy constructor Cat called" << std::endl;
 }
 
-Cat &Cat::operator=(const Cat &rhs)
+Cat &Cat::operator=(Cat const &rhs)
 {
 	if (this != &rhs)
 		this->_type = rhs.getType();

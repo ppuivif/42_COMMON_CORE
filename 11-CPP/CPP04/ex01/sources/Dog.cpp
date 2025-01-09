@@ -6,26 +6,26 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:41:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 17:23:50 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 09:17:51 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Dog.hpp"
 
-Dog::Dog(void) : Animal(), Brain()
+Dog::Dog(void) : Animal()
 {
 	this->_type = "default dog";
 	this->_brain = new Brain();
 	std::cout << "Default constructor Dog called" << std::endl;
 }
 
-Dog::Dog(const Dog &rhs)
+Dog::Dog(Dog const &rhs)
 {
 	*this = rhs;
 	std::cout << "Copy constructor Dog called" << std::endl;
 }
 
-Dog &Dog::operator=(const Dog &rhs)
+Dog &Dog::operator=(Dog const &rhs)
 {
 	if (this != &rhs)
 	{

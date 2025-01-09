@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:12:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 10:37:55 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 08:30:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ WrongAnimal::WrongAnimal(void)
 	std::cout << "Default constructor WrongAnimal called" << std::endl;
 }
 
-WrongAnimal::WrongAnimal(const WrongAnimal &rhs)
+WrongAnimal::WrongAnimal(WrongAnimal const &rhs)
 {
 	*this = rhs;
 	std::cout << "Copy constructor WrongAnimal called" << std::endl;
 }
 
-WrongAnimal &WrongAnimal::operator=(const WrongAnimal &rhs)
+WrongAnimal &WrongAnimal::operator=(WrongAnimal const &rhs)
 {
 	if (this != &rhs)
 		this->_type = rhs.getType();

@@ -6,36 +6,28 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:04:28 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 17:22:46 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 08:57:11 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef ANIMAL_HPP
+# define ANIMAL_HPP
 
 #include <iostream>
 #include <string>
 #include <sstream> //for ostringstream
 
-#ifndef ANIMAL_HPP
-# define ANIMAL_HPP
-
-#ifndef GREEN
 # define GREEN "\033[32m"
-# endif
-#ifndef RED
 # define RED "\033[31m"
-# endif
-#ifndef BOLD
 # define BOLD "\033[1m"
-# endif
-#ifndef NORMAL
 # define NORMAL "\033[0m"
-# endif
 
 class Animal
 {
 	public:
 		Animal(void);
-		Animal(const Animal &rhs);
-		Animal &operator=(const Animal &rhs);
+		Animal(Animal const &rhs);
+		Animal &operator=(Animal const &rhs);
 		virtual ~Animal(void);
 
 		Animal(std::string type);
@@ -44,7 +36,7 @@ class Animal
 		virtual void makeSound(void) const;
 
 	protected:
-		std::string _type;
+		std::string	_type;
 };
 
 std::string	toString(int nb);

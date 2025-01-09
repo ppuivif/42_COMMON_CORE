@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:50:35 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 17:13:25 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 08:54:15 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ Brain::Brain(void)
 	std::cout << "Default constructor Brain called" << std::endl;
 }
 
-Brain::Brain(const Brain &rhs)
+Brain::Brain(Brain const &rhs)
 {
 	*this = rhs;
 	std::cout << "Copy constructor Brain called" << std::endl;
 }
 
-Brain	&Brain::operator=(const Brain &rhs)
+Brain	&Brain::operator=(Brain const &rhs)
 {
 	if (this != &rhs)
 	{

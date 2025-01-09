@@ -6,24 +6,24 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:51:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 15:10:12 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/09 08:57:19 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef CAT_HPP
+# define CAT_HPP
 
 #include <iostream>
 #include <string>
 #include "Animal.hpp"
 #include "Brain.hpp"
 
-#ifndef CAT_HPP
-# define CAT_HPP
-
 class Cat : public Animal, public Brain
 {
 	public:
 		Cat(void);
-		Cat(const Cat &rhs);
-		Cat &operator=(const Cat &rhs);
+		Cat(Cat const &rhs);
+		Cat &operator=(Cat const &rhs);
 		~Cat(void);
 
 		Cat(std::string type);
