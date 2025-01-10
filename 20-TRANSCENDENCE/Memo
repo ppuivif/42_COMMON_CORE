@@ -8,7 +8,7 @@ jeu dans le front
 (interface user, requêtes HTTP pour enregistrement des données stockées
 en base de données dont systeme d'authenfication si log)
 
-voir fonctionnement du systeme de routeur pour SPA (single paghe application) : 
+voir fonctionnement du systeme de routeur pour SPA (single page application) : 
 partie front
 
 API pour dissocier back et front
@@ -30,11 +30,16 @@ Overview
 ◦ Major module: Store the score of a tournament in the Blockchain.	non-non
 
 • User Management
-◦ Major module: Standard user management, authentication, users across	non ?
+◦ Major module: Standard user management, authentication, users across	oui
 tournaments.
-◦ Major module: Implementing a remote authentication.			non
+◦ Major module: Implementing a remote authentication.			oui (bonus éventuel)
 Gameplay and user experience (voir 2 personnes)
-◦ Major module: Remote players						non
+
+validé ici par Henri
+
+
+
+◦ Major module: Remote players						non                                                                                                      
 ◦ Major module: Multiplayers (more than 2 in the same game).		non
 ◦ Major module: Add Another Game with User History and Matchmaking.	oui/non (equipe 1 - jeu)
 ◦ Minor module: Game Customization Options.				oui/non (equipe 1 - jeu)

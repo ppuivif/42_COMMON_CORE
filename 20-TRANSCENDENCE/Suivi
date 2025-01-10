@@ -1,0 +1,72 @@
+10/01/2025
+
+Front : affichage et interface avec l'utilisateur
+API : interface entre front et back. Elle fait partie du back.
+Les requêtes pénètrent dans l'API via des endpoints.
+L'API analyse les requêtes venant du Front et les laissent poursuivre ou non dans le back.
+Dans le back, il y a un serveur qui stocke les informations (hard ou software).
+Le back intègre également la database qui contient les données.
+L'utilisation d'un framework permet la création du back en plusieurs étapes, de façon
+indissociable.
+
+A vérifier, il semblerait que la database soit stockée physiquement sur le disque dur où elle
+a été créée.
+Pour la récupérer, il faut l'exporter.
+
+Grâce à Docker, on peut créer un container qui va contenir la base de données (sous forme de
+fichiers ?). Ce container peut être déplacé. Lorsque un container est créé, si il a été conçu
+pour recevoir une base de données, il ne peut pas contenir autre chose qu'une base de données.
+Voir projet INCEPTION.
+
+A ce jour :
+Teddy a commencé a créer le back (setup le back ie le paramétrage des fonctionnalités du back).
+Teddy a fait un recap des commandes à exécuter pour le setup.
+La base de données est créée, mais vide DATABASE PostgreSQL (requis par le sujet en page 11).
+Pour definir les informations a intégrer, Teddy a besoin de connaître ce dont le front a besoin.
+Le sujet définit néanmoins quelques informations à minima.
+
+Concernant la sécurité, des informations (identifiant et mdp) devront permettre
+l'authentification.
+Teddy a commencé à mettre en place l'authentification.
+Poursuivre avec l'authentification à 2 facteurs.
+NB : au niveau du FRONT, vérifier la possibilité de créer un formulaire d'authentification avec
+BOOTSTRAP*.
+
+Voir outil de test POSTMAN en l'absence de FRONT (sécu et DB).
+
+
+* précision sur le FRONT :
+Utiliser l'outil BOOTSTRAP (Bootstrap toolkit authorisé par le sujet an page 11) pour inclure
+des boutons, des fonctionnalités.
+Pour cela, inclure la librairie et copier le code correspondant aux fonctionnalités souhaitées.
+
+Concernant le FRONT, il faut prendre en compte le design et la difficulté principale qui
+serait la liaison entre le front et le back.
+
+Vérifier la notion de one single page dans le sujet. 
+
+
+Plannification à court terme :
+- du 13/01 au 19/01 : PA et Galaad fin des CPP00 à CPP04. Teddy poursuit sur le back.
+- du 20/01 au 26/01 : Galaad et Teddy fin de IRC. PA sur cercle CPP05 à CPP09.
+- du 27/01 au 02/02 : Galaad et PA sur cercle CPP05 à CPP09. Débroussaillage des modules
+TRANSCENDENCE pour identifier quels modules à retenir et temps à y consacrer (voir ce qu'il
+est possible de faire et en combien de temps).
+- du 03/02 au 14/02 : Teddy poursuit sur le back et sur les modules complémentaires. Teddy
+présente sa partie avant son départ.
+- du 15/02 au 16/03 : Teddy absent.
+- du 03/02 au 16/03 : Galaad et PA avancent sur cercle CCP05 à CPP09, Inception, IRC pour PA.
+Poursuivent sur débroussaillage, tuto, prise en main des technos.
+- 17/03 : retour de Teddy. Point sur l'avancement. Démarrage du projet.
+
+Objectif : 1 mois 1/2 pour finir le projet soit fin avril.
+Intégrer les modules nécessaires pour atteindre le max des bonus.
+L'objectif technique est de remettre un projet fonctionnel, sans s'attarder sur le design,
+notamment sur le front.
+
+On compte sur toi, Henri.
+
+-----------------------------------------------------------------------------------------------
+
+
+
