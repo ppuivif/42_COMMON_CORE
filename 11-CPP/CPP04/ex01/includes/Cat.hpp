@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:51:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 08:57:19 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/10 19:15:13 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ class Cat : public Animal, public Brain
 
 		Cat(std::string type);
 		void makeSound(void) const;
+		Brain * getBrain(void) const;
+		void setBrain(Brain const brain);
 	
 	private:
 		Brain *_brain;

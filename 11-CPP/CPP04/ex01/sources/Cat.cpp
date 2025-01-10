@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:50:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 19:03:33 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/10 19:31:48 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ Cat::Cat(void) : Animal()
 	}
 	catch (std::bad_alloc & e)
 	{
-    	std::cout << "Error: " << e.what() << std::endl;
+		std::cout << RED << BOLD << "In default constructor Cat, memory allocation failed : " << e.what() << NORMAL << std::endl;
+		throw;
 	}
 	this->_type = "default cat";
 	std::cout << "Default constructor Cat called" << std::endl;
@@ -32,9 +33,29 @@ Cat::Cat(Cat const &rhs)
 {
 	this->_type = rhs.getType();
 	if (rhs._brain)
-		this->_brain = new Brain(*rhs._brain);
+	{
+		try
+		{
+			this->_brain = new Brain(*rhs._brain);
+		}
+		catch (const std::bad_alloc & e)
+		{
+			std::cout << RED << BOLD << "In copy constructor Cat, memory allocation failed : " << e.what() << NORMAL << std::endl;
+			throw;
+		}
+	}
 	else
-		this->_brain = new Brain();
+	{
+		try
+		{
+			this->_brain = new Brain();
+		}
+		catch (const std::bad_alloc & e)
+		{
+			std::cout << RED << BOLD << "In copy constructor Cat, memory allocation failed : " << e.what() << NORMAL << std::endl;
+			throw;
+		}
+	}
 	std::cout << "Copy constructor Cat called" << std::endl;
 }
 
@@ -49,9 +70,29 @@ Cat &Cat::operator=(Cat const &rhs)
 			this->_brain = NULL;
 		}
 		if (rhs._brain)
-			this->_brain = new Brain(*rhs._brain);
+		{
+			try
+			{
+				this->_brain = new Brain(*rhs._brain);
+			}
+			catch (const std::bad_alloc & e)
+			{
+				std::cout << RED << BOLD << "In assignment operator Cat, memory allocation failed : " << e.what() << NORMAL << std::endl;
+				throw;
+			}
+		}
 		else
-			this->_brain = new Brain();
+		{
+			try
+			{
+				this->_brain = new Brain();
+			}
+			catch (const std::bad_alloc & e)
+			{
+				std::cout << RED << BOLD << "In assignment operator Cat, memory allocation failed : " << e.what() << NORMAL << std::endl;
+				throw;
+			}
+		}
 	}
 	std::cout << "Assignment operator Cat called" << std::endl;
 	return (*this);
@@ -84,3 +125,12 @@ void Cat::makeSound(void) const
 	std::cout << this->getType() << " is meowing" << std::endl;
 }
 
+Brain * Cat::getBrain(void) const
+{
+	return (this->_brain);
+}
+
+void Cat::setBrain(Brain const brain)
+{
+	*this->_brain = brain;
+}

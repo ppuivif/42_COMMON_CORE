@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:32:37 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 08:57:22 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/10 19:16:52 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ class Dog : public Animal, public Brain
 
 		Dog(std::string type);
 		void makeSound() const;
+		Brain * getBrain(void) const;
+		void setBrain(Brain const brain);
 	
 	private:
 		Brain *_brain;

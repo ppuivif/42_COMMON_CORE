@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:35:46 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 08:57:16 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/10 19:06:00 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ class Brain
 		Brain &operator=(Brain const &rhs);
 		~Brain(void);
 
-		const std::string *getIdeas(void) const;
+		std::string getIdea(int index) const;
+		void setIdea(std::string const idea);
 
-	protected:
+	private:
 		std::string	_ideas[100];
 };
 
