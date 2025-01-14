@@ -1,3 +1,0 @@
-echo $ permet de verifier la valeur de retour soit :
-	0 si success
-	1 si failure

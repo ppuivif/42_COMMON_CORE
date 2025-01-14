@@ -1,3 +1,0 @@
-renommer un executable a.out en test : gcc -Wall -Wextra -Werror -g -o test
-
-

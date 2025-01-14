@@ -1,5 +1,0 @@
-Accéder à la page de 2 du man pour la fonction read :
-➜  rev06 git:(main) ✗ man 2 read
-
-Pour une recherche d'un terme dans le man :
-➜  rev06 git:(main) ✗ man -k limits
