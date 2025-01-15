@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:50:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/10 19:31:48 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/15 17:46:55 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ Cat::Cat(std::string type) : Animal(type)
 {
 	try
 	{
-		this->_brain = new Brain();
+		Brain *tmp = new Brain();
+		this->_brain = tmp;
+		//this->_brain = new Brain();
 		//throw std::bad_alloc(); //to simulate allocation error
 	}
 	catch (const std::bad_alloc & e)
