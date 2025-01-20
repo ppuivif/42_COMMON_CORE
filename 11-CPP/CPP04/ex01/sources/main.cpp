@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:34:02 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/10 19:37:56 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:06:02 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,20 @@ int main(void)
 {
 	int	nb_animal = 10;
 	
-	if (nb_animal % 2)
+/*	if (nb_animal % 2)
+	{
+		std::cout << "nb_animal must be an even number" << std:: endl;
 		return (1);
+	}*/
 	
-	Animal	**meta = new (std::nothrow) Animal*[nb_animal];  // Allocate space for nb_animal Animal* pointers
+/*	Animal	**meta = new (std::nothrow) Animal*[nb_animal];  // Allocate space for nb_animal Animal* pointers
 	if (!meta)
 	{
 		std::cout << RED << BOLD << "In main, memory allocation failed" << NORMAL << std::endl;
 		return (1);
-	}
+	}*/
+
+	Animal *meta[nb_animal];
 
 	for (int h = 0; h < nb_animal ; h++)
 	{
@@ -43,7 +48,7 @@ int main(void)
 				std::cout << RED << BOLD << "In main, memory allocation failed : " << e.what() << NORMAL << std::endl;
 				for (int i = 0 ; i < h ; i++)
 					delete meta[i];
-				delete [] meta;
+//				delete [] meta;
 				return (1);
 			}	
 		}
@@ -59,7 +64,7 @@ int main(void)
 				std::cout << RED << BOLD << "In main, memory allocation failed : " << e.what() << NORMAL << std::endl;
 				for (int i = 0 ; i < h ; i++)
 					delete meta[i];
-				delete [] meta;
+//				delete [] meta;
 				return (1);
 			}	
 		}
@@ -96,6 +101,6 @@ int main(void)
 	std::cout << GREEN << BOLD << cat1.getType() << " " << cat1.getBrain()->getIdea(0) << NORMAL << std::endl;
 	std::cout << GREEN << BOLD << dog1.getType() << " " << dog1.getBrain()->getIdea(2) << NORMAL << std::endl;
 
-	delete [] meta;
+//	delete [] meta;
 	return (0);
 }

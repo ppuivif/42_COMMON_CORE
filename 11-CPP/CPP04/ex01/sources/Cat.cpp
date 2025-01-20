@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:50:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/15 17:46:55 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:03:51 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ Cat::Cat(Cat const &rhs)
 //	_brain (rhs._brain ? new Brain(*rhs._brain) : NULL)
 {
 	this->_type = rhs.getType();
+	if (this->_brain)
+	{
+		delete this->_brain;
+		this->_brain = NULL;
+	}
 	if (rhs._brain)
 	{
 		try
@@ -105,13 +110,11 @@ Cat::~Cat(void)
 	std::cout << "Destructor Cat called" << std::endl;
 }
 
-Cat::Cat(std::string type) : Animal(type)
+Cat::Cat(std::string const & type) : Animal(type)
 {
 	try
 	{
-		Brain *tmp = new Brain();
-		this->_brain = tmp;
-		//this->_brain = new Brain();
+		this->_brain = new Brain();
 		//throw std::bad_alloc(); //to simulate allocation error
 	}
 	catch (const std::bad_alloc & e)
@@ -132,7 +135,7 @@ Brain * Cat::getBrain(void) const
 	return (this->_brain);
 }
 
-void Cat::setBrain(Brain const brain)
+void Cat::setBrain(Brain & brain)
 {
 	*this->_brain = brain;
 }

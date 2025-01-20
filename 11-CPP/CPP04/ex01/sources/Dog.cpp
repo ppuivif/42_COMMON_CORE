@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:41:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/10 19:15:41 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:05:29 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ Dog::Dog(void) : Animal()
 Dog::Dog(Dog const &rhs) : Animal()
 {
 	this->_type = rhs.getType();
+	if (this->_brain)
+	{
+		delete this->_brain;
+		this->_brain = NULL;
+	}
 	if (rhs._brain)
 	{
 		try
