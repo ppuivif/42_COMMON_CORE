@@ -6,28 +6,30 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:32:37 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/13 18:01:10 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 16:48:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef DOG_HPP
+# define DOG_HPP
 
 #include <iostream>
 #include <string>
 #include "Animal.hpp"
 #include "Brain.hpp"
 
-#ifndef DOG_HPP
-# define DOG_HPP
-
-class	Dog : public AAnimal, public Brain
+class Dog : public AAnimal
 {
 	public:
 		Dog(void);
-		Dog(const Dog &rhs);
-		Dog &operator=(const Dog &rhs);
+		Dog(Dog const &rhs);
+		Dog &operator=(Dog const & rhs);
 		~Dog(void);
 
-		Dog(std::string type);
+		Dog(std::string const & type);
 		void makeSound() const;
+		Brain * getBrain(void) const;
+		void setBrain(Brain const & brain);
 	
 	private:
 		Brain *_brain;

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:50:05 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/06 17:39:53 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:24:03 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ class AMateria
 		AMateria(std::string const & type);
 
 		std::string const & getType() const; //returns the materia type
-		virtual AMateria *clone() const = 0; //clone an instance and create an instance of same type
+		virtual AMateria * clone() const = 0; //clone an instance and create an instance of same type
 		virtual void use(ICharacter & target); //display a message
 //		virtual void use(std::string target); //to delete
 

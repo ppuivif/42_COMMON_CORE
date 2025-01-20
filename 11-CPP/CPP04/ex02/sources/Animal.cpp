@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:12:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2024/12/20 18:02:49 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:03:27 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ AAnimal::AAnimal(void)
 	std::cout << "Default constructor AAnimal called" << std::endl;
 }
 
-AAnimal::AAnimal(const AAnimal &rhs)
+AAnimal::AAnimal(AAnimal const & rhs)
 {
 	*this = rhs;
 	std::cout << "Copy constructor AAnimal called" << std::endl;
 }
 
-AAnimal &AAnimal::operator=(const AAnimal &rhs)
+AAnimal & AAnimal::operator=(AAnimal const & rhs)
 {
 	if (this != &rhs)
 		this->_type = rhs.getType();
-	std::cout << "Assignment operator AAnimal called" << std::endl;
+	std::cout << "Assignment operator Animal called" << std::endl;
 	return (*this);
 }
 
@@ -37,15 +37,10 @@ AAnimal::~AAnimal(void)
 	std::cout << "Destructor AAnimal called" << std::endl;
 }
 
-AAnimal::AAnimal(std::string type) : _type(type)
+AAnimal::AAnimal(std::string const & type) : _type(type)
 {
 	std::cout << "Simple constructor AAnimal called" << std::endl;
 }
-
-/*void AAnimal::makeSound(void) const
-{
-	std::cout << this->getType() << " is speaking out" << std::endl;
-}*/
 
 std::string AAnimal::getType(void) const
 {

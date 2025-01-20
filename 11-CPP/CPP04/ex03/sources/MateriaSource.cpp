@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 13:40:03 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/08 19:53:51 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:26:58 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ MateriaSource::~MateriaSource(void)
 //	std::cout << "Destructor MateriaSource called" << std::endl;
 }
 
-void MateriaSource::learnMateria(AMateria *m)
+void MateriaSource::learnMateria(AMateria * m)
 {
 	int i = 0;
 

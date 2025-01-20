@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:41:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/20 11:05:29 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 15:59:37 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ Dog::Dog(Dog const &rhs) : Animal()
 
 Dog &Dog::operator=(Dog const &rhs)
 {
+	if (this->_brain)
+	{
+		delete this->_brain;
+		this->_brain = NULL;
+	}
 	if (this != &rhs)
 	{
 		this->_type = rhs.getType();
-		if (this->_brain)
-		{
-			delete this->_brain;
-			this->_brain = NULL;
-		}
 		if (rhs._brain)
 		{
 			try
@@ -84,17 +84,17 @@ Dog &Dog::operator=(Dog const &rhs)
 				throw;
 			}
 		}
-		else
+	}
+	else
+	{
+		try
 		{
-			try
-			{
-				this->_brain = new Brain();
-			}
-			catch (const std::bad_alloc & e)
-			{
-				std::cout << RED << BOLD << "In assignment operator Dog, memory allocation failed : " << e.what() << NORMAL << std::endl;
-				throw;
-			}
+			this->_brain = new Brain();
+		}
+		catch (const std::bad_alloc & e)
+		{
+			std::cout << RED << BOLD << "In copy constructor Dog, memory allocation failed : " << e.what() << NORMAL << std::endl;
+			throw;
 		}
 	}
 	std::cout << "Assignment operator Dog called" << std::endl;
@@ -108,7 +108,7 @@ Dog::~Dog(void)
 	std::cout << "Destructor Dog called" << std::endl;
 }
 
-Dog::Dog(std::string type) : Animal(type)
+Dog::Dog(std::string const & type) : Animal(type)
 {
 	try
 	{
@@ -132,7 +132,7 @@ Brain * Dog::getBrain(void) const
 	return (this->_brain);
 }
 
-void Dog::setBrain(Brain const brain)
+void Dog::setBrain(Brain const & brain)
 {
 	*this->_brain = brain;
 }

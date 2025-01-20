@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:41:53 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 11:10:49 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:35:31 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ Dog::Dog(void) : Animal()
 	std::cout << "Default constructor Dog called" << std::endl;
 }
 
-Dog::Dog(Dog const &rhs) : Animal()
+Dog::Dog(Dog const & rhs) : Animal()
 {
 	*this = rhs;
 	std::cout << "Copy constructor Dog called" << std::endl;
 }
 
-Dog &Dog::operator=(Dog const &rhs)
+Dog &Dog::operator=(Dog const & rhs)
 {
 	if (this != &rhs)
 		this->_type = rhs.getType();
@@ -37,7 +37,7 @@ Dog::~Dog(void)
 	std::cout << "Destructor Dog called" << std::endl;
 }
 
-Dog::Dog(std::string type) : Animal(type)
+Dog::Dog(std::string const & type) : Animal(type)
 {
 	std::cout << "Simple constructor Dog called" << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:34:02 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 09:03:24 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:45:38 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,23 @@ int main(void)
 	const WrongAnimal	*h = new WrongCat();
 	const WrongCat		*k = new WrongCat();
 
-	std::cout << meta->getType() << " " << std::endl;
+	std::cout << "-----------------------------------" << std::endl; 
+	std::cout << "meta type is : " << meta->getType() << " " << std::endl;
 	meta->makeSound();
-	std::cout << wrong->getType() << " " << std::endl;
+	std::cout << std::endl;
+	std::cout << "wrong type is : " << wrong->getType() << " " << std::endl;
 	wrong->makeSound();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	std::cout << h->getType() << " " << std::endl;
-	std::cout << k->getType() << " " << std::endl;
+	std::cout << std::endl;
+	std::cout << "i type is : " << i->getType() << " " << std::endl;
+	std::cout << "j type is : " << j->getType() << " " << std::endl;
+	std::cout << "h type is : " << h->getType() << " " << std::endl;
+	std::cout << "k type is : " << k->getType() << " " << std::endl;
+	std::cout << std::endl;
 	i->makeSound(); //output the cat sound
 	j->makeSound(); //output the dog sound
 	h->makeSound(); //output the wrongcat sound
 	k->makeSound(); //output the wrongcat sound
+	std::cout << "-----------------------------------" << std::endl; 
 
 	delete meta;
 	delete wrong;

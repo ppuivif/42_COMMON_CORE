@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 13:58:17 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/08 19:53:16 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 18:32:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Character::Character() : _name("default")
 Character::Character(Character const & rhs)
 {
 	*this = rhs;
-//	std::cout << "Copy constructor Character called" << std::endl;
+	std::cout << "Copy constructor Character called" << std::endl;
 }
 
 Character & Character::operator=(Character const & rhs)
@@ -42,7 +42,7 @@ Character & Character::operator=(Character const & rhs)
 				this->_inventory[i] = rhs._inventory[i]->clone();
 		}
 	}
-//	std::cout << "Assignment operator Character called" << std::endl;
+	std::cout << "Assignment operator Character called" << std::endl;
 	return (*this);
 }
 
@@ -74,7 +74,7 @@ std::string const & Character::getName() const
 	return (this->_name);
 }
 
-void Character::equip(AMateria *m)
+void Character::equip(AMateria * m)
 {
 	int		i = 0;
 	
@@ -133,7 +133,7 @@ void Character::unequip(int idx)
 	}
 }
 
-int Character::unequipedMateriaStoring(AMateria *m)
+int Character::unequipedMateriaStoring(AMateria * m)
 {
 	if (this->_indexInTrash >= TRASH_SIZE)
 	{

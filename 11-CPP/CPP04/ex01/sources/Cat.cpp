@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:50:56 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/20 11:03:51 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 16:01:16 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ Brain * Cat::getBrain(void) const
 	return (this->_brain);
 }
 
-void Cat::setBrain(Brain & brain)
+void Cat::setBrain(Brain const & brain)
 {
 	*this->_brain = brain;
 }

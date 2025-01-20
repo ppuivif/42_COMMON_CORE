@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:24:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/08 18:11:18 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:26:20 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Cure::Cure(void) : AMateria("cure")
 //	std::cout << "Default constructor Cure called" << std::endl;
 }
 
-Cure::Cure(Cure const &rhs) : AMateria(rhs)
+Cure::Cure(Cure const & rhs) : AMateria(rhs)
 {
 //	*this = rhs;
 //	std::cout << "Copy constructor Cure called" << std::endl;
@@ -46,7 +46,7 @@ AMateria *Cure::clone(void) const
 	return (clone);
 }
 
-void Cure::use(ICharacter& target)
+void Cure::use(ICharacter & target)
 {
 	if (!this->_type.compare("cure"))
 		std::cout << "* heals " << target.getName() << "'s wounds *" << std::endl;

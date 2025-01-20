@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:24:09 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/08 18:10:15 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:26:38 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ AMateria *Ice::clone(void) const
 	return (clone);
 }
 
-void Ice::use(ICharacter& target)
+void Ice::use(ICharacter & target)
 {
 	if (!this->_type.compare("ice"))
 		std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;

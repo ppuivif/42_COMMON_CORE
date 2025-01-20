@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:35:46 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/10 19:06:00 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:56:05 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Brain
 		~Brain(void);
 
 		std::string getIdea(int index) const;
-		void setIdea(std::string const idea);
+		void setIdea(std::string const & idea);
 
 	private:
 		std::string	_ideas[100];

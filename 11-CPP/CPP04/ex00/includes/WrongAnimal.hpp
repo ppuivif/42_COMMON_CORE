@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:04:28 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 08:32:03 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:34:54 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ class WrongAnimal
 {
 	public:
 		WrongAnimal(void);
-		WrongAnimal(WrongAnimal const &rhs);
-		WrongAnimal &operator=(WrongAnimal const &rhs);
+		WrongAnimal(WrongAnimal const & rhs);
+		WrongAnimal &operator=(WrongAnimal const & rhs);
 		~WrongAnimal(void);
 
 		std::string getType(void) const;

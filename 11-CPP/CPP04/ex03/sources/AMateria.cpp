@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 19:00:51 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/08 18:11:02 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:25:38 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ AMateria::AMateria()
 //	std::cout << "Default constructor AMateria called" << std::endl;
 }
 
-AMateria::AMateria(AMateria const &rhs)
+AMateria::AMateria(AMateria const & rhs)
 {
 	*this = rhs;
 //	std::cout << "Copy constructor AMateria called" << std::endl;

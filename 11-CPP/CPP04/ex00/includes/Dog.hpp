@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:32:37 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 08:56:54 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:51:45 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ class Dog : public Animal
 {
 	public:
 		Dog(void);
-		Dog(Dog const &rhs);
-		Dog &operator=(Dog const &rhs);
+		Dog(Dog const & rhs);
+		Dog & operator=(Dog const & rhs);
 		~Dog(void);
 
-		Dog(std::string _type);
+		Dog(std::string const & type);
 		void makeSound() const;
 };
 

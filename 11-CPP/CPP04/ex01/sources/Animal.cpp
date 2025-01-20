@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:12:41 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 08:53:54 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 14:49:09 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ Animal::Animal(void)
 	std::cout << "Default constructor Animal called" << std::endl;
 }
 
-Animal::Animal(Animal const &rhs)
+Animal::Animal(Animal const & rhs)
 {
 	*this = rhs;
 	std::cout << "Copy constructor Animal called" << std::endl;
 }
 
-Animal &Animal::operator=(Animal const &rhs)
+Animal & Animal::operator=(Animal const & rhs)
 {
 	if (this != &rhs)
 		this->_type = rhs.getType();
@@ -37,7 +37,7 @@ Animal::~Animal(void)
 	std::cout << "Destructor Animal called" << std::endl;
 }
 
-Animal::Animal(std::string type) : _type(type)
+Animal::Animal(std::string const & type) : _type(type)
 {
 	std::cout << "Simple constructor Animal called" << std::endl;
 }

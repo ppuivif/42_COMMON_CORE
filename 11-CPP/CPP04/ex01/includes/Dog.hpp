@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:32:37 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/10 19:16:52 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:57:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@
 #include "Animal.hpp"
 #include "Brain.hpp"
 
-class Dog : public Animal, public Brain
+class Dog : public Animal
 {
 	public:
 		Dog(void);
 		Dog(Dog const &rhs);
-		Dog &operator=(Dog const &rhs);
+		Dog &operator=(Dog const & rhs);
 		~Dog(void);
 
-		Dog(std::string type);
+		Dog(std::string const & type);
 		void makeSound() const;
 		Brain * getBrain(void) const;
-		void setBrain(Brain const brain);
+		void setBrain(Brain const & brain);
 	
 	private:
 		Brain *_brain;

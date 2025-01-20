@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:51:40 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/09 08:29:02 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 11:51:49 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ class Cat : public Animal
 {
 	public:
 		Cat(void);
-		Cat(Cat const &rhs);
-		Cat &operator=(Cat const &rhs);
+		Cat(Cat const & rhs);
+		Cat & operator=(Cat const & rhs);
 		~Cat(void);
 
-		Cat(std::string _type);
+		Cat(std::string const & type);
 		void makeSound(void) const;
 };
 

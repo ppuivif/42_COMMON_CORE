@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:06:11 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/08 19:59:36 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/20 18:43:04 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ int main()
 
 	ICharacter *me = new Character("me_name");
 	ICharacter *you = new Character("you_name");
+//	*you = *me;
 
 	AMateria *icetest2 = NULL;
 	icetest2 = icetest.clone();
 	AMateria *curetest2 = NULL;
 	curetest2 = curetest.clone();
-
+	
 	me->equip(icetest2->clone());
 	me->equip(curetest2->clone());
 	me->equip(icetest2->clone());
