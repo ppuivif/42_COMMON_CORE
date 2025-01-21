@@ -13,7 +13,7 @@ Features of an abstract class :
   Thus, these purely virtual functions must be overridden in derived (concrete) classes.
   - Such a class can have member variables.
 
-&nbsp;&nbsp;To declare an abstract class, it could be named starting with the character 'A' :
+&nbsp;To declare an abstract class, it could be named starting with the character 'A' :
 ```C++
 class AMateria
 {
