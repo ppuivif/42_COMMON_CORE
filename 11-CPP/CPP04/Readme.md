@@ -10,10 +10,10 @@ Features of an abstract class :
 ```C++
 	virtual AMateria * clone() const = 0; //it is terminated with "= 0"
 ```
-  Thus, these purely virtual functions must be overridden in derived (concrete) classes.
+&nbsp;&nbsp;Thus, these purely virtual functions must be overridden in derived (concrete) classes.
   - Such a class can have member variables.
 
-&nbsp;To declare an abstract class, it could be named starting with the character 'A' :
+To declare an abstract class, it could be named starting with the character 'A' :
 ```C++
 class AMateria
 {
