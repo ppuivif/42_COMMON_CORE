@@ -11,19 +11,14 @@ Features of an interface :
 
 To declare the class :
 ```C++
-class IMateria
+class IMateriaSource
 {
   public:
-	  IMateria(void);
-		IMateria(const IMateria & rhs);
-		IMateria & operator=(const IMateria & rhs);
-		virtual ~IMateria(void);
+	virtual ~IMateriaSource(void) {}
 
-		IMateria(const std::string & type);
-		const std::string & getType() const; //returns the materia type
-		virtual IMateria *clone() const = 0; //clone an instance and create an instance of same type
-		virtual void use(ICharacter & target) = 0; //display a message
-}
+	virtual void learnMateria(AMateria *) = 0;
+	virtual AMateria *createMateria(std::string const & type) = 0;
+};
 ```
 
 To understand the subject :<br>
