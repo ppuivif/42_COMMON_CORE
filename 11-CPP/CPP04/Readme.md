@@ -4,11 +4,11 @@
 This is a light description of the project CPP04 ex03 called AMateria
 
 Features of an abstract class :
-  - A class is abstract when at least one member functions is purely virtual.
-  A purely virtual function can't be implemented and the class couln't be instancied.
+  - A class is abstract when at least one member functions is purely virtual.</br>
+  A purely virtual function can't be implemented and the class couln't be instancied.</br>
   It is declared as follow :
 ```C++
-	virtual AMateria * clone() const = 0;
+	virtual AMateria * clone() const = 0; //it is terminated with "= 0"
 ```
   Thus, these purely virtual functions must be overridden in derived (concrete) classes.
   - Such a class can have member variables.
