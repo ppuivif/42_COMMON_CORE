@@ -23,9 +23,6 @@ class AMateria
 		AMateria & operator=(AMateria const & rhs);
 		virtual ~AMateria(void);
 
-		AMateria(std::string const & type); //constructor using a string to define the type of the created instance 
-
-		std::string const & getType() const; //get the type of materia object
 		virtual AMateria * clone() const = 0; //clone an instance and create an instance of same type
 		virtual void use(ICharacter & target); //display a message
 
