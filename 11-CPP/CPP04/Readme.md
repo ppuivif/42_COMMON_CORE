@@ -18,7 +18,7 @@ To carry out the project, we have to declare an interface ICharacter which defin
 - use a materias.
 To implementate the interface, we have to declare and define a concrete class Character.
 
-We have to declare and define an abstract class AMateria which :
+Then we have to declare and define an abstract class AMateria which :
 - get the type of the materia (2 types are allowed : ice and cure),
 - clone a materia,
 - define the message that will be displayed when using a materia.
