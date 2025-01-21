@@ -3,6 +3,28 @@
 ## Purpose of the project
 This is a light description of the project CPP04 ex03 called AMateria
 
+To understand the subject :<br>
+A materia could be compared to a container in which we would have a special power (throw a fireball, throw an ice ball, cure, ...).<br>
+Now imagine a belt on which we could hang up a single or several materia (containing a special power or not).<br>
+We could take an available materia (leaving on the floor) and equip it on the belt.<br>
+If there are 4 locations on the belt, we could equip it with 4 materias maximum.<br>
+If there are only one available location, only one materia could be taken and equiped.<br>
+If there is any available location left, a materia should be unequiped to equip a new one.<br>
+When a materia is unequiped, the subject only indicate that the unequip function musn't delete the materia.
+
+To carry out the project, we have to declare an interface ICharacter which define the behaviour of the characters :
+- equip a materia,
+- unequip a materia,
+- use a materias.
+To implementate the interface, we have to declare and define a concrete class Character.
+
+We have to declare and define an abstract class AMateria which :
+- get the type of the materia (2 types are allowed : ice and cure),
+- clone a materia,
+- define the message that will be displayed when using a materia.
+
+
+
 ## Features of an abstract class :
   - A class is abstract when at least one member functions is purely virtual.</br>
   A purely virtual function can't be implemented and the class couln't be instancied.</br>
@@ -50,11 +72,5 @@ class IMateriaSource
 };
 ```
 
-To understand the subject :<br>
-A materia could be compared to a container in which we would have a special power (throw a fireball, throw an ice ball, cure, ...).<br>
-Now imagine a belt on which we could hang up a single or several materia (containing a special power or not).<br>
-We could take an available materia (leaving on the floor) and equip it on the belt.<br>
-If there are 4 locations on the belt, we could equip it with 4 materia maximum.<br>
-If there are only one available location, only one materia could be taken and equiped.<br>
-If there is any available location left, a materia should be unequiped to equip a new one.<br>
+
 
