@@ -15,7 +15,7 @@ class IMateria
 {
   public:
 	  IMateria(void);
-		IMateria(const IMateria &rhs);
+		IMateria(const IMateria & rhs);
 		IMateria & operator=(const IMateria & rhs);
 		virtual ~IMateria(void);
 
