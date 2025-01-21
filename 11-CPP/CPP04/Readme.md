@@ -3,7 +3,7 @@
 ## Purpose of the project
 This is a light description of the project CPP04 ex03 called AMateria
 
-### Features of an abstract class :
+## Features of an abstract class :
   - A class is abstract when at least one member functions is purely virtual.</br>
   A purely virtual function can't be implemented and the class couln't be instancied.</br>
   It is declared as follow :
@@ -32,7 +32,7 @@ class AMateria
 ```
 
 
-### Features of an interface :
+## Features of an interface :
   - An interface is a class in which all member functions are purely virtual.
   Thus, these functions must be overridden in derived (concrete) classes.
 
