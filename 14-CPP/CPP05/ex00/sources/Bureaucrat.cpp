@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:37:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/25 15:12:06 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:43:19 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	Bureaucrat::increase_grade(void)
 	}
 	else
 	{
-		std::cout << RED << BOLD << "error increase_grade" << NORMAL << std::endl;
+		throw Bureaucrat::GradeTooHighException();
 	}
 }
 
@@ -86,12 +86,12 @@ void	Bureaucrat::decrease_grade(void)
 	}
 	else
 	{
-		std::cout << RED << BOLD << "error decrease_grade" << NORMAL << std::endl;
+		throw Bureaucrat::GradeTooLowException();
 	}
 }
 
-std::ostream & Bureaucrat::operator<<(std::ostream & os)
+std::ostream & operator<<(std::ostream & os, Bureaucrat & rhs)
 {
-	os << this->_name << ", bureaucrat grade " << this->_grade << std::endl;
+	os << rhs.getName() << ", bureaucrat grade " << rhs.getGrade();
 	return (os);
 }

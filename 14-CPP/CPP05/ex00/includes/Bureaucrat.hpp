@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 10:57:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/25 15:08:43 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:45:17 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,33 @@ class Bureaucrat
 		void		increase_grade(void);
 		void		decrease_grade(void);
 
-		std::ostream & operator<<(std::ostream & os);
-
-		class	GradeTooLowException
+		class	GradeTooLowException : public std::exception
 		{
 			public:
-				
+				GradeTooLowException(void);
+				virtual ~GradeTooLowException(void);
+				virtual const char * what() const throw()
+				{
+					std::cout << RED << BOLD << "error decrease_grade" << NORMAL << std::endl;
+				}
 		};
 		
-		class	GradeTooHighException
+		class	GradeTooHighException : public std::exception
 		{
 			public:
-			
+				GradeTooHighException(void);
+				virtual ~GradeTooHighException(void);
+				virtual const char * what() const throw()
+				{
+					std::cout << RED << BOLD << "error increase_grade" << NORMAL << std::endl;
+				}
 		};
 		
 	private:
 		std::string	const _name;
 		int			_grade;
 };
+
+	std::ostream & operator<<(std::ostream & os, Bureaucrat & rhs);
 
 #endif

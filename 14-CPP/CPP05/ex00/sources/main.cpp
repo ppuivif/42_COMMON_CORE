@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:03:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/25 12:02:41 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:29:23 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	run_test1()
 	try
 	{
 		Bureaucrat bureaucrat1;
-		std::cout << "Name of bureaucrat1 is : " << bureaucrat1.getName() << std::endl;
-		std::cout << "Name of bureaucrat1 is : " << bureaucrat1.getGrade() << std::endl;
+		std::cout << bureaucrat1 << std::endl;
 	}
 	catch (std::exception & e)
 	{
@@ -35,9 +34,8 @@ void	run_test2()
 
 	try
 	{
-		Bureaucrat bureaucrat2("bureaucrat2_name", 0);
-		std::cout << "Name of bureaucrat2 is : " << bureaucrat2.getName() << std::endl;
-		std::cout << "Grade of bureaucrat2 is : " << bureaucrat2.getGrade() << std::endl;
+		Bureaucrat bureaucrat2("bureaucrat2", 0);
+		std::cout << bureaucrat2 << std::endl;
 	}
 	catch (std::exception & e)
 	{
@@ -52,9 +50,8 @@ void	run_test3()
 	
 	try
 	{
-		Bureaucrat bureaucrat3("bureaucrat3_name", 151);
-		std::cout << "Name of bureaucrat3 is : " << bureaucrat3.getName() << std::endl;
-		std::cout << "Grade of bureaucrat3 is : " << bureaucrat3.getGrade() << std::endl;
+		Bureaucrat bureaucrat3("bureaucrat3", 151);
+		std::cout << bureaucrat3 << std::endl;
 	}
 	catch (std::exception & e)
 	{
@@ -69,17 +66,14 @@ void	run_test4()
 
 	try
 	{
-		Bureaucrat bureaucrat4("bureaucrat4_name", 150);
-		std::cout << "Grade of bureaucrat4 is : " << bureaucrat4.getGrade() << std::endl;
-		std::cout << "Grade of bureaucrat4 is : " << bureaucrat4.getGrade() << std::endl;
-		std::cout << "Name of bureaucrat4 is : " << bureaucrat4.getName() << std::endl;
-		std::cout << "Grade of bureaucrat4 is : " << bureaucrat4.getGrade() << std::endl << std::endl;
+		Bureaucrat bureaucrat4("bureaucrat4", 150);
+		std::cout << bureaucrat4 << std::endl;
 		bureaucrat4.increase_grade();
-		std::cout << "New grade of bureaucrat4 is : " << bureaucrat4.getGrade() << std::endl << std::endl;
+		std::cout << bureaucrat4 << std::endl;
 		bureaucrat4.decrease_grade();
-		std::cout << "New Grade of bureaucrat4 is : " << bureaucrat4.getGrade() << std::endl << std::endl;
+		std::cout << bureaucrat4 << std::endl;
 		bureaucrat4.decrease_grade();
-		std::cout << "New Grade of bureaucrat4 is : " << bureaucrat4.getGrade() << std::endl;
+		std::cout << bureaucrat4 << std::endl;
 	}
 	catch (std::exception & e)
 	{
@@ -94,17 +88,14 @@ void	run_test5()
 	
 	try
 	{
-		Bureaucrat bureaucrat5("bureaucrat5_name", 1);
-		std::cout << "Name of bureaucrat5 is : " << bureaucrat5.getName() << std::endl;
-		std::cout << "Grade of bureaucrat5 is : " << bureaucrat5.getGrade() << std::endl;
-		std::cout << "Name of bureaucrat5 is : " << bureaucrat5.getName() << std::endl;
-		std::cout << "Grade of bureaucrat5 is : " << bureaucrat5.getGrade() << std::endl << std::endl;
+		Bureaucrat bureaucrat5("bureaucrat5", 1);
+		std::cout << bureaucrat5 << std::endl;
 		bureaucrat5.decrease_grade();
-		std::cout << "New grade of bureaucrat5 is : " << bureaucrat5.getGrade() << std::endl << std::endl;
+		std::cout << bureaucrat5 << std::endl;
 		bureaucrat5.increase_grade();
-		std::cout << "New Grade of bureaucrat5 is : " << bureaucrat5.getGrade() << std::endl << std::endl;
+		std::cout << bureaucrat5 << std::endl;
 		bureaucrat5.increase_grade();
-		std::cout << "New Grade of bureaucrat5 is : " << bureaucrat5.getGrade() << std::endl << std::endl;
+		std::cout << bureaucrat5 << std::endl;
 	}
 	catch (std::exception & e)
 	{
