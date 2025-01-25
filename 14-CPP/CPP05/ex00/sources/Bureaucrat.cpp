@@ -6,13 +6,13 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:37:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/23 19:03:11 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:12:06 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat(void) : _name("default_name"), _grade(1)
+Bureaucrat::Bureaucrat(void) : _name("default_name"), _grade(150)
 {
 	std::cout << "Default constructor Bureaucrat called" << std::endl;
 }
@@ -27,7 +27,7 @@ Bureaucrat & Bureaucrat::operator=(Bureaucrat const & rhs)
 {
 	if (this != &rhs)
 	{
-//		this->_name = rhs._name;
+//		this->_name = rhs._name; // not possible to set this->_name because it is const
 		this->_grade = rhs._grade;
 	}
 	std::cout << "Assignment operator Bureaucrat called" << std::endl;
@@ -43,10 +43,14 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name)
 {
 	if (grade < 1 || grade > 150)
 	{
-		std::cout << "error message" << std::endl;
+		this->_grade = -1;
+		std::cout << RED << BOLD << "for " << name << " : initialization grade is out of range" << std::endl;
+		throw std::exception();
 	}
 	else
+	{
 		this->_grade = grade;
+	}
 	std::cout << "Simple constructor Bureaucrat called" << std::endl;
 }
 
@@ -62,20 +66,32 @@ int	Bureaucrat::getGrade(void) const
 
 void	Bureaucrat::increase_grade(void)
 {
-	if (this->_grade > 2)
+	if (this->_grade > 1)
+	{
 		this->_grade -= 1;
+		std::cout << GREEN << this->_name << " was successfully increased" << NORMAL << std::endl;
+	}
 	else
 	{
-		std::cout << "error increase_grade" << std::endl;
+		std::cout << RED << BOLD << "error increase_grade" << NORMAL << std::endl;
 	}
 }
 
 void	Bureaucrat::decrease_grade(void)
 {
-	if (this->_grade < 149)
+	if (this->_grade < 150)
+	{
 		this->_grade += 1;
+		std::cout << GREEN << this->_name << " was successfully decreased" << NORMAL << std::endl;
+	}
 	else
 	{
-		std::cout << "error decrease_grade" << std::endl;
+		std::cout << RED << BOLD << "error decrease_grade" << NORMAL << std::endl;
 	}
+}
+
+std::ostream & Bureaucrat::operator<<(std::ostream & os)
+{
+	os << this->_name << ", bureaucrat grade " << this->_grade << std::endl;
+	return (os);
 }

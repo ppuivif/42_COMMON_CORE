@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 10:57:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/23 18:35:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/25 15:08:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 
 #include <iostream>
 #include <string>
+#include <stdexcept>
+#include <sstream>
+
+# define GREEN "\033[32m"
+# define RED "\033[31m"
+# define BOLD "\033[1m"
+# define NORMAL "\033[0m"
 
 class Bureaucrat
 {
@@ -31,17 +38,19 @@ class Bureaucrat
 		void		increase_grade(void);
 		void		decrease_grade(void);
 
-/*		class	GradeTooLowException
+		std::ostream & operator<<(std::ostream & os);
+
+		class	GradeTooLowException
 		{
 			public:
-
+				
 		};
 		
 		class	GradeTooHighException
 		{
 			public:
 			
-		};*/
+		};
 		
 	private:
 		std::string	const _name;
