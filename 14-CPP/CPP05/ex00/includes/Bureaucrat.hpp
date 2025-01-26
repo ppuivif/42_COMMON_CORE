@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 10:57:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/25 15:45:17 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/26 19:45:18 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,24 @@ class Bureaucrat
 		class	GradeTooLowException : public std::exception
 		{
 			public:
-				GradeTooLowException(void);
-				virtual ~GradeTooLowException(void);
+			/*	GradeTooLowException(void);
+				virtual ~GradeTooLowException(void);*/
 				virtual const char * what() const throw()
 				{
-					std::cout << RED << BOLD << "error decrease_grade" << NORMAL << std::endl;
+//					std::cout << RED << BOLD << "error decrease_grade" << NORMAL << std::endl;
+					return("error decrease_grade");
 				}
 		};
 		
 		class	GradeTooHighException : public std::exception
 		{
 			public:
-				GradeTooHighException(void);
-				virtual ~GradeTooHighException(void);
+				/*GradeTooHighException(void);
+				virtual ~GradeTooHighException(void);*/
 				virtual const char * what() const throw()
 				{
-					std::cout << RED << BOLD << "error increase_grade" << NORMAL << std::endl;
+//					std::cout << RED << BOLD << "error increase_grade" << NORMAL << std::endl;
+					return("error increase_grade");
 				}
 		};
 		
