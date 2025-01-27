@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:37:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/27 18:32:57 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/27 19:45:33 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ std::string	const	& Bureaucrat::getName(void) const
 	return(this->_name);
 }
 
-int		Bureaucrat::getGrade(void) const
+int	Bureaucrat::getGrade(void) const
 {
 	return(this->_grade);
 }
@@ -91,6 +91,23 @@ void	Bureaucrat::decrease_grade(void)
 		throw Bureaucrat::GradeTooLowException();
 	}
 }
+
+void	Bureaucrat::signForm(Form & form)
+{
+	std::string	reason = "his grade is too low";
+	
+	form.beSigned(*this);
+	if (form.getSigned())
+	{
+		std::cout << this->_name << " signed " << form.getName() << std::endl;
+	}
+	else
+	{
+		std::cout << this->_name << " couldn't sign " << form.getName() << " because " << reason << std::endl;
+	}
+}
+
+
 
 std::ostream & operator<<(std::ostream & os, Bureaucrat & rhs)
 {

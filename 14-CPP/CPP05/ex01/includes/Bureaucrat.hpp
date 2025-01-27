@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 10:57:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/27 17:48:55 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/27 19:58:11 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@
 #include <string>
 #include <stdexcept>
 #include <sstream>
+#include "Form.hpp"
 
 # define GREEN "\033[32m"
 # define RED "\033[31m"
 # define BOLD "\033[1m"
 # define NORMAL "\033[0m"
+
+class Form;
 
 class Bureaucrat
 {
@@ -34,10 +37,11 @@ class Bureaucrat
 		Bureaucrat(std::string const name, int grade);
 		
 		std::string	const	& getName(void) const;
-		int					getGrade(void) const;
-		void				increase_grade(void);
-		void				decrease_grade(void);
-
+		int 		getGrade(void) const;
+		void		increase_grade(void);
+		void		decrease_grade(void);
+		void		signForm(Form & form);
+		
 		class	GradeTooLowException : public std::exception
 		{
 			public:
@@ -61,6 +65,6 @@ class Bureaucrat
 		int			_grade;
 };
 
-	std::ostream & operator<<(std::ostream & os, Bureaucrat & rhs);
+std::ostream & operator<<(std::ostream & os, Bureaucrat & rhs);
 
 #endif
