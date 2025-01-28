@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:37:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/27 18:32:57 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/28 18:11:22 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 Bureaucrat::Bureaucrat(void) : _name("default_name"), _grade(150)
 {
-	std::cout << "Default constructor Bureaucrat called" << std::endl;
+//	std::cout << "Default constructor Bureaucrat called" << std::endl;
 }
 
-Bureaucrat::Bureaucrat(Bureaucrat const & rhs)
+Bureaucrat::Bureaucrat(Bureaucrat const & rhs) : _name(rhs._name)
 {
 	*this = rhs;
-	std::cout << "Copy constructor Bureaucrat called" << std::endl;
+//	std::cout << "Copy constructor Bureaucrat called" << std::endl;
 }
 
 Bureaucrat & Bureaucrat::operator=(Bureaucrat const & rhs)
@@ -30,13 +30,13 @@ Bureaucrat & Bureaucrat::operator=(Bureaucrat const & rhs)
 //		this->_name = rhs._name; // not possible to set this->_name because it is const
 		this->_grade = rhs._grade;
 	}
-	std::cout << "Assignment operator Bureaucrat called" << std::endl;
+//	std::cout << "Assignment operator Bureaucrat called" << std::endl;
 	return (*this);
 }
 
 Bureaucrat::~Bureaucrat(void)
 {
-	std::cout << "Destructor Bureaucrat called" << std::endl;
+//	std::cout << "Destructor Bureaucrat called" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name), _grade(grade)
@@ -51,7 +51,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade) : _name(name), _grade(grade)
 		std::cout << RED << BOLD << "for " << name << " : initialization grade is out of range" << NORMAL << std::endl;
 		throw Bureaucrat::GradeTooLowException();
 	}
-	std::cout << "Simple constructor Bureaucrat called" << std::endl;
+//	std::cout << "Simple constructor Bureaucrat called" << std::endl;
 }
 
 std::string	const	& Bureaucrat::getName(void) const
@@ -90,6 +90,16 @@ void	Bureaucrat::decrease_grade(void)
 		std::cout << RED << BOLD << "for " << this->_name << " : decreased grade is out of range" << NORMAL << std::endl;
 		throw Bureaucrat::GradeTooLowException();
 	}
+}
+
+const char	* Bureaucrat::GradeTooLowException::what() const throw()
+{
+	return("grade is out of range (too low)");
+}
+
+const char	* Bureaucrat::GradeTooHighException::what() const throw()
+{
+	return("grade is out of range (too high)");
 }
 
 std::ostream & operator<<(std::ostream & os, Bureaucrat & rhs)

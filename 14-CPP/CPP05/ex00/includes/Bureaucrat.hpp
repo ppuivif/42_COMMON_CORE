@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 10:57:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/27 17:48:55 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/28 17:57:19 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,19 @@ class Bureaucrat
 		void				increase_grade(void);
 		void				decrease_grade(void);
 
+	private:
 		class	GradeTooLowException : public std::exception
 		{
 			public:
-				virtual const char * what() const throw()
-				{
-					return("grade is out of range (too low)");
-				}
+				virtual const char * what() const throw();
 		};
 		
 		class	GradeTooHighException : public std::exception
 		{
 			public:
-				virtual const char * what() const throw()
-				{
-					return("grade is out of range (too high)");
-				}
+				virtual const char * what() const throw();
 		};
 		
-	private:
 		std::string	const _name;
 		int			_grade;
 };

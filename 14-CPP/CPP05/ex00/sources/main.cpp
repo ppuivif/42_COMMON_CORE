@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:03:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/25 15:29:23 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/28 18:12:43 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	run_test1()
 	catch (std::exception & e)
 	{
 		std::cout << RED << BOLD << "In test1, an error occured : " << e.what() << NORMAL << std::endl;
-//		throw;
+		throw;
 	}
 }
 
@@ -40,7 +40,7 @@ void	run_test2()
 	catch (std::exception & e)
 	{
 		std::cout << RED << BOLD << "In test2, an error occured : " << e.what() << NORMAL << std::endl;
-//		throw;
+		throw;
 	}
 }	
 
@@ -56,7 +56,7 @@ void	run_test3()
 	catch (std::exception & e)
 	{
 		std::cout << RED << BOLD << "In test3, an error occured : " << e.what() << NORMAL << std::endl;
-//		throw;
+		throw;
 	}
 }	
 
@@ -78,7 +78,7 @@ void	run_test4()
 	catch (std::exception & e)
 	{
 		std::cout << RED << BOLD << "In test4, an error occured : " << e.what() << NORMAL << std::endl;
-//		throw;
+		throw;
 	}
 }
 
@@ -100,7 +100,7 @@ void	run_test5()
 	catch (std::exception & e)
 	{
 		std::cout << RED << BOLD << "In test5, an error occured : " << e.what() << NORMAL << std::endl;
-//		throw;
+		throw;
 	}
 }
 
@@ -108,10 +108,10 @@ int main()
 {
 	try
 	{
-		run_test1();
-		run_test2();
-		run_test3();
-		run_test4();
+//		run_test1();
+//		run_test2();
+//		run_test3();
+//		run_test4();
 		run_test5();
 	}
 	catch (std::exception & e)
