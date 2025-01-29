@@ -1,0 +1,484 @@
+routeur JS
+
+https://www.youtube.com/watch?v=ZleShIpv5zQ
+https://www.youtube.com/watch?v=JmSb1VFoP7w
+
+
+
+-----------------------------------------------------------------------------------------------
+
+SPA : Single Page Application
+
+Une SPA est application web qui interagit dynamiquement avec l'utilisateur en réécrivant la
+page courante plutôt qu'en rechargeant entièrement de nouvelles pages depuis un serveur (ce qui
+est le cas des MPA (Multiple Page Application).
+
+Les SPA conviennent particulièrement aux applications qui demandent une forte interactivité
+telles que les plateformes sociales, les tableaux de bord ou les outils de collaboration.
+
+Les MPA sont idéales pour les applications qui nécessitent une grande diversité de contenus,
+telles que les sites de e-commerce, les catalogues ou les marketplaces.
+
+Structure des SPA :
+Un unique document HTML sert de structure de base.
+Le contenu dynamique est ajouté via JavaScript en réponse aux interactions avec l'utilisateur.
+Le contenu est généré côté client (CSR : Client Side Rendering) contrairement aux MPA où le
+contenu est généré côté serveur (SSR : Server Side Rendering). 
+
+Avantages des SPA :
+	- l'affichage est plus rapide, plus fluide. L'expérience utilisateur est améliorée,
+	- le traffic réseau est reduit car il se limite aux données strictement nécessaires
+	aux interactions avec l'utilisateur,
+	- le développement est facilité (pas de gestion du rendu côté serveur, pas de
+	synchronisation des états),
+	- le déploiement est facilité car il se limite à la mise à jour des fichiers statiques
+	sur le serveur.
+
+Inconvenient des SPA :
+	- les SPA impactent la SEO (Search Engine Optimization) car les moteurs de recherche
+	peinent à indexer le contenu dynamique (en particulier si les métadonnées sont elles
+	aussi générées dynamiquement). Les moteurs de recherche peinent à reconnaître et indexer
+	les URL lorsqu'elles sont routées dynamiquement. Les robots d'indexation des moteurs de
+	recherche peuvent avoir du mal à exécuter JavaScript ou ne pas indexer correctement le
+	contenu chargé dynamiquement.
+
+A développer :
+
+	-Des défis liés à la gestion de l’état de l’application, la navigation et la gestion des erreurs, nécessitant l’utilisation de bibliothèques ou frameworks spécialisés.
+
+	-Une consommation accrue de ressources côté client, avec une exécution plus importante de JavaScript, pouvant impacter les performances et la sécurité.
+
+
+
+-----------------------------------------------------------------------------------------------
+
+Les SPA utilisent souvent des framework JavaScript tels que React, Angular, Vue.js.
+
+Vue.js est le plus récent et considéré comme le plus léger des trois. Il se distingue par sa
+simplicité d’apprentissage et son intégration aisée dans des projets existants. Offrant une
+grande flexibilité et d’excellentes performances, il repose sur un système de templates pour le
+HTML et un système de composants réactifs pour l’interface utilisateur.
+
+React est reconnu pour sa popularité et sa maturité. Supporté par Facebook et adopté par des
+entreprises de renom telles que Netflix ou Airbnb, il assure une performance remarquable et une
+modularité élevée. React utilise des composants réactifs pour le HTML et des hooks pour la gestion
+de l’état de l’application.
+
+Angular est le plus complet mais aussi le plus complexe. Backé par Google et utilisé par des
+entreprises majeures comme Microsoft ou PayPal, il propose une solution intégrale pour le
+développement de SPA robustes et évolutives. Angular s’appuie sur un système de templates pour
+le HTML et un ensemble de modules et services pour l’interface utilisateur et la logique métier.
+
+Autres librairies et outils utiles :
+
+En complément des frameworks JavaScript, d’autres librairies et outils s’avèrent précieux dans
+le développement de SPA, notamment :
+
+Bootstrap, une librairie CSS, pour des interfaces utilisateur réactives et esthétiques.
+jQuery, une librairie JavaScript, pour la manipulation du HTML, les requêtes AJAX et l’ajout
+d’animations.
+Webpack, un outil de regroupement et de minification des fichiers JavaScript, CSS et HTML.
+Babel, un outil de transpilation du code JavaScript moderne en code compatible avec tous les
+navigateurs.
+
+
+-----------------------------------------------------------------------------------------------
+
+Dans le cas d'un mode de restitution en CSR, le serveur fournit du HTML (un recipient), du code
+JS et des data (les ingrédients), charge au navigateur (le client) de reconstituer la page
+(créer le plat).
+
+Dans le cas d'un mode de restitution en SSR, le serveur transmet au navigateur les pages à
+afficher déjà constituées (le plat déjà préparé). 
+
+NB : le serveur peut être :
+	- un ordinateur physique dans un data center,
+	- un serveur virtuel qui fonctionne dans le cloud (tel que AWS, Google Cloud, Azure),
+	- un service fourni par un hebergeur (e.g. Netlify, Vercel).
+
+-----------------------------------------------------------------------------------------------
+
+Teddy : https://www.youtube.com/watch?v=6BozpmSjk-Y
+
+
+We're going to be creating a single page application using vanilla javascript.
+No framework are required in order to achieve this.
+We're going to be doing all the client-side routing ourselves.
+Single page applications are basically just web pages or applications on the web which have a
+single html file. Then all of the content and components and the views and things like that are
+loaded dynamically using javascript through ajax* or fetch requests to the server side to
+retrieve data and things like that.
+So, essentially, it's supposed to operate like a native application. That includes quite
+importantly no page refreshes and things of that nature.
+
+2'23"
+First of all, we are going to start by firstly by creating a new directory for the front end
+that we could name "frontend".
+Inside this directory, we're going to have the HTML, the CSS, the JavaScript.
+So we are going to create a new index.html file.
+In this file we're going to be writing the actual web server using express and every single
+route is going to go back to the single index html file which of course helps the single page
+application nature of this project.
+
+Step1 : we include an html template (just type '!' and press tab or entry key)
+
+Step2 : we give a title to the page ("Single Page App")
+
+Step3 : we can also include some JavaScript.
+In the body we type :
+	<script type="module" src="/static/js/index.js"></script>
+This is our frontend/our client-side JavaScript entry point. 
+That means that we insert a source which have a type "module" because we're going to be taking
+advantage of ES6 import/export syntax (ECMAScript 6 is a significant update to JavaScript).
+So, each one of our separate views (dashboard, posts, settings, ...) will have their own
+javascript class.
+In detail :
+	<script>
+	is the tag used to include JavaScript in an HTML document.
+
+	type="module"
+	this attribute specifies that the script is a JavaScript module.
+	JavaScript modules allow you to break your code into smaller, reusable files.
+	When you use type="module", the browser treats the file as a module, enabling features
+	like:
+		- Importing and exporting functions, objects, or variables between files.
+		- Scoped variables (variables in the module don't pollute the global scope).
+		- Deferred execution (similar to defer attribute; the script runs after
+		the HTML is parsed).
+
+	src="/static/js/index.js"
+	this specify the path to the external JavaScript module file.
+	The file path can be :
+		- relative (e.g. ./main.js),
+		- or absolute (e.g. https://example.com/script.js)
+
+NB : Modern browsers support JavaScript modules, but older browsers might not.
+For compatibility, you can use a <script nomodule> tag for fallback (trad. = repli).
+
+Step4 : now we can write some basic navigation above previous line
+	<nav class="nav">
+		<a href="/" class="nav__link" data-link>Dashboard</a>
+		<a href="/posts" class="nav__link" data-link>Posts</a>
+		<a href="/settings" class="nav__link" data-link>Settings</a>
+	</nav>
+
+Here we have individual classes on the actual links and hrefs for each one of our separate
+routes.
+That is important too is that we've got a data dash link (data attribute) that use the history
+api the push states method to navigate to that particular resource to avoid the page refresh.
+
+In detail :
+	<nav>
+	it is a semantic tag used to define a section of navigation links.
+
+NB : a semantic tag is a tag that define the purpose of its content, instead of just
+displaying information. <nav>, <header>, <article> are semantic tags, <div>, <span<> are not.
+	
+	class="nav"
+	this attribute assigns a CSS class named nav, which can be used to style the
+	navigation bar using CSS
+	
+	<a>
+	it is a tag used to create clickable hyperlinks. It could be used to link to :
+		- an external website
+		e.g.	<a href="https://www.google.com">Go to Google</a>
+		- another page in the same Website
+		e.g.	<a href="about.html">About Us</a>
+		- opening links in a new tab
+		e.g.	<a href="https://www.example.com" target="_blank">Open in New Tab</a>
+		- creating an email link
+		e.g.	<a href="mailto:someone@example.com">Send an Email</a>
+		- creating a phone call link
+		e.g.	<a href="tel:+1234567890">Call Us</a>
+		- linking to a section of the same page
+		e.g.	<a href="#section2">Jump to Section 2</a>
+			<h2 id="section2">Section 2</h2>
+		- downloading a file
+		e.g.	<a href="file.pdf" download>Download PDF</a>
+
+	href
+	it is the attribute used to specify where the link goes (the destination URL in our case)
+	
+	href="/"
+	specifies the destination as the root URL, meaning it links to the homepage (dashboard)
+	
+	href="/posts"
+	links to the "Posts" page
+
+	href="/settings"
+	links to the "Settings" page
+
+	class="nav__link"
+	assigns a CSS class named nav_link to style the navigation links
+	
+	data-link
+	it is a custom data attribute
+	It doesn't affect the functionality itself, but it is often used in JavaScript to
+	handle navigation dynamically (without reloading the page).
+
+	"Dashboard"
+	this is the text that will be displayed as the clickable link 
+
+We can now work on the actual web server itself.
+
+-----------------------------------------------------------------------------------------------
+
+5'24"
+
+Step5
+
+In the command line, we go to the directory SPA.
+
+We are going to create a new node.js project with the command :
+	npm init -y
+This command create a package.json file.
+In detail
+	npm
+	Node Package Manager , used for managing JavaScript packages
+	
+	init
+	start the process of creating a package.json file
+	
+	-y
+	flag to skip all questions and uses default values
+	If we want to customize project, we won't use this flag and we will have to answer each
+	questions. 
+
+Step6
+
+We can now include express with the command :
+	npm install express
+	or npm i express
+This command installs the Express.js package as a dependency in our Node.js project.
+Express is a popular web framework for Node.js. It simplifies building web applications and
+APIs by providing various utilities (e.g. routing, middleware, handling requests/responses).
+When installing Express as a dependancy of the project, it adds Express to the node_modules
+folder, which is where all the project dependancies ares stored.
+Udpating the package.json file with adding Express to tjhe dependencies section, enables the
+other deveoppers to install it too when they run npm install.
+
+Step7
+
+We can now create the server.js file.
+We are going to create a server.js file in the directory SPA.
+In this file we type several instructions :
+	const express = require("express");
+	const path = require("path");
+
+	const app = express();
+
+	app.get("/*", (req, res) => {
+		res.sendFile(path.resolve("frontend", "index.html"));
+	})
+
+	app.listen(process.env.PORT || 5060, () => console.log("Server running..."));
+
+or	
+	const PORT = process.env.PORT || 5060;
+	app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));
+
+In detail :
+	const express = require("express");
+	to include the dependency "express" (it imports the Express.js library into
+	the Node.js server)
+
+	In detail :
+		require("express")
+		tells Node.js to load the Express module from the node_modules folder (where
+		it was installed using npm i express)
+
+		const express = require("express");
+		assigns the Express function to the express variable (which is so a
+		function), which we can use to create an Express app (which will be an
+		instance of an Express application) and define routes.
+
+
+	const path = require("path");
+	to include the dependency "path"
+	
+	const app = express();
+	to create the Express app (an instance)
+	
+	app.get("/*", (req, res) => {
+		res.sendFile(path.resolve("frontend", "index.html"));
+	})
+	with this line, we're saying any path at all we're going to go back to the root.
+	no matter what path I send to the web server (posts, settings, ...), they're all
+	going to go back to the index.html. It's very important to make a SPA.
+
+	app.listen(process.env.PORT || 5060, () => console.log("Server running..."))
+	to start the server on process.emb.ports or on default port 5060 and to display a
+	message
+
+
+	In detail :
+		app.get()
+		it is a method in Express that defines a GET request route.
+		It tells the app how to respond to a GET request made to a particular URL
+		endpoint.
+		The GET request is the most common HTTP request use to retrieve data from
+		a server (e.g. when you type a URL into the browser)
+		
+		"/"
+		it is the first argument of the method.
+		It is the URL path or endpoint.
+		If we have just "/", it is the root path of the site, so this handler will run
+		when a user visits the URL http://localhost:3000/
+		If we have "/*" as first argument, it indicates that the route will match all
+		paths of the site 
+		
+		(req, res) => { ... }
+		it is the second argument of the method.
+		This is the callback function (also called a "route handler" or "middleware").
+		It receives two objects :
+			- req (request) : it contains information about the HTTP request, such
+			as the URL, query parameters, headers, etc ...
+			- res (response) : it represents the HTTP response. This object is
+			used to send a response back to the client.
+		
+		res.send("Hello, Express!")
+		inside the route handler, we use res.send() to send a response back to the
+		client (the browser).
+		res.send() sends the data (like a string, JSON, or buffer) to the client
+		and automatically sets the correct HTTP headers, such as the content type.
+		In this case, 'Hello, Express!' is the response that will be sent to the
+		browser when someone visits the root (/) path
+		
+		res.sendFile(path.resolve("frontend", "index.html"))
+		in this case, we don't just send a message to the client but we send a file
+		(index.html).
+		In detail :
+			res.sendFile()
+			this method is used to send a file as the response to the client.
+			It tells Express to send the contents of a file back to the browser.
+			This is useful when we're serving static file, like HTML, CSS,
+			JavaScript, images, etc, ...
+			
+			path.resolve()
+			it is a method from Node's built-in path module that resolves a
+			relative path to an absolute path.
+			It ensures that the path is correctly resolved based on the current
+			working directory of the server, so you can safely refer to files in
+			your project, even if the server is running from different locations.
+			
+			path.resolve("frontend", "index.html")
+			it resolves the relative path "frontend/index.html" to an absolute
+			file path on your file system.
+	
+		app.listen(port, callback)
+		This method starts the server and makes it listen for incoming connections on
+		the specified port.
+		The first argument is the port number.
+		The second argument is a callback function that runs once the server starts.
+		
+		process.env.PORT
+		it refers to an environment variable named PORT.
+		In deployment plateforms :
+			- in cloud deployments (e.g. Heroku, Vercel, Netifly*)	: the
+			hosting provider assigns a dynamic port (no need to set it manually).
+			- on Docker : it is defined with the line
+				ENV PORT=3000 
+		Locally it could be defined :
+			- in the terminal (e.g. on Linux : export PORT=3000),
+			- in a .env file (after have install the dotenv	package with the
+			command 
+				npm install dotenv).
+			This method require loading the	environnement variables in the file
+			server.js with the line :
+				require("dotenv").config();
+		
+		
+		|| 5060
+		it is a fallback, meaning if process.env.PORT is not set, it will use port
+		5060 as the default.
+		
+		() => console.log("Server running...")
+		This is an arrow function that runs after the server starts.
+		It logs "Server running..." to the console to indicate that the server is
+		successfully running.
+		
+NB : If server runs locally, the port will be 5060 unless an environment variable is set.
+If server is deployed on Heroku, the hosting service will provide a port via process.env.PORT,
+which the app must use.
+
+* Heroku and Versel are PaaS (Plateform as a Service) that enables developers to build, run,
+and operate applications entirely in the cloud.
+Heroku : https://www.youtube.com/watch?v=BDqqYRhRTD4
+
+
+-----------------------------------------------------------------------------------------------
+
+7'43"
+
+Step8
+
+We could now start the server in the terminal with the commnd line :
+	node server.js
+The message "Server running on port 5060..." is displayed.
+
+-----------------------------------------------------------------------------------------------
+
+Step9
+
+In the address bar of the browser, we type :
+	http://localhost:5060
+We could have a problem with Chrome for example because the browser consider the port 5060
+as not safe and block requests to this port. In this case, we could change the port to 3000,
+4000 or 8080. 
+
+What is displayed is the content of the index.html file and we try to go to something like
+	localhost:8080/settings
+that takes us back to the same index.html.
+This is crucial to our single page application.
+
+Step10
+
+There's a message in the developer window of the browser about a problem which concern the
+file index.js which does not exist (it was define in the index.html).
+
+Step11
+
+So we have to create a directory static in the directory frontend, and then a sub-directory js
+in /static, and then a index.js file in /static.
+
+9'32"
+
+Step12
+
+
+-----------------------------------------------------------------------------------------------
+
+
+
+source https://fr.wikipedia.org/wiki/Ajax_(informatique)
+AJAX (Asynchronous JavaScript And XML) :
+Méthode dont la particularité est de permettre d'effectuer des requêtes au serveur web et de
+modifier partiellement la page web affichée sur le poste client sans avoir à afficher une nouvelle
+page complète.
+Cette architecture informatique permet de construire des applications web et des sites dynamiques
+interactifs.
+AJAX combine :
+	- JavaScript et DOM qui permettent de modifier l'information présentée dans la navigateur
+	en respectant sa structure,
+	- les API Fetch et XMLHttpRequest qui servent au dialogue asynchrone avec le serveur web,
+	- un format de données (XML ou JSON*) afin d'améliorer maniabilité et confort des
+	applications internet.
+XML, cité dans l'acronyme, était historiquement le moyen priviligié pour struturer les informations
+transmises entre le serveur web et le navigateur. De nos jours, le JSON tend à le remplacer pour
+cet usage.
+
+L'usage d'AJAX fonctionne sur tous les navigateurs web courants : Google Chrome, Safari, Mozilla
+Firefox, Internet Explorer, Microsoft Edge, Opera, etc.
+
+-----------------------------------------------------------------------------------------------
+
+Principe de fonctionnement d'une interface web (Cf. schéma):
+
+Dans une application web, la méthode classique de dialogue entre un navigateur et un serveur est la suivante : lors de chaque manipulation faite par l'utilisateur, le navigateur envoie une requête contenant une référence à une page web, puis le serveur web effectue des calculs, et envoie le résultat sous forme d'une page web à destination du navigateur. Celui-ci affichera alors la page qu'il vient de recevoir. Chaque manipulation entraîne la transmission et l'affichage d'une nouvelle page. L'utilisateur doit attendre l'arrivée de la réponse pour effectuer d'autres manipulations.
+
+En utilisant AJAX, le dialogue entre le navigateur et le serveur se déroule la plupart du temps de la manière suivante : un programme écrit en langage de programmation JavaScript, incorporé dans une page web, est exécuté par le navigateur. Celui-ci envoie en arrière-plan des demandes au serveur web, puis modifie le contenu de la page actuellement affichée par le navigateur web en fonction du résultat reçu du serveur, évitant ainsi la transmission et l'affichage d'une nouvelle page complète.
+
+La méthode classique de dialogue utilise des mécanismes propres au World Wide Web, qui sont incorporés dans tous les navigateurs ainsi que les robots d'indexation, et ne nécessite pas de programmation. Au contraire, le fonctionnement d'AJAX nécessite de programmer en JavaScript les échanges entre le navigateur et le serveur web. Il nécessite également de programmer les modifications à effectuer dans la page web à la réception des réponses, sans quoi les dialogues se font à l'insu de l'utilisateur1.
+
+En AJAX, comme le nom l'indique, les demandes sont effectuées de manière asynchrone : le navigateur web continue à exécuter le programme JavaScript alors que la demande est partie, il n'attend pas la réponse envoyée par le serveur web et l'utilisateur peut continuer à effectuer des manipulations pendant ce temps.
+
