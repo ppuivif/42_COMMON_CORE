@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Form.hpp                                           :+:      :+:    :+:   */
+/*   AForm.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:46:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/28 18:04:03 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/30 18:15:24 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORM_HPP
-# define FORM_HPP
+#ifndef AFORM_HPP
+# define AFORM_HPP
 
 #include <iostream>
 #include <string>
@@ -26,22 +26,24 @@
 
 class Bureaucrat;
 
-class Form
+class AForm
 {
 	public:
-		Form();
-		Form(Form const & rhs);
-		Form & operator=(Form const & rhs);
-		~Form();
+		AForm();
+		AForm(AForm const & rhs);
+		AForm & operator=(AForm const & rhs);
+		virtual	~AForm();
 
-		Form(std::string name, int signGrade, int execGrade);
+		AForm(std::string name, int signGrade, int execGrade);
     
 		std::string const	& getName() const;
 		bool 				getSigned() const;
 		int					getSignGrade() const;
 		int					getExecGrade() const;
+		std::string const	& getTarget() const;
 
-		void		beSigned(Bureaucrat const & bureaucrat);
+		void				beSigned(Bureaucrat const & bureaucrat);
+		virtual void		execute(Bureaucrat const & executor) const = 0;
 
 	private:
 		class	GradeTooLowException : public std::exception
@@ -61,9 +63,10 @@ class Form
 		bool				_signed;
 		int const			_signGrade;
 		int const			_execGrade;
+		std::string			_target;
 
 };
 
-std::ostream & operator<<(std::ostream & o, Form const & rhs);
+std::ostream & operator<<(std::ostream & o, AForm const & rhs);
 
 #endif

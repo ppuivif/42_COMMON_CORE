@@ -6,14 +6,14 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:03:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/28 18:06:37 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/30 15:47:15 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
-void	run_test1()
+void	run_test12()
 {
 	std::cout << BOLD << std::endl << "----------- test1 : default construction bureaucrat -----------" << NORMAL << std::endl;
 
@@ -29,7 +29,7 @@ void	run_test1()
 	}
 }
 
-void	run_test2()
+/*void	run_test2()
 {
 	std::cout << BOLD << std::endl << "----------- test2 : simple construction bureaucrat with grade initialization at 0 -----------" << NORMAL << std::endl;
 
@@ -111,7 +111,7 @@ void	run_test6()
 
 	try
 	{
-		Form form6;
+		AForm form6;
 		std::cout << form6 << std::endl;
 	}
 	catch (std::exception & e)
@@ -127,7 +127,7 @@ void	run_test7()
 
 	try
 	{
-		Form form7("form7", 0, 1);
+		AForm form7("form7", 0, 1);
 		std::cout << form7 << std::endl;
 	}
 	catch (std::exception & e)
@@ -143,7 +143,7 @@ void	run_test8()
 
 	try
 	{
-		Form form8("form8", 150, 151);
+		AForm form8("form8", 150, 151);
 		std::cout << form8 << std::endl;
 	}
 	catch (std::exception & e)
@@ -161,7 +161,7 @@ void	run_test9()
 	{
 		Bureaucrat bureaucrat9("bureaucrat9", 1);
 		std::cout << bureaucrat9 << std::endl;
-		Form form9("form9", 20, 50);
+		AForm form9("form9", 20, 50);
 		std::cout << form9 << std::endl;
 		bureaucrat9.signForm(form9);
 		std::cout << form9 << std::endl;
@@ -181,7 +181,7 @@ void	run_test10()
 	{
 		Bureaucrat bureaucrat10("bureaucrat10", 150);
 		std::cout << bureaucrat10 << std::endl;
-		Form form10("form10", 20, 50);
+		AForm form10("form10", 20, 50);
 		std::cout << form10 << std::endl;
 		bureaucrat10.signForm(form10);
 		std::cout << form10 << std::endl;
@@ -201,7 +201,7 @@ void	run_test11()
 	{
 		Bureaucrat bureaucrat11("bureaucrat11", 1);
 		std::cout << bureaucrat11 << std::endl;
-		Form form11("form11", 20, 50);
+		AForm form11("form11", 20, 50);
 		std::cout << form11 << std::endl;
 		bureaucrat11.signForm(form11);
 		std::cout << form11 << std::endl;
@@ -213,13 +213,13 @@ void	run_test11()
 		std::cout << RED << BOLD << "In test11, an error occured : " << e.what() << NORMAL << std::endl;
 		throw;
 	}
-}
+}*/
 
 int main()
 {
 	try
 	{
-//		run_test1();
+		run_test12();
 //		run_test2();
 //		run_test3();
 //		run_test4();
@@ -230,7 +230,7 @@ int main()
 //		run_test8();
 //		run_test9();
 //		run_test10();
-		run_test11();
+//		run_test11();
 	}
 	catch (std::exception & e)
 	{

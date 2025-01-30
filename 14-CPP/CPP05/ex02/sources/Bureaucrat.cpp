@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:37:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/28 17:51:33 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/30 15:31:32 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	Bureaucrat::decrease_grade(void)
 	}
 }
 
-void	Bureaucrat::signForm(Form & form)
+void	Bureaucrat::signForm(AForm & form)
 {
 	try
 	{

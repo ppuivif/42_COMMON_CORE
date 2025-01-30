@@ -2,11 +2,49 @@ CPP05 - ex02 : No, you need form 28B, not 28C...
 
 -----------------------------------------------------------------------------------------------
 
+Passer la class Form en abstraite et la renommer AForm.
+Les attributs de la classe Form doivent rester privés et doivent rester dans la classe AForm.
 
+Ajouter les classes concrètes suivantes :
+	- ShrubberyCreationForm :
+		- cette classe requiert les grades minimum 145 pour signer et 137 pour
+		exécuter,
+		- crée un fichier <target>_shrubbery dans le répertoire de travail et écrit des
+		arbres ASCII à l'intérieur.
+	- RobotomyRequestForm :
+		- cette classe requiert les grades minimum 72 pour signer et 45 pour
+		exécuter,
+		- elle produit des bruits de forage (drilling noises), et informe que la cible
+		<target> a été robotisée avec succès pendant 50% du temps (ou 1 fois sur 2 ?)
+		- sinon elle informe que la robotisation a échoué.
+	- PresidentialPardonForm
+		- cette classe requiert les grades minimum 25 pour signer et 5 pour
+		exécuter,
+		- elle informe que la cible a été pardonnée par Zaphod Beeblebrox.
+
+Chacune de ces classes ne prend qu'un paramètre dans leur constructeur : la cible.
+ex : "home" si vous voulez planter un arbuste (a shrubbery) à la maison.
 
 -----------------------------------------------------------------------------------------------
 
+Ensuite, ajouter une fonction membre execute :
+	execute(Bureaucrat const & executor) const
+à la classe de base (classe abstraite) puis implémenter une fonction pour exécuter l'action de
+chaque formulaire (classes concrètes).
 
-	
+Vérifier au préalable si le formulaire est signé ou non.
+Vérifier que le grade du bureaucrat qui essaie d'exécuter le formulaire est suffisamment haut.
+Sinon envoyer l'exception correspondante. 
+
+A vous de voir si vous voulez vérifier les prérequis dans chaque classe concrète ou dans la
+classe de base (puis appelez une autre fonction pour l'exécuter). Toutefois, une façon de faire
+est plus appropriée que l'autre.
+
 -----------------------------------------------------------------------------------------------
 
+Enfin, ajouter la fonction membre executeForm à la classe Bureaucrat :
+	executeForm(AForm const & form)
+Elle doit essayer d'exécuter le formulaire.
+Si elle y parvient, afficher quelque chose comme :
+	<bureaucrat> executed <form>
+Sinon, afficher un message d'erreur.
