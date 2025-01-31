@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:51:22 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/30 18:15:17 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/31 15:50:58 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,12 @@ AForm::~AForm(void)
 //	std::cout << "Destructor Form called" << std::endl;    
 }
 
-AForm::AForm(std::string name, int signGrade, int execGrade) : _name(name), _signed(false), _signGrade(signGrade), _execGrade(execGrade)
+AForm::AForm(std::string const & name, int signGrade, int execGrade, std::string const & target) :
+	_name(name),
+	_signed(false),
+	_signGrade(signGrade),
+	_execGrade(execGrade),
+	_target(target)
 {
 	if (signGrade < 1 || execGrade < 1)
 	{
@@ -82,7 +87,7 @@ void	AForm::beSigned(Bureaucrat const & bureaucrat)
 	if (this->_signed)
 		throw AForm::AlreadySignedException();
 	if (bureaucrat.getGrade() > this->_signGrade)
-		throw AForm::GradeTooLowException();
+		throw AForm::GradeTooLowExceptionToSign();
 	else
 		this->_signed = true;
 }
@@ -100,6 +105,21 @@ const char	* AForm::GradeTooHighException::what() const throw()
 const char	* AForm::AlreadySignedException::what() const throw()
 {
 	return ("form has already been signed");
+}
+
+const char	* AForm::GradeTooLowExceptionToSign::what() const throw()
+{
+	return ("grade is out of range to sign (too low)");
+}
+
+const char	* AForm::GradeTooLowExceptionToExecute::what() const throw()
+{
+	return ("grade is out of range to execute (too low)");
+}
+
+const char	* AForm::NotSignedException::what() const throw()
+{
+	return ("form hasn't been signed");
 }
 
 std::ostream & operator<<(std::ostream & os, AForm const & rhs)

@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 10:57:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/30 15:34:54 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/31 12:14:27 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ class Bureaucrat
 		void		increase_grade(void);
 		void		decrease_grade(void);
 		void		signForm(AForm & form);
+		void		executeForm(AForm & form);
 		
 	private:
 		class	GradeTooLowException : public std::exception

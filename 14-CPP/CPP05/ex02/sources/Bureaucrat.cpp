@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:37:24 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/01/30 15:31:32 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/01/31 16:00:40 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,20 @@ void	Bureaucrat::signForm(AForm & form)
 	catch (std::exception & e)
 	{
 		std::cout << RED << BOLD << this->_name << " couldn't sign " << form.getName() << " because " << e.what() << NORMAL << std::endl;
+		throw;
+	}
+}
+
+void	Bureaucrat::executeForm(AForm & form)
+{
+	try
+	{
+		form.execute(*this);
+		std::cout << GREEN << BOLD << this->_name << " executed " << form.getName() << NORMAL << std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cout << RED << BOLD << this->_name << " couldn't execute " << form.getName() << " because " << e.what() << NORMAL << std::endl;
 		throw;
 	}
 }

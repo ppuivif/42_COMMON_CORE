@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2025/01/30 15:32:06 by ppuivif          ###   ########.fr        #
+#    Updated: 2025/01/31 18:44:25 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,11 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98 \
 
 SRCS =  sources/main.cpp \
 		sources/Bureaucrat.cpp \
-		sources/AForm.cpp
-
+		sources/AForm.cpp \
+		sources/PresidentialPardonForm.cpp \
+		sources/RobotomyRequestForm.cpp \
+		sources/ShrubberyCreationForm.cpp
+		
 #============ TRANSFORM .c TO .o ============#
 
 OBJS = $(SRCS:%.cpp=%.o)
