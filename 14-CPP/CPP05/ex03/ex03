@@ -1,0 +1,25 @@
+CPP05 - ex03 : At least this beats coffee-making
+
+-----------------------------------------------------------------------------------------------
+
+Implémenter une classe Intern.
+Cette classe n'a aucun nom, aucun grade, aucune caractéristique unique.
+Les bureaucrats sont attentifs au fait qu'ils fassent leur travail.
+
+Toutefois, l'intern dispose d'une fonction importante : makeForm().
+Cette fonction prend deux strings en arguments :
+	- le nom du formulaire,
+	- la cible du formulaire.
+L'intern renvoie un pointeur vers un objet Form (celui dont le formulaire est passé en
+paramètre. La cible sera donnée au formulaire.
+Cette fonction doit imprimer quelque chose comme :
+	Intern creates <form>
+
+Si le nom du formulaire passé en paramètre n'existe pas, imprimer un message d'erreur explicite.
+
+-----------------------------------------------------------------------------------------------
+
+Ne pas utiliser de forêt de if.
+
+-----------------------------------------------------------------------------------------------
+
