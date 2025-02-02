@@ -6,7 +6,7 @@
 #    By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 15:27:08 by ppuivif           #+#    #+#              #
-#    Updated: 2025/01/31 18:44:25 by ppuivif          ###   ########.fr        #
+#    Updated: 2025/02/02 09:26:36 by ppuivif          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRCS =  sources/main.cpp \
 		sources/AForm.cpp \
 		sources/PresidentialPardonForm.cpp \
 		sources/RobotomyRequestForm.cpp \
-		sources/ShrubberyCreationForm.cpp
+		sources/ShrubberyCreationForm.cpp \
+		sources/Intern.cpp
 		
 #============ TRANSFORM .c TO .o ============#
 

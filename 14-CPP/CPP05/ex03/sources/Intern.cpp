@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 17:30:50 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/01 18:10:38 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/02 10:16:41 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,30 @@ AForm	* Intern::makeForm(std::string const & form, std::string const & target) c
 
 	for (int i = 0; i < 3; i++)
 	{
-		if (list[i].compare(form))
+		if (list[i] == form)
 			index = i;
 	}
 	switch (index)
 	{
 		case 0 :
+		{
 			result = new PresidentialPardonForm(target);
 			break;
+		}
 		case 1 :
+		{
 			result = new RobotomyRequestForm(target);
 			break;
+		}
 		case 2 :
+		{
 			result = new ShrubberyCreationForm(target);
 			break;
-		default :
+		}
+/*		default :
+		{
 			throw Intern::formDoNotExistException();
+		}*/
 	}
 	std::cout << GREEN << BOLD << "Intern creates " << form << NORMAL << std::endl;
 	return (result);
