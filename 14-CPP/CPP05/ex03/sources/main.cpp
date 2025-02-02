@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 19:03:32 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/02 10:36:14 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/02 17:52:03 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int main()
 		run_test23();
 		run_test24();
 		run_test25();
-//		run_test26();
+		run_test26();
 	}
 	catch (std::exception & e)
 	{
