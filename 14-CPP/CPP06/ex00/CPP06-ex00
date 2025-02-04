@@ -1,12 +1,110 @@
-CPP06 - ex00 : At least this beats coffee-making
+CPP06 - ex00 : Conversion of scalar types
 
 -----------------------------------------------------------------------------------------------
 
+Créer une classe ScalarConverter qui contient :
+	- une méthode static "convert" qui prend en paramètre une string et qui renvoie sa
+	valeur dans la série suivante de types :
+		- char,
+		- int,
+		- float,
+		- double.
+	cette méthode "convert" est placée en public 
+	- cette classe ne stocke rien et elle ne doit donc pas être instanciable : les
+	fonctions membre de la forme canonique sont encapsulées en private.
+En dehors des types char, seule la notation décimale sera utilisée.
 
+Pour faire simple, les caractères non affichables ne devront pas être utilisés dans les inputs.
+
+Si la conversion en char n'est pas affichable, afficher un message d'information.
+
+Il faut gérer les "pseudo literals" de type float comme il se doit : -inff, +inff et nanf.
+
+Il faut gérer les "pseudo literals" de type double comme il se doit : -inf, +inf et nan.
 
 -----------------------------------------------------------------------------------------------
 
+Premièrement, il faut détecter le type de "literal" passé en paramètre.
+Ensuite il faut le convertir de la forme string vers son type actuel.
+Puis il faut le convertir dans les 3 autres types de données.
+En dernier lieu, afficher les resultats.
 
+Si une conversion n'a aucun sens ou overflow, afficher un message pour informer l'utilisateur
+que le type de conversion est impossible.
+
+Inclure tous les headers necessaires pour gérer les limites numériques et les valeurs
+spéciales.
+
+Le programme de conversion est appelé en ligne de commande avec ses arguments.
 
 -----------------------------------------------------------------------------------------------
+
+Parsing sur les arguments char * :
+
+	- à priori, le programme peut recevoir plusieurs "litéraux".
+	- vérifier le nbre d'arguments (>1), sinon afficher un message d'erreur,
+	- vérifier le contenu de la chaîne de caractères envoyée en argument : elle ne doit pas
+	être vide, sinon afficher un message d'erreur.
+	- à priori, un char* peut être pris directement dans une string, sinon CPP00 ex00
+		str = static_cast<std::string>(argv[i]);
+
+-----------------------------------------------------------------------------------------------
+
+Les fonctions à implémenter :
+
+	- les fonctions d'identification du "litéral" qui prennent une string renvoient un bool :
+		- isChar,
+		- isInt,
+		- isFloat,
+		- isDouble,
+		- isOther.
+	- les fonctions de conversion qui prennent une string :
+		- toChar,
+		- toInt,
+		- toFloat,
+		- toDouble,
+		- toOther.
+
+-----------------------------------------------------------------------------------------------
+
+La fonction isChar :
+	- skip les whitespaces : à priori non car non printables (hors space)
+	- verifier si string non empty,
+	- un caractère a une taille de 1, il est printable et n'est pas un digit,
+	- le caractère peut être accepté entre simples quotes.
+
+-----------------------------------------------------------------------------------------------
+
+La fonction isInt :
+	- accepter les signes + et - (1x en début de string),
+	- utiliser isdigit(input[i]).
+
+-----------------------------------------------------------------------------------------------
+
+La fonction toChar :
+	- skip les whitespaces ?
+	- si caractère entre single quotes (soit size = 3 && input[0] && input[2] == '\''),
+	prendre input[1],
+	- convertir via static_cast<int>(c);
+	- convertir via static_cast<float>(c);
+	- convertir via static_cast<double>(c);
+
+-----------------------------------------------------------------------------------------------
+
+voir fonction strtod (tips Ben)
+
+voir fonction isprint (<cctype> ou <ctype.h>) renvoie 0 si false, ou != 0 si true
+attention :
+	- NUL, \t, \f, \v, \n, \r, DEL non printables, SHIFT IN, SHIFT OUT
+	- space printable
+
+prévoir une fonction de print
+
+
+
+
+
+
+
+
 
