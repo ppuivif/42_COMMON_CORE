@@ -2,6 +2,20 @@ CPP06 - ex00 : Conversion of scalar types
 
 -----------------------------------------------------------------------------------------------
 
+https://www.geeksforgeeks.org/difference-between-float-and-double/
+
+La différence entre un double et un float est leur précision :
+	- un float (spécificateur de format %f, syntaxe 3.14159f) est représenté sur 32 bits
+	(1 bit pour le signe, 8 bits pour l'exposant et 23 bits pour la valeur) : la précision
+	d'un float est de 7 décimales (précision simple).
+	- un double (spécificateur de format %lf, syntaxe 3.14159) est représenté sur 64 bits
+	(1 bit pour le signe, 11 bits pour l'exposant et 52 bits pour la valeur) : la précision
+	d'un float est de 15 décimales (précision double).
+Ainsi, le nombre double peut stocker des nombres plus grands et fournir des calculs plus précis
+que le nombre float.
+
+-----------------------------------------------------------------------------------------------
+
 Créer une classe ScalarConverter qui contient :
 	- une méthode static "convert" qui prend en paramètre une string et qui renvoie sa
 	valeur dans la série suivante de types :
@@ -14,13 +28,18 @@ Créer une classe ScalarConverter qui contient :
 	fonctions membre de la forme canonique sont encapsulées en private.
 En dehors des types char, seule la notation décimale sera utilisée.
 
-Pour faire simple, les caractères non affichables ne devront pas être utilisés dans les inputs.
+Pour faire simple, les caractères non affichables* ne devront pas être utilisés dans les inputs.
 
 Si la conversion en char n'est pas affichable, afficher un message d'information.
 
-Il faut gérer les "pseudo literals" de type float comme il se doit : -inff, +inff et nanf.
+Il faut gérer les "pseudo literals" de type float comme il se doit : -inff, +inff et nanf**.
 
-Il faut gérer les "pseudo literals" de type double comme il se doit : -inf, +inf et nan.
+Il faut gérer les "pseudo literals" de type double comme il se doit : -inf, +inf et nan**.
+
+* les caractéres non affichables sont les caractéres ASCII de 0 à 31 et le caractère 127. 
+
+** NaN = Not a Number est le résultat d'opérations telles que 0/0, inf - inf, inf / inf,
+0 - inf 
 
 -----------------------------------------------------------------------------------------------
 
@@ -71,13 +90,37 @@ La fonction isChar :
 	- skip les whitespaces : à priori non car non printables (hors space)
 	- verifier si string non empty,
 	- un caractère a une taille de 1, il est printable et n'est pas un digit,
-	- le caractère peut être accepté entre simples quotes.
+	- le caractère peut être accepté entre simples quotes et dans ce cas, la taille est
+	de 3.
 
 -----------------------------------------------------------------------------------------------
 
 La fonction isInt :
+	- skip les spaces ?
 	- accepter les signes + et - (1x en début de string),
-	- utiliser isdigit(input[i]).
+	- utiliser isdigit(input[i]) ou voir si strtoll suffit
+
+-----------------------------------------------------------------------------------------------
+
+La fonction isFloat :
+	- skip les spaces ?
+	- accepter les signes + et - (1x en début de string),
+	- utiliser isdigit(input[i]) ou voir si strtof suffit
+
+-----------------------------------------------------------------------------------------------
+
+La fonction isDouble :
+	- skip les spaces ?
+	- accepter les signes + et - (1x en début de string),
+	- utiliser isdigit(input[i]) ou voir si strtod suffit
+
+-----------------------------------------------------------------------------------------------
+
+La fonction isOther :
+	- créer un tableau de string contenant : "-inff", "+inff", "nanf", "-inf", "+inf", "nan"
+	- comparer la string avec le contenu du tableau,
+	- si la correspondance est correcte, afficher les messages correspondant pour
+	chaque type (char et int : impossible, float et double : +inf, ...
 
 -----------------------------------------------------------------------------------------------
 
@@ -86,19 +129,52 @@ La fonction toChar :
 	- si caractère entre single quotes (soit size = 3 && input[0] && input[2] == '\''),
 	prendre input[1],
 	- convertir via static_cast<int>(c);
-	- convertir via static_cast<float>(c);
+	- convertir via static_cast<float>(c); //voi std::setprecision(1)
 	- convertir via static_cast<double>(c);
 
 -----------------------------------------------------------------------------------------------
 
-voir fonction strtod (tips Ben)
+La fonction toInt :
+	- skip les whitespaces (est-de que stroll le fait ?)
+	- convertir la string en int (utiliser std::stoi avec include <string> avec une
+	vérification des overflow ou strtoll avec verification du retour notamment pour la
+	vérification des overflow),
+	- convertir via static_cast<char>(i) et vérifier si le caractère est printable. Si il
+	n'est pas printable, afficher un message d'erreur;
+	- convertir via static_cast<float>(i); //voir std::setprecision(1)
+	- convertir via static_cast<double>(i);
+
+ressources :
+	- stoi : https://cplusplus.com/reference/string/stoi/?kw=stoi
+	- strtoll : https://cplusplus.com/reference/cstdlib/strtoll/?kw=strtoll
+	- strtod : https://cplusplus.com/reference/cstdlib/strtod/
+	- strtof : https://cplusplus.com/reference/cstdlib/strtof/?kw=strtof
+
+-----------------------------------------------------------------------------------------------
+
 
 voir fonction isprint (<cctype> ou <ctype.h>) renvoie 0 si false, ou != 0 si true
-attention :
-	- NUL, \t, \f, \v, \n, \r, DEL non printables, SHIFT IN, SHIFT OUT
-	- space printable
+attention : space printable
 
-prévoir une fonction de print
+voir isspace : space, \t, \n, \v, \f, \r
+
+voir stoll (<string>) : convert string to long long
+
+voir strtoll (<cstdlib>) : convert string to long long integer and set the value of endptr to
+point to the first character after the number (else endptr is a null pointer).
+Prend-il les signes?
+voir les valeurs de retour en cas d'erreur
+Return a zero value (0LL) if non valid conversion.
+If the value is out of range, errno is set to ERANGE.
+
+voir fonction strtod (tips Ben) (<cstdlib>) : idem strtoll but skip first whitespaces and return
+double.
+Return a zero value (0.0) if non valid conversion or only whitepaces or empty.
+If the value is out of range, errno is set to ERANGE. 
+
+voir fonction strtof (<cstdlib>) : idem strtod
+
+prévoir une fonction de print conforme au sujet
 
 
 
