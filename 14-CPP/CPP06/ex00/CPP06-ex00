@@ -17,8 +17,8 @@ que le nombre float.
 -----------------------------------------------------------------------------------------------
 
 Créer une classe ScalarConverter qui contient :
-	- une méthode static "convert" qui prend en paramètre une string et qui renvoie sa
-	valeur dans la série suivante de types :
+	- une méthode static "convert" qui prend en paramètre une string et qui affiche (output)
+	sa valeur dans la série suivante de types :
 		- char,
 		- int,
 		- float,
