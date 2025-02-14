@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:09:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/12 18:26:19 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/14 20:59:59 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 #include <string>
 #include <iostream>
 #include <cctype> //for isdigit
+#include <cstdlib> //for strtoll
+#include <cerrno> //for errno
+#include <math.h> //for nan
+#include <iomanip> //for setprecision
+#include <sstream> //for ostringstream
 
 class ScalarConverter
 {
@@ -25,11 +30,10 @@ class ScalarConverter
 		ScalarConverter & operator=(ScalarConverter & rhs);
 		~ScalarConverter(void);
 
-		static bool	_isChar(std::string & input);
-		static bool	_isInt(std::string & input);
-		static bool	_isFloat(std::string & input);
-		static bool	_isDouble(std::string & input);
-		static bool	_isOther(std::string & input);
+		static bool	_isChar(std::string & input, char *c);
+		static bool	_isInt(std::string & input, long int *i, bool *isOOR);
+		static bool	_isFloat(std::string & input, float *f, bool *isOther);
+		static bool	_isDouble(std::string & input, double *d, bool *isOther);
 
 		static void _toChar(std::string & input);
 		static void _toInt(std::string & input);
