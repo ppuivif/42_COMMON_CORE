@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 17:52:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/14 21:07:48 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/14 21:20:28 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,72 +33,6 @@ ScalarConverter & ScalarConverter::operator=(ScalarConverter & rhs)
 ScalarConverter::~ScalarConverter(void)
 {
 	std::cout << "Destructor ScalarConverter called" << std::endl; 
-}
-
-void displayChar(char c)
-{
-	if (c < 0 || c > 127)
-		std::cout << "char :\t " << "impossible" << std::endl;
-	else if (isprint(c))
-		std::cout << "char :\t " << "'" << c << "'" << std::endl;
-	else
-		std::cout << "char :\t " << "non printable" << std::endl;
-}
-
-void displayFromChar(char c)
-{
-	int		i = static_cast<int>(c);
-	float	f = static_cast<float>(c);
-	double	d = static_cast<double>(c);
-
-	displayChar(c);
-	std::cout << "int :\t " << i << std::endl;
-	std::cout << std::fixed;
-	std::cout << std::setprecision(1);
-	std::cout << "float :\t " << f << "f" << std::endl;
-	std::cout << "double : " << d << std::endl;
-}
-
-void displayFromInt(int i)
-{
-	char	c = static_cast<char>(i);
-	float	f = static_cast<float>(i);
-	double	d = static_cast<double>(i);
-
-	displayChar(c);
-	std::cout << "int :\t " << i << std::endl;
-	std::cout << std::fixed;
-	std::cout << std::setprecision(1);
-	std::cout << "float :\t " << f << "f" << std::endl;
-	std::cout << "double : " << d << std::endl;
-}
-
-void displayFromFloat(float f)
-{
-	char	c = static_cast<char>(f);
-	int		i = static_cast<int>(f);
-	double	d = static_cast<double>(f);
-
-	displayChar(c);
-	std::cout << "int :\t " << i << std::endl;
-//	std::cout << std::fixed;
-//	std::cout << std::setprecision(1);
-	std::cout << "float :\t " << f << "f" << std::endl;
-	std::cout << "double : " << d << std::endl;
-}
-
-void displayFromDouble(double d)
-{
-	char	c = static_cast<char>(d);
-	int		i = static_cast<int>(d);
-	float	f = static_cast<float>(d);
-
-	displayChar(c);
-	std::cout << "int :\t " << i << std::endl;
-//	std::cout << std::fixed;
-//	std::cout << std::setprecision(1);
-	std::cout << "float :\t " << f << "f" << std::endl;
-	std::cout << "double : " << d << std::endl;
 }
 
 void	cast(int index, char *c, long int *i, float *f, double *d)
@@ -132,56 +66,36 @@ void	cast(int index, char *c, long int *i, float *f, double *d)
 	*d = static_cast<double>(*ptr);*/
 }
 
-std::string	printFloat(float num)
-{
-    std::ostringstream stream;
-
-    // Check if the number has decimal places
-    if (num == static_cast<int>(num)) {
-        // Integer value: Force one decimal place
-        stream << std::fixed << std::setprecision(1) << num;
-    } else {
-        // Non-integer: Use max precision to preserve all digits
-        stream << num;
-    }
-
-//    std::cout << stream.str() << std::endl;
-	return(stream.str());
-}
-
-std::string	printDouble(double num)
-{
-    std::ostringstream stream;
-
-    // Check if the number has decimal places
-    if (num == static_cast<int>(num)) {
-        // Integer value: Force one decimal place
-        stream << std::fixed << std::setprecision(1) << num;
-    } else {
-        // Non-integer: Use max precision to preserve all digits
-        stream << num;
-    }
-
-//    std::cout << stream.str() << std::endl;
-	return(stream.str());
-}
-
 void	display(char c, int i, float f, double d)
 {
+    std::ostringstream stream;
+
 	if (c < 0 || c > 127)
 		std::cout << "char :\t " << "impossible" << std::endl;
 	else if (isprint(c))
 		std::cout << "char :\t " << "'" << c << "'" << std::endl;
 	else
 		std::cout << "char :\t " << "non printable" << std::endl;
+
 	std::cout << "int :\t " << i << std::endl;
-//	std::cout << std::fixed;
-//	std::cout << std::setprecision(precision);
-	std::cout << "float :\t " << printFloat(f) << "f" << std::endl;
-	std::cout << "double : " << printDouble(d) << std::endl;
+
+    // Check if the number has decimal places
+	if (f == i)
+        // Integer value: Force one decimal place
+		stream << std::fixed << std::setprecision(1) << f;
+	else
+        // Non-integer: Use max precision to preserve all digits
+		stream << f;
+	std::cout << "float :\t " << stream.str() << "f" << std::endl;
+	stream.str("");
+	stream.clear();
+
+	if (d == i)
+		stream << std::fixed << std::setprecision(1) << f;
+	else
+		stream << f;
+	std::cout << "double : " << stream.str() << std::endl;
 }
-
-
 
 void	ScalarConverter::convert(std::string & input)
 {
@@ -192,7 +106,6 @@ void	ScalarConverter::convert(std::string & input)
 	double		d = 0;
 	bool		isOOR = false; //is Out Of Range
 	bool		isOther = false;
-	int			precision = 1;
 
 	bool array[] = {_isChar(input, &c), _isInt(input, &i, &isOOR), _isFloat(input, &f, &isOther), _isDouble(input, &d, &isOther), isOther};
 	for (; index < 5; index++)
@@ -200,18 +113,16 @@ void	ScalarConverter::convert(std::string & input)
 		if(array[index] == true)
 			break;
 	}
-	switch (index) //pb with hexadecimal notation
+	switch (index) //pb with hexadecimal notation and see precision for displaying result
 	{
 		case 0 :
 			cast(index, &c, &i, &f, &d);
-			precision = 1;
 			break;
 		case 1 :
 			if (isOOR == false)
 			{
 				std::cout << i << " is an int" << std::endl;
 				cast(index, &c, &i, &f, &d);
-				precision = 1;
 			}
 			else
 				std::cout << "input " << input << " is not valid" << std::endl;
@@ -219,14 +130,12 @@ void	ScalarConverter::convert(std::string & input)
 		case 2 :
 			std::cout << f << " is a float" << std::endl;
 			cast(index, &c, &i, &f, &d);
-			precision = 2;
 			break;
 		case 3 :
 			std::cout << d << " is a double" << std::endl;
 			cast(index, &c, &i, &f, &d);
-			precision = 2;
 			break;
-		case 4 :
+		case 4 : //not required
 			std::cout << input << " is other" << std::endl;
 			break;
 		default :
