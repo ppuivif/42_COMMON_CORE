@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 17:52:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/14 21:20:28 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/18 19:48:30 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ ScalarConverter::~ScalarConverter(void)
 	std::cout << "Destructor ScalarConverter called" << std::endl; 
 }
 
-void	cast(int index, char *c, long int *i, float *f, double *d)
+void	cast(int index, char *c, long long int *i, float *f, double *d)
 {
 //	void	*ptr = NULL;
 	
@@ -43,7 +43,7 @@ void	cast(int index, char *c, long int *i, float *f, double *d)
 	{
 		case 0 :
 //			ptr = &c;
-			*i = static_cast<int>(*c);
+			*i = static_cast<long long int>(*c);
 			*f = static_cast<float>(*c);
 			*d = static_cast<double>(*c);
 			break;
@@ -54,33 +54,46 @@ void	cast(int index, char *c, long int *i, float *f, double *d)
 			break;
 		case 2 :
 			*c = static_cast<char>(*f);
-			*i = static_cast<int>(*f);
 			*d = static_cast<double>(*f);
+			*i = static_cast<long long int>(*f);
+			break;
 		case 3 :
 			*c = static_cast<char>(*d);
-			*i = static_cast<int>(*d);
+			*i = static_cast<long long int>(*d);
 			*f = static_cast<float>(*d);
+			break;
 	}
 /*	*c = static_cast<char>(*ptr);
 	*f = static_cast<float>(*ptr);
 	*d = static_cast<double>(*ptr);*/
 }
 
-void	display(char c, int i, float f, double d)
+void	display(char c, long long int i, float f, double d)
 {
     std::ostringstream stream;
 
-	if (c < 0 || c > 127)
+	std::cout << "char :\t " << "'" << c << "'" << std::endl;
+
+//	condition si c = 0 non out of range;
+
+	if (c <= 0 || c > 127 || \
+	(isnan(f) || f == INFINITY || f == -INFINITY) || \
+	(isnan(d) || d == INFINITY || d == -INFINITY))
 		std::cout << "char :\t " << "impossible" << std::endl;
-	else if (isprint(c))
-		std::cout << "char :\t " << "'" << c << "'" << std::endl;
-	else
+	else if (!isprint(c))
 		std::cout << "char :\t " << "non printable" << std::endl;
+	else
+		std::cout << "char :\t " << "'" << c << "'" << std::endl;
 
-	std::cout << "int :\t " << i << std::endl;
-
+//	if ((!isnan(f) && f != INFINITY && f != -INFINITY) || \
+//	(!isnan(d) && d != INFINITY && d != -INFINITY))
+	if (i >= -2147483648 && i <= 2147483647)
+		std::cout << "int :\t " << i << std::endl;
+	else
+		std::cout << "int :\t " << "impossible" << std::endl;
+		
     // Check if the number has decimal places
-	if (f == i)
+/*	if (f == i)
         // Integer value: Force one decimal place
 		stream << std::fixed << std::setprecision(1) << f;
 	else
@@ -88,44 +101,49 @@ void	display(char c, int i, float f, double d)
 		stream << f;
 	std::cout << "float :\t " << stream.str() << "f" << std::endl;
 	stream.str("");
-	stream.clear();
+	stream.clear();*/
 
-	if (d == i)
-		stream << std::fixed << std::setprecision(1) << f;
-	else
-		stream << f;
-	std::cout << "double : " << stream.str() << std::endl;
+//	if (f == i)
+//		std::cout << "float :\t " << std::setprecision(1) << f << "f" << std::endl;
+//	else
+	std::cout << "float :\t " << std::setprecision(30) << f << "f" << std::endl;
+
+//	if (d == i)
+//		stream << std::fixed << std::setprecision(1) << f;
+//	else
+//		stream << f;
+//	std::cout << "double : " << stream.str() << std::endl;
+
+//	if (d == i)
+//		std::cout << "double : " << std::setprecision(1) << d << std::endl;
+//	else
+	std::cout << "double : " << std::setprecision(50) << d << std::endl;
 }
 
 void	ScalarConverter::convert(std::string & input)
 {
 	int			index = 0;
-	char		c;
-	long int	i = 0;
+	char		c = 0;
+	long long int	i = 0;
 	float		f = 0;
 	double		d = 0;
-	bool		isOOR = false; //is Out Of Range
-	bool		isOther = false;
+	bool		isValid = true;
 
-	bool array[] = {_isChar(input, &c), _isInt(input, &i, &isOOR), _isFloat(input, &f, &isOther), _isDouble(input, &d, &isOther), isOther};
+	bool array[] = {_isChar(input, &c), _isInt(input, &i, &isValid), _isFloat(input, &f, &isValid), _isDouble(input, &d, &isValid)};
 	for (; index < 5; index++)
 	{
 		if(array[index] == true)
 			break;
 	}
-	switch (index) //pb with hexadecimal notation and see precision for displaying result
+	switch (index) //see precision for displaying result
 	{
 		case 0 :
+			std::cout << c << " is a char" << std::endl;
 			cast(index, &c, &i, &f, &d);
 			break;
 		case 1 :
-			if (isOOR == false)
-			{
-				std::cout << i << " is an int" << std::endl;
-				cast(index, &c, &i, &f, &d);
-			}
-			else
-				std::cout << "input " << input << " is not valid" << std::endl;
+			std::cout << i << " is an int" << std::endl;
+			cast(index, &c, &i, &f, &d);
 			break;
 		case 2 :
 			std::cout << f << " is a float" << std::endl;
@@ -135,14 +153,14 @@ void	ScalarConverter::convert(std::string & input)
 			std::cout << d << " is a double" << std::endl;
 			cast(index, &c, &i, &f, &d);
 			break;
-		case 4 : //not required
-			std::cout << input << " is other" << std::endl;
-			break;
 		default :
-			std::cout << "input " << input << " is not valid" << std::endl;
-			return;
+			isValid = false;
+			break;
 	}
-	display(c, i, f, d);
+	if (isValid == true)
+		display(c, i, f, d);
+	else
+		std::cout << "input " << input << " is not valid" << std::endl;
 
 }
 
@@ -156,10 +174,11 @@ bool	ScalarConverter::_isChar(std::string & input, char *c)
 	return (false);
 }
 
-bool	ScalarConverter::_isInt(std::string & input, long int *i, bool *isOOR)
+bool	ScalarConverter::_isInt(std::string & input, long long int *i, bool *isValid)
 {
 	const char *str = input.c_str();
 	char *endptr;
+	errno = 0;
 
  	*i = strtol(str, &endptr, 10);
 	//if out of range, errno is set to ERANGE
@@ -167,42 +186,54 @@ bool	ScalarConverter::_isInt(std::string & input, long int *i, bool *isOOR)
 	if (!errno && *endptr == 0)
 	{
 		if (*i < -2147483648 || *i > 2147483647)
-			*isOOR = true;
+			*isValid = false;
 		return(true);
 	}
 	return (false);
 }
 
-bool	ScalarConverter::_isFloat(std::string & input, float *f, bool *isOther)
+bool	ScalarConverter::_isFloat(std::string & input, float *f, bool *isValid)
 {
 	const char *str = input.c_str();
 	char *endptr;
+	errno = 0;
 
- 	*f = strtof(str, &endptr);
+	(void)*isValid;
+
+ 	if (!isspace(input[0]))
+	{
+		*f = strtof(str, &endptr);
 	//if out of range, errno is set to ERANGE
 	//if a non digit behind digit, *endptr != '\0'
-	if (!errno && *endptr == 'f' && endptr[1] == 0)
-	{
-		if (!isnan(*f) && *f != INFINITY && *f != -INFINITY)
+		if (*endptr == 'f' && endptr[1] == 0)
+		{
+/*			if (errno == ERANGE)
+				*isValid = false;*/
 			return(true);
-		*isOther = true;
+		}	
 	}
 	return (false);
 }
 
-bool	ScalarConverter::_isDouble(std::string & input, double *d,  bool *isOther)
+bool	ScalarConverter::_isDouble(std::string & input, double *d, bool *isValid)
 {
 	const char *str = input.c_str();
 	char *endptr;
+	errno = 0;
 
- 	*d = strtod(str, &endptr);
+	if (!isspace(input[0]) && \
+	input.find("x") == std::string::npos && \
+	input.find("X") == std::string::npos)
+	{
+		*d = strtod(str, &endptr);
 	//if out of range, errno is set to ERANGE
 	//if a non digit behind digit, *endptr != '\0'
-	if (!errno && *endptr == '\0')
-	{
-		if (!isnan(*d) && *d != INFINITY && *d != -INFINITY)
+		if (*endptr == '\0')
+		{
+			if (errno)
+				*isValid = false;
 			return(true);
-		*isOther = true;
+		}	
 	}
 	return (false);
 }
