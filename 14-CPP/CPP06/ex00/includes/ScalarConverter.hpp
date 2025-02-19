@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:09:34 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/18 12:01:47 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/19 17:39:10 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@
 #include <cctype> //for isdigit
 #include <cstdlib> //for strtoll
 #include <cerrno> //for errno
-#include <math.h> //for nan
+#include <math.h> //for nan and modf
 #include <iomanip> //for setprecision
 #include <sstream> //for ostringstream
-#include <limits> //for
 
 class ScalarConverter
 {
@@ -34,7 +33,7 @@ class ScalarConverter
 		static bool	_isChar(std::string & input, char *c);
 		static bool	_isInt(std::string & input, long long int *i, bool *isValid);
 		static bool	_isFloat(std::string & input, float *f, bool *isValid);
-		static bool	_isDouble(std::string & input, double *d, bool *isValid);
+		static bool	_isDouble(std::string & input, double *d, bool *isValid, bool *isZero);
 
 		static void _toChar(std::string & input);
 		static void _toInt(std::string & input);
