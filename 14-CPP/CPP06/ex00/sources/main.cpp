@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 17:30:52 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/12 18:39:52 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/20 20:21:20 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int	main(int argc, char **argv)
 		std::cout << "Error : argument is empty" << std::endl;
 		return (1);
 	}
-	{
-		ScalarConverter::convert(input);
-		return (0);
-	}
+	ScalarConverter::convert(input);
+//	ScalarConverter::convert(argv[1]);
+	return (0);
 }
