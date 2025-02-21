@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 18:17:29 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/19 18:43:10 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/21 18:51:58 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 #include <iostream>
 #include <string>
-#include <cstdint>
+#include <stdint.h> // for uintptr_t
+#include <iomanip> // for setprecision
 
 typedef struct s_Data
 {
@@ -32,15 +33,12 @@ class Serializer
 		Serializer(Serializer & rhs);
 		Serializer & operator=(Serializer & rhs);
 		~Serializer();
-
-		static void			_initStruct(t_Data * ptr);
 		
 	public:
-		static uintptr_t	_serialize(t_Data * ptr);
-		static t_Data *		_deserialize(uintptr_t raw);
+		static void			initStruct(t_Data * ptr);
+		static void			displayStructContent(t_Data const & data);
+		static uintptr_t	serialize(t_Data * ptr);
+		static t_Data *		deserialize(uintptr_t raw);
 };
-
-
-
 
 #endif

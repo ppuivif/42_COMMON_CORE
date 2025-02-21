@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 17:52:45 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/20 20:41:41 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/02/21 10:17:36 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	ScalarConverter::convert(std::string const & input)
 	switch (index) //see precision for displaying result
 	{
 		case 0 :
-			std::cout << c << " is a char" << std::endl;
+			std::cout << "'" << c << "' is a char" << std::endl;
 			cast(index, &c, &i, &f, &d);
 			break;
 		case 1 :
@@ -158,6 +158,11 @@ bool	ScalarConverter::_isChar(std::string const & input, char *c)
 	if (input.size() == 1 && !isdigit(input[0]))
 	{
 		*c = input[0];
+		return(true);
+	}
+	else if (input.size() == 3 && input[0] == '\'' && input[2] == '\'')
+	{
+		*c = input[1];
 		return(true);
 	}
 	return (false);
