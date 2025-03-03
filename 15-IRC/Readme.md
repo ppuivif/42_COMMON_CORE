@@ -25,6 +25,12 @@ The program could receive :
   - a Signal Quit (SIGQUIT) with CTRL \.
 To handle signals, signal function must be set (<signal.h>).</br>
 This function specifies a way to handle the signals with the signal number specified by sig (2 for SIGINT, 3 for SIQUIT).
-
-
+```C++
+signal(SIGINT, signalHandler);
+```
+where signalHandler is a pointer to a function which will be used to manage action on signal (displaying a message, exit, ...).</br>
+This function should follow the following prototype :
+```C++
+void handler_function (int parameter);
+```
 
