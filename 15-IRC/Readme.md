@@ -19,6 +19,12 @@ It will take 2 arguments :
 The number of arguments is limited to 2.</br>
 Port is a number between 0 and 65535 included (ports are represented using a 16-bit unsigned integer in networking so there are 2^16 possibilities).
 
+## Input signals
+The program could receive :
+  - a Signal Interrupt (SIGINT) with CTRL C,
+  - a Signal Quit (SIGQUIT) with CTRL \.
+To handle signals, signal function must be set (<signal.h>).</br>
+This function specifies a way to handle the signals with the signal number specified by sig (2 for SIGINT, 3 for SIQUIT).
 
 
 
