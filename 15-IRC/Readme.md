@@ -47,23 +47,25 @@ To run a server need sockets.
 A socket is an endpoint for communication between two machines over a network. It allows processes to send and receive data, whether they are on the same device or different devices across the internet.
 A server side socket is defined by 3 elements :
   - IP address to identify the server on the network,
-  - port number* to identify the specific service or application on the device,
-  - protocol to define how the data is transmitted (TCP or UDP**).
+  - port number(1) to identify the specific service or application on the device,
+  - protocol to define how the data is transmitted (TCP or UDP)(2).
 
-* On a device, several applications could use the network at the same time. The port number is a numerical identifier used to ensure that data is delivered to the correct application on the device.
-** TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are the two main transport layer protocols used for sending data over the internet. They define how data is sent and received between devices.</br>
+(1) On a device, several applications could use the network at the same time. The port number is a numerical identifier used to ensure that data is delivered to the correct application on the device.</br>
+(2) TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are the two main transport layer protocols used for sending data over the internet. They define how data is sent and received between devices.</br>
 TCP establishes a connection before sending data and ensures it is delivered accurately and in order.</br>
 It is used for :
   - web browsing (HTTP, HTTPS on ports 80, 443),
   - file transfert (FTP on port 21),
   - email (SMTP, IMAP, POP3),
   - Secure Shell (SSH on port 22).
+ 
 UDP is a connectionless protocol, meaning it sends data without ensuring delivery. It’s faster but less reliable.</br>
 It is used for :
   - online gaming,
   - VoIP (Skype, Zoom, WhatsApp calls),
   - live video streaming (YouTube, Twitch, Netflix, ...),
   - DNS lookups.
+
 A socket using TCP is called stream socket.</br>
 A socket using UDP is called datagram socket.</br>
 
