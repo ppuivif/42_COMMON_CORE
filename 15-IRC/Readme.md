@@ -162,7 +162,7 @@ If the function "bind()" fails, it returns -1.
 This works because sockaddr_in is a specialized version of sockaddr.
 
 #### Listen to the server socket :
-As soon as the server socket is bound to the server, the server socket is put in a passive mode. It means that it waits for a client to approach the server to make a connection.</br>
+As soon as the server socket is bound to the server, the server socket is put in a passive mode : it is ready to receive connections. In other words, it means that it waits for a client to approach the server to make a connection and the OS starts queuing client connections.</br>
 To put the server socket in such a mode, the function "listen()" is used, as follow :
 ```C++
 # <include ???>
@@ -170,5 +170,8 @@ To put the server socket in such a mode, the function "listen()" is used, as fol
 int listen(int socketFd, int backlog);
 ```
 where "socketFd" is the file descriptor of the server socket.</br>
-where "backlog" defines the maximum length to which the queue of pending connections for socketFd may grow. If a connection request arrives when the queue is full, the client may receive an error with an indication of ECONNREFUSED.
+where "backlog" defines the maximum length to which the queue of pending connections for socketFd may grow. If a connection request arrives when the queue is full, the client may receive an error with an indication of ECONNREFUSE. "backlog" could be defined to a define value or to SOMAXCONN.</br>
+If the function "listen()" fails, it returns -1.
 
+When a client connects, accept() removes it from the queue and returns a new client socket (client_fd).
+Accept() only deals with one client at a time. vs listen() ensures that multiple clients can try to connect simultaneously.
