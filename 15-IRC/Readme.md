@@ -97,7 +97,7 @@ The function returns an integer which is a file descriptor. If it fails, it retu
 
 #### Server socket options :
 
-###### allowing socket reusing the address :
+###### allowing socket reusing the address and the port:
 setsockopt() is a function used to configure options for a socket.</br>
 It could be used to allow the socket to reuse the address, especially for restarting a server quickly.</br>
 With this option, the server will be allowed to reuse the same port immediately after restarting, rather than waiting for the OS to release it and displaying an "Address already in use" error.</br>
@@ -105,11 +105,12 @@ Its prototype is defined as following :
 ```C++
 #include <sys/socket.h>
 
-int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
+int setsockopt(int socketFd, int level, int option_name1, int option_name2, const void *option_value, socklen_t option_len);
 ```
-where "socket" is the file descriptor of the socket to configure.</br>
+where "socketFd" is the file descriptor of the socket to configure.</br>
 where "level" indicate if the option applies to the socket level or to a specific protocol. If it concerns the socket level only, "level" will take the value "SOL_SOCKET".</br>
-where option_name is the option to set. To reuse the address, the option_name will be set at SO_REUSEADDR.</br>
+where option_name1 is the first option to set. To reuse the address, the option_name1 will be set at SO_REUSEADDR.</br>
+where option_name2 is the second option to set. To reuse the port, the option_name2 will be set at SO_REUSEPORT.</br>
 where option_value is a pointer to the value being set (typically it will point to the address of a variable enable set at 1).</br>
 where option_len specifies the size of the option_value (here sizeof(enable)).</br>
 The function returns -1 if it failed.
@@ -125,13 +126,15 @@ int fcntl(int fildes, int cmd, int bits);
 ```
 where "fildes" is the file descriptor of the socket to configure.</br>
 where "cmd" will take the value "F_SETFL" to set the file status flags. Its argument will be "bits" which will take "O_NONBLOCK".</br>
-If the function fails, it returns -1.
+If the function "fcntl()" fails, it returns -1.
 
 #### Bind the server socket with the server :
 After the creation of the server socket, the "bind()" function will bind the socket to the address and port number initialy defined for the server (passed as arguments of the program).</br>
 To do this, address and port number have to be stored in a data structure "sockaddr_in" as follow :
 ```C++
-struct sockaddr_in serverAddr;
+#include <???>
+
+struct sockaddr_in serverAddress;
 
 serverAddr.sin_family = AF_INET;
 serverAddr.sin_port = htons(portNumber);
@@ -141,6 +144,31 @@ where sin_family store the type of family address.</br>
 where sin_port store the port number as a network byte order.The function "htons()" (Host TO Network Short) ensures compatibility with the required format.</br>
 where sin_addr.s_addr defines the IP addresses which will be listened to. Only one address could be defined, or any addresses with the value "INADDR_ANY".</br>
 
+Then to bind the server socket to the server, the "bind()" function is used as follow :
+```C++
+#include <???>
 
+int bind(int socketfd, const struct sockaddr *addr, socklen_t addrlen);
+```
+where "socketFd" is the file descriptor of the server socket.</br>
+where "addr" is a pointer to the address of the structure containing the address and the port number of the server(2).</br>
+where "addrlen" is the size of the sockaddr structure as sizeof(addr).</br> 
+If the function "bind()" fails, it returns -1.
 
+(2)Note that a recast from sockaddr_in to sockaddr is necessary :
+```C++
+(struct sockaddr *)&serverAddress;
+```
+This works because sockaddr_in is a specialized version of sockaddr.
+
+#### Listen to the server socket :
+As soon as the server socket is bound to the server, the server socket is put in a passive mode. It means that it waits for a client to approach the server to make a connection.</br>
+To put the server socket in such a mode, the function "listen()" is used, as follow :
+```C++
+# <include ???>
+
+int listen(int socketFd, int backlog);
+```
+where "socketFd" is the file descriptor of the server socket.</br>
+where "backlog" defines the maximum length to which the queue of pending connections for socketFd may grow. If a connection request arrives when the queue is full, the client may receive an error with an indication of ECONNREFUSED.
 
