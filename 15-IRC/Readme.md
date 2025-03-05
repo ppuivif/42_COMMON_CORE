@@ -51,7 +51,8 @@ To run a server need sockets.
 A socket is an endpoint for communication between two machines over a network. It allows processes to send and receive data, whether they are on the same device or different devices across the internet.
 
 Server side, a socket is created (server socket) for listening incoming connections.</br>
-This socket does not directly communicate with clients.</br>
+This socket does not directly communicate with clients. However when an attempt for a new incoming connection is detected by the server, the server socket calls a function ("accept()") which will return a new client socket descriptor.</br>
+
 A server socket is defined by 3 elements :
   - IP address to identify the server on the network,
   - port number,
@@ -92,12 +93,14 @@ where "type" specifies the socket type. It could take the values :
 
 where "protocol" defines the protocol type. If "protocol" is set at 0, the system choose the default protocol for the given type.</br>
 
-The function return an integer which is a file descriptor. If it fails, it returns -1.
+The function returns an integer which is a file descriptor. If it fails, it returns -1.
 
 #### Server socket options :
+
+###### allowing socket reusing the address :
 setsockopt() is a function used to configure options for a socket.</br>
 It could be used to allow the socket to reuse the address, especially for restarting a server quickly.</br>
-With this option, the server will be allowed to reuse the same port immediately after restarting, rather than waiting for the OS to release it.</br>
+With this option, the server will be allowed to reuse the same port immediately after restarting, rather than waiting for the OS to release it and displaying an "Address already in use" error.</br>
 Its prototype is defined as following :
 ```C++
 #include <sys/socket.h>
@@ -109,4 +112,35 @@ where "level" indicate if the option applies to the socket level or to a specifi
 where option_name is the option to set. To reuse the address, the option_name will be set at SO_REUSEADDR.</br>
 where option_value is a pointer to the value being set (typically it will point to the address of a variable enable set at 1).</br>
 where option_len specifies the size of the option_value (here sizeof(enable)).</br>
+The function returns -1 if it failed.
+
+###### set the socket to non-blocking mode :
+The server socket calls the function "accept()" when an attempt for a new incoming connection is detected by the server.</br>
+If accept() is blocking and still might freeze if something unexpected happens, the server could not check for new connections and handle multiple clients efficiently.
+To avoid this situation, it is possible to set the socket to non-blocking mode. To do this, the function "fcntl()" will be used, as a system call, to manipulate file descriptor properties. Its prototype is defined as follow :
+```C++
+#include <fcntl.h>
+
+int fcntl(int fildes, int cmd, int bits);
+```
+where "fildes" is the file descriptor of the socket to configure.</br>
+where "cmd" will take the value "F_SETFL" to set the file status flags. Its argument will be "bits" which will take "O_NONBLOCK".</br>
+If the function fails, it returns -1.
+
+#### Bind the server socket with the server :
+After the creation of the server socket, the "bind()" function will bind the socket to the address and port number initialy defined for the server (passed as arguments of the program).</br>
+To do this, address and port number have to be stored in a data structure "sockaddr_in" as follow :
+```C++
+struct sockaddr_in serverAddr;
+
+serverAddr.sin_family = AF_INET;
+serverAddr.sin_port = htons(portNumber);
+serverAddr.sin_addr.s_addr = INADDR_ANY;
+```
+where sin_family store the type of family address.</br>
+where sin_port store the port number as a network byte order.The function "htons()" (Host TO Network Short) ensures compatibility with the required format.</br>
+where sin_addr.s_addr defines the IP addresses which will be listened to. Only one address could be defined, or any addresses with the value "INADDR_ANY".</br>
+
+
+
 
