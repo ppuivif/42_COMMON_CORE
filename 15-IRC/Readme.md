@@ -97,7 +97,7 @@ The function returns an integer which is a file descriptor. If it fails, it retu
 
 #### Server socket options :
 
-###### allowing socket reusing the address and the port:
+###### Allowing socket reusing the address and the port:
 setsockopt() is a function used to configure options for a socket.</br>
 It could be used to allow the socket to reuse the address, especially for restarting a server quickly.</br>
 With this option, the server will be allowed to reuse the same port immediately after restarting, rather than waiting for the OS to release it and displaying an "Address already in use" error.</br>
@@ -115,9 +115,9 @@ where option_value is a pointer to the value being set (typically it will point 
 where option_len specifies the size of the option_value (here sizeof(enable)).</br>
 The function returns -1 if it failed.
 
-###### set the socket to non-blocking mode :
+###### Setting the server socket to non-blocking mode :
 The server socket calls the function "accept()" when an attempt for a new incoming connection is detected by the server.</br>
-If accept() is blocking and still might freeze if something unexpected happens, the server could not check for new connections and handle multiple clients efficiently.
+If the function "accept()" is blocking and still might freeze if something unexpected happens, the server could not check for new connections and handle multiple clients efficiently.
 To avoid this situation, it is possible to set the socket to non-blocking mode. To do this, the function "fcntl()" will be used, as a system call, to manipulate file descriptor properties. Its prototype is defined as follow :
 ```C++
 #include <fcntl.h>
@@ -130,9 +130,9 @@ If the function "fcntl()" fails, it returns -1.
 
 #### Bind the server socket with the server :
 After the creation of the server socket, the "bind()" function will bind the socket to the address and port number initialy defined for the server (passed as arguments of the program).</br>
-To do this, address and port number have to be stored in a data structure "sockaddr_in" as follow :
+To do this, address and port number have to be stored in a data structure "sockaddr_in" for IPv4 addresses (or "sockaddr_in6" for IPv6 addresses) as follow :
 ```C++
-#include <???>
+<netinet/in.h>
 
 struct sockaddr_in serverAddress;
 
@@ -146,7 +146,7 @@ where sin_addr.s_addr defines the IP addresses which will be listened to. Only o
 
 Then to bind the server socket to the server, the "bind()" function is used as follow :
 ```C++
-#include <???>
+<sys/socket.h>
 
 int bind(int socketfd, const struct sockaddr *addr, socklen_t addrlen);
 ```
@@ -157,15 +157,17 @@ If the function "bind()" fails, it returns -1.
 
 (2)Note that a recast from sockaddr_in to sockaddr is necessary :
 ```C++
+<sys/socket.h>
+
 (struct sockaddr *)&serverAddress;
 ```
 This works because sockaddr_in is a specialized version of sockaddr.
 
-#### Listen to the server socket :
+#### Listening for connections to the server socket :
 As soon as the server socket is bound to the server, the server socket is put in a passive mode : it is ready to receive connections. In other words, it means that it waits for a client to approach the server to make a connection and the OS starts queuing client connections.</br>
 To put the server socket in such a mode, the function "listen()" is used, as follow :
 ```C++
-# <include ???>
+<sys/socket.h>
 
 int listen(int socketFd, int backlog);
 ```
@@ -173,5 +175,20 @@ where "socketFd" is the file descriptor of the server socket.</br>
 where "backlog" defines the maximum length to which the queue of pending connections for socketFd may grow. If a connection request arrives when the queue is full, the client may receive an error with an indication of ECONNREFUSE. "backlog" could be defined to a define value or to SOMAXCONN.</br>
 If the function "listen()" fails, it returns -1.
 
-When a client connects, accept() removes it from the queue and returns a new client socket (client_fd).
-Accept() only deals with one client at a time. vs listen() ensures that multiple clients can try to connect simultaneously.
+####  : Accepting a client connection :
+When a client connects, the function "accept()" removes it from the queue and returns a new client socket (clientFd).</br>
+The function "accept()" only deals with one client at a time (while the function "listen()" ensures that multiple clients can try to connect simultaneously).
+As saw previously, if the function "accept()" is blocking, the server could not check for new connections and that's why the server socket is set in non blocking mode.
+The prototype of the function is defined as follow :
+```C++
+<sys/socket.h>
+
+int accept(int socketFd, struct sockaddr *clientAddr, socklen_t *addrLen);
+```
+where "socketFd" is the file descriptor of the server socket.</br>
+where "clientAddr" (optional) is a pointer to a sockaddr structure where the client'address will be stored. This address could be cast sockaddr_in (for IPv4). If client info are not needed, nullptr is passed.</br>
+where "addrLen" is a pointer to a socklen_t variable that stores the size of clientAddr. Before calling "accept()", it has to be set to sizeof(clientAddr). If client info are not needed, nullptr is passed.</br>
+On success, the function "accept()" returns a file descriptor for the new client socket.</br>
+On failure, it returns -1, and errno is set with an error code (e.g., EWOULDBLOCK if non-blocking mode is used).</br>
+
+##### Setting the client socket to non-blocking mode :
