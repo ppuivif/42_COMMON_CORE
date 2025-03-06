@@ -6,7 +6,7 @@
 /*   By: ppuivif <ppuivif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 11:35:13 by ppuivif           #+#    #+#             */
-/*   Updated: 2025/02/25 18:58:41 by ppuivif          ###   ########.fr       */
+/*   Updated: 2025/03/06 11:06:33 by ppuivif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ template <typename T>
 void	displayContent(T const & content){
 	std::cout << content << std::endl;
 }
+
+//template <typename T>
+
+//void	iter(const T * array, size_t size, void (*function)(T const &)){
 
 template <typename T>
 
