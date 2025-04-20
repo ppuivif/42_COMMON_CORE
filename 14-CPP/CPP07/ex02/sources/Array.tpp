@@ -13,6 +13,16 @@ Array<T>::Array(unsigned int n) : _size(n){
 		this->_array[i] = T();
 }
 
+/*template<typename T>
+Array<T>::Array(unsigned int n, int a, int b, int c) : _size(n){
+	this->_array = new T[n];
+	this->_array[0] = a;
+	this->_array[1] = b;
+	this->_array[2] = c;
+	for (unsigned int i = 3; i < n; i++)
+		this->_array[i] = T();
+}*/
+
 template<typename T>
 Array<T>::Array(Array const & rhs){
 

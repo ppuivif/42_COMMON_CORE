@@ -25,7 +25,9 @@ class Array{
 	public:
 		Array();
 		Array(unsigned int n);
+//		Array(unsigned int n, int a, int b, int c);
 		Array(Array const & Array);
+
 		Array<T>	operator=(Array const & rhs);
 		~Array();
 		size_t	size() const;

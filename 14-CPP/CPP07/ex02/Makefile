@@ -13,7 +13,8 @@ CFLAGS = -Wall -Wextra -Werror -g -std=c++98 \
 
 #============= MANDATORY SOURCES ============#
 
-SRCS =	sources/main.cpp
+SRCS =	sources/main.cpp \
+		sources/Animals.cpp
 
 #============ TRANSFORM .c TO .o ============#
 

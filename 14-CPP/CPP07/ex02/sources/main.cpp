@@ -1,4 +1,5 @@
 #include "Array.hpp"
+#include "Animals.hpp"
 
 int	main (){
 
@@ -12,6 +13,15 @@ int	main (){
 	stringArray1[3] = " ";
 	stringArray1[4] = "amis";
 	stringArray1[5] = "";
+
+	Array<Animals> classArray0(0);
+	
+	Array<Animals> classArray1(10);
+
+	classArray1[0] = Animals("dog", "mammel");
+	classArray1[1] = Animals("snake", "reptile");
+	classArray1[2] = Animals("shark", "fish");
+	classArray1[3] = Animals("duck", "bird");
 
 	Array<int> intArray0(0);
 
@@ -28,12 +38,19 @@ int	main (){
 	Array<int> intArray3(intArray1);
 	
 	const Array<int> intArray5(10);
+	//const Array<int> intArray5(10, 5, 4, 3);
 
 	std::cout << "---------------- Display content of stringArray0(0) ----------------" << std::endl;	
 	std::cout << stringArray0 << std::endl;
 
 	std::cout << "---------------- Display content of stringArray1(10) ----------------" << std::endl;	
 	std::cout << stringArray1 << std::endl;
+
+	std::cout << "---------------- Display content of classArray0(0) ----------------" << std::endl;	
+	std::cout << classArray0 << std::endl;
+
+	std::cout << "---------------- Display content of classArray1(10) ----------------" << std::endl;	
+	std::cout << classArray1 << std::endl;
 
 	std::cout << "---------------- Display content of intArray0(0) ----------------" << std::endl;	
 	std::cout << intArray0 << std::endl;
@@ -95,6 +112,16 @@ int	main (){
 	catch (const std::exception &e){
 		std::cerr << BOLD_RED << e.what() << NORMAL << std::endl;
 	}
+	std::cout << std::endl;
 
+	std::cout << "---------------- Test on intArray1 with index 10 ----------------" << std::endl;	
+	index = 10;
+	try{
+		int value = intArray1[index];
+		std::cout << "value at index " << index << " is : " << value << std::endl;
+	}
+	catch (const std::exception &e){
+		std::cerr << BOLD_RED << e.what() << NORMAL << std::endl;
+	}
 
 }
