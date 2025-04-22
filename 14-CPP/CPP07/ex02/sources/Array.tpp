@@ -70,11 +70,11 @@ const T	& Array<T>::operator[](unsigned int index) const{
 	if (index >= 0 && index < this->_size)
 		return (this->_array[index]);
 	else
-		throw (Array::IndexError());
+		throw (Array::indexError());
 }
 
 template<typename T>
-const char	* Array<T>::IndexError::what() const throw()
+const char	* Array<T>::indexError::what() const throw()
 {
 	return ("Index is out of the bounds");
 }

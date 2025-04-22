@@ -19,7 +19,6 @@
 #endif
 
 template<typename T>
-
 class Array{
 
 	public:
@@ -34,7 +33,7 @@ class Array{
 		T	& operator[](unsigned int index);
 		const T	& operator[](unsigned int index) const;
 		
-		class	IndexError : public std::exception
+		class	indexError : public std::exception
 		{
 			virtual const char	* what() const throw();
 		};
@@ -46,7 +45,6 @@ class Array{
 	};
 
 template<typename T>
-
 std::ostream	& operator<<(std::ostream & o, const Array<T> & rhs);
 
 #include "../sources/Array.tpp"
