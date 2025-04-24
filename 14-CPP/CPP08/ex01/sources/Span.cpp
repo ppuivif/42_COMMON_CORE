@@ -1,10 +1,10 @@
 #include "Span.hpp"
 
-Span::Span{
+Span::Span(){
 	this->_N = 0;
 }
 
-Span::~Span{
+Span::~Span(){
 	
 }
 
@@ -14,46 +14,58 @@ Span::Span(const Span & rhs){
 }
 
 Span & Span::operator=(const Span & rhs){
-	if (this != rhs){
+	if (this != &rhs){
 		this->_container = rhs._container;
 		this->_N = rhs._N;
 	}
 	return (*this);
 }
 
-Span::Span(int N) : {
+Span::Span(unsigned int N){
 	this->_N = N;
 }
 
-Span::addNumber(int number){
-	if (this->_container.size() < this->_N)
-	this->_container.push_back(number);
-	else
-		throw (Span::containerIsFull());
-
+const std::vector<int> & Span::getContainer() const{
+	return (this->_container);
 }
 
-int		shortestSpan(){
+
+void Span::addNumber(int number){
+	if (this->_container.size() < this->_N)
+		this->_container.push_back(number);
+	else
+		throw (Span::containerIsFull());
+}
+
+int		Span::shortestSpan(){
 	int	result;
 
-	std::vector<int>::iterator it = begin(this->_container);
+	std::vector<int>::iterator it = this->_container.begin();
 	result = *it;
-	for(; it != end(this->_container); it++){
+	for(; it != this->_container.end(); it++){
 		if (*it < result)
 			result = *it;
 	}
 	return (result);
 }
 
-int		longestSpan(){
+int		Span::longestSpan(){
 	int	result;
 
-	std::vector<int>::iterator it = begin(this->_container);
+	std::vector<int>::iterator it = this->_container.begin();
 	result = *it;
-	for(; it != end(this->_container); it++){
+	for(; it != this->_container.end(); it++){
 		if (*it > result)
 			result = *it;
 	}
 	return (result);
 
+}
+
+const char*	Span::containerIsFull::what() const throw() {
+	return ("The container is full");
+}
+
+const char*	Span::notEnoughNumber::what() const throw() {
+	return ("The container does not contain enough number");
 }
