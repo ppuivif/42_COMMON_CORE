@@ -1,6 +1,6 @@
 #=================== NAME ===================#
 
-NAME = whatever
+NAME = mutantStack
 
 #================ COMPILATOR ================#
 
@@ -8,12 +8,12 @@ CC = c++
 
 #=================== FLAGS ==================#
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 \
+CFLAGS = -Wall -Wextra -Werror -g -std=c++98 \
 	 -Iincludes
 
 #============= MANDATORY SOURCES ============#
 
-SRCS =  sources/main.cpp
+SRCS =  sources/main.cpp \
 
 #============ TRANSFORM .c TO .o ============#
 
