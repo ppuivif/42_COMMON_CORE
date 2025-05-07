@@ -4,6 +4,9 @@ int	main(){
 
 int j = 10;
 
+//voir avec d'autres types de containers
+
+
 std::vector<int> list;
 
 	list.push_back(0);
