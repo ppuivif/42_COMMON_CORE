@@ -9,14 +9,14 @@ BitcoinExchange::BitcoinExchange(BitcoinExchange const & rhs){
 
 BitcoinExchange & BitcoinExchange::operator=(BitcoinExchange const & rhs){
 	if (this != &rhs)
-		this->_map = rhs._map;
+		this->_exchangeRateMap = rhs._exchangeRateMap;
 	return (*this);
 }
 
 BitcoinExchange::~BitcoinExchange(){
 }
 
-int	BitcoinExchange::parsing(int argc, char **argv){
+int	BitcoinExchange::argumentsParsing(int argc, char **argv){
 
 	if (argc != 2)
 	{
@@ -31,138 +31,64 @@ int	BitcoinExchange::parsing(int argc, char **argv){
 	return (0);
 }
 
-int BitcoinExchange::getInfileContent(std::string infile){
-
+int BitcoinExchange::loadInfileContent(std::string infile){
+	
 	this->_infileContent.open(infile.c_str(), std::ifstream::in);
 	if (!this->_infileContent.is_open())
 	{
 		std::cerr << BOLD_RED << "infile couldn't be opened or do not exist" << NORMAL << std:: endl;
 		return (1);
 	}
+	
+	std::string		line;
+	std::getline(this->_infileContent, line);
+	while (std::getline(this->_infileContent, line)){
+		if (!line.empty())
+			parsingData(line, "TXT");
+	}
+//	printMapContent(this->_inputValueMap);
+	this->closeStreams();
 	return (0);
 }
+
+
+float BitcoinExchange::findExchangeRate(time_t finalDate){
+
+	std::map<time_t, float>::iterator it = this->_exchangeRateMap.begin();
+	float value = 0;
+	for (; it != this->_exchangeRateMap.end(); it++){
+		if (it->first > finalDate)
+			return (value);
+		value = it->second;
+	}
+	return (value);
+}
+
 
 void	BitcoinExchange::closeStreams(void){
 	this->_infileContent.close();
 	this->_dataCSVContent.close();
 }
 
-/*void BitcoinExchange::printFileContent(){
-
-	std::string		line;
-
-	while (std::getline(this->dataCSVContent, line))
-	{
-		std::cout << line << std::endl;
+void	BitcoinExchange::parsingData(std::string const & line, std::string fileType){
+	time_t finalDate = parsingDate(line);
+	if (finalDate == -1){
+		std::cout << "Error : bad input => " << line << std::endl;
+		return ;
 	}
-}*/
-
-void printFileContent(std::ifstream & file){
-
-	// Save the current position
-	std::streampos originalPos = file.tellg();
-
-	// Make a copy of the stream content using a stringstream
-//	std::stringstream buffer;
-//	buffer << file.rdbuf(); // Copies full content from file
-
-	std::string		line;
-
-	while (std::getline(file, line))
-	{
-		std::cout << line << std::endl;
+	float value = parsingValue(line, fileType);
+	if (fileType == "CSV" && finalDate != -1 && value != -1){
+		std::map<time_t, float>::iterator it = this->_exchangeRateMap.find(finalDate);
+		if (it != this->_exchangeRateMap.end())
+			std::cout << BOLD_RED << "There are at least 2 values for the same date in the CSV file" << NORMAL << std::endl;
+		else
+			this->_exchangeRateMap.insert(std::pair<time_t, float>(finalDate, value));
 	}
-
-// Restore the stream's position (optional, if you want it to behave as untouched)
-		file.clear();				// Clear any EOF flags
-		file.seekg(originalPos);	// Return to original position
-}
-
-std::ifstream & BitcoinExchange::getDataCSVContent(void) {
-	return (this->_dataCSVContent);
-}
-
-int checkYear(std::string const & line){
-
-	char * pEnd;
-	std::string yearString = line.substr(0, 4);
-	long int yearInt = strtol(yearString.c_str(), &pEnd, 10);
-	if (yearInt <= 0 || errno == ERANGE || *pEnd != 0)
-		return (-1);
-	else
-		return (yearInt);
-}
-
-int checkMonth(std::string const & line){
-	
-	char * pEnd;
-	std::string monthString = line.substr(5, 2);
-	long int monthInt = strtol(monthString.c_str(), &pEnd, 10);
-	if (monthInt <= 0 || monthInt > 12 || errno == ERANGE || *pEnd != 0)
-		return (-1);
-	else
-		return (monthInt);
-}
-
-bool isLeapYear(long int year){
-	
-	if (year % 4 == 0){
-		if (year % 100 == 0 && year % 400)
-		return (true);
+	if (fileType == "TXT" && finalDate != -1 && value != -1){
+		float exchangeRate = this->findExchangeRate(finalDate);
+		float result = value * exchangeRate;
+		std::cout << line.substr(0, 10) << " => " << std::setprecision(7) << value << " = " << result << std::endl;
 	}
-	return (false);
-}
-
-int checkDay(std::string const & line, long int year, long int month){
-
-	char * pEnd;
-	std::string dayString = line.substr(8, 2);
-	long int dayInt = strtol(dayString.c_str(), &pEnd, 10);
-	if (dayInt <= 0 || dayInt > 31 || errno == ERANGE || *pEnd != 0)
-		return (-1);
-	if (isLeapYear(year) == false && month == 2 && dayInt > 28)
-		return (-1);
-	if ((month == 4 || month == 6 || month == 9 || month == 11) && dayInt > 30)
-		return (-1);
-	else
-		return (dayInt);
-}
-
-long int	parsingCSVDate(std::string line){
-
-	long int year = checkYear(line);
-//	std::cout << "year : " << year << std::endl;
-	long int month = checkMonth(line);
-//	std::cout << "month : " << month << std::endl;
-
-	if (year == -1 || line[4] != '-' || month == -1 ||	line[7] != '-')
-		return (-1);
-	long int day = checkDay(line, year, month);
-//	std::cout << "day : " << day << std::endl;
-	
-	if (day == -1){
-		return (-1);
-	}
-	
-	time_t timer;
-	time_t finalDate;
-	struct tm date = {};
-	date.tm_hour = 0; date.tm_min = 0; date.tm_sec = 0;
-	date.tm_year = year; date.tm_mon = month; date.tm_mday = day;
-	finalDate = mktime(&date);
-	
-	time(&timer);  // get current time
-	double seconds = difftime(timer,finalDate);
-	if(seconds > 0){
-		std::cout << seconds << std::endl;
-		return (-1);
-	}
-	return (finalDate);
-}
-
-long int	parsingCSVData(std::string line){
-	time_t finalDate =  parsingCSVDate(line);
-	return (finalDate);
 }
 
 int BitcoinExchange::loadDataCSVContent(){
@@ -175,20 +101,14 @@ int BitcoinExchange::loadDataCSVContent(){
 	}
 
 	std::string		line;
+	std::getline(this->_dataCSVContent, line);
 	while (std::getline(this->_dataCSVContent, line)){
-		if (!line.empty()){
-			if (parsingCSVData(line) == -1){
-				std::cout << BOLD_RED << "Date is not valid" << NORMAL << std::endl;
-			}
-		}
+		if (!line.empty())
+			parsingData(line, "CSV");
 	}
-
-/*	std::string date;
-	float number;
-	this->_map.insert(std::pair<std::string, float>(date, number));*/
-
-
-	printFileContent(this->getDataCSVContent());
+//	printFileContent(this->getDataCSVContent());
+//	printMapContent(this->_exchangeRateMap);
+	this->closeStreams();
 	return (0);
 }
 

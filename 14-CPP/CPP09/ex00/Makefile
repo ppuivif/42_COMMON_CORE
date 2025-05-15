@@ -14,7 +14,8 @@ CFLAGS = -Wall -Wextra -Werror -g -std=c++98 \
 #============= MANDATORY SOURCES ============#
 
 SRCS =  sources/main.cpp \
-		sources/BitcoinExchange.cpp
+		sources/BitcoinExchange.cpp \
+		sources/BitcoinExchangeUtils.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
