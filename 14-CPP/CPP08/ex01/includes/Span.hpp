@@ -23,6 +23,7 @@
 #endif
 
 class Span{
+
 	public:
 		Span();
 		~Span();
@@ -31,7 +32,6 @@ class Span{
 		
 		Span(unsigned int N);
 		const std::vector<int> & getContainer() const;
-
 		
 		void	addNumber(int number);
 		void	addNumber(Span source, unsigned int start, unsigned int size);
@@ -41,17 +41,17 @@ class Span{
 		void	displayContainerContent();
 		
 		private:
-		unsigned int		_N;
-		std::vector<int>	_container;
+			unsigned int		_N;
+			std::vector<int>	_container;
 		
 		class	containerIsFull : public std::exception{
 			public:
-			virtual const char	* what() const throw();
+				virtual const char	* what() const throw();
 		};
 		
 		class	notEnoughNumber : public std::exception{
 			public:
-			virtual const char	* what() const throw();
+				virtual const char	* what() const throw();
 		};
 		
 	};

@@ -5,6 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include <vector>
+#include <deque>
 #include <algorithm>
 
 #ifndef GREEN

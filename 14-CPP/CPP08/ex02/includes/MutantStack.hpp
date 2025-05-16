@@ -18,7 +18,6 @@ class MutantStack : public std::stack<T>
 
 		iterator	begin();
 		iterator	end();
-
 };
 
 #include "../sources/MutantStack.tpp"

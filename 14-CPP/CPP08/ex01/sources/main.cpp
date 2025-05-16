@@ -76,7 +76,7 @@ int	main(){
 	Span spanRandom(100);
 	spanRandom.fillWithRandomValues();
 
-	N = 2;
+	N = 20;
 	Span spanItered(N);
 	try{
 		spanItered.addNumber(6);

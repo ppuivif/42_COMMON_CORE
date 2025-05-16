@@ -31,27 +31,6 @@ int	BitcoinExchange::argumentsParsing(int argc, char **argv){
 	return (0);
 }
 
-int BitcoinExchange::loadInfileContent(std::string infile){
-	
-	this->_infileContent.open(infile.c_str(), std::ifstream::in);
-	if (!this->_infileContent.is_open())
-	{
-		std::cerr << BOLD_RED << "infile couldn't be opened or do not exist" << NORMAL << std:: endl;
-		return (1);
-	}
-	
-	std::string		line;
-	std::getline(this->_infileContent, line);
-	while (std::getline(this->_infileContent, line)){
-		if (!line.empty())
-			parsingData(line, "TXT");
-	}
-//	printMapContent(this->_inputValueMap);
-	this->closeStreams();
-	return (0);
-}
-
-
 float BitcoinExchange::findExchangeRate(time_t finalDate){
 
 	std::map<time_t, float>::iterator it = this->_exchangeRateMap.begin();
@@ -71,6 +50,15 @@ void	BitcoinExchange::closeStreams(void){
 }
 
 void	BitcoinExchange::parsingData(std::string const & line, std::string fileType){
+	if (fileType == "CSV" && line.find(",") == std::string::npos){
+		std::cout << "Error : bad input => " << line << std::endl;
+		return;
+	}
+	if (fileType == "TXT" && line.find("|") == std::string::npos){
+		std::cout << "Error : bad input => " << line << std::endl;
+		return;
+	}
+	
 	time_t finalDate = parsingDate(line);
 	if (finalDate == -1){
 		std::cout << "Error : bad input => " << line << std::endl;
@@ -112,3 +100,22 @@ int BitcoinExchange::loadDataCSVContent(){
 	return (0);
 }
 
+int BitcoinExchange::loadInfileContent(std::string infile){
+	
+	this->_infileContent.open(infile.c_str(), std::ifstream::in);
+	if (!this->_infileContent.is_open())
+	{
+		std::cerr << BOLD_RED << "infile couldn't be opened or do not exist" << NORMAL << std:: endl;
+		return (1);
+	}
+	
+	std::string		line;
+	std::getline(this->_infileContent, line);
+	while (std::getline(this->_infileContent, line)){
+		if (!line.empty())
+			parsingData(line, "TXT");
+	}
+//	printMapContent(this->_inputValueMap);
+	this->closeStreams();
+	return (0);
+}

@@ -13,6 +13,6 @@ typename T::iterator easyfind(T & valueList, int key){
 }
 
 const char* noOccurenceFound::what() const throw() {
-	return ("No occurrence found");
+	return ("no occurrence found");
 }
 

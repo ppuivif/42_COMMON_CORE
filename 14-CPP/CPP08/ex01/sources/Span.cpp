@@ -32,8 +32,7 @@ void Span::addNumber(int number){
 		throw (Span::containerIsFull());
 }
 
-int		Span::shortestSpan(){
-
+int	Span::shortestSpan(){
 	if (this->_container.size() > 1){
 		std::vector<int>tmp = this->_container;
 		std::sort(tmp.begin(), tmp.end());
@@ -55,7 +54,7 @@ int		Span::shortestSpan(){
 	throw (Span::notEnoughNumber());
 }
 
-int		Span::longestSpan(){
+int	Span::longestSpan(){
 	int	result;
 
 	if (this->_container.size() > 1){
@@ -68,7 +67,6 @@ int		Span::longestSpan(){
 }
 
 void	Span::addNumber(Span source, unsigned int start, unsigned int size){
-	
 	unsigned int availableSize = this->_N - this->_container.size();
 	
 	if (availableSize == 0 || start > source._container.size()){
@@ -89,11 +87,11 @@ void	Span::addNumber(Span source, unsigned int start, unsigned int size){
 }
 
 void	Span::fillWithRandomValues(){
-	std::srand((unsigned) time(NULL));
+	std::srand((unsigned) std::time(NULL));
 	int array[this->_N];
 
 	for (unsigned int i = 0; i < this->_N; i++){
-		array[i] = rand();
+		array[i] = std::rand();
 	}
 	
 	this->_container.insert(this->_container.end(), array, &array[this->_N]);
