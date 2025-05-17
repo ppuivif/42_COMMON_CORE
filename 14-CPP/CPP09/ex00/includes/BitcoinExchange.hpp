@@ -45,7 +45,8 @@ class BitcoinExchange{
 	};
 	
 long int	parsingDate(std::string const & line);
-float		parsingValue(std::string const & line, std::string fileType);
+float		parsingValue(std::string const & line, std::string fileType, int separatorPos);
+int			searchSeparator(std::string const & line, std::string fileType);
 	
 //void		printFileContent(std::ifstream & file);
 //void 		printMapContent(std::map<std::time_t, float> map);

@@ -119,22 +119,22 @@ long int	parsingDate(std::string const & line){
 	return (finalDate);
 }
 
-float	parsingValue(std::string const & line, std::string fileType){
+float	parsingValue(std::string const & line, std::string fileType, int separatorPos){
 	
 	char * pEnd;
-	if (fileType == "CSV" && line.size() > 11){
-		std::string bitcoinExchangeRateString = line.substr(11);
+	if (fileType == "CSV" && line.size() > (unsigned int)separatorPos){
+		std::string bitcoinExchangeRateString = &line[separatorPos + 1];
 		float bitcoinExchangeRateFloat = strtof(bitcoinExchangeRateString.c_str(), &pEnd);
 		if (bitcoinExchangeRateFloat < 0 || errno == ERANGE || *pEnd != 0)
-		return (-1);
+			return (-1);
 		return (bitcoinExchangeRateFloat);
 	}
 	if (fileType == "TXT"){
-		if (line.size() <= 13){
-			std::cout << "Error : value is missing for a date" << std::endl;
+		if (line.size() == (unsigned int)separatorPos + 1){
+			std::cout << "Error : value is missing => " << line << std::endl;
 			return (-1);
 		}
-		std::string bitcoinInputValueString = line.substr(13);
+		std::string bitcoinInputValueString = &line[separatorPos + 1];
 		float bitcoinInputValueFloat = strtof(bitcoinInputValueString.c_str(), &pEnd);
 		if (errno == ERANGE || *pEnd != 0){
 			std::cout << "Error : bad input => " << bitcoinInputValueString << std::endl;
@@ -151,4 +151,22 @@ float	parsingValue(std::string const & line, std::string fileType){
 		return (bitcoinInputValueFloat);
 	}
 	return (-1);
+}
+
+int	searchSeparator(std::string const & line, std::string fileType){
+
+	std::string separator;
+
+	if (fileType == "CSV")
+		separator = ",";
+	if (fileType == "TXT")
+		separator = "|";
+
+	int separatorPos = line.find(separator);
+	if (separatorPos == (int)std::string::npos){
+		if (fileType == "TXT")
+			std::cout << "Error : bad input (separator '"<< separator << "' is missing) => " << line << std::endl;
+		return (-1);
+	}
+	return (separatorPos);
 }

@@ -18,13 +18,11 @@ BitcoinExchange::~BitcoinExchange(){
 
 int	BitcoinExchange::argumentsParsing(int argc, char **argv){
 
-	if (argc != 2)
-	{
+	if (argc != 2){
 		std::cerr << BOLD_RED << "wrong number of arguments" << NORMAL << std:: endl;
 		return (1);
 	}
-	if (argv[1][0] == 0)
-	{
+	if (argv[1][0] == 0){
 		std::cerr << BOLD_RED << "filename is empty" << NORMAL << std:: endl;
 		return (1);
 	}	
@@ -43,28 +41,23 @@ float BitcoinExchange::findExchangeRate(time_t finalDate){
 	return (value);
 }
 
-
 void	BitcoinExchange::closeStreams(void){
 	this->_infileContent.close();
 	this->_dataCSVContent.close();
 }
 
 void	BitcoinExchange::parsingData(std::string const & line, std::string fileType){
-	if (fileType == "CSV" && line.find(",") == std::string::npos){
-		std::cout << "Error : bad input => " << line << std::endl;
+	int separatorPos = searchSeparator(line, fileType);
+	if (separatorPos == -1)
 		return;
-	}
-	if (fileType == "TXT" && line.find("|") == std::string::npos){
-		std::cout << "Error : bad input => " << line << std::endl;
-		return;
-	}
 	
 	time_t finalDate = parsingDate(line);
 	if (finalDate == -1){
 		std::cout << "Error : bad input => " << line << std::endl;
 		return ;
 	}
-	float value = parsingValue(line, fileType);
+
+	float value = parsingValue(line, fileType, separatorPos);
 	if (fileType == "CSV" && finalDate != -1 && value != -1){
 		std::map<time_t, float>::iterator it = this->_exchangeRateMap.find(finalDate);
 		if (it != this->_exchangeRateMap.end())
