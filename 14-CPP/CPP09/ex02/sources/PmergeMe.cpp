@@ -44,7 +44,73 @@ int PmergeMe::parsingArguments(int argc, char **argv){
 	
 	if (this->checkArguments(argv) == 1)
 		return (1);
-
 	return (0);
+}
+
+static void initDataStruct(data * numberStruct, char * argv){
+	numberStruct->associated = NULL;
+	numberStruct->value = strtol(argv, NULL, 10);
+}
+
+void PmergeMe::displayVectorContent(){
+	std::vector<data>::iterator it = this->_dataVector.begin();
+	for(; it != this->_dataVector.end(); it++)
+		std::cout << it->value << std::endl;
+}
+
+void PmergeMe::fillContainers(int argc, char **argv){
+
+	for (int i = 1; i < argc; i++){
+		data numberStruct;
+		initDataStruct(&numberStruct, argv[i]);
+		this->_dataVector.insert(this->_dataVector.end(), numberStruct);
+	}
+}
+
+void PmergeMe::sortInsidePair(){
+
+	std::vector<data>::iterator it = this->_dataVector.begin();
+	for (; it != this->_dataVector.end(); it++){
+		std::vector<data>::iterator firstIt = it;
+		int firstValue = it->value;
+		it++;
+		if (it != this->_dataVector.end()){
+			int secondValue = it->value;
+			if (secondValue > firstValue)
+				std::swap(*it, *firstIt);
+//				créer une paire ??
+		}
+		return;
+	}
+}
+
+
+void PmergeMe::sortPairs(){
+
+	std::vector<data>::iterator it = this->_dataVector.begin();
+	size_t vectorSize = _dataVector.size();
+	for (size_t i = 0; i != vectorSize - 1; i++){
+		std::vector<data>::iterator firstIt = it;
+		std::cout << "here" << std::endl;
+		int firstPairMaxValue = it->value;
+		it++;
+		i++;
+		if (i < vectorSize && it != this->_dataVector.end()){
+			it++;
+			i++;
+			if (i < vectorSize && it != this->_dataVector.end()){
+				int secondPairMaxValue = it->value;
+				if (secondPairMaxValue > firstPairMaxValue){
+					this->_dataVector.insert(this->_dataVector.end(), *it);
+//					this->_dataVector.insert(this->_dataVector.end(), *it++);
+				}
+				else{
+					this->_dataVector.insert(this->_dataVector.end(), *firstIt);
+//					this->_dataVector.insert(this->_dataVector.end(), *firstIt++);
+				}
+			}
+		}
+		it++;
+	}
 }
 

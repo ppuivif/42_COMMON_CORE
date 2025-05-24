@@ -18,6 +18,17 @@
 #include <cstring>
 #include <cstdlib>
 #include <climits>
+#include <vector>
+#include <deque>
+#include <utility>
+
+struct data
+{
+	int	value;
+	data * associated;
+	std::vector<data>::iterator position;
+};
+
 
 class PmergeMe{
 
@@ -29,9 +40,17 @@ class PmergeMe{
 
 		int parsingArguments(int argc, char **argv);
 		int checkArguments(char **argv);
+		void	fillContainers(int argc, char **argv);
+		void 	sortInsidePair();
+		void 	sortPairs();
+		bool	valueCompare(std::vector<data>::iterator it);
+		
+		void	displayVectorContent();
 
 	private:
 
+		std::vector<data> _dataVector; 
+		std::deque<data> _dataDeque; 
 };
 
 #endif
