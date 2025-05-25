@@ -51,6 +51,8 @@ class PmergeMe{
 
 		std::vector<data> _dataVector; 
 		std::deque<data> _dataDeque; 
+		std::vector<std::pair<int, int>> _pairVector; 
+		std::deque<std::pair<int, int>> _pairDeque; 
 };
 
 #endif

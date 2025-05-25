@@ -56,14 +56,41 @@ void PmergeMe::displayVectorContent(){
 	std::vector<data>::iterator it = this->_dataVector.begin();
 	for(; it != this->_dataVector.end(); it++)
 		std::cout << it->value << std::endl;
+	std::cout << std::endl;
 }
 
-void PmergeMe::fillContainers(int argc, char **argv){
+/*void PmergeMe::fillContainers(int argc, char **argv){
 
 	for (int i = 1; i < argc; i++){
 		data numberStruct;
 		initDataStruct(&numberStruct, argv[i]);
 		this->_dataVector.insert(this->_dataVector.end(), numberStruct);
+	}
+}*/
+
+void PmergeMe::fillContainers(int argc, char **argv){
+
+	bool isEven = false;
+	if ((argc - 1) % 2 == 0)
+		isEven = true;
+
+	int firstElement;
+	int secondElement;
+
+	for (int i = 1; i < argc; i++){
+		std::pair<int, int> pair;
+		firstElement = strtol(argv[i], NULL, 10);
+		if (i + 1 < argc){
+			secondElement = strtol(argv[i + 1], NULL, 10);
+		}
+		else
+
+		if (firstElement > secondElement)
+			pair = std::make_pair(firstElement, secondElement);
+		else
+			pair = std::make_pair(secondElement, firstElement);
+
+		this->_pairVector.insert(this->_pairVector.end(), pair);
 	}
 }
 
@@ -90,22 +117,34 @@ void PmergeMe::sortPairs(){
 	std::vector<data>::iterator it = this->_dataVector.begin();
 	size_t vectorSize = _dataVector.size();
 	for (size_t i = 0; i != vectorSize - 1; i++){
-		std::vector<data>::iterator firstIt = it;
-		std::cout << "here" << std::endl;
+		std::vector<data>::iterator firstItLargest = it;
+		//		std::cout << "here" << std::endl;
 		int firstPairMaxValue = it->value;
 		it++;
 		i++;
 		if (i < vectorSize && it != this->_dataVector.end()){
+//			std::vector<data>::iterator firstItSmallest = it;
 			it++;
 			i++;
 			if (i < vectorSize && it != this->_dataVector.end()){
+				std::vector<data>::iterator secondItLargest = it;
 				int secondPairMaxValue = it->value;
+				std::vector<data>::iterator current = it++;
+				i++;	
 				if (secondPairMaxValue > firstPairMaxValue){
-					this->_dataVector.insert(this->_dataVector.end(), *it);
-//					this->_dataVector.insert(this->_dataVector.end(), *it++);
+					this->_dataVector.insert(this->_dataVector.end(), *secondItLargest);
+					this->_dataVector.erase(secondItLargest);
+					if (i < vectorSize && current != this->_dataVector.end()){
+						std::cout << "here" << std::endl;
+						std::vector<data>::iterator secondItSmallest = current;
+						this->_dataVector.insert(this->_dataVector.end(), *secondItSmallest);
+						this->_dataVector.erase(secondItSmallest);
+						it = current;
+					}
 				}
 				else{
-					this->_dataVector.insert(this->_dataVector.end(), *firstIt);
+					this->_dataVector.insert(this->_dataVector.end(), *firstItLargest);
+					this->_dataVector.erase(firstItLargest);
 //					this->_dataVector.insert(this->_dataVector.end(), *firstIt++);
 				}
 			}
