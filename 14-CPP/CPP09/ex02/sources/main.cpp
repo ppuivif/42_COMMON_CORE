@@ -5,10 +5,10 @@ int	main(int argc, char ** argv){
 	PmergeMe pmergeMe;
 	pmergeMe.parsingArguments(argc, argv);
 	pmergeMe.fillContainers(argc, argv);
-//	pmergeMe.displayVectorContent();
-	pmergeMe.sortInsidePair();
 	pmergeMe.displayVectorContent();
-	pmergeMe.sortPairs();
+//	pmergeMe.sortInsidePair();
+//	pmergeMe.displayVectorContent();
+	pmergeMe.sortPairsOnMaxValue(0);
 	pmergeMe.displayVectorContent();
 
 //	faire un isorted

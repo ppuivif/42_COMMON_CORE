@@ -47,17 +47,26 @@ int PmergeMe::parsingArguments(int argc, char **argv){
 	return (0);
 }
 
-static void initDataStruct(data * numberStruct, char * argv){
+/*static void initDataStruct(data * numberStruct, char * argv){
 	numberStruct->associated = NULL;
 	numberStruct->value = strtol(argv, NULL, 10);
-}
+}*/
 
 void PmergeMe::displayVectorContent(){
+	std::vector<std::pair<int, int> >::iterator it = this->_pairVector.begin();
+	for(; it != this->_pairVector.end(); it++){
+		std::cout << it->first << " | ";
+		std::cout << it->second << std::endl;
+	}
+	std::cout << std::endl;
+}
+
+/*void PmergeMe::displayVectorContent(){
 	std::vector<data>::iterator it = this->_dataVector.begin();
 	for(; it != this->_dataVector.end(); it++)
 		std::cout << it->value << std::endl;
 	std::cout << std::endl;
-}
+}*/
 
 /*void PmergeMe::fillContainers(int argc, char **argv){
 
@@ -70,9 +79,9 @@ void PmergeMe::displayVectorContent(){
 
 void PmergeMe::fillContainers(int argc, char **argv){
 
-	bool isEven = false;
+/*	bool isEven = false;
 	if ((argc - 1) % 2 == 0)
-		isEven = true;
+		isEven = true;*/
 
 	int firstElement;
 	int secondElement;
@@ -81,20 +90,20 @@ void PmergeMe::fillContainers(int argc, char **argv){
 		std::pair<int, int> pair;
 		firstElement = strtol(argv[i], NULL, 10);
 		if (i + 1 < argc){
-			secondElement = strtol(argv[i + 1], NULL, 10);
+			i++;
+			secondElement = strtol(argv[i], NULL, 10);
 		}
 		else
-
+			secondElement = -1;
 		if (firstElement > secondElement)
 			pair = std::make_pair(firstElement, secondElement);
 		else
 			pair = std::make_pair(secondElement, firstElement);
-
 		this->_pairVector.insert(this->_pairVector.end(), pair);
 	}
 }
 
-void PmergeMe::sortInsidePair(){
+/*void PmergeMe::sortInsidePair(){
 
 	std::vector<data>::iterator it = this->_dataVector.begin();
 	for (; it != this->_dataVector.end(); it++){
@@ -109,10 +118,10 @@ void PmergeMe::sortInsidePair(){
 		}
 		return;
 	}
-}
+}*/
 
 
-void PmergeMe::sortPairs(){
+/*void PmergeMe::sortPairs(){
 
 	std::vector<data>::iterator it = this->_dataVector.begin();
 	size_t vectorSize = _dataVector.size();
@@ -151,5 +160,56 @@ void PmergeMe::sortPairs(){
 		}
 		it++;
 	}
-}
+}*/
 
+
+void PmergeMe::sortPairsOnMaxValue(int increment){
+
+	std::vector<std::pair<int, int> >::iterator it;
+	std::vector<std::pair<int, int> >::iterator firstPairIt;
+	std::vector<std::pair<int, int> >::iterator secondPairIt;
+
+	std::cout << "increment : " << increment << std::endl;
+
+	size_t remainingVectorSize = this->_pairVector.size() / pow(2, increment);
+
+	while (remainingVectorSize > 1){
+		size_t limit = remainingVectorSize / 2;
+		size_t start = this->_pairVector.size() - remainingVectorSize;
+		std::cout << "start : " << start << std::endl;
+		
+
+		bool isOdd = true;
+		if (remainingVectorSize % 2 == 0)
+			isOdd = false;
+
+		int firstPairMaxValue;
+		int secondPairMaxValue;
+		
+		for (size_t i = start; i <= limit; i++){
+			it = this->_pairVector.begin() + i;
+			firstPairIt = it;
+			firstPairMaxValue = it->first;
+			if (i < limit){
+				it++;
+				secondPairIt = it;
+				secondPairMaxValue = it->first;
+				if (secondPairMaxValue > firstPairMaxValue){
+					this->_pairVector.insert(this->_pairVector.end(), *secondPairIt);
+					this->_pairVector.erase(this->_pairVector.begin() + i + 1);
+				}
+				else{
+					this->_pairVector.insert(this->_pairVector.end(), *firstPairIt);
+					this->_pairVector.erase(this->_pairVector.begin() + i);
+				}
+			}
+			if (i == limit && isOdd == true){
+					this->_pairVector.insert(this->_pairVector.end(), *firstPairIt);
+					this->_pairVector.erase(this->_pairVector.begin() + i);
+			}
+		}
+		this->displayVectorContent();
+		increment+=1;
+		this->sortPairsOnMaxValue(increment);
+	}
+}

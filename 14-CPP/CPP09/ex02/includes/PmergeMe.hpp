@@ -21,6 +21,7 @@
 #include <vector>
 #include <deque>
 #include <utility>
+#include <cmath> //for pow
 
 struct data
 {
@@ -41,9 +42,9 @@ class PmergeMe{
 		int parsingArguments(int argc, char **argv);
 		int checkArguments(char **argv);
 		void	fillContainers(int argc, char **argv);
-		void 	sortInsidePair();
-		void 	sortPairs();
-		bool	valueCompare(std::vector<data>::iterator it);
+//		void 	sortInsidePair();
+//		void 	sortPairs();
+		void 	sortPairsOnMaxValue(int increment);
 		
 		void	displayVectorContent();
 
@@ -51,8 +52,8 @@ class PmergeMe{
 
 		std::vector<data> _dataVector; 
 		std::deque<data> _dataDeque; 
-		std::vector<std::pair<int, int>> _pairVector; 
-		std::deque<std::pair<int, int>> _pairDeque; 
+		std::vector<std::pair<int, int> > _pairVector; 
+		std::deque<std::pair<int, int> > _pairDeque; 
 };
 
 #endif
