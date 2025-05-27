@@ -2,7 +2,12 @@
 
 PmergeMe::PmergeMe(){}
 
-PmergeMe::~PmergeMe(){}
+PmergeMe::~PmergeMe(){
+	std::vector<data *>::iterator it = this->_dataVector.begin();
+	for(; it != this->_dataVector.end(); it++){
+		delete *it;
+	}
+}
 
 PmergeMe::PmergeMe(PmergeMe const & rhs){
 	*this = rhs;
@@ -47,16 +52,22 @@ int PmergeMe::parsingArguments(int argc, char **argv){
 	return (0);
 }
 
-/*static void initDataStruct(data * numberStruct, char * argv){
+static void initDataStruct(data * numberStruct, std::pair<int, int> pair){
 	numberStruct->associated = NULL;
-	numberStruct->value = strtol(argv, NULL, 10);
-}*/
+	numberStruct->valuesPair = pair;
+}
 
 void PmergeMe::displayVectorContent(){
-	std::vector<std::pair<int, int> >::iterator it = this->_pairVector.begin();
-	for(; it != this->_pairVector.end(); it++){
-		std::cout << it->first << " | ";
-		std::cout << it->second << std::endl;
+	std::vector<data *>::iterator it = this->_dataVector.begin();
+	for(; it != this->_dataVector.end(); it++){
+		std::cout << (*it)->valuesPair.first << " | ";
+		std::cout << (*it)->valuesPair.second << " | ";
+		if ((*it)->associated){
+			std::cout << (*it)->associated->valuesPair.first;
+//			std::cout << &(*(*it)->associated);
+//			std::cout << (*(*it)->associated->currentIt)->valuesPair.first;
+		}
+		std::cout << std::endl;
 	}
 	std::cout << std::endl;
 }
@@ -99,7 +110,10 @@ void PmergeMe::fillContainers(int argc, char **argv){
 			pair = std::make_pair(firstElement, secondElement);
 		else
 			pair = std::make_pair(secondElement, firstElement);
-		this->_pairVector.insert(this->_pairVector.end(), pair);
+
+		data * numberStruct = new data;
+		initDataStruct(numberStruct, pair);
+		this->_dataVector.insert(this->_dataVector.end(), numberStruct);
 	}
 }
 
@@ -162,54 +176,140 @@ void PmergeMe::fillContainers(int argc, char **argv){
 	}
 }*/
 
+std::vector<data *>::iterator PmergeMe::findAssociatedIterator(std::vector<data *>::iterator pairToInsertIt){
 
-void PmergeMe::sortPairsOnMaxValue(int increment){
+	std::vector<data *>::iterator it = pairToInsertIt;
+	while (it != this->_dataVector.end()){
+		if (*it == (*pairToInsertIt)->associated)
+			break;
+		it++;
+	}
+	return (it);
+}
 
-	std::vector<std::pair<int, int> >::iterator it;
-	std::vector<std::pair<int, int> >::iterator firstPairIt;
-	std::vector<std::pair<int, int> >::iterator secondPairIt;
+
+
+std::vector<data *>::iterator PmergeMe::binarySearch(data *dataToInsert, std::vector<data *>::iterator lowerLimit, std::vector<data *>::iterator upperLimit){
+
+//	std::vector<data *>::iterator it = lowerLimit;
+	size_t searchSize = upperLimit - lowerLimit;
+	std::cout << "lowerlimit : " << (*lowerLimit)->valuesPair.first << std::endl;
+	std::cout << "upperlimit : " << (*upperLimit)->valuesPair.first << std::endl;
+	std::cout << "searchSize : " << searchSize << std::endl;
+	int valueToInsert = dataToInsert->valuesPair.first;
+//	std::vector<data *>::iterator result;
+
+	while (searchSize > 1){
+		if (valueToInsert < (*(lowerLimit + searchSize / 2))->valuesPair.first)
+			upperLimit -= searchSize / 2;
+		else
+			lowerLimit += searchSize / 2;
+		searchSize = upperLimit - lowerLimit;
+	}
+	return (upperLimit);
+}
+
+bool PmergeMe::sortPairsOnMaxValue(int increment){
+
+//	std::vector<std::pair<int, int> >::iterator it;
+	std::vector<data *>::iterator it;
+//	std::vector<std::pair<int, int> >::iterator firstPairIt;
+	std::vector<data *>::iterator firstPairIt;
+//	std::vector<std::pair<int, int> >::iterator secondPairIt;
+	std::vector<data *>::iterator secondPairIt;
+	int end = false;
 
 	std::cout << "increment : " << increment << std::endl;
 
-	size_t remainingVectorSize = this->_pairVector.size() / pow(2, increment);
+	int divider = pow(2, increment);
+	size_t remainingVectorSize = this->_dataVector.size() / divider;
+	if (this->_dataVector.size() % divider != 0)
+		remainingVectorSize = this->_dataVector.size() / pow(2, increment) + 1;
+	std::cout << "remainingVectorSize : " << remainingVectorSize << std::endl;
 
-	while (remainingVectorSize > 1){
-		size_t limit = remainingVectorSize / 2;
-		size_t start = this->_pairVector.size() - remainingVectorSize;
-		std::cout << "start : " << start << std::endl;
-		
+	size_t start = this->_dataVector.size() - remainingVectorSize;
+	size_t limit = remainingVectorSize / 2 + start;
+//	std::cout << "start : " << start << std::endl;
+//	std::cout << "limit : " << limit << std::endl;
 
-		bool isOdd = true;
-		if (remainingVectorSize % 2 == 0)
-			isOdd = false;
+	bool isOdd = true;
+	if (remainingVectorSize % 2 == 0)
+		isOdd = false;
+
+	while (remainingVectorSize > 1 && end == false){
 
 		int firstPairMaxValue;
 		int secondPairMaxValue;
 		
 		for (size_t i = start; i <= limit; i++){
-			it = this->_pairVector.begin() + i;
+			it = this->_dataVector.begin() + i;
 			firstPairIt = it;
-			firstPairMaxValue = it->first;
+			firstPairMaxValue = (*it)->valuesPair.first;
 			if (i < limit){
 				it++;
 				secondPairIt = it;
-				secondPairMaxValue = it->first;
+				secondPairMaxValue = (*it)->valuesPair.first;
 				if (secondPairMaxValue > firstPairMaxValue){
-					this->_pairVector.insert(this->_pairVector.end(), *secondPairIt);
-					this->_pairVector.erase(this->_pairVector.begin() + i + 1);
+					(*firstPairIt)->associated = *secondPairIt;
+					this->_dataVector.insert(this->_dataVector.end(), *secondPairIt);
+					this->_dataVector.erase(this->_dataVector.begin() + i + 1);
 				}
 				else{
-					this->_pairVector.insert(this->_pairVector.end(), *firstPairIt);
-					this->_pairVector.erase(this->_pairVector.begin() + i);
+					(*secondPairIt)->associated = *firstPairIt;
+					this->_dataVector.insert(this->_dataVector.end(), *firstPairIt);
+					this->_dataVector.erase(this->_dataVector.begin() + i);
 				}
 			}
 			if (i == limit && isOdd == true){
-					this->_pairVector.insert(this->_pairVector.end(), *firstPairIt);
-					this->_pairVector.erase(this->_pairVector.begin() + i);
+					this->_dataVector.insert(this->_dataVector.end(), *firstPairIt);
+					this->_dataVector.erase(this->_dataVector.begin() + i);
 			}
 		}
 		this->displayVectorContent();
-		increment+=1;
-		this->sortPairsOnMaxValue(increment);
+		increment++;
+		end = this->sortPairsOnMaxValue(increment);
 	}
+	std::cout << "remainingVectorSize (backward) : " << remainingVectorSize << std::endl;
+//	std::cout << "start : " << start << std::endl;
+	
+	size_t newStart = this->_dataVector.size() - remainingVectorSize / 2 - 1;
+	if (this->_dataVector.size() % divider != 0)
+	newStart = this->_dataVector.size() - remainingVectorSize / 2 - 2;
+	std::cout << "newstart : " << newStart << std::endl;
+	
+//	std::cout << "limit : " << start << std::endl;
+	size_t newLimit = start;
+	std::cout << "newLimit : " << newLimit << std::endl;
+	if (remainingVectorSize > 2){
+		for (size_t i = newStart; i >= newLimit; i--){
+//		size_t i = newStart;
+//		while (i >= newLimit && remainingVectorSize <= this->_dataVector.size()){
+			std::vector<data *>::iterator pairToInsertIt = this->_dataVector.begin() + i;
+			//std::vector<data *>::iterator pairToInsertIt = it;
+			std::vector<data *>::iterator upperLimit;
+			std::vector<data *>::iterator insertLocation;
+			std::cout << "toinsert : " << (*(pairToInsertIt))->valuesPair.first << std::endl;
+			std::cout << "associated : " << (*pairToInsertIt)->associated->valuesPair.first << std::endl;
+
+//			upperLimit = std::lower_bound(pairToInsertIt, this->_dataVector.end(), (*pairToInsertIt)->associated);
+
+			upperLimit = findAssociatedIterator(pairToInsertIt);
+
+			insertLocation = binarySearch(*pairToInsertIt, pairToInsertIt, upperLimit);
+
+			std::cout << "insertlocation : " << (*insertLocation)->valuesPair.first << std::endl;
+
+			if (insertLocation > pairToInsertIt + 1){
+				this->_dataVector.insert(insertLocation, *pairToInsertIt);
+
+				std::cout << "toerase : " << (*(this->_dataVector.begin() + i))->valuesPair.first << std::endl;
+
+				this->_dataVector.erase(this->_dataVector.begin() + i);
+			}
+			this->displayVectorContent();
+//			i--;
+		}
+	}
+
+	return (true);
 }

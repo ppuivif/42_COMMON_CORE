@@ -22,12 +22,13 @@
 #include <deque>
 #include <utility>
 #include <cmath> //for pow
+#include <algorithm> //for lower_bound
 
 struct data
 {
-	int	value;
+	std::pair<int, int> valuesPair;
 	data * associated;
-	std::vector<data>::iterator position;
+//	std::vector<data *>::iterator currentIt;
 };
 
 
@@ -44,16 +45,18 @@ class PmergeMe{
 		void	fillContainers(int argc, char **argv);
 //		void 	sortInsidePair();
 //		void 	sortPairs();
-		void 	sortPairsOnMaxValue(int increment);
+		bool 	sortPairsOnMaxValue(int increment);
+		std::vector<data *>::iterator findAssociatedIterator(std::vector<data *>::iterator pairToInsertIt);
+		std::vector<data *>::iterator binarySearch(data *dataToInsert, std::vector<data *>::iterator lowerLimit, std::vector<data *>::iterator upperLimit);
 		
 		void	displayVectorContent();
 
 	private:
 
-		std::vector<data> _dataVector; 
+		std::vector<data *> _dataVector; 
 		std::deque<data> _dataDeque; 
-		std::vector<std::pair<int, int> > _pairVector; 
-		std::deque<std::pair<int, int> > _pairDeque; 
+//		std::vector<std::pair<int, int> > _pairVector; 
+//		std::deque<std::pair<int, int> > _pairDeque; 
 };
 
 #endif
