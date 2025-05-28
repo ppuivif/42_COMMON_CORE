@@ -23,6 +23,7 @@
 #include <utility>
 #include <cmath> //for pow
 #include <algorithm> //for lower_bound
+#include <ctime> //for clock
 
 struct data
 {
@@ -45,16 +46,31 @@ class PmergeMe{
 		void	fillContainers(int argc, char **argv);
 //		void 	sortInsidePair();
 //		void 	sortPairs();
-		bool 	sortPairsOnMaxValue(int increment);
-		std::vector<data *>::iterator findAssociatedIterator(std::vector<data *>::iterator pairToInsertIt);
-		std::vector<data *>::iterator binarySearch(data *dataToInsert, std::vector<data *>::iterator lowerLimit, std::vector<data *>::iterator upperLimit);
+		bool	sortPairsOnMaxValue(int increment);
+		void	movePairWithLargestValue(size_t i, size_t limit, bool isOdd);
+		void	reintegratePairWithSmallestValue(int i);
+
+		void	createIndexSequenceWithJacobsthal();
+		void	integrateMinValueswithJacobsthal();
+
+
+		std::vector<data *>::iterator findAssociatedIteratorForData(std::vector<data *>::iterator pairToInsertIt);
+		std::vector<int>::iterator findAssociatedIteratorForInt(std::vector<data *>::iterator valueToInsertIt);
+		std::vector<data *>::iterator binarySearchForData(data *dataToInsert, std::vector<data *>::iterator lowerLimit, std::vector<data *>::iterator upperLimit);
+		std::vector<int>::iterator binarySearchForInt(int valueToInsert, std::vector<int>::iterator lowerLimit, std::vector<int>::iterator upperLimit);
 		
-		void	displayVectorContent();
+		void	displayDataVectorContent();
+		void	displayIntVectorContent();
+		void	dislayIndexSequence();
 
 	private:
 
+		std::vector<int> _indexVectorFromJacobsthal; 
+
 		std::vector<data *> _dataVector; 
-		std::deque<data> _dataDeque; 
+		std::vector<int> _intVector;
+
+		std::deque<data> _dataDeque;
 //		std::vector<std::pair<int, int> > _pairVector; 
 //		std::deque<std::pair<int, int> > _pairDeque; 
 };
