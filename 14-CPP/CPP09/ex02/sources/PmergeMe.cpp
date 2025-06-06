@@ -7,6 +7,7 @@ PmergeMe::~PmergeMe(){
 	for(; it != this->_dataVector.end(); it++){
 		delete *it;
 	}
+	delete [] this->_array;
 }
 
 PmergeMe::PmergeMe(PmergeMe const & rhs){
@@ -19,11 +20,13 @@ PmergeMe PmergeMe::operator=(PmergeMe const & rhs){
 	return(*this);
 }
 
-int PmergeMe::checkArguments(char **argv){
+int PmergeMe::checkArguments(int argc, char **argv){
 
 	int i = 1;
 	char *endptr = NULL;
+	this->_array = new int[argc + 1];
 
+	this->_array[0] = 0;
 	while (argv[i]){
 		long int number = strtol(argv[i], &endptr, 10);
 		if (*endptr != '\0' || (strcmp(argv[i], "0") && number == 0)){
@@ -34,22 +37,41 @@ int PmergeMe::checkArguments(char **argv){
 			std::cout << BOLD_RED << "Error : at least one argument is out of range" << NORMAL << std::endl;
 			return (1);
 		}
-//		std::cout << number << std::endl;
-		i++;	
+		this->_array[i] = number;
+//		std::cout << "number " << i << " : " << number <<  std::endl; // to erase
+		i++;
 	}
+	this->_array[i] = -1;
 	return (0);
 }
 
 int PmergeMe::parsingArguments(int argc, char **argv){
-
+	
 	if (argc < 2){
 		std::cerr << BOLD_RED << "Error : wrong number of arguments" << NORMAL << std:: endl;
 		return (1);
 	}
 	
-	if (this->checkArguments(argv) == 1)
+	if (this->checkArguments(argc, argv) == 1)
 		return (1);
 	return (0);
+}
+
+bool	PmergeMe::checkIfDataSorted(int argc){
+	int i = 1;
+	
+	while (this->_array[i] != -1){
+		if (i + 1 <= argc){
+//			std::cout << "argv["<< i << "] : " << this->_array[i] << std::endl; 
+//			std::cout << "argv["<< i + 1 << "] : " << this->_array[i + 1] << std::endl; 
+			if (this->_array[i] > this->_array[i + 1]){
+				return (false);
+			}
+		}
+		i++;
+	}
+	std::cout << BOLD_RED << "arguments are already sorted" << NORMAL << std::endl; 
+	return (true);
 }
 
 static void initDataStruct(data * numberStruct, std::pair<int, int> pair){
@@ -76,7 +98,7 @@ void PmergeMe::displayIntVectorContent(){
 	std::vector<int>::iterator it = this->_intVector.begin();
 	for(; it != this->_intVector.end(); it++)
 		std::cout << *it << std::endl;
-	std::cout << std::endl;
+//	std::cout << std::endl;
 }
 
 /*void PmergeMe::fillContainers(int argc, char **argv){
@@ -88,7 +110,7 @@ void PmergeMe::displayIntVectorContent(){
 	}
 }*/
 
-void PmergeMe::fillContainers(int argc, char **argv){
+void PmergeMe::fillContainers(int argc){
 
 /*	bool isEven = false;
 	if ((argc - 1) % 2 == 0)
@@ -99,10 +121,10 @@ void PmergeMe::fillContainers(int argc, char **argv){
 
 	for (int i = 1; i < argc; i++){
 		std::pair<int, int> pair;
-		firstElement = strtol(argv[i], NULL, 10);
+		firstElement = this->_array[i];
 		if (i + 1 < argc){
 			i++;
-			secondElement = strtol(argv[i], NULL, 10);
+			secondElement = this->_array[i];
 		}
 		else
 			secondElement = -1;
@@ -116,6 +138,8 @@ void PmergeMe::fillContainers(int argc, char **argv){
 		this->_dataVector.insert(this->_dataVector.end(), numberStruct);
 	}
 }
+
+
 
 /*void PmergeMe::sortInsidePair(){
 
@@ -227,6 +251,7 @@ std::vector<data *>::iterator PmergeMe::binarySearchForData(data *dataToInsert, 
 			lowerLimit += searchSize / 2;
 		searchSize = upperLimit - lowerLimit;
 	}
+//	std::cout << "element to reintegrate : " << valueToInsert << " at upperLimit : " << (*upperLimit)->valuesPair.first << std::endl;
 	return (upperLimit);
 }
 
@@ -264,7 +289,7 @@ void PmergeMe::movePairWithLargestValue(size_t i, size_t limit, bool isOdd){
 	}
 }
 
-void PmergeMe::reintegratePairWithSmallestValue(int i){
+int PmergeMe::reintegratePairWithSmallestValue(int i){
 
 		std::vector<data *>::iterator pairToInsertIt = this->_dataVector.begin() + i;
 		std::vector<data *>::iterator upperLimit;
@@ -275,20 +300,33 @@ void PmergeMe::reintegratePairWithSmallestValue(int i){
 
 //			upperLimit = std::lower_bound(pairToInsertIt, this->_dataVector.end(), (*pairToInsertIt)->associated);
 
-		lowerLimit = pairToInsertIt;
+//		lowerLimit = pairToInsertIt;
+		lowerLimit = this->_dataVector.begin();
 		upperLimit = findAssociatedIteratorForData(pairToInsertIt);
 
 		insertLocation = binarySearchForData(*pairToInsertIt, lowerLimit, upperLimit);
 
-//			std::cout << "insertlocation : " << (*insertLocation)->valuesPair.first << std::endl;
+//		std::cout << "pair to insert : " << (*pairToInsertIt)->valuesPair.first << " | " << (*pairToInsertIt)->valuesPair.second << std::endl;
+//		std::cout << "insertlocation : " << (*insertLocation)->valuesPair.first << std::endl;
 
 		if (insertLocation > pairToInsertIt + 1){
 			this->_dataVector.insert(insertLocation, *pairToInsertIt);
-
-//				std::cout << "toerase : " << (*(this->_dataVector.begin() + i))->valuesPair.first << std::endl;
-
 			this->_dataVector.erase(this->_dataVector.begin() + i);
+//			std::cout << "new vector content" << std::endl;
+//			this->displayDataVectorContent();
+			return (1);
 		}
+		if (insertLocation < pairToInsertIt){
+			this->_dataVector.insert(insertLocation, *pairToInsertIt);
+			this->_dataVector.erase(this->_dataVector.begin() + i + 1);
+//			std::cout << "new vector content" << std::endl;
+//			this->displayDataVectorContent();
+			return (-1);
+
+			//				std::cout << "toerase : " << (*(this->_dataVector.begin() + i))->valuesPair.first << std::endl;
+
+		}
+		return (1);
 }
 
 
@@ -326,9 +364,12 @@ bool PmergeMe::sortPairsOnMaxValue(int increment){
 //	std::cout << "remainingVectorSize (backward) : " << remainingVectorSize << std::endl;
 //	std::cout << "start : " << start << std::endl;
 	
-	size_t newStart = this->_dataVector.size() - remainingVectorSize / 2 - 1;
-	if (this->_dataVector.size() % divider != 0)
-		newStart = this->_dataVector.size() - remainingVectorSize / 2 - 2;
+//	size_t newStart = this->_dataVector.size() - remainingVectorSize / 2 - 1;
+	size_t newStart = this->_dataVector.size() - remainingVectorSize / 2;
+	if (this->_dataVector.size() % divider != 0){
+//		newStart = this->_dataVector.size() - remainingVectorSize / 2 - 2;
+		newStart = this->_dataVector.size() - remainingVectorSize / 2 - 1;
+	}
 //	std::cout << "newstart : " << newStart << std::endl;
 	
 	size_t newLimit = start;
@@ -336,7 +377,8 @@ bool PmergeMe::sortPairsOnMaxValue(int increment){
 
 	if (remainingVectorSize > 2){
 		for (int i = newStart; i >= (int)newLimit; i--) //i defined as an integer to verify when < 0 
-			reintegratePairWithSmallestValue(i);
+			if (reintegratePairWithSmallestValue(i) < 0)
+				i++;
 	}
 //	this->displayVectorContent();
 
@@ -418,7 +460,8 @@ void	PmergeMe::integrateMinValueswithJacobsthal(){
 	for (; dataVectorIt != this->_dataVector.end(); dataVectorIt++)
 		this->_intVector.push_back((*dataVectorIt)->valuesPair.first); // push max value into intVector
 
-	this->_intVector.insert(this->_intVector.begin(), (*this->_dataVector.begin())->valuesPair.second); // to insert first min value
+	if ((*this->_dataVector.begin())->valuesPair.second != -1)
+		this->_intVector.insert(this->_intVector.begin(), (*this->_dataVector.begin())->valuesPair.second); // to insert first min value
 
 	size_t dataVectorSize = this->_dataVector.size();
 
@@ -444,3 +487,35 @@ void	PmergeMe::integrateMinValueswithJacobsthal(){
 //		displayIntVectorContent();
 	}
 }	
+
+void	PmergeMe::isVectorSorted(){
+	std::vector<int>::iterator it = this->_intVector.begin();
+	std::vector<int>::iterator tmp;
+	int first;
+	int second;
+
+	for(; it != this->_intVector.end(); it++){
+		first = *it;
+		tmp = it;
+		tmp++;
+		if (tmp != this->_intVector.end()){
+			second = *tmp;
+			if (first > second){
+				std::cout << BOLD_RED << first << " > " << second << " : arguments are not sorted" << NORMAL << std::endl; 
+//				return (false);
+			}
+		}
+	}
+//	std::cout << GREEN << "arguments are sorted" << NORMAL << std::endl; 
+//	return (true);
+}
+
+void	PmergeMe::displayArrayContent(){
+
+	int i = 1;
+
+	while (this->_array[i] != -1){
+		std::cout << this->_array[i] << std::endl;
+		i++;
+	}
+}

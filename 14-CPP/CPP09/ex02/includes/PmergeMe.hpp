@@ -22,7 +22,7 @@
 #include <deque>
 #include <utility>
 #include <cmath> //for pow
-#include <algorithm> //for lower_bound
+#include <algorithm> //for lower_bound, is_sorted
 #include <ctime> //for clock
 
 struct data
@@ -42,13 +42,14 @@ class PmergeMe{
 		PmergeMe operator=(PmergeMe const & rhs);
 
 		int parsingArguments(int argc, char **argv);
-		int checkArguments(char **argv);
-		void	fillContainers(int argc, char **argv);
+		int checkArguments(int argc, char **argv);
+		void	fillContainers(int argc);
+		bool	checkIfDataSorted(int argc);
 //		void 	sortInsidePair();
 //		void 	sortPairs();
 		bool	sortPairsOnMaxValue(int increment);
 		void	movePairWithLargestValue(size_t i, size_t limit, bool isOdd);
-		void	reintegratePairWithSmallestValue(int i);
+		int		reintegratePairWithSmallestValue(int i);
 
 		void	createIndexSequenceWithJacobsthal();
 		void	integrateMinValueswithJacobsthal();
@@ -62,8 +63,14 @@ class PmergeMe{
 		void	displayDataVectorContent();
 		void	displayIntVectorContent();
 		void	dislayIndexSequence();
+		void	isVectorSorted();
+		void	displayArrayContent();
+
+
 
 	private:
+
+		int *_array;
 
 		std::vector<int> _indexVectorFromJacobsthal; 
 
