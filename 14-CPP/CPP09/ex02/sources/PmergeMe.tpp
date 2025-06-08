@@ -9,7 +9,6 @@ PmergeMe<T>::~PmergeMe(){
 	for(; it != this->_dataContainer.end(); it++){
 		delete *it;
 	}
-	delete [] this->_array;
 }
 
 template<template<typename, typename> class T>
@@ -23,7 +22,7 @@ PmergeMe<T> PmergeMe<T>::operator=(PmergeMe<T> const & rhs){
 		typename T<data *, std::allocator<data *> >::iterator it1 = this->_dataContainer.begin();
 		for(; it1 != this->_dataContainer.end(); it1++){
 			delete *it1;
-			this->_dataContainer.erase(it);
+			this->_dataContainer.erase(it1);
 		}
 		typename T<data *, std::allocator<data *> >::iterator it2 = rhs->_dataContainer.begin();
 		for(; it2 != rhs->_dataContainer.end(); it2++){
@@ -56,57 +55,81 @@ PmergeMe<T> PmergeMe<T>::operator=(PmergeMe<T> const & rhs){
 	return(*this);
 }
 
-template<template<typename, typename> class T>
-int PmergeMe<T>::checkArguments(int argc, char **argv){
+static int checkArguments(int argc, char **argv, int **intArrayPtr){
 
 	int i = 1;
 	char *endptr = NULL;
-	this->_array = new int[argc + 1];
-
-	this->_array[0] = 0;
+	int *intArray = new int[argc + 1];
+	
+	intArray[0] = 0;
 	while (argv[i]){
 		long int number = strtol(argv[i], &endptr, 10);
 		if (*endptr != '\0' || (strcmp(argv[i], "0") && number == 0)){
 			std::cout << BOLD_RED << "Error : at least one argument is invalid" << NORMAL << std::endl;
+			delete [] intArray;
 			return (1);
 		}
 		if (number < 0 || number > INT_MAX){
 			std::cout << BOLD_RED << "Error : at least one argument is out of range" << NORMAL << std::endl;
+			delete [] intArray;
 			return (1);
 		}
-		this->_array[i] = number;
+		intArray[i] = number;
+//		std::cout << "i" << i << " : " << intArray[i] << std::endl;
 		i++;
 	}
-	this->_array[i] = -1;
+	intArray[i] = -1;
+	*intArrayPtr = intArray;
 	return (0);
 }
 
-template<template<typename, typename> class T>
-int PmergeMe<T>::parsingArguments(int argc, char **argv){
+int parsingArguments(int argc, char **argv, int **intArrayPtr){
 	
 	if (argc < 2){
 		std::cerr << BOLD_RED << "Error : wrong number of arguments" << NORMAL << std:: endl;
 		return (1);
 	}
 	
-	if (this->checkArguments(argc, argv) == 1)
+	if (checkArguments(argc, argv, intArrayPtr) == 1)
 		return (1);
+
 	return (0);
 }
 
-template<template<typename, typename> class T>
-bool	PmergeMe<T>::checkIfDataSorted(int argc){
+bool	checkIfDataSorted(int *intArray, int nmemb){
 	int i = 1;
 	
-	while (this->_array[i] != -1){
-		if (i + 1 <= argc){
-			if (this->_array[i] > this->_array[i + 1])
+	while (intArray[i] != -1){
+		if (i + 1 <= nmemb){
+			if (intArray[i] > intArray[i + 1])
 				return (false);
 		}
 		i++;
 	}
 	std::cout << BOLD_RED << "arguments are already sorted" << NORMAL << std::endl; 
 	return (true);
+}
+
+void	displayArrayContent(int *intArray, std::string message){
+
+	int i = 1;
+
+	std::cout << GREEN << message << ":	" << NORMAL;
+	while (intArray[i] != -1){
+		std::cout << intArray[i] << " ";
+		i++;
+	}
+	std::cout << std::endl;
+}
+
+template<template<typename, typename> class T>
+size_t	PmergeMe<T>::getNmemb() const{
+	return (this->_nmemb);
+}
+
+template<template<typename, typename> class T>
+void PmergeMe<T>::setArrayPtr(int **intArrayPtr){
+	this->_arrayPtr = *intArrayPtr;
 }
 
 static void initDataStruct(data * numberStruct, std::pair<int, int> pair){
@@ -130,8 +153,11 @@ void PmergeMe<T>::displayDataContainerContent(){
 template<template<typename, typename> class T>
 void PmergeMe<T>::displayIntContainerContent(){
 	typename T<int, std::allocator<int> >::iterator it = this->_intContainer.begin();
+
+	std::cout << GREEN << "After:	" << NORMAL;
 	for(; it != this->_intContainer.end(); it++)
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
+	std::cout << std::endl;
 }
 
 template<template<typename, typename> class T>
@@ -142,10 +168,10 @@ void PmergeMe<T>::fillContainers(int argc){
 
 	for (int i = 1; i < argc; i++){
 		std::pair<int, int> pair;
-		firstElement = this->_array[i];
+		firstElement = this->_arrayPtr[i];
 		if (i + 1 < argc){
 			i++;
-			secondElement = this->_array[i];
+			secondElement = this->_arrayPtr[i];
 		}
 		else
 			secondElement = -1;
@@ -381,7 +407,7 @@ void PmergeMe<T>::dislayIndexSequence(){
 template<template<typename, typename> class T>
 void	PmergeMe<T>::createIndexSequenceWithJacobsthal(){
 	
-	typename T<int, std::allocator<int> > _indexContainer;
+	typename T<int, std::allocator<int> >::iterator _indexContainer;
 	size_t dataContainerSize = this->_dataContainer.size();
 	unsigned int k = 1;
 	unsigned int tk = 0;
@@ -443,8 +469,8 @@ void	PmergeMe<T>::integrateMinValueswithJacobsthal(){
 
 template<template<typename, typename> class T>
 void	PmergeMe<T>::isContainerSorted(){
-	std::vector<int, std::allocator<int> >::iterator it = this->_intContainer.begin();
-	std::vector<int, std::allocator<int> >::iterator tmp;
+	typename T<int, std::allocator<int> >::iterator it = this->_intContainer.begin();
+	typename T<int, std::allocator<int> >::iterator tmp;
 	int first;
 	int second;
 
@@ -456,21 +482,38 @@ void	PmergeMe<T>::isContainerSorted(){
 			second = *tmp;
 			if (first > second){
 				std::cout << BOLD_RED << first << " > " << second << " : arguments are not sorted" << NORMAL << std::endl; 
-//				return (false);
+				return ;
 			}
 		}
 	}
-//	std::cout << GREEN << "arguments are sorted" << NORMAL << std::endl; 
-//	return (true);
+	std::cout << GREEN << "arguments are sorted" << NORMAL << std::endl; 
 }
 
 template<template<typename, typename> class T>
-void	PmergeMe<T>::displayArrayContent(){
+void	PmergeMe<T>::transferSortedDataToArray(){
 
 	int i = 1;
+	typename T<int, std::allocator<int> >::iterator it = this->_intContainer.begin();
 
-	while (this->_array[i] != -1){
-		std::cout << this->_array[i] << std::endl;
+	for(; it != this->_intContainer.end(); it++){
+		this->_arrayPtr[i] = *it;
 		i++;
 	}
+}
+
+
+template<template<typename, typename> class T>
+void	PmergeMe<T>::FordJohnsonSort(int argc){
+
+	this->_nmemb = argc - 1;
+	this->fillContainers(argc);
+
+//	pmergeMeVector.displayDataVectorContent(); //to erase
+
+	this->sortPairsOnMaxValue(0);
+
+//	pmergeMeVector.displayDataVectorContent(); //to erase
+//	std::cout << std::endl;
+
+	this->integrateMinValueswithJacobsthal();
 }
