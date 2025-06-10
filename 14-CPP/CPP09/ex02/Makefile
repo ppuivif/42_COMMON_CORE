@@ -14,7 +14,7 @@ CFLAGS = -Wall -Wextra -Werror -g -std=c++98 \
 #============= MANDATORY SOURCES ============#
 
 SRCS =  sources/main.cpp \
-#		sources/PmergeMe.cpp
+		sources/PmergeMe.cpp
 
 #============ TRANSFORM .c TO .o ============#
 
