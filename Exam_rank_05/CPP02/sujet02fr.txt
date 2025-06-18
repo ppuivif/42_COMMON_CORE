@@ -1,0 +1,125 @@
+### Nom de l'exercice : cpp_module02
+
+---
+
+#### Fichiers attendus :
+- Warlock.cpp  
+- Warlock.hpp  
+- ASpell.hpp  
+- ASpell.cpp  
+- ATarget.hpp  
+- ATarget.cpp  
+- Fwoosh.hpp  
+- Fwoosh.cpp  
+- Dummy.hpp  
+- Dummy.cpp  
+- Fireball.hpp
+- Fireball.cpp
+- Polymorph.hpp
+- Polymorph.cpp  
+- BrickWall.hpp  
+- BrickWall.cpp  
+- SpellBook.hpp  
+- SpellBook.cpp  
+
+
+
+- TargetGenerator.hpp  
+- TargetGenerator.cpp  
+
+---
+
+### Contraintes
+Dans les classes **Warlock**, **SpellBook** et **TargetGenerator**, **l'utilisation du switch est INTERDITE**. Toute utilisation entraînera une note de **-42**.
+
+---
+
+### Détails de l'implémentation :
+
+1. **Création de nouveaux sorts :**
+   - Implémente deux nouveaux sorts sur le même modèle que `Fwoosh` :
+     - **Fireball** (Nom : "Fireball", Effets : "burnt to a crisp")
+     - **Polymorph** (Nom : "Polymorph", Effets : "turned into a critter")
+
+
+2. **Création d'une nouvelle cible :**
+   - Ajoute une nouvelle cible que le `Warlock` pourra attaquer :
+     - **BrickWall** (Type : "Inconspicuous Red-brick Wall").
+
+
+3. **Implémentation de la classe `SpellBook` :**
+   - Crée une classe **SpellBook**, en forme canonique, 
+   qui **ne peut pas être copiée** ou **instanciée par copie**.
+
+
+   - Elle doit contenir les fonctions suivantes :
+     - `void learnSpell(ASpell*)` : Warlock
+     **Ajoute une copie** d'un sort dans le livre de sorts.
+     - `void forgetSpell(std::string const &)` : 
+     **Supprime un sort** du livre (sauf s'il n'y est pas).
+     - `ASpell* createSpell(std::string const &)` : 
+     **Retourne un sort** basé sur son nom, en créant une nouvelle instance.
+
+
+4. **Modification de la classe `Warlock` :**
+   - Le `Warlock` doit maintenant **posséder un livre de sorts** (`SpellBook`).
+   - Ce livre est **créé avec lui** et **détruit avec lui**.
+   - Les fonctions `learnSpell` et `forgetSpell` du `Warlock` doivent
+   maintenant **appeler celles du `SpellBook`**.
+   
+
+- La fonction `launchSpell` doit **utiliser le `SpellBook`** 
+   pour créer et lancer le sort demandé.
+
+
+5. **Implémentation de la classe `TargetGenerator` :**
+   - Crée une classe **TargetGenerator**, en forme canonique,
+    qui **ne peut pas être copiée**.
+   - Elle doit contenir les fonctions suivantes :
+     - `void learnTargetType(ATarget*)` : Ajoute une **cible connue** au générateur.
+     - `void forgetTargetType(std::string const &)` : **Supprime une cible** du générateur si elle est connue.
+     - `ATarget* createTarget(std::string const &)` : **Crée et retourne une cible** en fonction de son type.
+
+---
+
+
+### Exemple de test
+
+L'exemple de test `main` et le résultat attendu sont fournis dans l'énoncé. **Assure-toi de respecter les sorties exactes.**
+
+---
+
+Avec ces modifications, le `Warlock` pourra apprendre et oublier des sorts plus efficacement grâce au `SpellBook`, et attaquer différentes cibles grâce au `TargetGenerator`. 😊
+
+
+
+int main()
+{
+  Warlock richard("Richard", "foo");
+  richard.setTitle("Hello, I'm Richard the Warlock!");
+  BrickWall model1;
+
+  Polymorph* polymorph = new Polymorph();
+  TargetGenerator tarGen;
+
+  tarGen.learnTargetType(&model1);
+  richard.learnSpell(polymorph);
+
+  Fireball* fireball = new Fireball();
+
+  richard.learnSpell(fireball);
+
+  ATarget* wall = tarGen.createTarget("Inconspicuous Red-brick Wall");
+
+  richard.introduce();
+  richard.launchSpell("Polymorph", *wall);
+  richard.launchSpell("Fireball", *wall);
+}
+
+~$ ./a.out | cat -e
+Richard: This looks like another boring day.$
+Richard: I am Richard, Hello, I'm Richard the Warlock!!$
+Inconspicuous Red-brick Wall has been turned into a critter!$
+Inconspicuous Red-brick Wall has been burnt to a crisp!$
+Richard: My job here is done!$
+~$

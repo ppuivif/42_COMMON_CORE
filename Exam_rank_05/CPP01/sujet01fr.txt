@@ -1,0 +1,143 @@
+### Nom de l'exercice : cpp_module01
+
+---
+
+#### Fichiers attendus :
+- Warlock.cpp  
+- Warlock.hpp  
+- ASpell.hpp  
+- ASpell.cpp  
+- ATarget.hpp  
+- ATarget.cpp  
+- Fwoosh.hpp  
+- Fwoosh.cpp  
+- Dummy.hpp  
+- Dummy.cpp  
+
+---
+
+#### Contraintes :
+Dans la classe `Warlock`, **l'utilisation du switch est INTERDITE**, et son utilisation entraînera une note de -42.
+
+---
+
+#### Détails de l'implémentation :
+
+1. **Classe abstraite ASpell :**
+   - Crée une classe abstraite appelée `ASpell`, en suivant la forme de Coplien.
+   - Elle doit contenir les **attributs protégés suivants** :
+     - `name` (type `string`)
+     - `effects` (type `string`)
+   - Ces attributs auront des **getters** :
+     - `getName` : retourne une chaîne représentant le nom.
+     - `getEffects` : retourne une chaîne représentant les effets.
+   - Ajoute une méthode pure virtuelle `clone` qui retourne un pointeur vers un objet `ASpell`.
+   - Toutes ces fonctions doivent pouvoir être appelées sur un objet constant.
+   - Ajoute un **constructeur** qui prend en paramètres le nom et les effets (dans cet ordre).
+
+---
+
+
+2. **Classe abstraite ATarget :**
+   - Crée une classe abstraite appelée `ATarget`, également en suivant la forme de Coplien.
+   - Elle doit contenir l'attribut **type** (type `string`) et son **getter** :
+     - `getType` : retourne une référence constante à une chaîne représentant le type.
+   - Ajoute une méthode pure virtuelle `clone`, similaire à celle de `ASpell`.
+   - Toutes ces fonctions doivent pouvoir être appelées sur un objet constant.
+   - Ajoute un **constructeur** qui prend en paramètre le type.
+
+
+   - Ajoute une méthode `getHitBySpell` qui prend une référence constante à un objet `ASpell` :
+     - Cette méthode affiche :  
+       `<TYPE> has been <EFFECTS>!`  
+       Où `<TYPE>` est le type de l'objet `ATarget`, et `<EFFECTS>` correspond à la valeur retournée par la méthode `getEffects` de `ASpell`.
+
+---
+
+
+3. **Méthode dans ASpell :**
+   - Ajoute à la classe `ASpell` une méthode `launch` :
+     - Elle prend une référence constante vers un objet `ATarget`.
+     - Cette méthode appelle la méthode `getHitBySpell` de l'objet passé en paramètre, en lui passant l'instance actuelle comme argument.
+
+---
+
+
+4. **Implémentation concrète de ASpell :**
+   - Crée une classe appelée `Fwoosh`, qui hérite de `ASpell`.
+   - Le constructeur par défaut doit initialiser :
+     - `name` avec "Fwoosh".
+     - `effects` avec "fwooshed".
+   - Implémente la méthode `clone`, qui retourne un pointeur vers un nouvel objet `Fwoosh`.
+
+---
+
+
+5. **Implémentation concrète de ATarget :**
+   - Crée une classe appelée `Dummy`, qui hérite de `ATarget`.
+   - Son type doit être initialisé à "Target Practice Dummy".
+   - Implémente la méthode `clone`, qui retourne un pointeur vers un nouvel objet `Dummy`.
+
+---
+
+
+6. **Classe Warlock :**
+   - Ajoute à la classe `Warlock` les fonctions membres suivantes :
+
+   
+     - `learnSpell` : prend un pointeur vers un objet `ASpell` 
+     et permet au `Warlock` d'apprendre ce sort.
+
+
+
+
+
+     - `forgetSpell` : prend une chaîne (le nom du sort) 
+     et permet au `Warlock` d'oublier ce sort. Si le sort n'est pas connu, ne fait rien.
+
+
+
+
+     - `launchSpell` : prend une chaîne (le nom du sort) 
+     et une référence vers un `ATarget`.
+      Lance le sort sur la cible sélectionnée. 
+      Si le sort n'est pas connu, ne fait rien.
+
+
+
+
+   - Tu devras ajouter un attribut pour stocker 
+   les sorts que le `Warlock` connaît. Plusieurs types peuvent convenir, 
+   c'est à toi de choisir le meilleur.
+
+---
+
+
+### Exemple d'exécution :
+L'exemple de test `main` et le résultat attendu sont déjà fournis.
+ Assure-toi de respecter les sorties exactes.
+
+
+int main()
+{
+  Warlock richard("Richard", "the Titled");
+
+  Dummy bob;
+  Fwoosh* fwoosh = new Fwoosh();
+
+  richard.learnSpell(fwoosh);
+
+  richard.introduce();
+  richard.launchSpell("Fwoosh", bob);
+
+  richard.forgetSpell("Fwoosh");
+  richard.launchSpell("Fwoosh", bob);
+}
+
+~$ ./a.out | cat -e
+Richard: This looks like another boring day.$
+Richard: I am Richard, the Titled!$
+Target Practice Dummy has been fwooshed!$
+Richard: My job here is done!$
+
+
